@@ -41,12 +41,12 @@ class MainViewModel : RxViewModel
             .map { [unowned self] () -> Bool in
                 guard self.timeService.now.ignoreTimeComponents() == self.settingsService.installDate!.ignoreTimeComponents()
                 else {
-                    self.settingsService.setWelcomeMessageHidden()
+                    self.settingsService.setWelcomeMessageShown()
                     return true
                 }
                 
-                let value = self.settingsService.welcomeMessageHidden
-                self.settingsService.setWelcomeMessageHidden()
+                let value = self.settingsService.didShowWelcomeMessage
+                self.settingsService.setWelcomeMessageShown()
                 return value
             }
     }

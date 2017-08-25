@@ -12,8 +12,7 @@ class MockSettingsService : SettingsService
     var lastNotificationLocation : CLLocation? = nil
     var lastAskedForLocationPermission : Date? = nil
     var userEverGaveLocationPermission : Bool = false
-    var welcomeMessageHidden : Bool = true
-    
+    var didShowWelcomeMessage : Bool = true
 
     var hasLocationPermission = true
     var hasHealthKitPermission = true
@@ -78,8 +77,18 @@ class MockSettingsService : SettingsService
         hasHealthKitPermission = true
     }
     
-    func setWelcomeMessageHidden()
+    func setWelcomeMessageShown()
     {
-        welcomeMessageHidden = true
+        didShowWelcomeMessage = true
+    }
+    
+    func setVote(forDate date: Date)
+    {
+        
+    }
+    
+    func lastSevenDaysOfVotingHistory() -> [Date]
+    {
+        return []
     }
 }

@@ -18,6 +18,8 @@ class TimelineViewModel
     private let editStateService : EditStateService
     private let appLifecycleService : AppLifecycleService
     private let loggingService : LoggingService
+    private let settingsService : SettingsService
+    private let metricsService : MetricsService
     
     private var activities : Variable<[Activity]> = Variable([])
     private var timelineItems : Variable<[TimelineItem]> = Variable([])
@@ -31,13 +33,17 @@ class TimelineViewModel
          timeSlotService: TimeSlotService,
          editStateService: EditStateService,
          appLifecycleService: AppLifecycleService,
-         loggingService: LoggingService)
+         loggingService: LoggingService,
+         settingsService: SettingsService,
+         metricsService: MetricsService)
     {
         self.timeService = timeService
         self.timeSlotService = timeSlotService
         self.editStateService = editStateService
         self.appLifecycleService = appLifecycleService
         self.loggingService = loggingService
+        self.settingsService = settingsService
+        self.metricsService = metricsService
         self.date = completeDate.ignoreTimeComponents()
         
         isCurrentDay = timeService.now.ignoreTimeComponents() == date
@@ -98,13 +104,37 @@ class TimelineViewModel
         return timeSlotService.calculateDuration(ofTimeSlot: timeSlot)
     }
     
+    func canShowVotingUI() -> Bool
+    {
+        return canShowVotingView(forDate: date)
+    }
+    
+    func setVote(vote: Bool)
+    {
+        settingsService.setVote(forDate: date)
+        metricsService.log(event: .timelineVote(date: timeService.now, voteDate: date, vote: vote))
+    }
+    
     
     //MARK: Private Methods
+    private func canShowVotingView(forDate date: Date) -> Bool
+    {
+        guard
+            let installDate = settingsService.installDate,
+            timeService.now.timeIntervalSince(date) < Constants.sevenDaysInSeconds &&
+            ( timeService.now.ignoreTimeComponents() == date.ignoreTimeComponents() ? timeService.now.hour >= Constants.hourToShowDailyVotingUI : true ) &&
+            ( installDate.ignoreTimeComponents() == date.ignoreTimeComponents() ? timelineItems.value.count > 1 : true )
+        else { return false }
+        
+        let alreadyVoted = !settingsService.lastSevenDaysOfVotingHistory().contains(date.ignoreTimeComponents())
+        
+        return alreadyVoted
+    }
+    
     private func timeSlotsForToday() -> [TimeSlot]
     {
         return timeSlotService.getTimeSlots(forDay: date)
     }
-    
     
     private func toTimelineItems(fromTimeSlots timeSlots: [TimeSlot]) -> [TimelineItem]
     {
