@@ -181,7 +181,7 @@ class MainViewModelTests : XCTestCase
         disposable = viewModel.showPermissionControllerObservable
             .subscribe(onNext: { _ in wouldShow = true })
         
-        appLifecycleService.publish(.movedToForeground)
+        appLifecycleService.publish(.movedToForeground(withDailyVotingNotificationDate: nil))
         
         expect(wouldShow).to(beTrue())
     }
@@ -195,7 +195,7 @@ class MainViewModelTests : XCTestCase
         disposable = viewModel.showPermissionControllerObservable
             .subscribe(onNext: { _ in wouldShow = true })
         
-        appLifecycleService.publish(.movedToForeground)
+        appLifecycleService.publish(.movedToForeground(withDailyVotingNotificationDate: nil))
         
         expect(wouldShow).to(beFalse())
     }
@@ -220,7 +220,7 @@ class MainViewModelTests : XCTestCase
         disposable = viewModel.showPermissionControllerObservable
             .subscribe(onNext: { type in wouldShow = type == .location })
         
-        appLifecycleService.publish(.movedToForeground)
+        appLifecycleService.publish(.movedToForeground(withDailyVotingNotificationDate: nil))
         
         expect(wouldShow).to(beTrue())
     }
@@ -234,7 +234,7 @@ class MainViewModelTests : XCTestCase
         disposable = viewModel.showPermissionControllerObservable
             .subscribe(onNext: { type in wouldShow = type == .location })
         
-        appLifecycleService.publish(.movedToForeground)
+        appLifecycleService.publish(.movedToForeground(withDailyVotingNotificationDate: nil))
         
         expect(wouldShow).to(beTrue())
     }

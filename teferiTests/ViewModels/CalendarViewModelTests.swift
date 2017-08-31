@@ -56,7 +56,7 @@ class CalendarViewModelTests: XCTestCase
             .subscribe(observer)
             .addDisposableTo(disposeBag)
         
-        let dates = [Date().addingTimeInterval(2*24*60*60), Date().addingTimeInterval(35*24*60*60)]
+        let dates = [Date().addingTimeInterval(2*24*60*60), Date().addingTimeInterval(3*24*60*60)]
         viewModel.setCurrentVisibleMonth(date: dates[0])
         viewModel.setCurrentVisibleMonth(date: dates[1])
         

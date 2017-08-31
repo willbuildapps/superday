@@ -53,7 +53,7 @@ class PreiOSTenNotificationService : NotificationService
         loggingService.log(withLogLevel: .info, message: "Scheduling message for date: \(date)")
         
         let notification = UILocalNotification()
-        notification.userInfo = ["id": type.rawValue + "\(date.dayOfWeek)\(date.hour)\(date.minute)\(date.second)"]
+        notification.userInfo = ["id": type.rawValue + "\(date.dayOfWeek)\(date.hour)\(date.minute)\(date.second)", "notificationType": type.rawValue]
         notification.fireDate = date
         notification.alertTitle = title
         notification.alertBody = message

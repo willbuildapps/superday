@@ -11,6 +11,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     var window: UIWindow?
 
     //MARK: Private Properties
+    fileprivate var dailyVotingNotificationDate : Date? = nil
     private let disposeBag = DisposeBag()
     private let notificationAuthorizedSubject = PublishSubject<Void>()
     
@@ -123,7 +124,15 @@ class AppDelegate : UIResponder, UIApplicationDelegate
             healthKitService.startHealthKitTracking()
         }
         
-        appLifecycleService.publish(isInBackground ? .movedToBackground : .movedToForeground)
+        if #available(iOS 10.0, *) {
+            UNUserNotificationCenter.current().delegate = self
+        } else {
+            if let notification = launchOptions?[UIApplicationLaunchOptionsKey.localNotification] as? UILocalNotification {
+                dailyVotingNotificationDate = dailyVotingDate(notification)
+            }
+        }
+        
+        appLifecycleService.publish(isInBackground ? .movedToBackground : .movedToForeground(withDailyVotingNotificationDate: dailyVotingNotificationDate))
         
         //Faster startup when the app wakes up for location updates
         if isInBackground
@@ -207,7 +216,8 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         
         initializeWindowIfNeeded()
         
-        appLifecycleService.publish(.movedToForeground)
+        appLifecycleService.publish(.movedToForeground(withDailyVotingNotificationDate: dailyVotingNotificationDate))
+        dailyVotingNotificationDate = nil
     }
     
     func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings)
@@ -218,5 +228,45 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     func applicationWillTerminate(_ application: UIApplication)
     {
         coreDataStack.saveContext()
+    }
+    
+    func application(_ application: UIApplication, didReceive notification: UILocalNotification)
+    {
+        dailyVotingNotificationDate = dailyVotingDate(notification)
+    }
+    
+    private func dailyVotingDate(_ notification: UILocalNotification) -> Date?
+    {
+        guard
+            let type = notification.userInfo?["notificationType"] as? String,
+            type == NotificationType.repeatWeekly.rawValue,
+            let fireDate = notification.fireDate,
+            fireDate.dayOfWeek != 6
+        else { return nil }
+        
+        return fireDate
+    }
+    
+    @available(iOS 10.0, *)
+    fileprivate func dailyVotingDate(_ notification: UNNotification) -> Date?
+    {
+        guard
+            let type = notification.request.content.userInfo["notificationType"] as? String,
+            type == NotificationType.repeatWeekly.rawValue,
+            notification.date.dayOfWeek != 6
+        else { return nil }
+        
+        return notification.date
+    }
+}
+
+@available(iOS 10.0, *)
+extension AppDelegate:UNUserNotificationCenterDelegate
+{
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void)
+    {
+        
+        dailyVotingNotificationDate = dailyVotingDate(response.notification)
+        completionHandler()
     }
 }

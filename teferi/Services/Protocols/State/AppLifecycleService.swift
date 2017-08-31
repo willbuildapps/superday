@@ -18,4 +18,14 @@ extension AppLifecycleService
             }
             .mapTo(())
     }
+    
+    var startedOnDailyVotingNotificationDateObservable : Observable<Date>
+    {
+        return self.lifecycleEventObservable
+            .map { (event) -> Date? in
+                guard case .movedToForeground(let dailyVotingNotificationDate) = event else { return nil }
+                return dailyVotingNotificationDate
+            }
+            .filterNil()
+    }
 }

@@ -150,6 +150,7 @@ class PostiOSTenNotificationService : NotificationService
         }
         
         content.userInfo["id"] = identifier
+        content.userInfo["notificationType"] = type.rawValue
         
         let request  = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
         

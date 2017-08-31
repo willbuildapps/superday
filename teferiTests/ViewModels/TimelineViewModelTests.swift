@@ -202,7 +202,7 @@ class TimelineViewModelTests : XCTestCase
     func testFetchesTimeslotsWhenAppWakesUp()
     {
         let oldCount = observer.events.count
-        appLifecycleService.publish(.movedToForeground)
+        appLifecycleService.publish(.movedToForeground(withDailyVotingNotificationDate: nil))
         expect(self.observer.events.count).to(equal(oldCount + 1))
     }
     
