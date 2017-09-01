@@ -20,12 +20,23 @@ class MockNotificationService : NotificationService
         scheduleNotification(date: date, title: title, message: message, ofType: .normal)
     }
     
-    func scheduleVotingNotifications()
+    func scheduleAllDefaultNotifications()
+    {
+        scheduleVotingNotifications()
+        scheduleWeeklyRatingNotifications()
+    }
+    
+    private func scheduleVotingNotifications()
     {
         for i in 2...7
         {
             scheduleNotification(date: Date.create(weekday: i, hour: Constants.hourToShowDailyVotingUI, minute: 00, second: 00), title: L10n.votingNotificationTittle, message: L10n.votingNotificationMessage, ofType: .repeatWeekly)
         }
+    }
+    
+    private func scheduleWeeklyRatingNotifications()
+    {
+        scheduleNotification(date: Date.create(weekday: 1, hour: Constants.hourToShowDailyVotingUI, minute: 00, second: 00), title: L10n.ratingNotificationTitle, message: L10n.ratingNotificationMessage, ofType: .repeatWeekly)
     }
     
     private func scheduleNotification(date: Date, title: String, message: String, ofType type: NotificationType)

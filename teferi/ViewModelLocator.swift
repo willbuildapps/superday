@@ -23,6 +23,8 @@ protocol ViewModelLocator
     func getDailySummaryViewModel(forDate date: Date) -> DailySummaryViewModel
     func getSummaryViewModel() -> SummaryViewModel
     func getSummaryPageViewModel(forDate date: Date) -> SummaryPageViewModel
+    
+    func getRatingViewModel(start startDate: Date, end endDate: Date) -> RatingViewModel
 }
 
 class DefaultViewModelLocator : ViewModelLocator
@@ -162,11 +164,9 @@ class DefaultViewModelLocator : ViewModelLocator
     
     func getWeeklySummaryViewModel() -> WeeklySummaryViewModel
     {
-        return WeeklySummaryViewModel(
-            timeService: timeService,
-            timeSlotService: timeSlotService,
-            settingsService: settingsService
-        )
+        return WeeklySummaryViewModel(timeService: timeService,
+                                      timeSlotService: timeSlotService,
+                                      settingsService: settingsService)
     }
     
     func getDailySummaryViewModel(forDate date: Date) -> DailySummaryViewModel
@@ -189,5 +189,13 @@ class DefaultViewModelLocator : ViewModelLocator
         return SummaryPageViewModel(date: date,
                                     timeService: self.timeService,
                                     settingsService: self.settingsService)
+    }
+    
+    func getRatingViewModel(start startDate: Date, end endDate: Date) -> RatingViewModel
+    {
+        return RatingViewModel(startDate: startDate,
+                               endDate: endDate,
+                               timeSlotService: timeSlotService,
+                               metricsService: metricsService)
     }
 }

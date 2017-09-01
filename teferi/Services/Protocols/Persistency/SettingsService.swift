@@ -22,6 +22,8 @@ protocol SettingsService
     
     var didShowWelcomeMessage : Bool { get }
     
+    var lastShownWeeklyRating : Date? { get }
+    
     //MARK: Methods
     func lastHealthKitUpdate(for identifier: String) -> Date
     
@@ -43,4 +45,6 @@ protocol SettingsService
     
     func setVote(forDate date: Date)
     func lastSevenDaysOfVotingHistory() -> [Date]
+    
+    func setLastShownWeeklyRating(_ date: Date)
 }

@@ -143,7 +143,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         
         initializeWindowIfNeeded()
         
-        notificationService.scheduleVotingNotifications()
+        notificationService.scheduleAllDefaultNotifications()
         
         return true
     }

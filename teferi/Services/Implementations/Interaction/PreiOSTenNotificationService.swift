@@ -38,7 +38,15 @@ class PreiOSTenNotificationService : NotificationService
         UIApplication.shared.cancelAllLocalNotifications()
     }
     
-    func scheduleVotingNotifications()
+    func scheduleAllDefaultNotifications()
+    {
+        scheduleVotingNotifications()
+        scheduleWeeklyRatingNotifications()
+    }
+    
+    //MARK: Private Methods
+    
+    private func scheduleVotingNotifications()
     {
         for i in 2...7
         {
@@ -47,7 +55,12 @@ class PreiOSTenNotificationService : NotificationService
         }
     }
     
-    //MARK: Private Methods
+    private func scheduleWeeklyRatingNotifications()
+    {
+        let date = Date.create(weekday: 1, hour: Constants.hourToShowWeeklyRatingUI, minute: 00, second: 00)
+        scheduleNotification(date: date, title: L10n.ratingNotificationTitle, message: L10n.ratingNotificationMessage, ofType: .repeatWeekly)
+    }
+    
     private func scheduleNotification(date: Date, title: String, message: String, ofType type: NotificationType)
     {
         loggingService.log(withLogLevel: .info, message: "Scheduling message for date: \(date)")

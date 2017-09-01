@@ -136,4 +136,12 @@ class MockLocator : ViewModelLocator
                                     timeService: timeService,
                                     settingsService: settingsService)
     }
+    
+    func getRatingViewModel(start startDate: Date, end endDate: Date) -> RatingViewModel
+    {
+        return RatingViewModel(startDate: startDate,
+                               endDate: endDate,
+                               timeSlotService: timeSlotService,
+                               metricsService: metricsService)
+    }
 }

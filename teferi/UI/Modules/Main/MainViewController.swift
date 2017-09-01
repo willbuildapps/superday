@@ -66,6 +66,16 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
         viewModel.active = true
     }
     
+    override func viewDidAppear(_ animated: Bool)
+    {
+        super.viewDidAppear(animated)
+        
+        if viewModel.shouldShowWeeklyRatingUI
+        {
+            presenter.showWeeklyRating(fromDate: viewModel.weeklyRatingStartDate, toDate: viewModel.weeklyRatingEndDate)
+        }
+    }
+    
     override func viewDidDisappear(_ animated: Bool)
     {
         super.viewDidDisappear(animated)

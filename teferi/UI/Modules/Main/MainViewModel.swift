@@ -50,6 +50,28 @@ class MainViewModel : RxViewModel
                 return value
             }
     }
+    
+    var shouldShowWeeklyRatingUI : Bool
+    {
+        guard let installDate = settingsService.installDate else { return false }
+        
+        let itIsSevenOrMoreDaysSinceTheAppInstall = timeService.now.timeIntervalSince(installDate) >= Constants.sevenDaysInSeconds
+        let itIsSundayAfterWeeklyRatingHour = (timeService.now.dayOfWeek == 0 ? timeService.now.hour >= Constants.hourToShowWeeklyRatingUI : false)
+        let itIsMondayBeforeWeeklyRatingHour = (timeService.now.dayOfWeek == 1 ? timeService.now.hour < Constants.hourToShowWeeklyRatingUI : false)
+        let itIsInTheRangeBetweenSundayAfterWeeklyRatingHourAndModayBeforeWeeklyRatingHour = itIsSundayAfterWeeklyRatingHour || itIsMondayBeforeWeeklyRatingHour
+        
+        return itIsSevenOrMoreDaysSinceTheAppInstall && itIsInTheRangeBetweenSundayAfterWeeklyRatingHourAndModayBeforeWeeklyRatingHour
+    }
+    
+    var weeklyRatingStartDate : Date
+    {
+        return timeService.now.add(days: -6)
+    }
+    
+    var weeklyRatingEndDate : Date
+    {
+        return timeService.now
+    }
 
     
     // MARK: Private Properties

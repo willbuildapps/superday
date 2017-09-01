@@ -31,6 +31,12 @@
 "VotingUIMessage" = "Did Superday track your time accurately?";
 "VotingUIThankYou" = "Thank you! 🤘";
 
+"RatingNotificationTitle" = "Rate your experience";
+"RatingNotificationMessage" = "Please let us know how accurate was your last week’s timeline.";
+"RatingTitle" = "Rate your experience 🤘";
+"RatingMessage" = "Did Superday track your time accurately this week?";
+"RatingThankYou" = "Thank you for your feedback! 🎉";
+
 
 //Categories
 "Commute" = "Commute";

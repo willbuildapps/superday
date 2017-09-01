@@ -79,6 +79,11 @@ class DefaultSettingsService : SettingsService
         return getBool(forKey: welcomeMessageShownKey)
     }
     
+    var lastShownWeeklyRating : Date?
+    {
+        return get(forKey: lastShownWeeklyRatingKey)
+    }
+    
     //MARK: Private Properties
     
     private let timeService : TimeService
@@ -94,6 +99,7 @@ class DefaultSettingsService : SettingsService
     private let healthKitPermissionKey = "healthKitPermission"
     private let welcomeMessageShownKey = "welcomeMessageShown"
     private let votingHistoryKey = "votingHistory"
+    private let lastShownWeeklyRatingKey = "lastShownWeeklyRating"
     
     private let lastNotificationLocationLatKey = "lastNotificationLocationLat"
     private let lastNotificationLocationLngKey = "lastNotificationLocationLng"
@@ -193,6 +199,11 @@ class DefaultSettingsService : SettingsService
         UserDefaults.standard.setValue(cleanedUpHistory, forKey: votingHistoryKey)
         
         return cleanedUpHistory
+    }
+    
+    func setLastShownWeeklyRating(_ date: Date)
+    {
+        set(date, forKey: lastShownWeeklyRatingKey)
     }
     
     // MARK: Private Methods

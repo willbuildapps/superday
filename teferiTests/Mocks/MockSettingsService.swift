@@ -13,6 +13,8 @@ class MockSettingsService : SettingsService
     var lastAskedForLocationPermission : Date? = nil
     var userEverGaveLocationPermission : Bool = false
     var didShowWelcomeMessage : Bool = true
+    var lastShownWeeklyRating : Date? = Date()
+    
 
     var hasLocationPermission = true
     var hasHealthKitPermission = true
@@ -90,5 +92,10 @@ class MockSettingsService : SettingsService
     func lastSevenDaysOfVotingHistory() -> [Date]
     {
         return []
+    }
+    
+    func setLastShownWeeklyRating(_ date: Date)
+    {
+        lastShownWeeklyRating = date
     }
 }

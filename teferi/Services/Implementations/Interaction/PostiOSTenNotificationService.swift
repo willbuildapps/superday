@@ -11,29 +11,6 @@ class PostiOSTenNotificationService : NotificationService
     private let settingsService : SettingsService
     private let timeSlotService : TimeSlotService
     
-    private var appIsBeingUsedForOverAWeek : Bool
-    {
-        let daysSinceInstallDate : Int
-        
-        if let installDate = settingsService.installDate
-        {
-            daysSinceInstallDate = installDate.differenceInDays(toDate: timeService.now)
-        }
-        else
-        {
-            daysSinceInstallDate = 0
-        }
-        
-        return daysSinceInstallDate >= 7
-    }
-    
-    private let formatter : DateFormatter =
-    {
-        let formatter = DateFormatter()
-        formatter.timeStyle = .short
-        return formatter
-    }()
-    
     private let notificationCenter = UNUserNotificationCenter.current()
     
     //MARK: Initializers
@@ -60,13 +37,10 @@ class PostiOSTenNotificationService : NotificationService
         scheduleNotification(date: date, title: title, message: message, ofType: .normal)
     }
     
-    func scheduleVotingNotifications()
+    func scheduleAllDefaultNotifications()
     {
-        for i in 2...7
-        {
-            let date = Date.create(weekday: i, hour: Constants.hourToShowDailyVotingUI, minute: 00, second: 00)
-            scheduleNotification(date: date, title: L10n.votingNotificationTittle, message: L10n.votingNotificationMessage, ofType: .repeatWeekly)
-        }
+        scheduleVotingNotifications()
+        scheduleWeeklyRatingNotifications()
     }
     
     func unscheduleAllNotifications(ofTypes types: NotificationType?...)
@@ -103,35 +77,23 @@ class PostiOSTenNotificationService : NotificationService
         }
     }
     
-    func setUserNotificationActions()
+    //MARK: Private Methods
+    
+    private func scheduleVotingNotifications()
     {
-        guard appIsBeingUsedForOverAWeek else { return }
-        
-        let desiredNumberOfCategories = 4
-        var mostUsedCategories =
-            timeSlotService
-                .getTimeSlots(sinceDaysAgo: 2)
-                .groupBy(category)
-                .sorted(by: count)
-                .flatMap(intoCategory)
-                .prefix(4)
-        
-        if mostUsedCategories.count != desiredNumberOfCategories
+        for i in 2...7
         {
-            let defaultCategories : [ Category ] = [ .work, .food, .leisure, .friends ].filter { !mostUsedCategories.contains($0) }
-            let missingCategoryCount = desiredNumberOfCategories - mostUsedCategories.count
-            
-            mostUsedCategories = mostUsedCategories + defaultCategories.prefix(missingCategoryCount)
+            let date = Date.create(weekday: i, hour: Constants.hourToShowDailyVotingUI, minute: 00, second: 00)
+            scheduleNotification(date: date, title: L10n.votingNotificationTittle, message: L10n.votingNotificationMessage, ofType: .repeatWeekly)
         }
-        
-        let notificationCategory = UNNotificationCategory(identifier: Constants.notificationCategoryId,
-                                                          actions: mostUsedCategories.map(toNotificationAction),
-                                                          intentIdentifiers: [])
-        
-        notificationCenter.setNotificationCategories([notificationCategory])
     }
     
-    //MARK: Private Methods
+    private func scheduleWeeklyRatingNotifications()
+    {
+        let date = Date.create(weekday: 1, hour: Constants.hourToShowWeeklyRatingUI, minute: 00, second: 00)
+        scheduleNotification(date: date, title: L10n.ratingNotificationTitle, message: L10n.ratingNotificationMessage, ofType: .repeatWeekly)
+    }
+    
     private func scheduleNotification(date: Date, title: String, message: String, ofType type: NotificationType)
     {
         loggingService.log(withLogLevel: .info, message: "Scheduling message for date: \(date)")
@@ -159,10 +121,6 @@ class PostiOSTenNotificationService : NotificationService
             {
                 self.loggingService.log(withLogLevel: .warning, message: "Tried to schedule notifications, but could't. Got error: \(error)")
             }
-            else
-            {
-                self.setUserNotificationActions()
-            }
         }
     }
     
@@ -173,45 +131,5 @@ class PostiOSTenNotificationService : NotificationService
         content.body = message
         content.sound = UNNotificationSound(named: UILocalNotificationDefaultSoundName)
         return content
-    }
-    
-    private func toDictionary(_ timeSlot: TimeSlot) -> [String: String]
-    {
-        var timeSlotDictionary = [String: String]()
-    
-        timeSlotDictionary["color"] = timeSlot.category.color.hexString
-        timeSlotDictionary["date"] = formatter.string(from: timeSlot.startTime)
-    
-        if timeSlot.category != .unknown
-        {
-            timeSlotDictionary["category"] = timeSlot.category.description
-        }
-    
-        return timeSlotDictionary
-    }
-    
-    private func category(_ timeSlot: TimeSlot) -> Category
-    {
-        return timeSlot.category
-    }
-    
-    private func count(_ timeSlots: ([TimeSlot], [TimeSlot])) -> Bool
-    {
-        return timeSlots.0.count > timeSlots.1.count
-    }
-    
-    private func intoCategory(_ timeSlots: [TimeSlot]) -> Category?
-    {
-        guard let category = timeSlots.first?.category else { return nil }
-        
-        guard category != .unknown, category != .commute else { return nil }
-        
-        return category
-    }
-    
-    private func toNotificationAction(from category: Category) -> UNNotificationAction
-    {
-        return UNNotificationAction(identifier: category.rawValue,
-                                    title: category.description)
     }
 }

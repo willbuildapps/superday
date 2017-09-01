@@ -5,6 +5,7 @@ class PagerPresenter : NSObject
     private weak var viewController : PagerViewController!
     private let viewModelLocator : ViewModelLocator
     fileprivate let swipeInteractionController = SwipeInteractionController()
+    fileprivate var padding : ContainerPadding?
     
     private init(viewModelLocator: ViewModelLocator)
     {
@@ -24,6 +25,8 @@ class PagerPresenter : NSObject
     
     func showDailySummary()
     {
+        padding = ContainerPadding(left: 16, top: 78, right: 16, bottom: 78)
+        
         let vc = SummaryPresenter.create(with: viewModelLocator)
         vc.modalPresentationStyle = .custom
         vc.transitioningDelegate = self
@@ -43,7 +46,7 @@ extension PagerPresenter : UIViewControllerTransitioningDelegate
 {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController?
     {
-        return ModalPresentationController(presentedViewController: presented, presenting: presenting)
+        return ModalPresentationController(presentedViewController: presented, presenting: presenting, containerPadding: padding)
     }
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning?
