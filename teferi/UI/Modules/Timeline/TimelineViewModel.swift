@@ -27,6 +27,16 @@ class TimelineViewModel
     private var dateInsideExpandedTimeline: Date? = nil
     private var manualRefreshSubject = PublishSubject<Void>()
     
+    var dailyVotingNotificationObservable : Observable<Date>
+    {
+        return self.appLifecycleService.startedOnDailyVotingNotificationDateObservable
+    }
+    
+    var didBecomeActiveObservable : Observable<Void>
+    {
+        return self.appLifecycleService.movedToForegroundObservable
+    }
+    
     //MARK: Initializers
     init(date completeDate: Date,
          timeService: TimeService,

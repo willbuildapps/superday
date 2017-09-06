@@ -16,9 +16,7 @@ extension TimelineSection: AnimatableSectionModelType
         self.items = items
     }
     
-    var identity: Date {
-        return items.first!.startTime
-    }
+    var identity: String { return "" }
 }
 
 extension TimelineItem: IdentifiableType, Equatable

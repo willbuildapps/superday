@@ -89,6 +89,11 @@ class PagerViewController : UIPageViewController
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: newDay)
             .addDisposableTo(disposeBag)
+        
+        viewModel.dailyVotingNotificationDateObservable
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: showNotificationDay)
+            .addDisposableTo(disposeBag)
                 
         viewModel.activitiesObservable
             .drive(onNext: headerView.setActivities)
@@ -112,6 +117,12 @@ class PagerViewController : UIPageViewController
     {
         viewModel.currentlySelectedDate = viewModel.currentDate
         setCurrentViewController(forDate: viewModel.currentDate, animated: false)
+    }
+    
+    private func showNotificationDay(date: Date)
+    {
+        viewModel.currentlySelectedDate = date
+        setCurrentViewController(forDate: date, animated: true, moveBackwards: true)
     }
     
     private func onDateChanged(_ dateChange: DateChange)
