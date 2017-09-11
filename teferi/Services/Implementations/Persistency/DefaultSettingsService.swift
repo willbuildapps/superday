@@ -32,21 +32,6 @@ class DefaultSettingsService : SettingsService
         return location
     }
     
-    var lastNotificationLocation : CLLocation?
-    {
-        guard let time = get(forKey: lastNotificationLocationDateKey) as Date? else { return nil }
-        
-        let latitude = getDouble(forKey: lastNotificationLocationLatKey)
-        let longitude = getDouble(forKey: lastNotificationLocationLngKey)
-        let horizontalAccuracy = get(forKey: lastNotificationLocationHorizontalAccuracyKey) as Double? ?? 0.0
-        
-        let coord = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        let location = CLLocation(coordinate: coord, altitude: 0,
-                                  horizontalAccuracy: horizontalAccuracy,
-                                  verticalAccuracy: 0, timestamp: time)
-        return location
-    }
-    
     var hasLocationPermission : Bool
     {
         guard CLLocationManager.locationServicesEnabled() else { return false }
@@ -101,11 +86,6 @@ class DefaultSettingsService : SettingsService
     private let votingHistoryKey = "votingHistory"
     private let lastShownWeeklyRatingKey = "lastShownWeeklyRating"
     
-    private let lastNotificationLocationLatKey = "lastNotificationLocationLat"
-    private let lastNotificationLocationLngKey = "lastNotificationLocationLng"
-    private let lastNotificationLocationDateKey = "lastNotificationLocationDate"
-    private let lastNotificationLocationHorizontalAccuracyKey = "lastNotificationLocationHorizontalAccuracy"
-    
     //MARK: Initialiazers
     init (timeService : TimeService)
     {
@@ -147,14 +127,6 @@ class DefaultSettingsService : SettingsService
         set(location.coordinate.latitude, forKey: lastLocationLatKey)
         set(location.coordinate.longitude, forKey: lastLocationLngKey)
         set(location.horizontalAccuracy, forKey: lastLocationHorizontalAccuracyKey)
-    }
-    
-    func setLastNotificationLocation(_ location: CLLocation)
-    {
-        set(location.timestamp, forKey: lastNotificationLocationDateKey)
-        set(location.coordinate.latitude, forKey: lastNotificationLocationLatKey)
-        set(location.coordinate.longitude, forKey: lastNotificationLocationLngKey)
-        set(location.horizontalAccuracy, forKey: lastNotificationLocationHorizontalAccuracyKey)
     }
     
     func setLastAskedForLocationPermission(_ date: Date)

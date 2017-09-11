@@ -18,8 +18,6 @@ protocol SettingsService
     
     var userEverGaveLocationPermission : Bool { get }
     
-    var lastNotificationLocation : CLLocation? { get }
-    
     var didShowWelcomeMessage : Bool { get }
     
     var lastShownWeeklyRating : Date? { get }
@@ -38,9 +36,7 @@ protocol SettingsService
     func setUserGaveLocationPermission()
     
     func setUserGaveHealthKitPermission()
-    
-    func setLastNotificationLocation(_ location: CLLocation)
-    
+        
     func setWelcomeMessageShown()
     
     func setVote(forDate date: Date)
