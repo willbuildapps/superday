@@ -13,8 +13,6 @@ class OnboardingPage3 : OnboardingPage, CLLocationManagerDelegate
     
     override func startAnimations()
     {
-        viewModel.requestLocationAuthorization()
-        
         viewModel.movedToForegroundObservable
             .subscribe(onNext: onMovedToForeground)
             .addDisposableTo(disposeBag)

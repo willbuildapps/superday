@@ -197,14 +197,10 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         window!.rootViewController = IntroPresenter.create(with: viewModelLocator)
         window!.makeKeyAndVisible()
     }
-    
-    func applicationWillResignActive(_ application: UIApplication)
-    {
-        appLifecycleService.publish(.movedToBackground)
-    }
 
     func applicationDidEnterBackground(_ application: UIApplication)
     {
+        appLifecycleService.publish(.movedToBackground)
         locationService.startLocationTracking()
     }
 
