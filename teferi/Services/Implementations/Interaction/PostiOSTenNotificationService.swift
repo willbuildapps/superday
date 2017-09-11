@@ -37,8 +37,9 @@ class PostiOSTenNotificationService : NotificationService
         scheduleNotification(date: date, title: title, message: message, ofType: .normal)
     }
     
-    func scheduleAllDefaultNotifications()
+    func clearAndScheduleAllDefaultNotifications()
     {
+        unscheduleAllNotifications(ofTypes: .repeatWeekly)
         scheduleVotingNotifications()
         scheduleWeeklyRatingNotifications()
     }

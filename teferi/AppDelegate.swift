@@ -143,8 +143,6 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         
         initializeWindowIfNeeded()
         
-        notificationService.scheduleAllDefaultNotifications()
-        
         return true
     }
 
@@ -212,6 +210,8 @@ class AppDelegate : UIResponder, UIApplicationDelegate
 
     func applicationDidBecomeActive(_ application: UIApplication)
     {
+        notificationService.clearAndScheduleAllDefaultNotifications()
+        
         pipeline.run()
         
         initializeWindowIfNeeded()

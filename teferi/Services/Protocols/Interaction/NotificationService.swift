@@ -9,5 +9,5 @@ protocol NotificationService
     
     func unscheduleAllNotifications(ofTypes types: NotificationType?...)
     
-    func scheduleAllDefaultNotifications()
+    func clearAndScheduleAllDefaultNotifications()
 }
