@@ -4,6 +4,8 @@ class RatingViewModel
 {
     private let timeSlotService : TimeSlotService
     private let metricsService : MetricsService
+    private let settingsService : SettingsService
+    private let timeService : TimeService
     
     let startDate : Date
     let endDate : Date
@@ -18,12 +20,16 @@ class RatingViewModel
     init(startDate: Date,
          endDate: Date,
          timeSlotService: TimeSlotService,
-         metricsService: MetricsService)
+         metricsService: MetricsService,
+         settingsService: SettingsService,
+         timeService: TimeService)
     {
         self.startDate = startDate
         self.endDate = endDate
         self.timeSlotService = timeSlotService
         self.metricsService = metricsService
+        self.settingsService = settingsService
+        self.timeService = timeService
     }
     
     // MARK: - Helper
@@ -38,5 +44,10 @@ class RatingViewModel
     func setRating(_ rating: Int)
     {
         metricsService.log(event: CustomEvent.timelineWeeklyReview(date: startDate, rating: rating))
+    }
+    
+    func didShowRating()
+    {
+        settingsService.setLastShownWeeklyRating(timeService.now)
     }
 }

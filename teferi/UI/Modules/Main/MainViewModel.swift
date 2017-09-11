@@ -74,11 +74,6 @@ class MainViewModel : RxViewModel
         
         let shouldShowRatingUI = itIsSevenOrMoreDaysSinceTheAppInstall && itIsInTheRangeBetweenSundayAfterWeeklyRatingHourAndModayBeforeWeeklyRatingHour
         
-        if shouldShowRatingUI
-        {
-            settingsService.setLastShownWeeklyRating(timeService.now)
-        }
-        
         return shouldShowRatingUI
     }
     

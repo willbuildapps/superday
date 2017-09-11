@@ -45,6 +45,8 @@ class RatingViewController: UIViewController
         starsView.selectionObservable
             .subscribe(onNext: finalizeRating)
             .addDisposableTo(disposeBag)
+        
+        viewModel.didShowRating()
     }
     
     override func viewDidLayoutSubviews()

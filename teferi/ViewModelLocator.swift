@@ -196,6 +196,8 @@ class DefaultViewModelLocator : ViewModelLocator
         return RatingViewModel(startDate: startDate,
                                endDate: endDate,
                                timeSlotService: timeSlotService,
-                               metricsService: metricsService)
+                               metricsService: metricsService,
+                               settingsService: settingsService,
+                               timeService: timeService)
     }
 }
