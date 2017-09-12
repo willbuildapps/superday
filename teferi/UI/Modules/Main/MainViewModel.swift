@@ -51,16 +51,30 @@ class MainViewModel : RxViewModel
             }
     }
     
+    var moveToForegroundObservable : Observable<Void>
+    {
+        return appLifecycleService.movedToForegroundObservable
+    }
+    
     var shouldShowWeeklyRatingUI : Bool
     {
         guard let installDate = settingsService.installDate else { return false }
+        
+        if
+            let lastShown = settingsService.lastShownWeeklyRating,
+            lastShown.ignoreTimeComponents() == timeService.now.ignoreTimeComponents() || lastShown.ignoreTimeComponents() == timeService.now.add(days: -1).ignoreTimeComponents()
+        {
+            return false
+        }
         
         let itIsSevenOrMoreDaysSinceTheAppInstall = timeService.now.timeIntervalSince(installDate) >= Constants.sevenDaysInSeconds
         let itIsSundayAfterWeeklyRatingHour = (timeService.now.dayOfWeek == 0 ? timeService.now.hour >= Constants.hourToShowWeeklyRatingUI : false)
         let itIsMondayBeforeWeeklyRatingHour = (timeService.now.dayOfWeek == 1 ? timeService.now.hour < Constants.hourToShowWeeklyRatingUI : false)
         let itIsInTheRangeBetweenSundayAfterWeeklyRatingHourAndModayBeforeWeeklyRatingHour = itIsSundayAfterWeeklyRatingHour || itIsMondayBeforeWeeklyRatingHour
         
-        return itIsSevenOrMoreDaysSinceTheAppInstall && itIsInTheRangeBetweenSundayAfterWeeklyRatingHourAndModayBeforeWeeklyRatingHour
+        let shouldShowRatingUI = itIsSevenOrMoreDaysSinceTheAppInstall && itIsInTheRangeBetweenSundayAfterWeeklyRatingHourAndModayBeforeWeeklyRatingHour
+        
+        return shouldShowRatingUI
     }
     
     var weeklyRatingStartDate : Date

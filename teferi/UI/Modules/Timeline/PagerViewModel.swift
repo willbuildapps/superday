@@ -24,6 +24,11 @@ class PagerViewModel
             })
     }()
     
+    var dailyVotingNotificationDateObservable : Observable<Date>
+    {
+        return appLifecycleService.startedOnDailyVotingNotificationDateObservable
+    }
+    
     let isEditingObservable : Observable<Bool>
     
     var currentDate : Date { return self.timeService.now }
@@ -67,9 +72,7 @@ class PagerViewModel
     private var selectedDateService : SelectedDateService
     
     private var selectedDate : Date
-    
-    private let disposeBag = DisposeBag()
-    
+        
     //MARK: Initializers
     init(timeService: TimeService,
          timeSlotService: TimeSlotService,
@@ -88,13 +91,6 @@ class PagerViewModel
         selectedDate = timeService.now
         
         isEditingObservable = editStateService.isEditingObservable
-        
-        appLifecycleService
-            .startedOnDailyVotingNotificationDateObservable
-            .subscribe(onNext: { (notificationDate) in
-                self.selectedDateService.currentlySelectedDate = notificationDate
-            })
-            .addDisposableTo(disposeBag)
     }
     
     //MARK: Public Methods

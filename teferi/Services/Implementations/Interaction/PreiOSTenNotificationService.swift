@@ -38,8 +38,9 @@ class PreiOSTenNotificationService : NotificationService
         UIApplication.shared.cancelAllLocalNotifications()
     }
     
-    func scheduleAllDefaultNotifications()
+    func clearAndScheduleAllDefaultNotifications()
     {
+        unscheduleAllNotifications(ofTypes: .repeatWeekly)
         scheduleVotingNotifications()
         scheduleWeeklyRatingNotifications()
     }
