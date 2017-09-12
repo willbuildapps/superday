@@ -1,6 +1,5 @@
 import Foundation
 import CoreData
-import CoreLocation
 
 class CoreDataModelAdapter<T>
 {
@@ -16,9 +15,9 @@ class CoreDataModelAdapter<T>
     
     var sortDescriptors : [NSSortDescriptor]!
     
-    func getLocation(_ managedObject: NSManagedObject, timeKey: String, latKey: String, lngKey: String) -> CLLocation?
+    func getLocation(_ managedObject: NSManagedObject, timeKey: String, latKey: String, lngKey: String) -> Location?
     {
-        var location : CLLocation? = nil
+        var location : Location? = nil
         
         let possibleTime = managedObject.value(forKey: timeKey) as? Date
         let possibleLatitude = managedObject.value(forKey: latKey) as? Double
@@ -26,8 +25,8 @@ class CoreDataModelAdapter<T>
         
         if let time = possibleTime, let latitude = possibleLatitude, let longitude = possibleLongitude
         {
-            let coord = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-            location = CLLocation(coordinate: coord, altitude: 0, horizontalAccuracy: 0, verticalAccuracy: 0, timestamp: time)
+            location = Location(timestamp: time,
+                                latitude: latitude, longitude: longitude)
         }
         
         return location

@@ -1,13 +1,12 @@
 @testable import teferi
 import XCTest
 import Foundation
-import CoreLocation
 import Nimble
 
 class SmartGuessServiceTests : XCTestCase
 {
     private typealias TestData = (distanceFromTarget: Double, category: teferi.Category, date: Date)
-    private typealias LocationAndCategory = (location: CLLocation, category: teferi.Category)
+    private typealias LocationAndCategory = (location: Location, category: teferi.Category)
     
     private var timeService : MockTimeService!
     private var loggingService : MockLoggingService!
@@ -33,14 +32,8 @@ class SmartGuessServiceTests : XCTestCase
     
     func testGuessesAreReturnedWithTimestampsWithinThresholdFromLocation()
     {
-        let targetLocation = CLLocation(
-            coordinate: CLLocationCoordinate2D(
-                latitude: 41.9754219072948,
-                longitude: -71.0230522245947),
-            altitude: 0,
-            horizontalAccuracy: 0,
-            verticalAccuracy: 0,
-            timestamp: date.add(days: -11))
+        let targetLocation = Location(timestamp: date.add(days: -11),
+                                      latitude: 41.9754219072948, longitude: -71.0230522245947)
         
         let testInput : [TestData] =
         [
@@ -64,14 +57,8 @@ class SmartGuessServiceTests : XCTestCase
     
     func testGuessesAreNotReturnedWithTimestampsOutsideThresholdFromLocation()
     {
-        let targetLocation = CLLocation(
-            coordinate: CLLocationCoordinate2D(
-                latitude: 41.9754219072948,
-                longitude: -71.0230522245947),
-            altitude: 0,
-            horizontalAccuracy: 0,
-            verticalAccuracy: 0,
-            timestamp: date.add(days: -11))
+        let targetLocation = Location(timestamp: date.add(days: -11),
+                                      latitude: 41.9754219072948, longitude: -71.0230522245947)
         
         let testInput : [TestData] =
             [
@@ -95,7 +82,8 @@ class SmartGuessServiceTests : XCTestCase
     
     func testMultipleFarAwayGuessesCanOutweighSingleCloseGuess()
     {
-        let targetLocation = CLLocation(latitude: 41.9754219072948, longitude: -71.0230522245947)
+        let targetLocation = Location(timestamp: Date(),
+                                      latitude: 41.9754219072948, longitude: -71.0230522245947)
         
         let testInput : [TestData] =
             [
@@ -118,7 +106,8 @@ class SmartGuessServiceTests : XCTestCase
     
     func testGuessesVeryCloseToTheLocationShouldOutweighMultipleGuessesSlightlyFurtherAway()
     {
-        let targetLocation = CLLocation(latitude: 41.9754219072948, longitude: -71.0230522245947)
+        let targetLocation = Location(timestamp: Date(),
+                                      latitude: 41.9754219072948, longitude: -71.0230522245947)
         
         let testInput : [TestData] =
         [
@@ -142,7 +131,8 @@ class SmartGuessServiceTests : XCTestCase
     
     func testGuessesVeryCloseToTheLocationShouldOutweighMultipleGuessesSlightlyFurtherAwayEvenWithoutExtraGuessesHelpingTheWeight()
     {
-        let targetLocation = CLLocation(latitude: 41.9754219072948, longitude: -71.0230522245947)
+        let targetLocation = Location(timestamp: Date(),
+                                      latitude: 41.9754219072948, longitude: -71.0230522245947)
         
         let testInput : [TestData] =
         [
@@ -165,7 +155,8 @@ class SmartGuessServiceTests : XCTestCase
     
     func testTheAmountOfGuessesInTheSameCategoryShouldMatterWhenComparingSimilarlyDistantGuessesEvenIfTheOutnumberedGuessIsCloser()
     {
-        let targetLocation = CLLocation(latitude: 41.9754219072948, longitude: -71.0230522245947)
+        let targetLocation = Location(timestamp: Date(),
+                                      latitude: 41.9754219072948, longitude: -71.0230522245947)
         
         let testInput : [TestData] =
         [
@@ -188,7 +179,8 @@ class SmartGuessServiceTests : XCTestCase
     
     func testTheAmountOfGuessesInTheSameCategoryShouldMatterWhenComparingSimilarlyDistantGuesses()
     {
-        let targetLocation = CLLocation(latitude: 41.9757219072951, longitude: -71.0225522245947)
+        let targetLocation = Location(timestamp: Date(),
+                                      latitude: 41.9754219072948, longitude: -71.0230522245947)
         
         let testInput : [TestData] =
         [
@@ -212,7 +204,8 @@ class SmartGuessServiceTests : XCTestCase
     
     func testCommutesSmartGuessesAreNotSaved()
     {
-        let targetLocation = CLLocation(latitude: 41.9757219072951, longitude: -71.0225522245947)
+        let targetLocation = Location(timestamp: Date(),
+                                      latitude: 41.9754219072948, longitude: -71.0230522245947)
         
         smartGuessService.add(withCategory: .commute, location: targetLocation)
         
@@ -227,7 +220,7 @@ class SmartGuessServiceTests : XCTestCase
         expect(foodSmartGuess?.category).to(equal(Category.food))
     }
     
-    private func toLocation(offsetFrom baseLocation: CLLocation) -> (TestData) -> LocationAndCategory
+    private func toLocation(offsetFrom baseLocation: Location) -> (TestData) -> LocationAndCategory
     {
         return { (testData: TestData) in
             

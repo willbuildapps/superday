@@ -1,13 +1,10 @@
 import Foundation
 @testable import teferi
-import CoreLocation
 
 extension TrackEvent
 {
     static var baseMockEvent:TrackEvent {
-        return Location.asTrackEvent(
-            Location(fromCLLocation: CLLocation.baseLocation)
-        )
+        return Location.asTrackEvent(Location.baseLocation)
     }
     
     func delay(hours:Double = 0, minutes:Double = 0, seconds:Double = 0) -> TrackEvent
@@ -54,9 +51,8 @@ extension TrackEvent
             
         case .newLocation(let oldLocation):
             
-            let cllocation = oldLocation.toCLLocation().offset(.north, meters:meters)
-            let location = Location(fromCLLocation: cllocation)
-            
+            let location = oldLocation.offset(.north, meters:meters)
+
             return TrackEvent.newLocation(
                 location: Location(
                     timestamp: location.timestamp,

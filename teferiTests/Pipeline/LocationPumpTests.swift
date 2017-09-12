@@ -1,5 +1,4 @@
 import XCTest
-import CoreLocation
 
 import Nimble
 
@@ -72,13 +71,13 @@ class LocationPumpTests: XCTestCase
     {
         addStoredTimeSlot(minutesBeforeNoon: 30)
 
-        let oldLocation = CLLocation.baseLocation.offset(.north, meters: 350, seconds:8*60)
-        let newLocation = CLLocation.baseLocation.offset(.north, meters: 650, seconds:-8*60)
+        let oldLocation = Location.baseLocation.offset(.north, meters: 350, seconds:8*60)
+        let newLocation = Location.baseLocation.offset(.north, meters: 650, seconds:-8*60)
         
         settingsService.lastLocation = oldLocation
         
         trackEventService.mockEvents = [
-            Location.asTrackEvent(Location(fromCLLocation: newLocation))
+            Location.asTrackEvent(newLocation)
         ]
         
         let timeSlots = locationPump.run()
@@ -91,8 +90,8 @@ class LocationPumpTests: XCTestCase
         addStoredTimeSlot(minutesBeforeNoon: 30)
         settingsService.lastLocation = nil
 
-        let locationA = CLLocation.baseLocation.offset(.north, meters: 400).with(accuracy: 50)
-        let eventA = Location.asTrackEvent(Location(fromCLLocation: locationA))
+        let locationA = Location.baseLocation.offset(.north, meters: 400).with(accuracy: 50)
+        let eventA = Location.asTrackEvent(locationA)
         trackEventService.mockEvents = [
             eventA,
             eventA.delay(minutes: 30).offset(meters: 80), //Should ignore this but keep the 1st (more accurate) and last
@@ -142,8 +141,8 @@ class LocationPumpTests: XCTestCase
     {
         addStoredTimeSlot(minutesBeforeNoon: 30)
 
-        let location = CLLocation.baseLocation.offset(.north, meters: 350)
-        let secondEvent = Location.asTrackEvent(Location(fromCLLocation: location))
+        let location = Location.baseLocation.offset(.north, meters: 350)
+        let secondEvent = Location.asTrackEvent(location)
         
         trackEventService.mockEvents = [
             secondEvent
@@ -227,7 +226,7 @@ class LocationPumpTests: XCTestCase
     func testTheAlgorithmDoesNotTouchLastKnownLocationFromLocationUpdatesInSimilarLocation()
     {
         addStoredTimeSlot(minutesBeforeNoon: 30)
-        settingsService.setLastLocation(CLLocation.baseLocation)
+        settingsService.setLastLocation(Location.baseLocation)
         let firstEvent = TrackEvent.baseMockEvent.delay(minutes: 35).offset(meters: 10)
         
         trackEventService.mockEvents = [
@@ -237,10 +236,10 @@ class LocationPumpTests: XCTestCase
         let _ = locationPump.run()
         
         let lastLocation = settingsService.lastLocation!
-        let baseLocation = CLLocation.baseLocation
+        let baseLocation = Location.baseLocation
         
-        expect(lastLocation.coordinate.latitude).to(equal(baseLocation.coordinate.latitude))
-        expect(lastLocation.coordinate.longitude).to(equal(baseLocation.coordinate.longitude))
+        expect(lastLocation.latitude).to(equal(baseLocation.latitude))
+        expect(lastLocation.longitude).to(equal(baseLocation.longitude))
         expect(lastLocation.timestamp).to(equal(baseLocation.timestamp))
     }
     
@@ -292,11 +291,10 @@ class LocationPumpTests: XCTestCase
                                          categoryWasSetByUser: false,
                                          tryUsingLatestLocation: false)
         
-        let baseLocation =  CLLocation(coordinate: CLLocation.baseLocation.coordinate,
-                                       altitude: CLLocation.baseLocation.altitude,
-                                       horizontalAccuracy: CLLocation.baseLocation.horizontalAccuracy,
-                                       verticalAccuracy: CLLocation.baseLocation.verticalAccuracy,
-                                       timestamp: date)
+        let baseLocation = Location(timestamp: date,
+                                    latitude: Location.baseLocation.latitude, longitude: Location.baseLocation.longitude,
+                                    speed: 0, course: 0, altitude: Location.baseLocation.altitude,
+                                    verticalAccuracy: Location.baseLocation.verticalAccuracy, horizontalAccuracy: Location.baseLocation.horizontalAccuracy)
 
         settingsService.setLastLocation(baseLocation)
 
@@ -314,17 +312,13 @@ extension Date
     }
 }
  
-extension CLLocation
+extension Location
 {
-    static var baseLocation:CLLocation
+    static var baseLocation:Location
     {
-        return CLLocation(
-            coordinate: CLLocationCoordinate2D(latitude: 37.628060, longitude: -116.848463),
-            altitude:0,
-            horizontalAccuracy: 100,
-            verticalAccuracy: 100,
-            timestamp: Date.noon
-        )
+        return Location(timestamp: Date.noon,
+                        latitude: 37.628060, longitude: -116.848463,
+                        accuracy: 100)
     }
 }
 

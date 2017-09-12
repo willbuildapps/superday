@@ -1,6 +1,5 @@
 import Foundation
 import RxSwift
-import CoreLocation
 
 class LocationPump : Pump
 {
@@ -39,7 +38,7 @@ class LocationPump : Pump
         
         var lastLocation:Location
         if let storedLastLocation = settingsService.lastLocation {
-            lastLocation = Location(fromCLLocation:storedLastLocation)
+            lastLocation = storedLastLocation
         } else {
             lastLocation = locations.remove(at: 0)
         }
@@ -87,12 +86,9 @@ class LocationPump : Pump
     
     private func isValid(_ location:Location, previousLocation:Location) -> Bool
     {
-        let clLocation = location.toCLLocation()
-        let previousCLLocation = previousLocation.toCLLocation()
-        
         guard location.timestamp > previousLocation.timestamp else { return false }
         
-        guard clLocation.isSignificantlyDifferent(fromLocation: previousCLLocation) else
+        guard location.isSignificantlyDifferent(fromLocation: previousLocation) else
         {
             return false
         }

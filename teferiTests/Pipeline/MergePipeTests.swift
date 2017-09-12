@@ -1,7 +1,6 @@
 import XCTest
 import UserNotifications
 import Nimble
-import CoreLocation
 @testable import teferi
 
 class MergePipeTests : XCTestCase
@@ -10,7 +9,6 @@ class MergePipeTests : XCTestCase
     
     private var noon : Date!
     private var baseSlot : TemporaryTimeSlot!
-    private let baseLocation = Location(fromCLLocation: CLLocation())
     
     private var data : [[TemporaryTimeSlot]]
     {
@@ -359,7 +357,7 @@ class MergePipeTests : XCTestCase
                                   end: data.endOffset != nil ? date(data.endOffset!) : nil,
                                   smartGuess: data.includeSmartGuess ? smartGuess(withCategory: data.category) : nil,
                                   category: data.category,
-                                  location: data.includeLocation ? baseLocation : nil)
+                                  location: data.includeLocation ? Location.baseLocation : nil)
     }
     
     private func date(_ timeInterval: TimeInterval) -> Date
@@ -369,7 +367,7 @@ class MergePipeTests : XCTestCase
     
     private func smartGuess(withCategory category: teferi.Category) -> SmartGuess
     {
-        return SmartGuess(withId: 0, category: category, location: CLLocation(), lastUsed: noon)
+        return SmartGuess(withId: 0, category: category, location: Location.baseLocation, lastUsed: noon)
     }
 }
 

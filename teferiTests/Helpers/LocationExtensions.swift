@@ -1,5 +1,5 @@
-import CoreLocation
 import Foundation
+@testable import teferi
 
 private let earthRadius = 6_378_000.0
 private let metersToLatitudeFactor = 1.0 / 111_000
@@ -12,12 +12,14 @@ enum Direction:UInt32
     case east
 }
 
-extension CLLocationCoordinate2D
+typealias Coordinates = (latitude: Double, longitude: Double)
+
+extension Location
 {
-    func offset(_ direction: Direction, meters: Double) -> CLLocationCoordinate2D
+    fileprivate func offsetCoordinates(_ direction: Direction, meters: Double) -> Coordinates
     {
-        let newLatitude : CLLocationDegrees
-        let newLongitude : CLLocationDegrees
+        let newLatitude : Double
+        let newLongitude : Double
         
         switch(direction)
         {
@@ -46,72 +48,63 @@ extension CLLocationCoordinate2D
                 break
         }
         
-        let newCoordinate = CLLocationCoordinate2D(latitude: newLatitude, longitude: newLongitude)
-        return newCoordinate
+        return (latitude: newLatitude, longitude: newLongitude)
     }
 }
 
-extension CLLocation
+extension Location
 {
-    func offset(_ direction: Direction, meters: Double, timestamp: Date? = nil) -> CLLocation
+    func offset(_ direction: Direction, meters: Double, timestamp: Date? = nil) -> Location
     {
-        let newCoordinate = coordinate.offset(direction, meters: meters)
-        let newLocation = CLLocation(coordinate: newCoordinate,
-                                     altitude: altitude,
-                                     horizontalAccuracy: horizontalAccuracy,
-                                     verticalAccuracy: verticalAccuracy,
-                                     timestamp: timestamp ?? self.timestamp)
-        return newLocation
-    }
-    
-    func offset(_ direction: Direction?, meters: Double = 0, seconds: TimeInterval = 0) -> CLLocation
-    {
-        let newCoordinate:CLLocationCoordinate2D
-        if let direction = direction {
-            newCoordinate = coordinate.offset(direction, meters: meters)
-        } else {
-            newCoordinate = coordinate
-        }
-        let newLocation = CLLocation(coordinate: newCoordinate,
-                                     altitude: altitude,
-                                     horizontalAccuracy: horizontalAccuracy,
-                                     verticalAccuracy: verticalAccuracy,
-                                     timestamp: timestamp.addingTimeInterval(seconds))
-        return newLocation
-    }
-    
-    
-    func randomOffset(withAccuracy accuracy:Double? = nil) -> CLLocation
-    {
+        let newCoordinates = offsetCoordinates(direction, meters: meters)
+        let newLocation = Location(timestamp: timestamp ?? self.timestamp,
+                                   latitude: newCoordinates.latitude, longitude: newCoordinates.longitude,
+                                   speed: 0, course: 0, altitude: altitude,
+                                   verticalAccuracy: horizontalAccuracy, horizontalAccuracy: horizontalAccuracy)
         
-        let newCoordinate = coordinate.offset(
+        return newLocation
+    }
+    
+    func offset(_ direction: Direction?, meters: Double = 0, seconds: TimeInterval = 0) -> Location
+    {
+        let newCoordinates: Coordinates
+        if let direction = direction {
+            newCoordinates = offsetCoordinates(direction, meters: meters)
+        } else {
+            newCoordinates = (latitude: latitude, longitude: longitude)
+        }
+        
+        let newLocation = Location(timestamp: timestamp.addingTimeInterval(seconds),
+                                   latitude: newCoordinates.latitude, longitude: newCoordinates.longitude,
+                                   speed: 0, course: 0, altitude: altitude,
+                                   verticalAccuracy: horizontalAccuracy, horizontalAccuracy: horizontalAccuracy)
+        
+        return newLocation
+    }
+    
+    
+    func randomOffset(withAccuracy accuracy:Double? = nil) -> Location
+    {
+        let newCoordinates = offsetCoordinates(
             Direction(rawValue: arc4random_uniform(4))!,
             meters: randomBetweenNumbers(firstNum: 10, secondNum: 100000)
         )
         
-        guard let accuracy = accuracy else {
-            return CLLocation(latitude: newCoordinate.latitude, longitude: newCoordinate.longitude)
-        }
+        let newAccuracy = accuracy ?? horizontalAccuracy
         
-        return CLLocation(
-            coordinate: newCoordinate,
-            altitude: CLLocationDistance(),
-            horizontalAccuracy: CLLocationAccuracy(exactly: accuracy)!,
-            verticalAccuracy: CLLocationAccuracy(exactly: accuracy)!,
-            timestamp: Date())
+        return Location(timestamp: Date(),
+                        latitude: newCoordinates.latitude, longitude: newCoordinates.longitude,
+                        speed: 0, course: 0, altitude: altitude,
+                        verticalAccuracy: newAccuracy, horizontalAccuracy: newAccuracy)
     }
     
     
-    func with(accuracy:Double) -> CLLocation
+    func with(accuracy:Double) -> Location
     {
-        return CLLocation(
-            coordinate: coordinate,
-            altitude: altitude,
-            horizontalAccuracy: accuracy,
-            verticalAccuracy: accuracy,
-            course: course,
-            speed: speed,
-            timestamp: timestamp)
+        return Location(timestamp: timestamp,
+                        latitude: latitude, longitude: longitude,
+                        speed: 0, course: 0, altitude: altitude,
+                        verticalAccuracy: accuracy, horizontalAccuracy: accuracy)
     }
 }
 

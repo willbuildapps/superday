@@ -1,4 +1,4 @@
-import CoreLocation
+import Foundation
 
 class SmartGuess
 {
@@ -6,9 +6,9 @@ class SmartGuess
     var errorCount : Int
     var lastUsed : Date
     let category : Category
-    let location : CLLocation
+    let location : Location
     
-    init(withId id: Int, category: Category, location: CLLocation, lastUsed: Date)
+    init(withId id: Int, category: Category, location: Location, lastUsed: Date)
     {
         self.id = id
         self.errorCount = 0
@@ -17,7 +17,7 @@ class SmartGuess
         self.location = location
     }
     
-    init(withId id: Int, category: Category, location: CLLocation, lastUsed: Date, errorCount: Int)
+    init(withId id: Int, category: Category, location: Location, lastUsed: Date, errorCount: Int)
     {
         self.id = id
         self.lastUsed = lastUsed

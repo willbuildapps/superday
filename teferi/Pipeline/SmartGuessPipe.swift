@@ -17,7 +17,7 @@ class SmartGuessPipe : Pipe
     {
         guard timeSlot.category == .unknown,
             let location = timeSlot.location,
-            let smartGuess = smartGuessService.get(forLocation: location.toCLLocation())
+            let smartGuess = smartGuessService.get(forLocation: location)
             else
         {
                 return timeSlot

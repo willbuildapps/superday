@@ -1,4 +1,3 @@
-import CoreLocation
 import CoreData
 
 class LocationModelAdapter : CoreDataModelAdapter<Location>

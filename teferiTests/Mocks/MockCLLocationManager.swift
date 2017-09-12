@@ -1,5 +1,6 @@
 import Foundation
 import CoreLocation
+@testable import teferi
 
 class MockCLLocationManager:CLLocationManager
 {
@@ -23,9 +24,9 @@ class MockCLLocationManager:CLLocationManager
         updatingLocation = false
     }
     
-    func sendLocations(_ locations:[CLLocation])
+    func sendLocations(_ locations:[Location])
     {
         guard updatingLocation || monitoringSignificantLocationChanges else { return }
-        delegate?.locationManager!(self, didUpdateLocations: locations)
+        delegate?.locationManager!(self, didUpdateLocations: locations.map{ $0.toCLLocation() })
     }
 }

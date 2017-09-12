@@ -1,5 +1,4 @@
 import CoreData
-import CoreLocation
 
 class SmartGuessModelAdapter : CoreDataModelAdapter<SmartGuess>
 {
@@ -53,7 +52,7 @@ class SmartGuessModelAdapter : CoreDataModelAdapter<SmartGuess>
         managedObject.setValue(model.errorCount, forKey: errorCountKey)
         
         managedObject.setValue(model.location.timestamp, forKey: locationTimeKey)
-        managedObject.setValue(model.location.coordinate.latitude, forKey: locationLatitudeKey)
-        managedObject.setValue(model.location.coordinate.longitude, forKey: locationLongitudeKey)
+        managedObject.setValue(model.location.latitude, forKey: locationLatitudeKey)
+        managedObject.setValue(model.location.longitude, forKey: locationLongitudeKey)
     }
 }

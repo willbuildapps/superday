@@ -1,6 +1,5 @@
 import XCTest
 import Nimble
-import CoreLocation
 @testable import teferi
 
 class SmartGuessPipeTests: XCTestCase
@@ -16,10 +15,10 @@ class SmartGuessPipeTests: XCTestCase
     
     func testAlgorithmAsksForSmartGuessWithCorrectLocation()
     {
-        let location = CLLocation.baseLocation.offset(.north, meters: 200, seconds: 60*30)
+        let location = Location.baseLocation.offset(.north, meters: 200, seconds: 60*30)
         
         let timeline = [
-            TemporaryTimeSlot(location: Location(fromCLLocation: location), category: .unknown)
+            TemporaryTimeSlot(location: location, category: .unknown)
         ]
         
         let _ = pipe.process(timeline: timeline)
@@ -28,8 +27,8 @@ class SmartGuessPipeTests: XCTestCase
         
         let askedForLocation = smartGuessService.locationsAskedFor[0]
         
-        expect(askedForLocation.coordinate.latitude).to(equal(location.coordinate.latitude))
-        expect(askedForLocation.coordinate.longitude).to(equal(location.coordinate.longitude))
+        expect(askedForLocation.latitude).to(equal(location.latitude))
+        expect(askedForLocation.longitude).to(equal(location.longitude))
         expect(askedForLocation.timestamp).to(equal(location.timestamp))
     }
     
@@ -37,10 +36,10 @@ class SmartGuessPipeTests: XCTestCase
     {
         smartGuessService.smartGuessToReturn = nil
         
-        let location = CLLocation.baseLocation.offset(.north, meters: 200, seconds: 60*30)
+        let location = Location.baseLocation.offset(.north, meters: 200, seconds: 60*30)
         
         let timeline = [
-            TemporaryTimeSlot(location: Location(fromCLLocation: location), category: .unknown)
+            TemporaryTimeSlot(location: location, category: .unknown)
         ]
         
         let timeSlots = pipe.process(timeline: timeline)
@@ -51,12 +50,12 @@ class SmartGuessPipeTests: XCTestCase
     
     func testTimeSlotGetsCorrectCategoryIfSmartGuessExists()
     {
-        smartGuessService.smartGuessToReturn = SmartGuess(withId: 0, category: .food, location: CLLocation(), lastUsed: Date.midnight)
+        smartGuessService.smartGuessToReturn = SmartGuess(withId: 0, category: .food, location: Location.baseLocation, lastUsed: Date.midnight)
         
-        let location = CLLocation.baseLocation.offset(.north, meters: 200, seconds: 60*30)
+        let location = Location.baseLocation.offset(.north, meters: 200, seconds: 60*30)
         
         let timeline = [
-            TemporaryTimeSlot(location: Location(fromCLLocation: location), category: .unknown)
+            TemporaryTimeSlot(location: location, category: .unknown)
         ]
         
         let timeSlots = pipe.process(timeline: timeline)
@@ -67,14 +66,14 @@ class SmartGuessPipeTests: XCTestCase
     
     func testPipeAsksForSmartGuessOnlyForUnknownSlots()
     {
-        let location1 = CLLocation.baseLocation.offset(.north, meters: 200, seconds: 60*30)
-        let location2 = CLLocation.baseLocation.offset(.north, meters: 400, seconds: 60*30*2)
+        let location1 = Location.baseLocation.offset(.north, meters: 200, seconds: 60*30)
+        let location2 = Location.baseLocation.offset(.north, meters: 400, seconds: 60*30*2)
         
         let timeline = [
-            TemporaryTimeSlot(location: Location(fromCLLocation: CLLocation.baseLocation), category: .food),
-            TemporaryTimeSlot(location: Location(fromCLLocation: location1), category: .unknown),
-            TemporaryTimeSlot(location: Location(fromCLLocation: CLLocation.baseLocation), category: .commute),
-            TemporaryTimeSlot(location: Location(fromCLLocation: location2), category: .unknown)
+            TemporaryTimeSlot(location: Location.baseLocation, category: .food),
+            TemporaryTimeSlot(location: location1, category: .unknown),
+            TemporaryTimeSlot(location: Location.baseLocation, category: .commute),
+            TemporaryTimeSlot(location: location2, category: .unknown)
         ]
         
         let _ = pipe.process(timeline: timeline)
@@ -84,12 +83,12 @@ class SmartGuessPipeTests: XCTestCase
         let askedForLocation1 = smartGuessService.locationsAskedFor[0]
         let askedForLocation2 = smartGuessService.locationsAskedFor[1]
         
-        expect(askedForLocation1.coordinate.latitude).to(equal(location1.coordinate.latitude))
-        expect(askedForLocation1.coordinate.longitude).to(equal(location1.coordinate.longitude))
+        expect(askedForLocation1.latitude).to(equal(location1.latitude))
+        expect(askedForLocation1.longitude).to(equal(location1.longitude))
         expect(askedForLocation1.timestamp).to(equal(location1.timestamp))
         
-        expect(askedForLocation2.coordinate.latitude).to(equal(location2.coordinate.latitude))
-        expect(askedForLocation2.coordinate.longitude).to(equal(location2.coordinate.longitude))
+        expect(askedForLocation2.latitude).to(equal(location2.latitude))
+        expect(askedForLocation2.longitude).to(equal(location2.longitude))
         expect(askedForLocation2.timestamp).to(equal(location2.timestamp))
     }
 }

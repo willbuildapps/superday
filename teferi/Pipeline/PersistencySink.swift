@@ -1,4 +1,4 @@
-import CoreLocation
+import Foundation
 
 class PersistencySink : Sink
 {
@@ -30,7 +30,7 @@ class PersistencySink : Sink
     {
         if timeline.isEmpty { return }
         
-        var lastLocation : CLLocation? = nil
+        var lastLocation : Location? = nil
         var smartGuessesToUpdate = [SmartGuessUpdate]()
         
         var firstSlotCreated : TimeSlot? = nil
@@ -42,7 +42,7 @@ class PersistencySink : Sink
             {
                 addedTimeSlot = timeSlotService.addTimeSlot(withStartTime: temporaryTimeSlot.start,
                                                                  smartGuess: smartGuess,
-                                                                 location: temporaryTimeSlot.location?.toCLLocation())
+                                                                 location: temporaryTimeSlot.location)
                 
                 smartGuessesToUpdate.append((smartGuess, temporaryTimeSlot.start))
                 
@@ -53,7 +53,7 @@ class PersistencySink : Sink
                 addedTimeSlot = timeSlotService.addTimeSlot(withStartTime: temporaryTimeSlot.start,
                                                                  category: temporaryTimeSlot.category,
                                                                  categoryWasSetByUser: false,
-                                                                 location: temporaryTimeSlot.location?.toCLLocation())
+                                                                 location: temporaryTimeSlot.location)
 
                 if firstSlotCreated == nil { firstSlotCreated = addedTimeSlot }
             }
@@ -85,10 +85,9 @@ class PersistencySink : Sink
         })
     }
     
-    private func updateIfNeeded(lastLocation: CLLocation?)
+    private func updateIfNeeded(lastLocation: Location?)
     {
-        guard let lastLocation = lastLocation else { return }
-        
+        guard let lastLocation = lastLocation else { return }        
         settingsService.setLastLocation(lastLocation)
     }
 }

@@ -1,5 +1,4 @@
 import Foundation
-import CoreLocation
 @testable import teferi
 
 class MockSettingsService : SettingsService
@@ -8,7 +7,7 @@ class MockSettingsService : SettingsService
     var nextSmartGuessId = 0
     var installDate : Date? = Date()
     var lastInactiveDate : Date? = nil
-    var lastLocation : CLLocation? = nil
+    var lastLocation : Location? = nil
     var lastAskedForLocationPermission : Date? = nil
     var userEverGaveLocationPermission : Bool = false
     var didShowWelcomeMessage : Bool = true
@@ -43,7 +42,7 @@ class MockSettingsService : SettingsService
         installDate = date
     }
     
-    func setLastLocation(_ location: CLLocation)
+    func setLastLocation(_ location: Location)
     {
         lastLocation = location
     }

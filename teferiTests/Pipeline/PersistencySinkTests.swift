@@ -1,7 +1,6 @@
 import Foundation
 import XCTest
 import Nimble
-import CoreLocation
 import HealthKit
 @testable import teferi
 
@@ -63,16 +62,20 @@ class PersistencySinkTests : XCTestCase
         
         settingsService.lastLocation = nil
         
-        let expectedLocation = CLLocation(latitude: 37.628060, longitude: -116.848463)
+        let otherLocation = Location(timestamp: Date(),
+                                     latitude: 38.628060, longitude: -117.848463)
         
-        data[4] = data[4].with(location: Location(fromCLLocation: CLLocation(latitude: 38.628060, longitude: -117.848463)))
-        data[5] = data[5].with(location: Location(fromCLLocation: expectedLocation))
+        let expectedLocation = Location(timestamp: Date(),
+                                        latitude: 37.628060, longitude: -116.848463)        
+        
+        data[4] = data[4].with(location: otherLocation)
+        data[5] = data[5].with(location: expectedLocation)
         
         persistencySink.execute(timeline: data)
         
         expect(self.settingsService.lastLocation).toNot(beNil())
-        expect(self.settingsService.lastLocation!.coordinate.latitude).to(equal(expectedLocation.coordinate.latitude))
-        expect(self.settingsService.lastLocation!.coordinate.longitude).to(equal(expectedLocation.coordinate.longitude))
+        expect(self.settingsService.lastLocation!.latitude).to(equal(expectedLocation.latitude))
+        expect(self.settingsService.lastLocation!.longitude).to(equal(expectedLocation.longitude))
     }
     
     func testUsedSmartGuessesGetUpdated()
@@ -81,7 +84,7 @@ class PersistencySinkTests : XCTestCase
         
         let smartGuess = SmartGuess(withId: 0,
                                     category: .unknown,
-                                    location: CLLocation(latitude: 38.628060, longitude: -117.848463),
+                                    location: Location.baseLocation,
                                     lastUsed: noon.addingTimeInterval(-500))
         
         data[5] = data[5].with(smartGuess: smartGuess)
@@ -101,7 +104,7 @@ class PersistencySinkTests : XCTestCase
         
         let smartGuess = SmartGuess(withId: 0,
                                     category: .food,
-                                    location: CLLocation(latitude: 38.628060, longitude: -117.848463),
+                                    location: Location.baseLocation,
                                     lastUsed: noon.addingTimeInterval(-500))
         
         data[5] = data[5].with(smartGuess: smartGuess)
@@ -120,7 +123,7 @@ class PersistencySinkTests : XCTestCase
     
     func testAllTempDataIsCleared()
     {
-        trackEventService.mockEvents = [ TrackEvent.newLocation(location: Location(fromCLLocation: CLLocation())) ]
+        trackEventService.mockEvents = [ TrackEvent.newLocation(location: Location.baseLocation) ]
         
         persistencySink.execute(timeline: getTestData())
         
@@ -140,6 +143,6 @@ class PersistencySinkTests : XCTestCase
     
     private func smartGuess(withCategory category: teferi.Category) -> SmartGuess
     {
-        return SmartGuess(withId: 0, category: category, location: CLLocation(), lastUsed: noon)
+        return SmartGuess(withId: 0, category: category, location: Location.baseLocation, lastUsed: noon)
     }
 }

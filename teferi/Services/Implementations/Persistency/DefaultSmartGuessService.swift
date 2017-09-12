@@ -1,9 +1,8 @@
 import Foundation
-import CoreLocation
 
 class DefaultSmartGuessService : SmartGuessService
 {
-    typealias KNNInstance = (location: CLLocation, timeStamp: Date, category: Category, smartGuess: SmartGuess?)
+    typealias KNNInstance = (location: Location, timeStamp: Date, category: Category, smartGuess: SmartGuess?)
     
     //MARK: Private Properties
     private let distanceThreshold = 400.0 //TODO: We have to think about the 400m constant. Might be too low or too high.
@@ -32,7 +31,7 @@ class DefaultSmartGuessService : SmartGuessService
     
     //MARK: Public Methods
     
-    @discardableResult func add(withCategory category: Category, location: CLLocation) -> SmartGuess?
+    @discardableResult func add(withCategory category: Category, location: Location) -> SmartGuess?
     {
         guard !categoriesToSkip.contains(category) else { return nil }
         
@@ -112,7 +111,7 @@ class DefaultSmartGuessService : SmartGuessService
         }
     }
     
-    func get(forLocation location: CLLocation) -> SmartGuess?
+    func get(forLocation location: Location) -> SmartGuess?
     {
         let bestMatches = persistencyService.get()
             .filter(isWithinDistanceThreshold(from: location))
@@ -137,7 +136,7 @@ class DefaultSmartGuessService : SmartGuessService
         
         guard let bestMatch = bestKnnMatch?.smartGuess else { return nil }
         
-        loggingService.log(withLogLevel: .debug, message: "SmartGuess found for location: \(location.coordinate.latitude),\(location.coordinate.longitude) -> \(bestMatch.category)")
+        loggingService.log(withLogLevel: .debug, message: "SmartGuess found for location: \(location.latitude),\(location.longitude) -> \(bestMatch.category)")
         return bestMatch
     }
     
@@ -154,12 +153,12 @@ class DefaultSmartGuessService : SmartGuessService
     
     //MARK: Private Methods
     
-    private func isWithinDistanceThreshold(from location: CLLocation) -> (SmartGuess) -> Bool
+    private func isWithinDistanceThreshold(from location: Location) -> (SmartGuess) -> Bool
     {
         return { smartGuess in return smartGuess.location.distance(from: location) <= self.distanceThreshold }
     }
     
-    private func isWithinTimeThresholdIgnoringDate(from location: CLLocation) -> (SmartGuess) -> Bool
+    private func isWithinTimeThresholdIgnoringDate(from location: Location) -> (SmartGuess) -> Bool
     {
         return { smartGuess in
             

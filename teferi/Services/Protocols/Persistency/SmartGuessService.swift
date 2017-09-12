@@ -1,11 +1,10 @@
 import Foundation
-import CoreLocation
 
 protocol SmartGuessService
 {
-    func get(forLocation: CLLocation) -> SmartGuess?
+    func get(forLocation: Location) -> SmartGuess?
     
-    @discardableResult func add(withCategory category: Category, location: CLLocation) -> SmartGuess?
+    @discardableResult func add(withCategory category: Category, location: Location) -> SmartGuess?
     
     func markAsUsed(_ smartGuess: SmartGuess, atTime time: Date)
     

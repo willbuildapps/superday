@@ -1,8 +1,7 @@
 import UIKit
 import RxSwift
-import CoreLocation
 
-class OnboardingPage3 : OnboardingPage, CLLocationManagerDelegate
+class OnboardingPage3 : OnboardingPage
 {
     private var disposeBag : DisposeBag = DisposeBag()
     

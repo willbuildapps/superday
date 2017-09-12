@@ -1,7 +1,6 @@
 import UIKit
 import RxSwift
 import Foundation
-import CoreLocation
 import UserNotifications
 
 @UIApplicationMain

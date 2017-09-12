@@ -11,9 +11,9 @@ class DefaultSettingsService : SettingsService
         return get(forKey: installDateKey)
     }
     
-    var lastLocation : CLLocation?
+    var lastLocation : Location?
     {
-        var location : CLLocation? = nil
+        var location : Location? = nil
         
         let possibleTime = get(forKey: lastLocationDateKey) as Date?
         
@@ -23,10 +23,9 @@ class DefaultSettingsService : SettingsService
             let longitude = getDouble(forKey: lastLocationLngKey)
             let horizontalAccuracy = get(forKey: lastLocationHorizontalAccuracyKey) as Double? ?? 0.0
             
-            let coord = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-            location = CLLocation(coordinate: coord, altitude: 0,
-                                  horizontalAccuracy: horizontalAccuracy,
-                                  verticalAccuracy: 0, timestamp: time)
+            location = Location(timestamp: time,
+                                latitude: latitude, longitude: longitude,
+                                accuracy: horizontalAccuracy)
         }
         
         return location
@@ -121,11 +120,11 @@ class DefaultSettingsService : SettingsService
         set(date, forKey: installDateKey)
     }
     
-    func setLastLocation(_ location: CLLocation)
+    func setLastLocation(_ location: Location)
     {
         set(location.timestamp, forKey: lastLocationDateKey)
-        set(location.coordinate.latitude, forKey: lastLocationLatKey)
-        set(location.coordinate.longitude, forKey: lastLocationLngKey)
+        set(location.latitude, forKey: lastLocationLatKey)
+        set(location.longitude, forKey: lastLocationLngKey)
         set(location.horizontalAccuracy, forKey: lastLocationHorizontalAccuracyKey)
     }
     
