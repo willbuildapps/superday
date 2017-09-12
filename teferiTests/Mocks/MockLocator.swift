@@ -77,7 +77,9 @@ class MockLocator : ViewModelLocator
                                  timeSlotService: timeSlotService,
                                  editStateService: editStateService,
                                  appLifecycleService: appLifecycleService,
-                                 loggingService: loggingService)
+                                 loggingService: loggingService,
+                                 settingsService: settingsService,
+                                 metricsService: metricsService)
     }
     
     func getLocationPermissionViewModel() -> PermissionViewModel
@@ -133,5 +135,15 @@ class MockLocator : ViewModelLocator
         return SummaryPageViewModel(date: date,
                                     timeService: timeService,
                                     settingsService: settingsService)
+    }
+    
+    func getRatingViewModel(start startDate: Date, end endDate: Date) -> RatingViewModel
+    {
+        return RatingViewModel(startDate: startDate,
+                               endDate: endDate,
+                               timeSlotService: timeSlotService,
+                               metricsService: metricsService,
+                               settingsService: settingsService,
+                               timeService: timeService)
     }
 }

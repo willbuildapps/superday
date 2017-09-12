@@ -50,13 +50,16 @@ class CalendarViewModelTests: XCTestCase
     
     func testCurrentlyVisibleCalendarDateForwardsEventsToObservableOnlyWhenMonthChanges()
     {
+        let start = Date().firstDateOfMonth
+        timeService.mockDate = start
+        
         let observer:TestableObserver<Date> = scheduler.createObserver(Date.self)
         viewModel.currentVisibleCalendarDateObservable
             .skip(1)
             .subscribe(observer)
             .addDisposableTo(disposeBag)
         
-        let dates = [Date().addingTimeInterval(2*24*60*60), Date().addingTimeInterval(35*24*60*60)]
+        let dates = [start.addingTimeInterval(2*24*60*60), start.addingTimeInterval(35*24*60*60)]
         viewModel.setCurrentVisibleMonth(date: dates[0])
         viewModel.setCurrentVisibleMonth(date: dates[1])
         

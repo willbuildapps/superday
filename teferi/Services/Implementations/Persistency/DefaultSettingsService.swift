@@ -74,9 +74,14 @@ class DefaultSettingsService : SettingsService
         return getBool(forKey: userGaveLocationPermissionKey)
     }
     
-    var welcomeMessageHidden : Bool
+    var didShowWelcomeMessage : Bool
     {
-        return getBool(forKey: welcomeMessageHiddenKey)
+        return getBool(forKey: welcomeMessageShownKey)
+    }
+    
+    var lastShownWeeklyRating : Date?
+    {
+        return get(forKey: lastShownWeeklyRatingKey)
     }
     
     //MARK: Private Properties
@@ -92,7 +97,9 @@ class DefaultSettingsService : SettingsService
     private let userGaveLocationPermissionKey = "canIgnoreLocationPermission"
     private let lastHealthKitUpdateKey = "lastHealthKitUpdate"
     private let healthKitPermissionKey = "healthKitPermission"
-    private let welcomeMessageHiddenKey = "welcomeMessageHidden"
+    private let welcomeMessageShownKey = "welcomeMessageShown"
+    private let votingHistoryKey = "votingHistory"
+    private let lastShownWeeklyRatingKey = "lastShownWeeklyRating"
     
     private let lastNotificationLocationLatKey = "lastNotificationLocationLat"
     private let lastNotificationLocationLngKey = "lastNotificationLocationLng"
@@ -165,9 +172,38 @@ class DefaultSettingsService : SettingsService
         set(true, forKey: healthKitPermissionKey)
     }
     
-    func setWelcomeMessageHidden()
+    func setWelcomeMessageShown()
     {
-        set(true, forKey: welcomeMessageHiddenKey)
+        set(true, forKey: welcomeMessageShownKey)
+    }
+    
+    func setVote(forDate date: Date)
+    {
+        var history = lastSevenDaysOfVotingHistory()
+        history.append(date.ignoreTimeComponents())
+        UserDefaults.standard.setValue(history, forKey: votingHistoryKey)
+    }
+    
+    func lastSevenDaysOfVotingHistory() -> [Date]
+    {
+        guard let history = UserDefaults.standard.object(forKey: votingHistoryKey) as? [Date]
+        else
+        {
+            let history = [Date]()
+            UserDefaults.standard.setValue(history, forKey: votingHistoryKey)
+            return history
+        }
+        
+        let cleanedUpHistory = history.filter { timeService.now.timeIntervalSince($0) < Constants.sevenDaysInSeconds }
+        
+        UserDefaults.standard.setValue(cleanedUpHistory, forKey: votingHistoryKey)
+        
+        return cleanedUpHistory
+    }
+    
+    func setLastShownWeeklyRating(_ date: Date)
+    {
+        set(date, forKey: lastShownWeeklyRatingKey)
     }
     
     // MARK: Private Methods

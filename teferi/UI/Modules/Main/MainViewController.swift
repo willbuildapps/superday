@@ -112,6 +112,18 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
         viewModel.welcomeMessageHiddenObservable
             .bindTo(welcomeMessageView.rx.isHidden)
             .addDisposableTo(disposeBag)
+        
+        viewModel.moveToForegroundObservable
+            .subscribe(onNext: onBecomeActive)
+            .addDisposableTo(disposeBag)
+    }
+    
+    private func onBecomeActive()
+    {
+        if viewModel.shouldShowWeeklyRatingUI
+        {
+            presenter.showWeeklyRating(fromDate: viewModel.weeklyRatingStartDate, toDate: viewModel.weeklyRatingEndDate)
+        }
     }
     
     private func onDateChanged(date: Date)

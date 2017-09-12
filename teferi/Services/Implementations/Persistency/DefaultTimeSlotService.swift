@@ -66,7 +66,7 @@ class DefaultTimeSlotService : TimeSlotService
     func getTimeSlots(forDay day: Date) -> [TimeSlot]
     {
         let startTime = day.ignoreTimeComponents() as NSDate
-        let endTime = day.tomorrow.ignoreTimeComponents() as NSDate
+        let endTime = day.tomorrow.ignoreTimeComponents().addingTimeInterval(-1) as NSDate
         let predicate = Predicate(parameter: "startTime", rangesFromDate: startTime, toDate: endTime)
         
         let timeSlots = persistencyService.get(withPredicate: predicate)

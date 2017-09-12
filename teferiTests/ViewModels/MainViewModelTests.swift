@@ -63,7 +63,7 @@ class MainViewModelTests : XCTestCase
     func testTheAddNewSlotMethodCallsTheMetricsService()
     {
         viewModel.addNewSlot(withCategory: .commute)
-        expect(self.metricsService.didLog(event: .timeSlotManualCreation)).to(beTrue())
+        expect(self.metricsService.didLog(event: .timeSlotManualCreation(date: self.timeService.now, category: .commute))).to(beTrue())
     }
     
     func testTheUpdateMethodCallsTheMetricsService()
@@ -79,7 +79,7 @@ class MainViewModelTests : XCTestCase
         
         viewModel.updateTimelineItem(item, withCategory: .commute)
         
-        expect(self.metricsService.didLog(event: .timeSlotEditing)).to(beTrue())
+        expect(self.metricsService.didLog(event: .timeSlotEditing(date: self.timeService.now, fromCategory: .work, toCategory: .commute, duration: timeSlot.duration))).to(beTrue())
     }
     
     func testTheUpdateTimeSlotMethodEndsTheEditingProcess()
@@ -181,7 +181,7 @@ class MainViewModelTests : XCTestCase
         disposable = viewModel.showPermissionControllerObservable
             .subscribe(onNext: { _ in wouldShow = true })
         
-        appLifecycleService.publish(.movedToForeground)
+        appLifecycleService.publish(.movedToForeground(withDailyVotingNotificationDate: nil))
         
         expect(wouldShow).to(beTrue())
     }
@@ -195,7 +195,7 @@ class MainViewModelTests : XCTestCase
         disposable = viewModel.showPermissionControllerObservable
             .subscribe(onNext: { _ in wouldShow = true })
         
-        appLifecycleService.publish(.movedToForeground)
+        appLifecycleService.publish(.movedToForeground(withDailyVotingNotificationDate: nil))
         
         expect(wouldShow).to(beFalse())
     }
@@ -220,7 +220,7 @@ class MainViewModelTests : XCTestCase
         disposable = viewModel.showPermissionControllerObservable
             .subscribe(onNext: { type in wouldShow = type == .location })
         
-        appLifecycleService.publish(.movedToForeground)
+        appLifecycleService.publish(.movedToForeground(withDailyVotingNotificationDate: nil))
         
         expect(wouldShow).to(beTrue())
     }
@@ -234,7 +234,7 @@ class MainViewModelTests : XCTestCase
         disposable = viewModel.showPermissionControllerObservable
             .subscribe(onNext: { type in wouldShow = type == .location })
         
-        appLifecycleService.publish(.movedToForeground)
+        appLifecycleService.publish(.movedToForeground(withDailyVotingNotificationDate: nil))
         
         expect(wouldShow).to(beTrue())
     }

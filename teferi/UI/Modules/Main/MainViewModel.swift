@@ -41,14 +41,50 @@ class MainViewModel : RxViewModel
             .map { [unowned self] () -> Bool in
                 guard self.timeService.now.ignoreTimeComponents() == self.settingsService.installDate!.ignoreTimeComponents()
                 else {
-                    self.settingsService.setWelcomeMessageHidden()
+                    self.settingsService.setWelcomeMessageShown()
                     return true
                 }
                 
-                let value = self.settingsService.welcomeMessageHidden
-                self.settingsService.setWelcomeMessageHidden()
+                let value = self.settingsService.didShowWelcomeMessage
+                self.settingsService.setWelcomeMessageShown()
                 return value
             }
+    }
+    
+    var moveToForegroundObservable : Observable<Void>
+    {
+        return appLifecycleService.movedToForegroundObservable
+    }
+    
+    var shouldShowWeeklyRatingUI : Bool
+    {
+        guard let installDate = settingsService.installDate else { return false }
+        
+        if
+            let lastShown = settingsService.lastShownWeeklyRating,
+            lastShown.ignoreTimeComponents() == timeService.now.ignoreTimeComponents() || lastShown.ignoreTimeComponents() == timeService.now.add(days: -1).ignoreTimeComponents()
+        {
+            return false
+        }
+        
+        let itIsSevenOrMoreDaysSinceTheAppInstall = timeService.now.timeIntervalSince(installDate) >= Constants.sevenDaysInSeconds
+        let itIsSundayAfterWeeklyRatingHour = (timeService.now.dayOfWeek == 0 ? timeService.now.hour >= Constants.hourToShowWeeklyRatingUI : false)
+        let itIsMondayBeforeWeeklyRatingHour = (timeService.now.dayOfWeek == 1 ? timeService.now.hour < Constants.hourToShowWeeklyRatingUI : false)
+        let itIsInTheRangeBetweenSundayAfterWeeklyRatingHourAndModayBeforeWeeklyRatingHour = itIsSundayAfterWeeklyRatingHour || itIsMondayBeforeWeeklyRatingHour
+        
+        let shouldShowRatingUI = itIsSevenOrMoreDaysSinceTheAppInstall && itIsInTheRangeBetweenSundayAfterWeeklyRatingHourAndModayBeforeWeeklyRatingHour
+        
+        return shouldShowRatingUI
+    }
+    
+    var weeklyRatingStartDate : Date
+    {
+        return timeService.now.add(days: -6)
+    }
+    
+    var weeklyRatingEndDate : Date
+    {
+        return timeService.now
     }
 
     
@@ -104,7 +140,8 @@ class MainViewModel : RxViewModel
             smartGuessService.add(withCategory: timeSlot.category, location: location)
         }
         
-        metricsService.log(event: .timeSlotManualCreation)
+        metricsService.log(event: .timeSlotManualCreation(date: timeService.now, category: category))
+        metricsService.log(event: .timeSlotCreated(date: timeService.now, category: category, duration: nil))
     }
         
     func updateTimelineItem(_ timelineItem: TimelineItem, withCategory category: Category)
@@ -122,7 +159,7 @@ class MainViewModel : RxViewModel
         let categoryWasOriginallySetByUser = timeSlot.categoryWasSetByUser
 
         timeSlotService.update(timeSlot: timeSlot, withCategory: category)
-        metricsService.log(event: .timeSlotEditing)
+        metricsService.log(event: .timeSlotEditing(date: timeService.now, fromCategory: timeSlot.category, toCategory: category, duration: timeSlot.duration))
         
         let smartGuessId = timeSlot.smartGuessId
         if !categoryWasOriginallySetByUser && smartGuessId != nil

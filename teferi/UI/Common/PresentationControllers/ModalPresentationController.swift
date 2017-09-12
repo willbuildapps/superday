@@ -1,11 +1,24 @@
 import UIKit
 
+struct ContainerPadding
+{
+    let left : CGFloat
+    let top : CGFloat
+    let right : CGFloat
+    let bottom : CGFloat
+}
+
 class ModalPresentationController: UIPresentationController
 {
     private var dimmingView : UIView!
+    private var containerPadding : ContainerPadding?
     
-    override init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?)
+    init(presentedViewController: UIViewController,
+         presenting presentingViewController: UIViewController?,
+         containerPadding: ContainerPadding? = ContainerPadding(left: 16, top: 78, right: 16, bottom: 78))
     {
+        self.containerPadding = containerPadding
+        
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
         
         setupDimmingView()
@@ -73,17 +86,21 @@ class ModalPresentationController: UIPresentationController
     
     override func size(forChildContentContainer container: UIContentContainer, withParentContainerSize parentSize: CGSize) -> CGSize
     {
-        return CGSize(width: parentSize.width - 16 * 2, height: parentSize.height - 78 * 2)
+        guard let containerPadding = containerPadding else { return parentSize }
+        
+        return CGSize(width: parentSize.width - containerPadding.left - containerPadding.right, height: parentSize.height - containerPadding.top - containerPadding.bottom)
     }
     
     override var frameOfPresentedViewInContainerView: CGRect
     {
+        guard let containerPadding = containerPadding else { return containerView!.bounds }
+        
         let containerSize = containerView!.bounds.size
         var frame: CGRect = .zero
         frame.size = size(forChildContentContainer: presentedViewController,
                           withParentContainerSize: containerSize)
 
-        frame.origin = CGPoint(x: containerSize.width / 2 - frame.size.width / 2, y: containerSize.height / 2 - frame.size.height / 2)
+        frame.origin = CGPoint(x: containerPadding.left, y: containerPadding.top)
         return frame
     }
 }

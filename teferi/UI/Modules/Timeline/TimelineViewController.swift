@@ -24,6 +24,7 @@ class TimelineViewController : UIViewController
     private var willDisplayNewCell:Bool = false
     
     private var emptyStateView: EmptyStateView!
+    private var voteView: TimelineVoteView!
     
     weak var delegate: TimelineDelegate?
     {
@@ -78,12 +79,39 @@ class TimelineViewController : UIViewController
         tableView.register(UINib.init(nibName: "TimelineCell", bundle: Bundle.main), forCellReuseIdentifier: TimelineCell.cellIdentifier)
         tableView.contentInset = UIEdgeInsets(top: 34, left: 0, bottom: 120, right: 0)
         
+        dataSource.configureCell = constructCell
+        
+        createBindings()
+    }
+    
+    override func viewDidLayoutSubviews()
+    {
+        super.viewDidLayoutSubviews()
+        
+        if viewModel.canShowVotingUI()
+        {
+            showVottingUI()
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool)
+    {
+        super.viewWillAppear(animated)
+        
+        if !viewModel.canShowVotingUI()
+        {
+            tableView.tableFooterView = nil
+        }
+    }
+
+    // MARK: Private Methods
+    
+    private func createBindings()
+    {
         viewModel.timeObservable
             .asDriver(onErrorJustReturn: ())
             .drive(onNext: onTimeTick)
             .addDisposableTo(disposeBag)
-        
-        dataSource.configureCell = constructCell
         
         viewModel.timelineItemsObservable
             .map({ [TimelineSection(items:$0)] })
@@ -106,7 +134,7 @@ class TimelineViewController : UIViewController
         
         let oldOffset = tableView.rx.contentOffset.map({ $0.y })
         let newOffset = tableView.rx.contentOffset.skip(1).map({ $0.y })
-
+        
         Observable<(CGFloat, CGFloat)>.zip(oldOffset, newOffset)
         { [unowned self] old, new -> (CGFloat, CGFloat) in
             // This closure prevents the header to change height when the scroll is bouncing
@@ -118,15 +146,56 @@ class TimelineViewController : UIViewController
             if new > maxScroll || old > maxScroll { return (old, old) }
             
             return (old, new)
-        }
-        .subscribe(onNext: { [unowned self] (old, new) in
-            let topInset = self.tableView.contentInset.top
-            self.delegate?.didScroll(oldOffset: old + topInset, newOffset: new + topInset)
-        })
-        .addDisposableTo(disposeBag)
+            }
+            .subscribe(onNext: { [unowned self] (old, new) in
+                let topInset = self.tableView.contentInset.top
+                self.delegate?.didScroll(oldOffset: old + topInset, newOffset: new + topInset)
+            })
+            .addDisposableTo(disposeBag)
+        
+        viewModel.didBecomeActiveObservable
+            .subscribe(onNext: { [unowned self] in
+                if self.viewModel.canShowVotingUI()
+                {
+                    self.showVottingUI()
+                }
+            })
+            .addDisposableTo(disposeBag)
+        
+        viewModel.dailyVotingNotificationObservable
+            .subscribe(onNext: onNotificationOpen)
+            .addDisposableTo(disposeBag)
     }
-
-    // MARK: Private Methods
+    
+    private func showVottingUI()
+    {
+        tableView.tableFooterView = nil
+        
+        voteView = TimelineVoteView.fromNib()
+        
+        tableView.tableFooterView = voteView
+        
+        voteView.setVoteObservable
+            .subscribe(onNext: viewModel.setVote)
+            .addDisposableTo(disposeBag)
+    }
+    
+    private func onNotificationOpen(on date: Date)
+    {
+        guard
+            date.ignoreTimeComponents() == viewModel.date.ignoreTimeComponents(),
+            viewModel.canShowVotingUI()
+        else { return }
+        
+        if tableView.tableFooterView == nil
+        {
+            showVottingUI()
+        }
+        
+        tableView.reloadData()
+        let bottomOffset = CGPoint(x: 0, y: tableView.contentSize.height + tableView.tableFooterView!.bounds.height - tableView.bounds.size.height)
+        tableView.setContentOffset(bottomOffset, animated: true)
+    }
 
     private func handleNewItem(_ items: [TimelineItem])
     {

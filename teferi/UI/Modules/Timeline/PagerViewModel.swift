@@ -24,6 +24,11 @@ class PagerViewModel
             })
     }()
     
+    var dailyVotingNotificationDateObservable : Observable<Date>
+    {
+        return appLifecycleService.startedOnDailyVotingNotificationDateObservable
+    }
+    
     let isEditingObservable : Observable<Bool>
     
     var currentDate : Date { return self.timeService.now }
@@ -67,7 +72,7 @@ class PagerViewModel
     private var selectedDateService : SelectedDateService
     
     private var selectedDate : Date
-
+        
     //MARK: Initializers
     init(timeService: TimeService,
          timeSlotService: TimeSlotService,
