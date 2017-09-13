@@ -58,7 +58,18 @@ class DefaultLocationService : NSObject, LocationService
     }
     
     
-    // MARK: Public Methods    
+    // MARK: Public Methods
+    var alwaysAuthorizationGranted: Observable<Bool>
+    {
+        return locationManager.rx.didChangeAuthorization
+            .map { $0 == CLAuthorizationStatus.authorizedAlways }
+    }
+    
+    func requestAuthorization()
+    {
+        locationManager.requestAlwaysAuthorization()
+    }
+
     func startLocationTracking()
     {
         loggingService.log(withLogLevel: .info, message: "Location Service started")

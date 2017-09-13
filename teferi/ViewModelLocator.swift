@@ -93,7 +93,8 @@ class DefaultViewModelLocator : ViewModelLocator
                                    timeSlotService: self.timeSlotService,
                                    settingsService: self.settingsService,
                                    appLifecycleService: self.appLifecycleService,
-                                   notificationService: self.notificationService)
+                                   notificationService: self.notificationService,
+                                   locationService: self.locationService)
     }
     
     func getMainViewModel() -> MainViewModel

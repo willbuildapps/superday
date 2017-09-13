@@ -15,6 +15,15 @@ class MockLocationService : LocationService
     //MARK: LocationService implementation
     var isInBackground : Bool = false
     
+    var alwaysAuthorizationGranted: Observable<Bool> {
+        return Observable.empty()
+    }
+    
+    func requestAuthorization()
+    {
+        
+    }
+    
     func startLocationTracking()
     {
         locationStarted = true

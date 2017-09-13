@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina3_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -101,16 +101,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dN8-BH-SeN">
-                                <rect key="frame" x="24" y="69" width="195.5" height="21.5"/>
+                                <rect key="frame" x="24" y="69" width="194.5" height="21.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap to edit any entry." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2eM-TH-cS4">
-                                        <rect key="frame" x="0.0" y="0.0" width="169.5" height="21.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="168.5" height="21.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icEmojiNerd" translatesAutoresizingMaskIntoConstraints="NO" id="wZX-Zs-Rvd">
-                                        <rect key="frame" x="175.5" y="1" width="20" height="20"/>
+                                        <rect key="frame" x="174.5" y="1" width="20" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="ZFS-Ks-zKr"/>
                                             <constraint firstAttribute="width" constant="20" id="v2T-6i-3fn"/>
@@ -163,17 +163,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uJB-R8-7ox">
-                                <rect key="frame" x="14" y="305.5" width="292" height="55.5"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uJB-R8-7ox" userLabel="Ios10view">
+                                <rect key="frame" x="18.5" y="305.5" width="283" height="55.5"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is what makes everything work!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8xR-i8-pt2">
-                                        <rect key="frame" x="0.0" y="24" width="292" height="21.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We need access to your location to" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8xR-i8-pt2">
+                                        <rect key="frame" x="0.0" y="24" width="283" height="22"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <color key="textColor" red="0.015686274510000001" green="0.015686274510000001" blue="0.023529411760000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="make the whole experience possible." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="13F-u8-ICe">
+                                        <rect key="frame" x="-7.5" y="46" width="298" height="22"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <color key="textColor" red="0.015686274510000001" green="0.015686274510000001" blue="0.023529411760000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icEmojiPointUp" translatesAutoresizingMaskIntoConstraints="NO" id="dAb-3W-wop">
-                                        <rect key="frame" x="202.5" y="0.0" width="20" height="20"/>
+                                        <rect key="frame" x="198" y="0.0" width="20" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="aS4-KE-7pu"/>
                                             <constraint firstAttribute="width" constant="20" id="dhS-gQ-zld"/>
@@ -188,6 +194,36 @@
                                     <constraint firstItem="8xR-i8-pt2" firstAttribute="top" secondItem="dAb-3W-wop" secondAttribute="bottom" constant="4" id="HaE-Sr-6ld"/>
                                     <constraint firstItem="8xR-i8-pt2" firstAttribute="centerX" secondItem="uJB-R8-7ox" secondAttribute="centerX" id="L98-Uz-Zsy"/>
                                     <constraint firstItem="dAb-3W-wop" firstAttribute="top" secondItem="uJB-R8-7ox" secondAttribute="top" id="XPq-s5-rCt"/>
+                                    <constraint firstItem="13F-u8-ICe" firstAttribute="top" secondItem="8xR-i8-pt2" secondAttribute="bottom" id="doj-x7-hal"/>
+                                    <constraint firstItem="13F-u8-ICe" firstAttribute="centerX" secondItem="uJB-R8-7ox" secondAttribute="centerX" id="eMo-Z9-QyO"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iCf-3m-oHh" userLabel="Ios11view">
+                                <rect key="frame" x="20" y="176" width="280" height="128"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icEmoji7Right" translatesAutoresizingMaskIntoConstraints="NO" id="r2W-FB-sV9">
+                                        <rect key="frame" x="270" y="54" width="20" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="20" id="5dH-D6-A8z"/>
+                                            <constraint firstAttribute="height" constant="20" id="H5u-f5-fqg"/>
+                                        </constraints>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icEmoji7Left" translatesAutoresizingMaskIntoConstraints="NO" id="KY7-JK-aVD">
+                                        <rect key="frame" x="-10" y="54" width="20" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="20" id="NAm-yR-4wf"/>
+                                            <constraint firstAttribute="height" constant="20" id="TaY-Ir-Msw"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="KY7-JK-aVD" firstAttribute="centerY" secondItem="iCf-3m-oHh" secondAttribute="centerY" id="43A-iH-1fM"/>
+                                    <constraint firstAttribute="height" constant="128" id="54S-Cs-Tpx"/>
+                                    <constraint firstAttribute="trailing" secondItem="r2W-FB-sV9" secondAttribute="trailing" constant="-10" id="NWD-e2-pin"/>
+                                    <constraint firstItem="KY7-JK-aVD" firstAttribute="leading" secondItem="iCf-3m-oHh" secondAttribute="leading" constant="-10" id="Rj1-j0-oc7"/>
+                                    <constraint firstItem="r2W-FB-sV9" firstAttribute="centerY" secondItem="iCf-3m-oHh" secondAttribute="centerY" id="WRD-mt-zgA"/>
+                                    <constraint firstAttribute="width" constant="280" id="a74-qf-7wv"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -195,12 +231,20 @@
                         <constraints>
                             <constraint firstItem="xEL-c1-twk" firstAttribute="top" secondItem="uJB-R8-7ox" secondAttribute="bottom" constant="119" id="7jh-qB-4da"/>
                             <constraint firstItem="uJB-R8-7ox" firstAttribute="centerX" secondItem="CkM-pK-VOG" secondAttribute="centerX" id="AtM-Rh-gF9"/>
+                            <constraint firstItem="iCf-3m-oHh" firstAttribute="centerY" secondItem="CkM-pK-VOG" secondAttribute="centerY" id="K54-gL-Y7s"/>
+                            <constraint firstItem="iCf-3m-oHh" firstAttribute="centerX" secondItem="CkM-pK-VOG" secondAttribute="centerX" id="Uhw-qW-p4D"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="ios10view" destination="uJB-R8-7ox" id="OS5-Qc-v8W"/>
+                        <outlet property="ios11view" destination="iCf-3m-oHh" id="Q4Z-jM-PNb"/>
+                        <outlet property="ios11viewWidthConstraint" destination="a74-qf-7wv" id="lJp-At-prH"/>
+                        <outlet property="ios11viewYConstraint" destination="K54-gL-Y7s" id="z6Y-mP-81l"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4kX-uP-KXr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="504.80000000000001" y="840.62968515742136"/>
+            <point key="canvasLocation" x="504.375" y="840"/>
         </scene>
         <!--Onboarding Page4-->
         <scene sceneID="Qh2-F0-APS">
@@ -320,6 +364,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="icEmoji7Left" width="20" height="13"/>
+        <image name="icEmoji7Right" width="20" height="13"/>
         <image name="icEmojiNerd" width="20" height="20"/>
         <image name="icEmojiPointUp" width="13" height="20"/>
         <image name="icEmojiRaisedHands" width="21" height="20"/>

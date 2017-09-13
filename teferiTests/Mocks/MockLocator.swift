@@ -45,7 +45,8 @@ class MockLocator : ViewModelLocator
                                    timeSlotService: timeSlotService,
                                    settingsService: settingsService,
                                    appLifecycleService: appLifecycleService,
-                                   notificationService: notificationService)
+                                   notificationService: notificationService,
+                                   locationService: locationService)
     }
     
     func getMainViewModel() -> MainViewModel
