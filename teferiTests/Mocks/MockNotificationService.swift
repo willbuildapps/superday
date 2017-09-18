@@ -22,9 +22,10 @@ class MockNotificationService : NotificationService
     
     func clearAndScheduleAllDefaultNotifications()
     {
-        unscheduleAllNotifications(ofTypes: .repeatWeekly)
-        scheduleVotingNotifications()
-        scheduleWeeklyRatingNotifications()
+        unscheduleAllNotifications(completion: { [unowned self] in
+            self.scheduleVotingNotifications()
+            self.scheduleWeeklyRatingNotifications()
+        }, ofTypes: .repeatWeekly)
     }
     
     private func scheduleVotingNotifications()
@@ -46,9 +47,10 @@ class MockNotificationService : NotificationService
         scheduledNotifications += 1
     }
     
-    func unscheduleAllNotifications(ofTypes types: NotificationType?...)
+    func unscheduleAllNotifications(completion: (() -> Void)?, ofTypes types: NotificationType?...)
     {
         cancellations += 1
         scheduledNotifications = 0
+        completion?()
     }
 }

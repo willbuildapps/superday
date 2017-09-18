@@ -72,7 +72,9 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         else
         {
             notificationService = PreiOSTenNotificationService(loggingService: loggingService,
-                                                                    notificationAuthorizedSubject.asObservable())
+                                                               settingsService: settingsService,
+                                                               timeService: timeService,
+                                                               notificationAuthorizedSubject.asObservable())
         }
         
         let trackEventServicePersistency = TrackEventPersistencyService(loggingService: loggingService,

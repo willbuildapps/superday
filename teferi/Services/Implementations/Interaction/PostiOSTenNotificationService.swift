@@ -39,12 +39,13 @@ class PostiOSTenNotificationService : NotificationService
     
     func clearAndScheduleAllDefaultNotifications()
     {
-        unscheduleAllNotifications(ofTypes: .repeatWeekly)
-        scheduleVotingNotifications()
-        scheduleWeeklyRatingNotifications()
+        unscheduleAllNotifications(completion: { [unowned self] in
+            self.scheduleVotingNotifications()
+            self.scheduleWeeklyRatingNotifications()
+        }, ofTypes: .repeatWeekly)
     }
     
-    func unscheduleAllNotifications(ofTypes types: NotificationType?...)
+    func unscheduleAllNotifications(completion: (() -> Void)?, ofTypes types: NotificationType?...)
     {
         let givenTypes = types.flatMap { $0 }
         
@@ -52,29 +53,32 @@ class PostiOSTenNotificationService : NotificationService
         {
             notificationCenter.removeAllDeliveredNotifications()
             notificationCenter.removeAllPendingNotificationRequests()
+            completion?()
             return
         }
         
         notificationCenter.getDeliveredNotifications { (notifications) in
-            notifications.forEach({ (notification) in
-                givenTypes.forEach({ (type) in
-                    if notification.request.identifier.contains(type.rawValue)
-                    {
-                        self.notificationCenter.removeDeliveredNotifications(withIdentifiers: [notification.request.identifier])
-                    }
+            
+            let notificationIdentifiers = notifications
+                .map({ $0.request.identifier })
+                .filter({ (notificationIdentifier) -> Bool in
+                    return givenTypes.filter({ notificationIdentifier.contains($0.rawValue) }).count > 0
                 })
-            })
-        }
-        
-        notificationCenter.getPendingNotificationRequests { (requests) in
-            requests.forEach({ (request) in
-                givenTypes.forEach({ (type) in
-                    if request.identifier.contains(type.rawValue)
-                    {
-                        self.notificationCenter.removePendingNotificationRequests(withIdentifiers: [request.identifier])
-                    }
-                })
-            })
+            
+            self.notificationCenter.removeDeliveredNotifications(withIdentifiers: notificationIdentifiers)
+            
+            self.notificationCenter.getPendingNotificationRequests { (requests) in
+                
+                let requestIdentifiers = requests
+                    .map({ $0.identifier })
+                    .filter({ (requestIdentifier) -> Bool in
+                        return givenTypes.filter({ requestIdentifier.contains($0.rawValue) }).count > 0
+                    })
+                
+                self.notificationCenter.removePendingNotificationRequests(withIdentifiers: requestIdentifiers)
+                
+                completion?()
+            }
         }
     }
     
@@ -82,8 +86,12 @@ class PostiOSTenNotificationService : NotificationService
     
     private func scheduleVotingNotifications()
     {
+        guard let installDate = settingsService.installDate else { return }
+        
         for i in 2...7
         {
+            if timeService.now.ignoreTimeComponents() == installDate.ignoreTimeComponents(), timeService.now.dayOfWeek == i-1 { continue }
+            
             let date = Date.create(weekday: i, hour: Constants.hourToShowDailyVotingUI, minute: 00, second: 00)
             scheduleNotification(date: date, title: L10n.votingNotificationTittle, message: L10n.votingNotificationMessage, ofType: .repeatWeekly)
         }
@@ -91,6 +99,11 @@ class PostiOSTenNotificationService : NotificationService
     
     private func scheduleWeeklyRatingNotifications()
     {
+        guard
+            let installDate = settingsService.installDate,
+            timeService.now.timeIntervalSince(installDate) >= Constants.sevenDaysInSeconds
+        else { return }
+
         let date = Date.create(weekday: 1, hour: Constants.hourToShowWeeklyRatingUI, minute: 00, second: 00)
         scheduleNotification(date: date, title: L10n.ratingNotificationTitle, message: L10n.ratingNotificationMessage, ofType: .repeatWeekly)
     }

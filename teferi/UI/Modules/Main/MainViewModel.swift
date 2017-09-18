@@ -33,7 +33,7 @@ class MainViewModel : RxViewModel
     var welcomeMessageHiddenObservable : Observable<Bool>
     {
         return Observable.of(
-            self.appLifecycleService.movedToForegroundObservable,
+            self.appLifecycleService.movedToForegroundObservable.skip(1),
             self.didBecomeActive,
             self.beganEditingObservable.mapTo(()),
             self.timeSlotService.timeSlotCreatedObservable.mapTo(()) )
