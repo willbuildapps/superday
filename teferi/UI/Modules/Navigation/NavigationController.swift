@@ -99,50 +99,23 @@ class NavigationController: UINavigationController
     
     private func setupNavigationBar(viewController: UIViewController)
     {
-        
-        let barMargin = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-        barMargin.width = -16
-        
-        let margin = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-        margin.width = 8
-
-        let buttonsView = UIView(frame: CGRect(x:0, y:0, width: 160, height: 60))
-        buttonsView.addSubview(calendarButton)
-        buttonsView.addSubview(summaryButton)
-        buttonsView.addSubview(feedbackButton)
-        
-        calendarButton.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.width.height.equalTo(40)
-            make.right.equalToSuperview()
-        }
-        
-        summaryButton.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.width.height.equalTo(40)
-            make.right.equalTo(calendarButton.snp.left).offset(-2)
-        }
-        
-        feedbackButton.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.width.height.equalTo(40)
-            make.right.equalTo(summaryButton.snp.left).offset(-2)
-        }
+        let calendarBarButtonItem = UIBarButtonItem(customView: calendarButton)
+        let summaryBarButtonItem = UIBarButtonItem(customView: summaryButton)
+        let feedbackBarButtonItem = UIBarButtonItem(customView: feedbackButton)
         
         viewController.navigationItem.rightBarButtonItems = [
-            barMargin,
-            margin,
-            UIBarButtonItem(customView: buttonsView)
+            calendarBarButtonItem,
+            summaryBarButtonItem,
+            feedbackBarButtonItem
         ]
         
         let logoMargin = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-        logoMargin.width = 20
+        logoMargin.width = 17
         
         let bigSpacing = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         bigSpacing.width = 18
         
         viewController.navigationItem.leftBarButtonItems = [
-            barMargin,
             logoMargin,
             UIBarButtonItem(customView: logoImageView),
             bigSpacing,
