@@ -55,6 +55,9 @@ class OnboardingPage2 : OnboardingPage
         editedCell.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+        editedCell.contentView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         timelineView.addSubview(touchCursor)
         setCursorPosition(toX: 100, y: 200)
         
