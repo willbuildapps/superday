@@ -178,6 +178,9 @@
 		8CDCC5F61ECB156F00A3D25D /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDCC5F51ECB156F00A3D25D /* OnboardingViewModel.swift */; };
 		8CE6BDE11E7D4BF5003B852C /* TrackEventExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6BDE01E7D4BF5003B852C /* TrackEventExtensions.swift */; };
 		8CF0255A1EAFA2FF00BF0A42 /* SwipeInteractionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF025591EAFA2FF00BF0A42 /* SwipeInteractionController.swift */; };
+		8CF0CE2B1F67CA5C00FCED99 /* DefaultMotionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF0CE2A1F67CA5C00FCED99 /* DefaultMotionService.swift */; };
+		8CF0CE2D1F67CB0400FCED99 /* MotionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF0CE2C1F67CB0400FCED99 /* MotionEvent.swift */; };
+		8CF0CE2F1F68258A00FCED99 /* MockMotionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF0CE2E1F68258A00FCED99 /* MockMotionService.swift */; };
 		8CF8C0911EDED6DC00EA2C77 /* WeeklySummarPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF8C0901EDED6DC00EA2C77 /* WeeklySummarPresenter.swift */; };
 		8CF8C0931EDED70100EA2C77 /* WeeklySummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF8C0921EDED70100EA2C77 /* WeeklySummaryViewModel.swift */; };
 		8CF8C0951EDED72000EA2C77 /* WeeklySummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF8C0941EDED72000EA2C77 /* WeeklySummaryViewController.swift */; };
@@ -471,6 +474,9 @@
 		8CDCC5F51ECB156F00A3D25D /* OnboardingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		8CE6BDE01E7D4BF5003B852C /* TrackEventExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackEventExtensions.swift; sourceTree = "<group>"; };
 		8CF025591EAFA2FF00BF0A42 /* SwipeInteractionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeInteractionController.swift; sourceTree = "<group>"; };
+		8CF0CE2A1F67CA5C00FCED99 /* DefaultMotionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultMotionService.swift; sourceTree = "<group>"; };
+		8CF0CE2C1F67CB0400FCED99 /* MotionEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionEvent.swift; sourceTree = "<group>"; };
+		8CF0CE2E1F68258A00FCED99 /* MockMotionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockMotionService.swift; sourceTree = "<group>"; };
 		8CF8C0901EDED6DC00EA2C77 /* WeeklySummarPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeeklySummarPresenter.swift; path = "teferi/UI/Modules/Weekly Summary/WeeklySummarPresenter.swift"; sourceTree = SOURCE_ROOT; };
 		8CF8C0921EDED70100EA2C77 /* WeeklySummaryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeeklySummaryViewModel.swift; path = "teferi/UI/Modules/Weekly Summary/WeeklySummaryViewModel.swift"; sourceTree = SOURCE_ROOT; };
 		8CF8C0941EDED72000EA2C77 /* WeeklySummaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeeklySummaryViewController.swift; path = "teferi/UI/Modules/Weekly Summary/WeeklySummaryViewController.swift"; sourceTree = SOURCE_ROOT; };
@@ -724,6 +730,7 @@
 				24EB96861DE7163E0040C211 /* MockTimeSlotService.swift */,
 				ACFF02681E82A21700498981 /* MockTrackEventService.swift */,
 				8C20ABAF1F0A3F6300C9EE33 /* SimpleMockTimeSlotService.swift */,
+				8CF0CE2E1F68258A00FCED99 /* MockMotionService.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -771,6 +778,7 @@
 				24564F5D1D8325CC00D9A8AE /* TimeSlot.swift */,
 				24224B071E28E37700AD7575 /* TimelineItem.swift */,
 				BE7FAFC51E72F96F00A62AC9 /* TrackEvent.swift */,
+				8CF0CE2C1F67CB0400FCED99 /* MotionEvent.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -940,6 +948,7 @@
 				BE24B8861E76E56A005DF5B3 /* DefaultHealthKitService.swift */,
 				24564F591D83259100D9A8AE /* DefaultLocationService.swift */,
 				BE7FAFC71E73014700A62AC9 /* DefaultTrackEventService.swift */,
+				8CF0CE2A1F67CA5C00FCED99 /* DefaultMotionService.swift */,
 			);
 			path = Tracking;
 			sourceTree = "<group>";
@@ -1657,6 +1666,7 @@
 			files = (
 				AC1085391EEE9FDD00E5F03B /* WeeklySummaryEmptyEtateView.swift in Sources */,
 				8C030D931EB32A9700938A61 /* CategoryWheel.swift in Sources */,
+				8CF0CE2B1F67CA5C00FCED99 /* DefaultMotionService.swift in Sources */,
 				8C9D25E31E97FC9100D39119 /* LocationPermissionViewModel.swift in Sources */,
 				8C7CDCA41EC45E320079F48D /* CoreDataStack.swift in Sources */,
 				BEF8AB1C1E84064400B4F289 /* Sink.swift in Sources */,
@@ -1738,6 +1748,7 @@
 				BE03D9241E797A1D00F79377 /* EventSource.swift in Sources */,
 				2421F8C31D9BACB500AF8857 /* ClosureGestureRecognizer.swift in Sources */,
 				AC14E7F11E7BDB5C0034A1BA /* HealthKitPump.swift in Sources */,
+				8CF0CE2D1F67CB0400FCED99 /* MotionEvent.swift in Sources */,
 				8C1728FD1EF02D9A002ABDDA /* DailySummaryViewModel.swift in Sources */,
 				BE7FAFC61E72F96F00A62AC9 /* TrackEvent.swift in Sources */,
 				BEF8AB1A1E84060B00B4F289 /* Pipe.swift in Sources */,
@@ -1844,6 +1855,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C9D25E51E97FD3F00D39119 /* MockMetricsService.swift in Sources */,
+				8CF0CE2F1F68258A00FCED99 /* MockMotionService.swift in Sources */,
 				8C9D25E41E97FD1000D39119 /* TimelineViewModelTests.swift in Sources */,
 				BE1898D01E77F53E00EF3035 /* MockPersistencyService.swift in Sources */,
 				BE8AD9341E84448B002704A9 /* TempTimelineTestHelper.swift in Sources */,

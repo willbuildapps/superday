@@ -28,6 +28,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     private let trackEventService : TrackEventService
     private let appLifecycleService : AppLifecycleService
     private let notificationService : NotificationService
+    private let motionService: MotionService
     private let selectedDateService : DefaultSelectedDateService
     
     private let coreDataStack : CoreDataStack
@@ -43,6 +44,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         editStateService = DefaultEditStateService(timeService: timeService)
         locationService = DefaultLocationService(loggingService: loggingService)
         healthKitService = DefaultHealthKitService(settingsService: settingsService, loggingService: loggingService)
+        motionService = DefaultMotionService()
         selectedDateService = DefaultSelectedDateService(timeService: timeService)
         feedbackService = MailFeedbackService(recipients: ["support@toggl.com"], subject: "Superday feedback", body: "")
         
@@ -193,7 +195,8 @@ class AppDelegate : UIResponder, UIApplicationDelegate
                                                        selectedDateService: selectedDateService,
                                                        loggingService: loggingService,
                                                        healthKitService: healthKitService,
-                                                       notificationService: notificationService)
+                                                       notificationService: notificationService,
+                                                       motionService: motionService)
         
         window!.rootViewController = IntroPresenter.create(with: viewModelLocator)
         window!.makeKeyAndVisible()

@@ -17,6 +17,7 @@ class MockLocator : ViewModelLocator
     var loggingService = MockLoggingService()
     var healthKitService = MockHealthKitService()
     var notificationService  = MockNotificationService()
+    var motionService = MockMotionService()
     
     init()
     {
@@ -45,7 +46,7 @@ class MockLocator : ViewModelLocator
                                    timeSlotService: timeSlotService,
                                    settingsService: settingsService,
                                    appLifecycleService: appLifecycleService,
-                                   notificationService: notificationService,
+                                   motionService: motionService,
                                    locationService: locationService)
     }
     

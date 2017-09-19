@@ -42,6 +42,7 @@ class DefaultViewModelLocator : ViewModelLocator
     private let loggingService : LoggingService
     private let healthKitService : HealthKitService
     private let notificationService : NotificationService
+    private let motionService: MotionService
     
     init(timeService: TimeService,
          metricsService: MetricsService,
@@ -55,7 +56,8 @@ class DefaultViewModelLocator : ViewModelLocator
          selectedDateService: SelectedDateService,
          loggingService: LoggingService,
          healthKitService : HealthKitService,
-         notificationService: NotificationService)
+         notificationService: NotificationService,
+         motionService: MotionService)
     {
         self.timeService = timeService
         self.metricsService = metricsService
@@ -70,6 +72,7 @@ class DefaultViewModelLocator : ViewModelLocator
         self.loggingService = loggingService
         self.healthKitService = healthKitService
         self.notificationService = notificationService
+        self.motionService = motionService
     }
     
     func getNavigationViewModel(forViewController viewController: UIViewController) -> NavigationViewModel
@@ -93,7 +96,7 @@ class DefaultViewModelLocator : ViewModelLocator
                                    timeSlotService: self.timeSlotService,
                                    settingsService: self.settingsService,
                                    appLifecycleService: self.appLifecycleService,
-                                   notificationService: self.notificationService,
+                                   motionService: self.motionService,
                                    locationService: self.locationService)
     }
     
