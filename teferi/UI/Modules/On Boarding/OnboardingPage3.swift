@@ -31,7 +31,7 @@ class OnboardingPage3 : OnboardingPage
     {
         super.viewDidLayoutSubviews()
         
-        let allowAlwaysButtonYOffset: CGFloat = 65 //With current alert text
+        let allowAlwaysButtonYOffset: CGFloat = 70 //With current alert text
         let alertDialogWidth: CGFloat = 270
         
         ios11viewYConstraint.constant = allowAlwaysButtonYOffset
