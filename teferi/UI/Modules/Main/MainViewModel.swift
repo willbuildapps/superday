@@ -89,6 +89,7 @@ class MainViewModel : RxViewModel
 
     
     // MARK: Private Properties
+    private let loggingService: LoggingService
     private let timeService : TimeService
     private let metricsService : MetricsService
     private let timeSlotService : TimeSlotService
@@ -96,17 +97,24 @@ class MainViewModel : RxViewModel
     private let smartGuessService : SmartGuessService
     private let settingsService : SettingsService
     private let appLifecycleService : AppLifecycleService
+    private let trackEventService: TrackEventService
+    
+    private let timelineGenerator: TimelineGenerator
+    private var disposeBag = DisposeBag()
     
     // MARK: Initializer
-    init(timeService: TimeService,
+    init(loggingService: LoggingService,
+         timeService: TimeService,
          metricsService: MetricsService,
          timeSlotService: TimeSlotService,
          editStateService: EditStateService,
          smartGuessService : SmartGuessService,
          selectedDateService : SelectedDateService,
          settingsService : SettingsService,
-         appLifecycleService: AppLifecycleService)
+         appLifecycleService: AppLifecycleService,
+         trackEventService: TrackEventService)
     {
+        self.loggingService = loggingService
         self.timeService = timeService
         self.metricsService = metricsService
         self.timeSlotService = timeSlotService
@@ -114,6 +122,15 @@ class MainViewModel : RxViewModel
         self.smartGuessService = smartGuessService
         self.settingsService = settingsService
         self.appLifecycleService = appLifecycleService
+        self.trackEventService = trackEventService
+        
+        timelineGenerator = TimelineGenerator(loggingService: loggingService,
+                                              trackEventService: trackEventService,
+                                              smartGuessService: smartGuessService,
+                                              timeService: timeService,
+                                              timeSlotService: timeSlotService,
+                                              metricsService: metricsService,
+                                              settingsService: settingsService)
         
         isEditingObservable = editStateService.isEditingObservable
         dateObservable = selectedDateService.currentlySelectedDateObservable
@@ -121,6 +138,9 @@ class MainViewModel : RxViewModel
         
         categoryProvider = DefaultCategoryProvider(timeSlotService: timeSlotService)
 
+        appLifecycleService.movedToForegroundObservable
+            .subscribe(onNext: timelineGenerator.execute)
+            .addDisposableTo(disposeBag)
     }
     
     //MARK: Public Methods

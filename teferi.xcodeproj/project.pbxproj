@@ -170,6 +170,7 @@
 		8C9D25E31E97FC9100D39119 /* LocationPermissionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDE5B391E4A3F260082FFC3 /* LocationPermissionViewModel.swift */; };
 		8C9D25E41E97FD1000D39119 /* TimelineViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24564F6C1D8326F100D9A8AE /* TimelineViewModelTests.swift */; };
 		8C9D25E51E97FD3F00D39119 /* MockMetricsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B03B621D9E946900452D16 /* MockMetricsService.swift */; };
+		8CA0C53F1F737D760024B2DE /* TimelineGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA0C53E1F737D760024B2DE /* TimelineGenerator.swift */; };
 		8CAFC1661E7BF5A4009D17F0 /* LocationPump.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CAFC1651E7BF5A4009D17F0 /* LocationPump.swift */; };
 		8CAFC16D1E7C66CC009D17F0 /* LocationPumpTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CAFC16C1E7C66CC009D17F0 /* LocationPumpTests.swift */; };
 		8CB9EF9B1E8BB589003D1FFC /* LineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB9EF9A1E8BB589003D1FFC /* LineView.swift */; };
@@ -466,6 +467,7 @@
 		8C9C25661ED3397E00B10187 /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationController.swift; path = Navigation/NavigationController.swift; sourceTree = "<group>"; };
 		8C9C25681ED3398D00B10187 /* NavigationPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationPresenter.swift; path = Navigation/NavigationPresenter.swift; sourceTree = "<group>"; };
 		8C9C256A1ED348EE00B10187 /* NavigationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationViewModel.swift; path = Navigation/NavigationViewModel.swift; sourceTree = "<group>"; };
+		8CA0C53E1F737D760024B2DE /* TimelineGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineGenerator.swift; sourceTree = "<group>"; };
 		8CAFC1651E7BF5A4009D17F0 /* LocationPump.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationPump.swift; sourceTree = "<group>"; };
 		8CAFC16C1E7C66CC009D17F0 /* LocationPumpTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationPumpTests.swift; sourceTree = "<group>"; };
 		8CB9EF9A1E8BB589003D1FFC /* LineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineView.swift; sourceTree = "<group>"; };
@@ -624,7 +626,7 @@
 				7E3C06941E30B7AA00859747 /* Generated */,
 				2421F8C11D9BAC4A00AF8857 /* Helpers */,
 				24BA51A91D74D79C00042CDF /* Models */,
-				BEF8AB151E84038F00B4F289 /* Pipeline */,
+				8CA0C53D1F737D5C0024B2DE /* TimelineGenerator */,
 				BEA7835F1E6DB48F00D44603 /* Providers */,
 				24BA51A51D74D69C00042CDF /* Services */,
 				8CA461361EC9A2BB00587399 /* UI */,
@@ -1071,6 +1073,15 @@
 				8C9C256A1ED348EE00B10187 /* NavigationViewModel.swift */,
 			);
 			name = Navigation;
+			sourceTree = "<group>";
+		};
+		8CA0C53D1F737D5C0024B2DE /* TimelineGenerator */ = {
+			isa = PBXGroup;
+			children = (
+				BEF8AB151E84038F00B4F289 /* Pipeline */,
+				8CA0C53E1F737D760024B2DE /* TimelineGenerator.swift */,
+			);
+			path = TimelineGenerator;
 			sourceTree = "<group>";
 		};
 		8CA461361EC9A2BB00587399 /* UI */ = {
@@ -1672,6 +1683,7 @@
 				BEF8AB1C1E84064400B4F289 /* Sink.swift in Sources */,
 				8CBE30A21ECC5385007C8F6F /* PermissionPresenter.swift in Sources */,
 				24EB96791DE7080F0040C211 /* CoreDataModelAdapter.swift in Sources */,
+				8CA0C53F1F737D760024B2DE /* TimelineGenerator.swift in Sources */,
 				8CF8C0911EDED6DC00EA2C77 /* WeeklySummarPresenter.swift in Sources */,
 				8C7CCB4F1E9D1D1F00315BF7 /* AddTimeSlotButton.swift in Sources */,
 				24564F651D83265900D9A8AE /* DateExtensions.swift in Sources */,

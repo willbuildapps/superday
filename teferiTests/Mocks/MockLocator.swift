@@ -18,6 +18,7 @@ class MockLocator : ViewModelLocator
     var healthKitService = MockHealthKitService()
     var notificationService  = MockNotificationService()
     var motionService = MockMotionService()
+    var trackEventService = MockTrackEventService()
     
     init()
     {
@@ -52,14 +53,16 @@ class MockLocator : ViewModelLocator
     
     func getMainViewModel() -> MainViewModel
     {
-        return MainViewModel(timeService: timeService,
+        return MainViewModel(loggingService: loggingService,
+                             timeService: timeService,
                              metricsService: metricsService,
                              timeSlotService: timeSlotService,
                              editStateService: editStateService,
                              smartGuessService: smartGuessService,
                              selectedDateService: selectedDateService,
                              settingsService: settingsService,
-                             appLifecycleService: appLifecycleService)
+                             appLifecycleService: appLifecycleService,
+                             trackEventService: trackEventService)
     }
     
     func getPagerViewModel() -> PagerViewModel

@@ -43,6 +43,7 @@ class DefaultViewModelLocator : ViewModelLocator
     private let healthKitService : HealthKitService
     private let notificationService : NotificationService
     private let motionService: MotionService
+    private let trackEventService: TrackEventService
     
     init(timeService: TimeService,
          metricsService: MetricsService,
@@ -57,7 +58,8 @@ class DefaultViewModelLocator : ViewModelLocator
          loggingService: LoggingService,
          healthKitService : HealthKitService,
          notificationService: NotificationService,
-         motionService: MotionService)
+         motionService: MotionService,
+         trackEventService: TrackEventService)
     {
         self.timeService = timeService
         self.metricsService = metricsService
@@ -73,6 +75,7 @@ class DefaultViewModelLocator : ViewModelLocator
         self.healthKitService = healthKitService
         self.notificationService = notificationService
         self.motionService = motionService
+        self.trackEventService = trackEventService
     }
     
     func getNavigationViewModel(forViewController viewController: UIViewController) -> NavigationViewModel
@@ -100,16 +103,19 @@ class DefaultViewModelLocator : ViewModelLocator
                                    locationService: self.locationService)
     }
     
+    
     func getMainViewModel() -> MainViewModel
     {
-        let viewModel = MainViewModel(timeService: self.timeService,
+        let viewModel = MainViewModel(loggingService: self.loggingService,
+                                      timeService: self.timeService,
                                       metricsService: self.metricsService,
                                       timeSlotService: self.timeSlotService,
                                       editStateService: self.editStateService,
                                       smartGuessService: self.smartGuessService,
                                       selectedDateService: self.selectedDateService,
                                       settingsService: self.settingsService,
-                                      appLifecycleService: self.appLifecycleService)
+                                      appLifecycleService: self.appLifecycleService,
+                                      trackEventService: self.trackEventService)
         return viewModel
     }
     

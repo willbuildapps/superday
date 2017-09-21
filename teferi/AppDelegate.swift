@@ -14,7 +14,6 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     private let disposeBag = DisposeBag()
     private let notificationAuthorizedSubject = PublishSubject<Void>()
     
-    private let pipeline : Pipeline
     private let timeService : TimeService
     private let metricsService : MetricsService
     private let loggingService : LoggingService
@@ -86,28 +85,6 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         trackEventService = DefaultTrackEventService(loggingService: loggingService,
                                                           persistencyService: trackEventServicePersistency,
                                                           withEventSources: locationService, healthKitService)
-        
-        let locationPump = LocationPump(trackEventService: trackEventService,
-                                        settingsService: settingsService,
-                                        timeSlotService: timeSlotService,
-                                        loggingService: loggingService,
-                                        timeService: timeService)
-        
-        let healthKitPump = HealthKitPump(trackEventService: trackEventService, loggingService: loggingService)
-        
-        pipeline = Pipeline.with(loggingService: loggingService, pumps: locationPump, healthKitPump)
-                                .pipe(to: MergePipe())
-                                .pipe(to: SmartGuessPipe(smartGuessService: smartGuessService))
-                                .pipe(to: MergeMiniCommuteTimeSlotsPipe(timeService: timeService))
-                                .pipe(to: MergeShortTimeSlotsPipe())
-                                .pipe(to: CapMidnightPipe(timeService: timeService))
-                                .pipe(to: FirstTimeSlotOfDayPipe(timeService: timeService, timeSlotService: timeSlotService))
-                                .sink(PersistencySink(settingsService: settingsService,
-                                                      timeSlotService: timeSlotService,
-                                                      smartGuessService: smartGuessService,
-                                                      trackEventService: trackEventService,
-                                                      timeService: timeService,
-                                                      metricsService: metricsService))
     }
     
     //MARK: UIApplicationDelegate lifecycle
@@ -196,7 +173,8 @@ class AppDelegate : UIResponder, UIApplicationDelegate
                                                        loggingService: loggingService,
                                                        healthKitService: healthKitService,
                                                        notificationService: notificationService,
-                                                       motionService: motionService)
+                                                       motionService: motionService,
+                                                       trackEventService: trackEventService)
         
         window!.rootViewController = IntroPresenter.create(with: viewModelLocator)
         window!.makeKeyAndVisible()
@@ -211,9 +189,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     func applicationDidBecomeActive(_ application: UIApplication)
     {
         notificationService.clearAndScheduleAllDefaultNotifications()
-        
-        pipeline.run()
-        
+                
         initializeWindowIfNeeded()
         
         appLifecycleService.publish(.movedToForeground(withDailyVotingNotificationDate: dailyVotingNotificationDate))

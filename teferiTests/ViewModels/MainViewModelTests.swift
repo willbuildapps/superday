@@ -8,6 +8,7 @@ class MainViewModelTests : XCTestCase
     private var viewModel : MainViewModel!
     private var disposable : Disposable? = nil
     
+    private var loggingService: MockLoggingService!
     private var timeService : MockTimeService!
     private var metricsService : MockMetricsService!
     private var feedbackService : MockFeedbackService!
@@ -18,9 +19,11 @@ class MainViewModelTests : XCTestCase
     private var smartGuessService : MockSmartGuessService!
     private var appLifecycleService : MockAppLifecycleService!
     private var selectedDateService : MockSelectedDateService!
+    private var trackEventService: MockTrackEventService!
     
     override func setUp()
     {
+        loggingService = MockLoggingService()
         timeService = MockTimeService()
         metricsService = MockMetricsService()
         locationService = MockLocationService()
@@ -32,15 +35,18 @@ class MainViewModelTests : XCTestCase
         selectedDateService = MockSelectedDateService()
         timeSlotService = MockTimeSlotService(timeService: timeService,
                                                    locationService: locationService)
+        trackEventService = MockTrackEventService()
         
-        viewModel = MainViewModel(timeService: timeService,
-                                       metricsService: metricsService,
-                                       timeSlotService: timeSlotService,
-                                       editStateService: editStateService,
-                                       smartGuessService: smartGuessService,
-                                       selectedDateService: selectedDateService,
-                                       settingsService: settingsService,
-                                       appLifecycleService: appLifecycleService)
+        viewModel = MainViewModel(loggingService: loggingService,
+                                  timeService: timeService,
+                                  metricsService: metricsService,
+                                  timeSlotService: timeSlotService,
+                                  editStateService: editStateService,
+                                  smartGuessService: smartGuessService,
+                                  selectedDateService: selectedDateService,
+                                  settingsService: settingsService,
+                                  appLifecycleService: appLifecycleService,
+                                  trackEventService: trackEventService)
         
     }
     
