@@ -27,19 +27,10 @@ class LocationPermissionViewModelTests : XCTestCase
     {
         disposable?.dispose()
     }
-    
-    func testPermissionShouldShowBlockingOverlayFirstTimeUserOpensTheApp()
-    {
-        settingsService.hasLocationPermission = false
-        settingsService.lastAskedForLocationPermission = nil
         
-        expect(self.viewModel.remindMeLater).to(beTrue())
-    }
-    
     func testPermissionShouldShowNonBlockingOverlayIfUserAlreadyGavePermission()
     {
         settingsService.hasLocationPermission = false
-        settingsService.lastAskedForLocationPermission = nil
         
         viewModel.permissionGiven()
         

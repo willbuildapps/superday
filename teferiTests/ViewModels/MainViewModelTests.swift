@@ -219,7 +219,6 @@ class MainViewModelTests : XCTestCase
     func testIfLocationPermissionWasNeverShownItNeedsToBeShown()
     {
         settingsService.hasLocationPermission = false
-        settingsService.lastAskedForLocationPermission = nil
         
         var wouldShow = false
         disposable = viewModel.showPermissionControllerObservable
@@ -228,32 +227,6 @@ class MainViewModelTests : XCTestCase
         appLifecycleService.publish(.movedToForeground(withDailyVotingNotificationDate: nil))
         
         expect(wouldShow).to(beTrue())
-    }
-    
-    func testLocationPermissionShouldBeShownIfItWasNotShownForSpecifiedTime()
-    {
-        settingsService.hasLocationPermission = false
-        settingsService.lastAskedForLocationPermission = Date().addingTimeInterval(-(Constants.timeToWaitBeforeShowingLocationPermissionsAgain*2))
-        
-        var wouldShow = false
-        disposable = viewModel.showPermissionControllerObservable
-            .subscribe(onNext: { type in wouldShow = type == .location })
-        
-        appLifecycleService.publish(.movedToForeground(withDailyVotingNotificationDate: nil))
-        
-        expect(wouldShow).to(beTrue())
-    }
-    
-    func testLocationPermissionShouldNotBeShownIfItWasLastShownInTheLastSpecifiedTime()
-    {
-        settingsService.hasLocationPermission = false
-        settingsService.lastAskedForLocationPermission = Date().ignoreTimeComponents()
-        
-        var wouldShow = false
-        disposable = viewModel.showPermissionControllerObservable
-            .subscribe(onNext: { _ in wouldShow = true })
-        
-        expect(wouldShow).to(beFalse())
     }
     
     private func addTimeSlot(withCategory category: teferi.Category) -> TimeSlot

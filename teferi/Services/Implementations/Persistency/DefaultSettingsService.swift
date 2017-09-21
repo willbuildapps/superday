@@ -48,11 +48,6 @@ class DefaultSettingsService : SettingsService
         return notificationSettings?.types.contains([.alert, .badge]) ?? false
     }
     
-    var lastAskedForLocationPermission : Date?
-    {
-        return get(forKey: lastAskedForLocationPermissionKey)
-    }
-    
     var userEverGaveLocationPermission: Bool
     {
         return getBool(forKey: userGaveLocationPermissionKey)
@@ -77,7 +72,6 @@ class DefaultSettingsService : SettingsService
     private let lastLocationLngKey = "lastLocationLng"
     private let lastLocationDateKey = "lastLocationDate"
     private let lastLocationHorizontalAccuracyKey = "lastLocationHorizongalAccuracy"
-    private let lastAskedForLocationPermissionKey = "lastAskedForLocationPermission"
     private let userGaveLocationPermissionKey = "canIgnoreLocationPermission"
     private let lastHealthKitUpdateKey = "lastHealthKitUpdate"
     private let healthKitPermissionKey = "healthKitPermission"
@@ -126,11 +120,6 @@ class DefaultSettingsService : SettingsService
         set(location.latitude, forKey: lastLocationLatKey)
         set(location.longitude, forKey: lastLocationLngKey)
         set(location.horizontalAccuracy, forKey: lastLocationHorizontalAccuracyKey)
-    }
-    
-    func setLastAskedForLocationPermission(_ date: Date)
-    {
-        set(date, forKey: lastAskedForLocationPermissionKey)
     }
     
     func setUserGaveLocationPermission()

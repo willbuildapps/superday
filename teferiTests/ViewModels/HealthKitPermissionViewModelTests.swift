@@ -34,7 +34,6 @@ class HealthKitPermissionViewModelTests : XCTestCase
     func testPermissionShouldShowNonBlockingOverlayIfUserAlreadyGavePermission()
     {
         settingsService.hasLocationPermission = false
-        settingsService.lastAskedForLocationPermission = nil
         
         viewModel.permissionGiven()
         

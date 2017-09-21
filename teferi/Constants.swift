@@ -37,6 +37,5 @@ class Constants
     static let significantDistanceThreshold:Double = 100.0
     static let commuteDetectionLimit = TimeInterval(25 * 60)
     static let timeToWaitBeforeShowingHealthKitPermissions : Double = 30*60 //30 min
-    static let timeToWaitBeforeShowingLocationPermissionsAgain : Double = 60*60*24 //1 day
 
 }

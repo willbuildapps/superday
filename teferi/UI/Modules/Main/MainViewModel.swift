@@ -197,15 +197,7 @@ class MainViewModel : RxViewModel
     
     private func shouldShowLocationPermissionRequest() -> Bool
     {
-        if settingsService.hasLocationPermission { return false }
-        
-        //If user doesn't have permissions and we never showed the overlay, do it
-        guard let lastRequestedDate = settingsService.lastAskedForLocationPermission else { return true }
-        
-        let minimumRequestDate = lastRequestedDate.addingTimeInterval(Constants.timeToWaitBeforeShowingLocationPermissionsAgain)
-        
-        //If we previously showed the overlay, we must only do it again after timeToWaitBeforeShowingLocationPermissionsAgain
-        return minimumRequestDate < timeService.now
+        return !settingsService.hasLocationPermission
     }
     
     private func shouldShowHealthKitPermissionRequest() -> Bool

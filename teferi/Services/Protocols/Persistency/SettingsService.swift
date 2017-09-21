@@ -11,8 +11,6 @@ protocol SettingsService
     
     var hasHealthKitPermission : Bool { get }
     
-    var lastAskedForLocationPermission : Date? { get }
-        
     var hasNotificationPermission : Bool { get }
     
     var userEverGaveLocationPermission : Bool { get }
@@ -29,9 +27,7 @@ protocol SettingsService
     func setInstallDate(_ date: Date)
     
     func setLastLocation(_ location: Location)
-    
-    func setLastAskedForLocationPermission(_ date: Date)
-    
+        
     func setUserGaveLocationPermission()
     
     func setUserGaveHealthKitPermission()
