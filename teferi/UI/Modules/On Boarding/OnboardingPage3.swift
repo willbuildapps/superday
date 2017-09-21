@@ -42,9 +42,7 @@ class OnboardingPage3 : OnboardingPage
     
     override func startAnimations()
     {
-        viewModel.movedToForegroundObservable
-            .subscribe(onNext: onMovedToForeground)
-            .addDisposableTo(disposeBag)
+        viewModel.requestLocationAuthorization()
         
         viewModel.locationAuthorizationChangedObservable
             .subscribe(onNext: finish)
@@ -55,13 +53,5 @@ class OnboardingPage3 : OnboardingPage
     {        
         onboardingPageViewController.goToNextPage(forceNext: true)
         disposeBag = DisposeBag()
-    }
-    
-    func onMovedToForeground()
-    {
-        if onboardingPageViewController.isCurrent(page: self)
-        {
-            viewModel.requestLocationAuthorization()
-        }
     }
 }

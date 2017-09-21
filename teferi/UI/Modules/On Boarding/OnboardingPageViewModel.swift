@@ -10,7 +10,12 @@ class OnboardingPageViewModel: NSObject
     var locationAuthorizationChangedObservable: Observable<Void>
     {
         guard !settingsService.hasLocationPermission else { return Observable.just(()) }
-        return locationService.alwaysAuthorizationGranted.debug().mapTo(())
+        return locationService.alwaysAuthorizationGranted.mapTo(())
+    }
+    
+    var motionAuthorizationChangedObservable: Observable<Void>
+    {
+        return motionService.motionAuthorizationGranted.mapTo(())
     }
     
     private var timeService : TimeService!

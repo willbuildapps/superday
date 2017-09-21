@@ -4,6 +4,10 @@ import RxSwift
 
 class MockMotionService: MotionService
 {
+    var motionAuthorizationGranted: Observable<Bool> {
+        return Observable.empty()
+    }
+    
     func askForAuthorization()
     {
         

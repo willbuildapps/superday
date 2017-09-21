@@ -7,6 +7,23 @@ class DefaultMotionService: MotionService
 {
     let motionActivityManager: CMMotionActivityManager
     
+    var motionAuthorizationGranted: Observable<Bool>
+    {
+        return Observable<Bool>.create { [unowned self] observer in
+            
+            self.motionActivityManager.queryActivityStarting(from: Date().addingTimeInterval(-24*60*60), to: Date(), to: OperationQueue.main) { activities, error in
+                if let _ = error {
+                    observer.onNext(false)
+                } else {
+                    observer.onNext(true)
+                }
+                observer.onCompleted()
+            }
+            
+            return Disposables.create {}
+        }
+    }
+    
     init ()
     {
         motionActivityManager = CMMotionActivityManager()

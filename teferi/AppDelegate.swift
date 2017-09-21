@@ -112,11 +112,11 @@ class AppDelegate : UIResponder, UIApplicationDelegate
             }
         }
         
-        appLifecycleService.publish(isInBackground ? .movedToBackground : .movedToForeground(withDailyVotingNotificationDate: dailyVotingNotificationDate))
         
         //Faster startup when the app wakes up for location updates
         if isInBackground
         {
+            appLifecycleService.publish(.movedToBackground)
             locationService.startLocationTracking()
             return true
         }

@@ -14,7 +14,7 @@ class OnboardingPage4 : OnboardingPage
     {
         viewModel.requestCoreMotionAuthorization()
         
-        viewModel.movedToForegroundObservable
+        viewModel.motionAuthorizationChangedObservable
             .subscribe(onNext: finish)
             .addDisposableTo(disposeBag)
     }
