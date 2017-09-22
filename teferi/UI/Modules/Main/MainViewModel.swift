@@ -32,23 +32,20 @@ class MainViewModel : RxViewModel
     
     var welcomeMessageHiddenObservable : Observable<Bool>
     {
+        if self.settingsService.didShowWelcomeMessage {
+            return Observable.just(true)
+        }
+        
         return Observable.of(
-            self.appLifecycleService.movedToForegroundObservable.skip(1),
-            self.didBecomeActive,
+            self.didBecomeActive.skip(1),
             self.beganEditingObservable.mapTo(()),
-            self.timeSlotService.timeSlotCreatedObservable.mapTo(()) )
+            self.timeSlotService.timeSlotCreatedObservable.mapTo(()).skip(1))
             .merge()
-            .map { [unowned self] () -> Bool in
-                guard self.timeService.now.ignoreTimeComponents() == self.settingsService.installDate!.ignoreTimeComponents()
-                else {
-                    self.settingsService.setWelcomeMessageShown()
-                    return true
-                }
-                
-                let value = self.settingsService.didShowWelcomeMessage
+            .mapTo(true)
+            .startWith(false)
+            .do(onNext: { _ in
                 self.settingsService.setWelcomeMessageShown()
-                return value
-            }
+            })
     }
     
     var moveToForegroundObservable : Observable<Void>
@@ -87,6 +84,10 @@ class MainViewModel : RxViewModel
         return timeService.now
     }
 
+    var locating:Observable<Bool> {
+        return locatingActivity.asObservable()
+            .observeOn(MainScheduler.instance)
+    }
     
     // MARK: Private Properties
     private let loggingService: LoggingService
@@ -97,8 +98,10 @@ class MainViewModel : RxViewModel
     private let smartGuessService : SmartGuessService
     private let settingsService : SettingsService
     private let appLifecycleService : AppLifecycleService
+    private let locationService: LocationService
     private let trackEventService: TrackEventService
     
+    private let locatingActivity = ActivityIndicator()
     private let timelineGenerator: TimelineGenerator
     private var disposeBag = DisposeBag()
     
@@ -112,6 +115,7 @@ class MainViewModel : RxViewModel
          selectedDateService : SelectedDateService,
          settingsService : SettingsService,
          appLifecycleService: AppLifecycleService,
+         locationService: LocationService,
          trackEventService: TrackEventService)
     {
         self.loggingService = loggingService
@@ -122,6 +126,7 @@ class MainViewModel : RxViewModel
         self.smartGuessService = smartGuessService
         self.settingsService = settingsService
         self.appLifecycleService = appLifecycleService
+        self.locationService = locationService
         self.trackEventService = trackEventService
         
         timelineGenerator = TimelineGenerator(loggingService: loggingService,
@@ -138,9 +143,23 @@ class MainViewModel : RxViewModel
         
         categoryProvider = DefaultCategoryProvider(timeSlotService: timeSlotService)
 
-        appLifecycleService.movedToForegroundObservable
+        super.init()
+        
+        didBecomeActive
+            .flatMap { [unowned self] _ -> Observable<Location> in
+                if let location = settingsService.lastLocation {
+                    return Observable.just(location)
+                }
+                
+                return locationService.currentLocation
+                    .subscribeOn(OperationQueueScheduler(operationQueue: OperationQueue()))
+                    .do(onNext: settingsService.setLastLocation)
+                    .trackActivity(self.locatingActivity)
+            }
+            .mapTo(())
             .subscribe(onNext: timelineGenerator.execute)
-            .addDisposableTo(disposeBag)
+            .addDisposableTo(disposeBag)        
+
     }
     
     //MARK: Public Methods

@@ -189,7 +189,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     func applicationDidBecomeActive(_ application: UIApplication)
     {
         notificationService.clearAndScheduleAllDefaultNotifications()
-                
+
         initializeWindowIfNeeded()
         
         appLifecycleService.publish(.movedToForeground(withDailyVotingNotificationDate: dailyVotingNotificationDate))

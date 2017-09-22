@@ -59,9 +59,9 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
         createBindings()
     }
     
-    override func viewWillAppear(_ animated: Bool)
+    override func viewDidAppear(_ animated: Bool)
     {
-        super.viewWillAppear(animated)
+        super.viewDidAppear(animated)
         viewModel.active = true
     }
     
@@ -114,6 +114,10 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
         
         viewModel.moveToForegroundObservable
             .subscribe(onNext: onBecomeActive)
+            .addDisposableTo(disposeBag)
+        
+        viewModel.locating
+            .bindTo(LoadingView.locating.rx.isActive)
             .addDisposableTo(disposeBag)
     }
     

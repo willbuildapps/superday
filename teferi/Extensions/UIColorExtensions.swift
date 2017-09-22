@@ -36,3 +36,16 @@ extension UIColor
         return String(format:"#%06x", rgb)
     }
 }
+
+extension UIColor
+{
+    static var familyGreen: UIColor
+    {
+        return UIColor(r: 40, g: 201, b: 128)
+    }
+    
+    static var almostBlack: UIColor
+    {
+        return UIColor(r: 4, g: 4, b: 6)
+    }
+}

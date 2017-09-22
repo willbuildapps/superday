@@ -62,6 +62,7 @@ class MockLocator : ViewModelLocator
                              selectedDateService: selectedDateService,
                              settingsService: settingsService,
                              appLifecycleService: appLifecycleService,
+                             locationService: locationService,
                              trackEventService: trackEventService)
     }
     

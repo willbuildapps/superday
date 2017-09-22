@@ -115,7 +115,9 @@ class DefaultViewModelLocator : ViewModelLocator
                                       selectedDateService: self.selectedDateService,
                                       settingsService: self.settingsService,
                                       appLifecycleService: self.appLifecycleService,
+                                      locationService: self.locationService,
                                       trackEventService: self.trackEventService)
+
         return viewModel
     }
     

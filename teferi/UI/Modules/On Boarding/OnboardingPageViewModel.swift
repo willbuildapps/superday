@@ -17,7 +17,7 @@ class OnboardingPageViewModel: NSObject
     {
         return motionService.motionAuthorizationGranted.mapTo(())
     }
-    
+
     private var timeService : TimeService!
     private var timeSlotService : TimeSlotService!
     fileprivate var settingsService : SettingsService!

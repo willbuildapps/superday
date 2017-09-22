@@ -11,12 +11,14 @@ class LocationPermissionViewModelTests : XCTestCase
     private var timeService : MockTimeService!
     private var settingsService : MockSettingsService!
     private var appLifecycleService : MockAppLifecycleService!
+    private var locationService: MockLocationService!
     
     override func setUp()
     {
         timeService = MockTimeService()
         settingsService = MockSettingsService()
         appLifecycleService = MockAppLifecycleService()
+        locationService = MockLocationService()
         
         viewModel = LocationPermissionViewModel(timeService: timeService,
                                                      settingsService: settingsService,

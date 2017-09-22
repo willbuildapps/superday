@@ -46,6 +46,7 @@ class MainViewModelTests : XCTestCase
                                   selectedDateService: selectedDateService,
                                   settingsService: settingsService,
                                   appLifecycleService: appLifecycleService,
+                                  locationService: locationService,
                                   trackEventService: trackEventService)
         
     }

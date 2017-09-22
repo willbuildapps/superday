@@ -19,10 +19,11 @@ class MockLocationService : LocationService
         return Observable.empty()
     }
     
-    func requestAuthorization()
-    {
-        
+    var currentLocation: Observable<Location> {
+        return Observable.empty()
     }
+    
+    func requestAuthorization() {}
     
     func startLocationTracking()
     {
