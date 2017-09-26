@@ -21,10 +21,7 @@ class MainViewModel : RxViewModel
             .map { [unowned self] () -> PermissionRequestType? in
                 if self.shouldShowLocationPermissionRequest() {
                     return PermissionRequestType.location
-                } else if self.shouldShowHealthKitPermissionRequest() {
-                    return PermissionRequestType.health
                 }
-                
                 return nil
             }
             .filterNil()
@@ -217,12 +214,5 @@ class MainViewModel : RxViewModel
     private func shouldShowLocationPermissionRequest() -> Bool
     {
         return !settingsService.hasLocationPermission
-    }
-    
-    private func shouldShowHealthKitPermissionRequest() -> Bool
-    {
-        guard let installDate = settingsService.installDate else { return false }
-        
-        return !settingsService.hasHealthKitPermission && installDate.addingTimeInterval(Constants.timeToWaitBeforeShowingHealthKitPermissions - 5) < timeService.now
     }
 }

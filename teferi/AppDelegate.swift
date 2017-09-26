@@ -22,7 +22,6 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     private let settingsService : SettingsService
     private let timeSlotService : TimeSlotService
     private let editStateService : EditStateService
-    private let healthKitService : HealthKitService
     private let smartGuessService : SmartGuessService
     private let trackEventService : TrackEventService
     private let appLifecycleService : AppLifecycleService
@@ -42,7 +41,6 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         appLifecycleService = DefaultAppLifecycleService()
         editStateService = DefaultEditStateService(timeService: timeService)
         locationService = DefaultLocationService(loggingService: loggingService)
-        healthKitService = DefaultHealthKitService(settingsService: settingsService, loggingService: loggingService)
         motionService = DefaultMotionService()
         selectedDateService = DefaultSelectedDateService(timeService: timeService)
         feedbackService = MailFeedbackService(recipients: ["support@toggl.com"], subject: "Superday feedback", body: "")
@@ -51,7 +49,6 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         let timeSlotPersistencyService = CoreDataPersistencyService(loggingService: loggingService, modelAdapter: TimeSlotModelAdapter(), managedObjectContext: coreDataStack.managedObjectContext)
         let locationPersistencyService = CoreDataPersistencyService(loggingService: loggingService, modelAdapter: LocationModelAdapter(), managedObjectContext: coreDataStack.managedObjectContext)
         let smartGuessPersistencyService = CoreDataPersistencyService(loggingService: loggingService, modelAdapter: SmartGuessModelAdapter(), managedObjectContext: coreDataStack.managedObjectContext)
-        let healthSamplePersistencyService = CoreDataPersistencyService(loggingService: loggingService, modelAdapter: HealthSampleModelAdapter(), managedObjectContext: coreDataStack.managedObjectContext)
         
         smartGuessService = DefaultSmartGuessService(timeService: timeService,
                                                           loggingService: loggingService,
@@ -79,12 +76,11 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         }
         
         let trackEventServicePersistency = TrackEventPersistencyService(loggingService: loggingService,
-                                                                        locationPersistencyService: locationPersistencyService,
-                                                                        healthSamplePersistencyService: healthSamplePersistencyService)
+                                                                        locationPersistencyService: locationPersistencyService)
         
         trackEventService = DefaultTrackEventService(loggingService: loggingService,
                                                           persistencyService: trackEventServicePersistency,
-                                                          withEventSources: locationService, healthKitService)
+                                                          withEventSources: locationService)
     }
     
     //MARK: UIApplicationDelegate lifecycle
@@ -98,11 +94,6 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         let isInBackground = launchOptions?[UIApplicationLaunchOptionsKey.location] != nil
         
         logAppStartup(isInBackground)
-
-        if settingsService.hasHealthKitPermission
-        {
-            healthKitService.startHealthKitTracking()
-        }
         
         if #available(iOS 10.0, *) {
             UNUserNotificationCenter.current().delegate = self
@@ -171,7 +162,6 @@ class AppDelegate : UIResponder, UIApplicationDelegate
                                                        appLifecycleService: appLifecycleService,
                                                        selectedDateService: selectedDateService,
                                                        loggingService: loggingService,
-                                                       healthKitService: healthKitService,
                                                        notificationService: notificationService,
                                                        motionService: motionService,
                                                        trackEventService: trackEventService)

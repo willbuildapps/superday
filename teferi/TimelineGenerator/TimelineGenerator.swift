@@ -34,9 +34,7 @@ class TimelineGenerator
                                         loggingService: loggingService,
                                         timeService: timeService)
         
-        let healthKitPump = HealthKitPump(trackEventService: trackEventService, loggingService: loggingService)
-        
-        pipeline = Pipeline.with(loggingService: loggingService, pumps: locationPump, healthKitPump)
+        pipeline = Pipeline.with(loggingService: loggingService, pumps: locationPump)
             .pipe(to: MergePipe())
             .pipe(to: SmartGuessPipe(smartGuessService: smartGuessService))
             .pipe(to: MergeMiniCommuteTimeSlotsPipe(timeService: timeService))

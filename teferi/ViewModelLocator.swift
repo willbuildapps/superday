@@ -14,7 +14,6 @@ protocol ViewModelLocator
     func getPagerViewModel() -> PagerViewModel
     
     func getLocationPermissionViewModel() -> PermissionViewModel
-    func getHealthKitPermissionViewModel() -> PermissionViewModel
     
     func getTimelineViewModel(forDate date: Date) -> TimelineViewModel
     
@@ -40,7 +39,6 @@ class DefaultViewModelLocator : ViewModelLocator
     private let appLifecycleService : AppLifecycleService
     private let selectedDateService : SelectedDateService
     private let loggingService : LoggingService
-    private let healthKitService : HealthKitService
     private let notificationService : NotificationService
     private let motionService: MotionService
     private let trackEventService: TrackEventService
@@ -56,7 +54,6 @@ class DefaultViewModelLocator : ViewModelLocator
          appLifecycleService: AppLifecycleService,
          selectedDateService: SelectedDateService,
          loggingService: LoggingService,
-         healthKitService : HealthKitService,
          notificationService: NotificationService,
          motionService: MotionService,
          trackEventService: TrackEventService)
@@ -72,7 +69,6 @@ class DefaultViewModelLocator : ViewModelLocator
         self.appLifecycleService = appLifecycleService
         self.selectedDateService = selectedDateService
         self.loggingService = loggingService
-        self.healthKitService = healthKitService
         self.notificationService = notificationService
         self.motionService = motionService
         self.trackEventService = trackEventService
@@ -150,16 +146,6 @@ class DefaultViewModelLocator : ViewModelLocator
         let viewModel = LocationPermissionViewModel(timeService: self.timeService,
                                                     settingsService: self.settingsService,
                                                     appLifecycleService: self.appLifecycleService)
-        
-        return viewModel
-    }
-    
-    func getHealthKitPermissionViewModel() -> PermissionViewModel
-    {
-        let viewModel = HealthKitPermissionViewModel(timeService: self.timeService,
-                                                     settingsService: self.settingsService,
-                                                     appLifecycleService: self.appLifecycleService,
-                                                     healthKitService: self.healthKitService)
         
         return viewModel
     }

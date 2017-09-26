@@ -2,7 +2,6 @@ import UIKit
 
 enum PermissionRequestType
 {
-    case health
     case location
 }
 
@@ -33,8 +32,6 @@ class PermissionPresenter
     private static func permissionViewModel(forType type:PermissionRequestType, viewModelLocator:ViewModelLocator) -> PermissionViewModel
     {
         switch type {
-        case .health:
-            return viewModelLocator.getHealthKitPermissionViewModel()
         default:
             return viewModelLocator.getLocationPermissionViewModel()
         }

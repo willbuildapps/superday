@@ -15,7 +15,6 @@ class MockLocator : ViewModelLocator
     var selectedDateService = MockSelectedDateService()
     var appLifecycleService = MockAppLifecycleService()
     var loggingService = MockLoggingService()
-    var healthKitService = MockHealthKitService()
     var notificationService  = MockNotificationService()
     var motionService = MockMotionService()
     var trackEventService = MockTrackEventService()
@@ -93,16 +92,6 @@ class MockLocator : ViewModelLocator
         let viewModel = LocationPermissionViewModel(timeService: timeService,
                                                     settingsService: settingsService,
                                                     appLifecycleService: appLifecycleService)
-        
-        return viewModel
-    }
-    
-    func getHealthKitPermissionViewModel() -> PermissionViewModel
-    {
-        let viewModel = HealthKitPermissionViewModel(timeService: timeService,
-                                                    settingsService: settingsService,
-                                                    appLifecycleService: appLifecycleService,
-                                                    healthKitService: healthKitService)
         
         return viewModel
     }

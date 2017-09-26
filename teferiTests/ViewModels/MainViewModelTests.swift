@@ -167,45 +167,6 @@ class MainViewModelTests : XCTestCase
         expect(self.smartGuessService.smartGuesses.count).to(equal(previousCount + 1))
     }
     
-    func testHKPermissionShouldNotBeShownIfTheUserHasAlreadyAuthorized()
-    {
-        settingsService.hasHealthKitPermission = true
-        
-        var wouldShow = false
-        disposable = viewModel.showPermissionControllerObservable
-            .subscribe(onNext:  { _ in wouldShow = true })
-        
-        expect(wouldShow).to(beFalse())
-    }
-    
-    func testHKPermissionShouldBeShownIfItWasNotShownForTheDurationSpecifiedInConstant()
-    {
-        timeService.mockDate = Date().addingTimeInterval(Constants.timeToWaitBeforeShowingHealthKitPermissions)
-        settingsService.hasHealthKitPermission = false
-        
-        var wouldShow = false
-        disposable = viewModel.showPermissionControllerObservable
-            .subscribe(onNext: { _ in wouldShow = true })
-        
-        appLifecycleService.publish(.movedToForeground(withDailyVotingNotificationDate: nil))
-        
-        expect(wouldShow).to(beTrue())
-    }
-    
-    func testHKPermissionShouldBeNotShownIfItWasNotShownBeforTheDurationSpecifiedInConstant()
-    {
-        timeService.mockDate = Date().addingTimeInterval(Constants.timeToWaitBeforeShowingHealthKitPermissions - 15*60)
-        settingsService.hasHealthKitPermission = false
-        
-        var wouldShow = false
-        disposable = viewModel.showPermissionControllerObservable
-            .subscribe(onNext: { _ in wouldShow = true })
-        
-        appLifecycleService.publish(.movedToForeground(withDailyVotingNotificationDate: nil))
-        
-        expect(wouldShow).to(beFalse())
-    }
-    
     func testLocationPermissionShouldNotBeShownIfTheUserHasAlreadyAuthorized()
     {
         settingsService.hasLocationPermission = true

@@ -37,11 +37,6 @@ class DefaultSettingsService : SettingsService
         return CLLocationManager.authorizationStatus() == .authorizedAlways
     }
     
-    var hasHealthKitPermission : Bool
-    {
-        return getBool(forKey: healthKitPermissionKey)
-    }
-    
     var hasNotificationPermission : Bool
     {
         let notificationSettings = UIApplication.shared.currentUserNotificationSettings
@@ -73,8 +68,6 @@ class DefaultSettingsService : SettingsService
     private let lastLocationDateKey = "lastLocationDate"
     private let lastLocationHorizontalAccuracyKey = "lastLocationHorizongalAccuracy"
     private let userGaveLocationPermissionKey = "canIgnoreLocationPermission"
-    private let lastHealthKitUpdateKey = "lastHealthKitUpdate"
-    private let healthKitPermissionKey = "healthKitPermission"
     private let welcomeMessageShownKey = "welcomeMessageShown"
     private let votingHistoryKey = "votingHistory"
     private let lastShownWeeklyRatingKey = "lastShownWeeklyRating"
@@ -85,28 +78,7 @@ class DefaultSettingsService : SettingsService
         self.timeService = timeService
     }
 
-    //MARK: Public Methods
-    func lastHealthKitUpdate(for identifier: String) -> Date
-    {
-        let key = lastHealthKitUpdateKey + identifier
-        
-        guard let lastUpdate : Date = get(forKey: key)
-        else
-        {
-            let initialDate = timeService.now
-            setLastHealthKitUpdate(for: identifier, date: initialDate)
-            return initialDate
-        }
-        
-        return lastUpdate
-    }
-    
-    func setLastHealthKitUpdate(for identifier: String, date: Date)
-    {
-        let key = lastHealthKitUpdateKey + identifier
-        set(date, forKey: key)
-    }
-    
+    //MARK: Public Methods    
     func setInstallDate(_ date: Date)
     {
         guard installDate == nil else { return }
@@ -126,12 +98,7 @@ class DefaultSettingsService : SettingsService
     {
         set(true, forKey: userGaveLocationPermissionKey)
     }
-    
-    func setUserGaveHealthKitPermission()
-    {
-        set(true, forKey: healthKitPermissionKey)
-    }
-    
+
     func setWelcomeMessageShown()
     {
         set(true, forKey: welcomeMessageShownKey)
