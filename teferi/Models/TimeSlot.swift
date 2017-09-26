@@ -1,6 +1,5 @@
 import Foundation
 import CoreData
-import CoreLocation
 
 struct TimeSlot
 {
@@ -9,14 +8,14 @@ struct TimeSlot
     let endTime: Date?
     let category: Category
     let smartGuessId : Int?
-    let location: CLLocation?
+    let location: Location?
     let categoryWasSetByUser: Bool
     
 }
 
 extension TimeSlot
 {
-    init(withStartTime startTime: Date, endTime: Date? = nil, category: Category, categoryWasSetByUser: Bool, location: CLLocation? = nil)
+    init(withStartTime startTime: Date, endTime: Date? = nil, category: Category, categoryWasSetByUser: Bool, location: Location? = nil)
     {
         self.startTime = startTime
         self.endTime = endTime
@@ -27,7 +26,7 @@ extension TimeSlot
         
     }
     
-    init(withStartTime time: Date, endTime: Date? = nil, smartGuess: SmartGuess, location: CLLocation?)
+    init(withStartTime time: Date, endTime: Date? = nil, smartGuess: SmartGuess, location: Location?)
     {
         self.startTime = time
         self.endTime = endTime

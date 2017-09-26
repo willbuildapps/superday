@@ -1,7 +1,6 @@
 import XCTest
 import UserNotifications
 import Nimble
-import CoreLocation
 @testable import teferi
 
 class FirstTimeSlotOfDayPipeTests : XCTestCase

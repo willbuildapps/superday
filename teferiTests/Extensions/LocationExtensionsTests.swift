@@ -1,10 +1,11 @@
-import CoreLocation
 import XCTest
 import Nimble
+@testable import teferi
 
 class LocationExtensionsTests : XCTestCase
 {
-    private let baseLocation = CLLocation(latitude: 41.9754219072948, longitude: -71.0230522245947)
+    private let baseLocation = Location(timestamp: Date(),
+                                        latitude: 41.9754219072948, longitude: -71.0230522245947)
     
     func testTheOffsetMethodGeneratesSufficientlyAccurateLocations()
     {
@@ -21,10 +22,9 @@ class LocationExtensionsTests : XCTestCase
         let horizontalOffset = 5.0
         let expectedDistance = sqrt(pow(horizontalOffset, 2) + pow(verticalOffset, 2))
         
-        let calculatedLocation =
-            baseLocation
-                .offset(.south, meters: verticalOffset)
-                .offset(.east, meters: horizontalOffset)
+        let calculatedLocation = baseLocation
+            .offset(.south, meters: verticalOffset)
+            .offset(.east, meters: horizontalOffset)
         
         let calculatedDistance = baseLocation.distance(from: calculatedLocation)
         

@@ -1,5 +1,5 @@
+import Foundation
 @testable import teferi
-import CoreLocation
 
 class MockSmartGuessService : SmartGuessService
 {
@@ -9,16 +9,16 @@ class MockSmartGuessService : SmartGuessService
     var addShouldWork = true
     var smartGuessToReturn : SmartGuess? = nil
     var smartGuessUpdates = [(SmartGuess, Date)]()
-    var locationsAskedFor = [CLLocation]()
+    var locationsAskedFor = [Location]()
     var smartGuesses = [SmartGuess]()
     
-    func get(forLocation location: CLLocation) -> SmartGuess?
+    func get(forLocation location: Location) -> SmartGuess?
     {
         locationsAskedFor.append(location)
         return smartGuessToReturn
     }
     
-    @discardableResult func add(withCategory category: teferi.Category, location: CLLocation) -> SmartGuess?
+    @discardableResult func add(withCategory category: teferi.Category, location: Location) -> SmartGuess?
     {
         let smartGuess = SmartGuess(withId: smartGuessId, category: category, location: location, lastUsed: Date())
         smartGuesses.append(smartGuess)

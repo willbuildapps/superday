@@ -17,6 +17,15 @@ extension Reactive where Base: CLLocationManager
                 return try castOrThrow([CLLocation].self, a[1])
         }
     }
+    
+    public var didChangeAuthorization: Observable<CLAuthorizationStatus>
+    {
+        return delegate.methodInvoked(#selector(CLLocationManagerDelegate.locationManager(_:didChangeAuthorization:)))
+            .map { a in
+                let value = try castOrThrow(Int32.self, a[1])
+                return CLAuthorizationStatus(rawValue: value)!
+            }
+    }
 }
 
 class RxCLLocationManagerDelegateProxy : DelegateProxy, CLLocationManagerDelegate, DelegateProxyType

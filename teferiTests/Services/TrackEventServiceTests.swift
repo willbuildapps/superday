@@ -1,7 +1,6 @@
 import XCTest
 import UserNotifications
 import Nimble
-import CoreLocation
 @testable import teferi
 
 class TrackEventServiceTests : XCTestCase
@@ -32,10 +31,10 @@ class TrackEventServiceTests : XCTestCase
     {
         let sample = HealthSample(withIdentifier: "something", startTime: Date(), endTime: Date(), value: nil)
         
-        locationService.sendNewTrackEvent(CLLocation())
-        locationService.sendNewTrackEvent(CLLocation())
+        locationService.sendNewTrackEvent(Location.baseLocation)
+        locationService.sendNewTrackEvent(Location.baseLocation)
         healthKitService.sendNewTrackEvent(sample)
-        locationService.sendNewTrackEvent(CLLocation())
+        locationService.sendNewTrackEvent(Location.baseLocation)
         healthKitService.sendNewTrackEvent(sample)
         
         let persistedEvents = trackEventService.getEventData(ofType: Location.self)

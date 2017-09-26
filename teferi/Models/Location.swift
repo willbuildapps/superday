@@ -31,8 +31,10 @@ final class Location : EventData
         self.horizontalAccuracy = horizontalAccuracy
     }
     
-    init(fromCLLocation location: CLLocation)
+    init?(fromCLLocation location: CLLocation?)
     {
+        guard let location = location else { return nil }
+        
         self.timestamp = location.timestamp
         self.latitude = location.coordinate.latitude
         self.longitude = location.coordinate.longitude
@@ -42,6 +44,19 @@ final class Location : EventData
         self.altitude = location.altitude
         self.verticalAccuracy = location.verticalAccuracy
         self.horizontalAccuracy = location.horizontalAccuracy
+    }
+    
+    init(timestamp: Date = Date(), latitude: Double, longitude: Double, accuracy: Double = 0)
+    {
+        self.timestamp = timestamp
+        self.latitude = latitude
+        self.longitude = longitude
+        
+        self.speed = 0
+        self.course = 0
+        self.altitude = 0
+        self.verticalAccuracy = accuracy
+        self.horizontalAccuracy = accuracy
     }
     
     // MARK: Methods
@@ -57,19 +72,27 @@ final class Location : EventData
     
     func isSignificantlyDifferent(fromLocation other: Location) -> Bool
     {
+        let distance = self.distance(from: other)
+        return distance > Constants.significantDistanceThreshold
+    }
+    
+    func distance(from other: Location) -> Double
+    {
         let clLocation = toCLLocation()
         let otherCLLocation = other.toCLLocation()
         
-        let distance = clLocation.distance(from: otherCLLocation)
-        return distance > Constants.significantDistanceThreshold
+        return clLocation.distance(from: otherCLLocation)
     }
     
     func toCLLocation() -> CLLocation
     {
         let coordinate = CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude)
-        return CLLocation(coordinate: coordinate, altitude: self.altitude,
+        return CLLocation(coordinate: coordinate,
+                          altitude: self.altitude,
                           horizontalAccuracy: self.horizontalAccuracy,
                           verticalAccuracy: self.verticalAccuracy,
+                          course: self.course,
+                          speed: self.speed,
                           timestamp: self.timestamp)
     }
     

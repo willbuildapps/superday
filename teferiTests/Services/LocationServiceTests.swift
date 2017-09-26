@@ -3,11 +3,11 @@ import XCTest
 import Nimble
 import RxSwift
 import RxTest
-import CoreLocation
 
 class LocationServiceTests: XCTestCase
 {    
-    private let baseLocation = CLLocation(latitude: 41.9754219072948, longitude: -71.0230522245947)
+    private let baseLocation = Location(timestamp: Date(),
+                                        latitude: 41.9754219072948, longitude: -71.0230522245947)
     
     var locationService:DefaultLocationService!
     
@@ -100,7 +100,7 @@ class LocationServiceTests: XCTestCase
         
         scheduler.start()
         
-        let expectedEvents = [next(0, Location.asTrackEvent(Location(fromCLLocation: locations[1])))]
+        let expectedEvents = [next(0, Location.asTrackEvent(locations[1]))]
         XCTAssertEqual(observer.events, expectedEvents)
     }
     
@@ -151,7 +151,7 @@ class LocationServiceTests: XCTestCase
             baseLocation.randomOffset(withAccuracy: Constants.significantLocationChangeAccuracy - 10),
             baseLocation.randomOffset(withAccuracy: Constants.significantLocationChangeAccuracy + 10), // Filter out this one
             baseLocation.randomOffset(withAccuracy: Constants.significantLocationChangeAccuracy - 1),
-            CLLocation(latitude: 0, longitude: 0) // And this one
+            Location(latitude: 0, longitude: 0, accuracy: 100) // And this one
         ]
         
         locations.forEach { location in
@@ -179,7 +179,7 @@ class LocationServiceTests: XCTestCase
         scheduler.start()
         
         let resultLocation = observer.events.last!.value.element!
-        XCTAssertEqual(resultLocation, TrackEvent.newLocation(location: Location(fromCLLocation: gpsLocation)))
+        XCTAssertEqual(resultLocation, TrackEvent.newLocation(location: gpsLocation))
     }
     
     func testGPSDoesntReplaceSignificantLocationTrackingIfLessAccurate()
@@ -195,7 +195,7 @@ class LocationServiceTests: XCTestCase
         scheduler.start()
         
         let resultLocation = observer.events.last!.value.element!
-        XCTAssertEqual(resultLocation, TrackEvent.newLocation(location: Location(fromCLLocation: location)))
+        XCTAssertEqual(resultLocation, TrackEvent.newLocation(location: location))
     }
     
     func testIfGPSDoesntReturnAnythinItUsesSignificantLocationChangeValue()
@@ -211,7 +211,7 @@ class LocationServiceTests: XCTestCase
         
         expect(self.observer.events.count).to(equal(1))
         let resultLocation = observer.events.last!.value.element!
-        XCTAssertEqual(resultLocation, TrackEvent.newLocation(location: Location(fromCLLocation: location)))
+        XCTAssertEqual(resultLocation, TrackEvent.newLocation(location: location))
     }
     
     func testGPSRunsEverytimeTheresANewSignificantLocationChange()
@@ -228,6 +228,6 @@ class LocationServiceTests: XCTestCase
         scheduler.start()
         
         let resultLocation = observer.events.last!.value.element!
-        XCTAssertEqual(resultLocation, TrackEvent.newLocation(location: Location(fromCLLocation: gpsLocation)))
+        XCTAssertEqual(resultLocation, TrackEvent.newLocation(location: gpsLocation))
     }
 }

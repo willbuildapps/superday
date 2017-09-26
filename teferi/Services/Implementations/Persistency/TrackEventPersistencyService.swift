@@ -1,6 +1,5 @@
 import Darwin
 import HealthKit
-import CoreLocation
 
 class TrackEventPersistencyService : BasePersistencyService<TrackEvent>
 {

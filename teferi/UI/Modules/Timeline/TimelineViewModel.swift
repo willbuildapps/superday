@@ -133,7 +133,7 @@ class TimelineViewModel
             let installDate = settingsService.installDate,
             timeService.now.timeIntervalSince(date) < Constants.sevenDaysInSeconds &&
             ( timeService.now.ignoreTimeComponents() == date.ignoreTimeComponents() ? timeService.now.hour >= Constants.hourToShowDailyVotingUI : true ) &&
-            ( installDate.ignoreTimeComponents() == date.ignoreTimeComponents() ? timelineItems.value.count > 1 : true )
+            installDate.ignoreTimeComponents() != date.ignoreTimeComponents()
         else { return false }
         
         let alreadyVoted = !settingsService.lastSevenDaysOfVotingHistory().contains(date.ignoreTimeComponents())

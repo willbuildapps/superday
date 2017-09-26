@@ -1,7 +1,6 @@
 import RxSwift
 import XCTest
 import Nimble
-import CoreLocation
 @testable import teferi
 
 class MainViewModelTests : XCTestCase
@@ -105,7 +104,7 @@ class MainViewModelTests : XCTestCase
     
     func testSmartGuessIsAddedIfLocationServiceReturnsKnownLastLocationOnAddNewSlot()
     {
-        locationService.sendNewTrackEvent(CLLocation(latitude:43.4211, longitude:4.7562))
+        locationService.sendNewTrackEvent(Location.baseLocation)
         let previousCount = smartGuessService.smartGuesses.count
         
         viewModel.addNewSlot(withCategory: .food)
@@ -115,7 +114,7 @@ class MainViewModelTests : XCTestCase
     
     func testSmartGuessIsStrikedIfCategoryWasWrongOnUpdateTimeSlotMethod()
     {
-        let location = CLLocation(latitude:43.4211, longitude:4.7562)
+        let location = Location.baseLocation
         
         viewModel.addNewSlot(withCategory: .leisure)
         
@@ -146,7 +145,7 @@ class MainViewModelTests : XCTestCase
         let timeSlot = timeSlotService.addTimeSlot(withStartTime: Date(timeIntervalSinceNow: -100),
                                                         category: .food,
                                                         categoryWasSetByUser: true,
-                                                        location: CLLocation(latitude:43.4211, longitude:4.7562))!
+                                                        location: Location.baseLocation)!
         
         let item = TimelineItem(
             withTimeSlots: [timeSlot],

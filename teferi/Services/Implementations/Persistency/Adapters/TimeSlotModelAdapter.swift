@@ -1,4 +1,4 @@
-import CoreLocation
+import Foundation
 import CoreData
 
 class TimeSlotModelAdapter : CoreDataModelAdapter<TimeSlot>
@@ -50,7 +50,7 @@ class TimeSlotModelAdapter : CoreDataModelAdapter<TimeSlot>
         managedObject.setValue(model.categoryWasSetByUser, forKey: categoryWasSetByUserKey)
         
         managedObject.setValue(model.location?.timestamp, forKey: locationTimeKey)
-        managedObject.setValue(model.location?.coordinate.latitude, forKey: locationLatitudeKey)
-        managedObject.setValue(model.location?.coordinate.longitude, forKey: locationLongitudeKey)
+        managedObject.setValue(model.location?.latitude, forKey: locationLatitudeKey)
+        managedObject.setValue(model.location?.longitude, forKey: locationLongitudeKey)
     }
 }

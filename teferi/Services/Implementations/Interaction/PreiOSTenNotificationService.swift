@@ -6,13 +6,17 @@ class PreiOSTenNotificationService : NotificationService
 {
     //MARK: Private Properties
     private let loggingService : LoggingService
+    private let settingsService : SettingsService
+    private let timeService : TimeService
     private var notificationSubscription : Disposable?
     private let notificationAuthorizedObservable : Observable<Void>
     
     //MARK: Initializers
-    init(loggingService: LoggingService, _ notificationAuthorizedObservable: Observable<Void>)
+    init(loggingService: LoggingService, settingsService: SettingsService, timeService: TimeService, _ notificationAuthorizedObservable: Observable<Void>)
     {
         self.loggingService = loggingService
+        self.settingsService = settingsService
+        self.timeService = timeService
         self.notificationAuthorizedObservable = notificationAuthorizedObservable
     }
     
@@ -33,24 +37,30 @@ class PreiOSTenNotificationService : NotificationService
         scheduleNotification(date: date, title: title, message: message, ofType: .normal)
     }
     
-    func unscheduleAllNotifications(ofTypes types: NotificationType?...)
+    func unscheduleAllNotifications(completion: (() -> Void)?, ofTypes types: NotificationType?...)
     {
         UIApplication.shared.cancelAllLocalNotifications()
+        completion?()
     }
     
     func clearAndScheduleAllDefaultNotifications()
     {
-        unscheduleAllNotifications(ofTypes: .repeatWeekly)
-        scheduleVotingNotifications()
-        scheduleWeeklyRatingNotifications()
+        unscheduleAllNotifications(completion: { [unowned self] in
+            self.scheduleVotingNotifications()
+            self.scheduleWeeklyRatingNotifications()
+        }, ofTypes: .repeatWeekly)
     }
     
     //MARK: Private Methods
     
     private func scheduleVotingNotifications()
     {
+        guard let installDate = settingsService.installDate else { return }
+        
         for i in 2...7
         {
+            if timeService.now.ignoreTimeComponents() == installDate.ignoreTimeComponents(), timeService.now.dayOfWeek == i-1 { continue }
+            
             let date = Date.create(weekday: i, hour: Constants.hourToShowDailyVotingUI, minute: 00, second: 00)
             scheduleNotification(date: date, title: L10n.votingNotificationTittle, message: L10n.votingNotificationMessage, ofType: .repeatWeekly)
         }
@@ -58,6 +68,11 @@ class PreiOSTenNotificationService : NotificationService
     
     private func scheduleWeeklyRatingNotifications()
     {
+        guard
+            let installDate = settingsService.installDate,
+            timeService.now.timeIntervalSince(installDate) >= Constants.sevenDaysInSeconds
+        else { return }
+        
         let date = Date.create(weekday: 1, hour: Constants.hourToShowWeeklyRatingUI, minute: 00, second: 00)
         scheduleNotification(date: date, title: L10n.ratingNotificationTitle, message: L10n.ratingNotificationMessage, ofType: .repeatWeekly)
     }

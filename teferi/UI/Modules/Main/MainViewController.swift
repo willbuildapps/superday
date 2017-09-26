@@ -4,7 +4,6 @@ import MessageUI
 import CoreMotion
 import CoreGraphics
 import QuartzCore
-import CoreLocation
 import SnapKit
 
 class MainViewController : UIViewController, MFMailComposeViewControllerDelegate

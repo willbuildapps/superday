@@ -1,6 +1,5 @@
 import Foundation
 import RxSwift
-import CoreLocation
 @testable import teferi
 
 class SimpleMockTimeSlotService : TimeSlotService
@@ -19,12 +18,12 @@ class SimpleMockTimeSlotService : TimeSlotService
         return newTimeSlotToReturn
     }
     
-    @discardableResult func addTimeSlot(withStartTime startTime: Date, category: teferi.Category, categoryWasSetByUser: Bool, location: CLLocation?) -> TimeSlot?
+    @discardableResult func addTimeSlot(withStartTime startTime: Date, category: teferi.Category, categoryWasSetByUser: Bool, location: Location?) -> TimeSlot?
     {
         return newTimeSlotToReturn
     }
     
-    @discardableResult func addTimeSlot(withStartTime startTime: Date, smartGuess: SmartGuess, location: CLLocation?) -> TimeSlot?
+    @discardableResult func addTimeSlot(withStartTime startTime: Date, smartGuess: SmartGuess, location: Location?) -> TimeSlot?
     {
         return newTimeSlotToReturn
     }

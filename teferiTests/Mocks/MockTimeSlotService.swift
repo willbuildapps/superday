@@ -1,6 +1,5 @@
 import Foundation
 import RxSwift
-import CoreLocation
 @testable import teferi
 
 class MockTimeSlotService : TimeSlotService
@@ -90,17 +89,17 @@ class MockTimeSlotService : TimeSlotService
     
     @discardableResult func addTimeSlot(withStartTime startTime: Date, category: teferi.Category, categoryWasSetByUser: Bool, tryUsingLatestLocation: Bool) -> TimeSlot?
     {
-        let location : CLLocation? = tryUsingLatestLocation ? locationService.getLastKnownLocation() : nil
+        let location : Location? = tryUsingLatestLocation ? locationService.getLastKnownLocation() : nil
         return addTimeSlot(withStartTime: startTime, category: category, categoryWasSetByUser: categoryWasSetByUser, location:  location)
     }
     
-    @discardableResult func addTimeSlot(withStartTime startTime: Date, category: teferi.Category, categoryWasSetByUser: Bool, location: CLLocation?) -> TimeSlot?
+    @discardableResult func addTimeSlot(withStartTime startTime: Date, category: teferi.Category, categoryWasSetByUser: Bool, location: Location?) -> TimeSlot?
     {
         let timeSlot = TimeSlot(withStartTime: startTime, category: category, categoryWasSetByUser: categoryWasSetByUser, location: location)
         return tryAdd(timeSlot: timeSlot)
     }
     
-    @discardableResult func addTimeSlot(withStartTime startTime: Date, smartGuess: SmartGuess, location: CLLocation?) -> TimeSlot?
+    @discardableResult func addTimeSlot(withStartTime startTime: Date, smartGuess: SmartGuess, location: Location?) -> TimeSlot?
     {
         let timeSlot = TimeSlot(withStartTime: startTime, smartGuess: smartGuess, location: location)
         return tryAdd(timeSlot: timeSlot)
@@ -142,12 +141,12 @@ class PagerMockTimeSlotService : MockTimeSlotService
         return nil
     }
     
-    @discardableResult override func addTimeSlot(withStartTime startTime: Date, category: teferi.Category, categoryWasSetByUser: Bool, location: CLLocation?) -> TimeSlot?
+    @discardableResult override func addTimeSlot(withStartTime startTime: Date, category: teferi.Category, categoryWasSetByUser: Bool, location: Location?) -> TimeSlot?
     {
         return nil
     }
     
-    @discardableResult override func addTimeSlot(withStartTime startTime: Date, smartGuess: SmartGuess, location: CLLocation?) -> TimeSlot?
+    @discardableResult override func addTimeSlot(withStartTime startTime: Date, smartGuess: SmartGuess, location: Location?) -> TimeSlot?
     {
         return nil
     }

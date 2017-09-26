@@ -11,9 +11,9 @@ class DefaultSettingsService : SettingsService
         return get(forKey: installDateKey)
     }
     
-    var lastLocation : CLLocation?
+    var lastLocation : Location?
     {
-        var location : CLLocation? = nil
+        var location : Location? = nil
         
         let possibleTime = get(forKey: lastLocationDateKey) as Date?
         
@@ -23,27 +23,11 @@ class DefaultSettingsService : SettingsService
             let longitude = getDouble(forKey: lastLocationLngKey)
             let horizontalAccuracy = get(forKey: lastLocationHorizontalAccuracyKey) as Double? ?? 0.0
             
-            let coord = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-            location = CLLocation(coordinate: coord, altitude: 0,
-                                  horizontalAccuracy: horizontalAccuracy,
-                                  verticalAccuracy: 0, timestamp: time)
+            location = Location(timestamp: time,
+                                latitude: latitude, longitude: longitude,
+                                accuracy: horizontalAccuracy)
         }
         
-        return location
-    }
-    
-    var lastNotificationLocation : CLLocation?
-    {
-        guard let time = get(forKey: lastNotificationLocationDateKey) as Date? else { return nil }
-        
-        let latitude = getDouble(forKey: lastNotificationLocationLatKey)
-        let longitude = getDouble(forKey: lastNotificationLocationLngKey)
-        let horizontalAccuracy = get(forKey: lastNotificationLocationHorizontalAccuracyKey) as Double? ?? 0.0
-        
-        let coord = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        let location = CLLocation(coordinate: coord, altitude: 0,
-                                  horizontalAccuracy: horizontalAccuracy,
-                                  verticalAccuracy: 0, timestamp: time)
         return location
     }
     
@@ -101,11 +85,6 @@ class DefaultSettingsService : SettingsService
     private let votingHistoryKey = "votingHistory"
     private let lastShownWeeklyRatingKey = "lastShownWeeklyRating"
     
-    private let lastNotificationLocationLatKey = "lastNotificationLocationLat"
-    private let lastNotificationLocationLngKey = "lastNotificationLocationLng"
-    private let lastNotificationLocationDateKey = "lastNotificationLocationDate"
-    private let lastNotificationLocationHorizontalAccuracyKey = "lastNotificationLocationHorizontalAccuracy"
-    
     //MARK: Initialiazers
     init (timeService : TimeService)
     {
@@ -141,20 +120,12 @@ class DefaultSettingsService : SettingsService
         set(date, forKey: installDateKey)
     }
     
-    func setLastLocation(_ location: CLLocation)
+    func setLastLocation(_ location: Location)
     {
         set(location.timestamp, forKey: lastLocationDateKey)
-        set(location.coordinate.latitude, forKey: lastLocationLatKey)
-        set(location.coordinate.longitude, forKey: lastLocationLngKey)
+        set(location.latitude, forKey: lastLocationLatKey)
+        set(location.longitude, forKey: lastLocationLngKey)
         set(location.horizontalAccuracy, forKey: lastLocationHorizontalAccuracyKey)
-    }
-    
-    func setLastNotificationLocation(_ location: CLLocation)
-    {
-        set(location.timestamp, forKey: lastNotificationLocationDateKey)
-        set(location.coordinate.latitude, forKey: lastNotificationLocationLatKey)
-        set(location.coordinate.longitude, forKey: lastNotificationLocationLngKey)
-        set(location.horizontalAccuracy, forKey: lastNotificationLocationHorizontalAccuracyKey)
     }
     
     func setLastAskedForLocationPermission(_ date: Date)

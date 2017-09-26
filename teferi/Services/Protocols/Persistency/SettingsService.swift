@@ -1,12 +1,11 @@
 import Foundation
-import CoreLocation
 
 protocol SettingsService
 {
     //MARK: Properties
     var installDate : Date? { get }
     
-    var lastLocation : CLLocation? { get }
+    var lastLocation : Location? { get }
     
     var hasLocationPermission : Bool { get }
     
@@ -17,8 +16,6 @@ protocol SettingsService
     var hasNotificationPermission : Bool { get }
     
     var userEverGaveLocationPermission : Bool { get }
-    
-    var lastNotificationLocation : CLLocation? { get }
     
     var didShowWelcomeMessage : Bool { get }
     
@@ -31,16 +28,14 @@ protocol SettingsService
     
     func setInstallDate(_ date: Date)
     
-    func setLastLocation(_ location: CLLocation)
+    func setLastLocation(_ location: Location)
     
     func setLastAskedForLocationPermission(_ date: Date)
     
     func setUserGaveLocationPermission()
     
     func setUserGaveHealthKitPermission()
-    
-    func setLastNotificationLocation(_ location: CLLocation)
-    
+        
     func setWelcomeMessageShown()
     
     func setVote(forDate date: Date)

@@ -1,6 +1,5 @@
 import Foundation
 import HealthKit
-import CoreLocation
 
 enum TrackEvent : Equatable
 {

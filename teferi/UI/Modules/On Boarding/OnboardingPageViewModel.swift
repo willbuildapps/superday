@@ -1,6 +1,5 @@
 import Foundation
 import RxSwift
-import CoreLocation
 
 class OnboardingPageViewModel: NSObject
 {
@@ -10,7 +9,8 @@ class OnboardingPageViewModel: NSObject
     
     var locationAuthorizationChangedObservable: Observable<Void>
     {
-        return locationAuthorizationSubject.asObservable()
+        guard !settingsService.hasLocationPermission else { return Observable.just(()) }
+        return locationService.alwaysAuthorizationGranted.debug().mapTo(())
     }
     
     private var timeService : TimeService!
@@ -18,21 +18,21 @@ class OnboardingPageViewModel: NSObject
     fileprivate var settingsService : SettingsService!
     private var appLifecycleService : AppLifecycleService!
     private var notificationService : NotificationService!
-    
-    fileprivate var locationManager: CLLocationManager!
-    fileprivate var locationAuthorizationSubject = PublishSubject<Void>()
+    private var locationService : LocationService!
     
     init(timeService: TimeService,
          timeSlotService: TimeSlotService,
          settingsService: SettingsService,
          appLifecycleService: AppLifecycleService,
-         notificationService: NotificationService)
+         notificationService: NotificationService,
+         locationService: LocationService)
     {
         self.timeService = timeService
         self.timeSlotService = timeSlotService
         self.settingsService = settingsService
         self.appLifecycleService = appLifecycleService
         self.notificationService = notificationService
+        self.locationService = locationService
     }
     
     func timelineItem(forTimeslot timeslot: TimeSlot) -> TimelineItem
@@ -66,10 +66,7 @@ class OnboardingPageViewModel: NSObject
     func requestLocationAuthorization()
     {
         guard !settingsService.hasLocationPermission else { return }
-        
-        locationManager = CLLocationManager()
-        locationManager.delegate = self
-        locationManager.requestAlwaysAuthorization()
+        locationService.requestAuthorization()
     }
     
     private func time(from timeString: String) -> Date
@@ -82,22 +79,5 @@ class OnboardingPageViewModel: NSObject
         return timeService.now
             .ignoreTimeComponents()
             .addingTimeInterval(TimeInterval((hours * 60 + minutes) * 60))
-    }
-}
-
-extension OnboardingPageViewModel: CLLocationManagerDelegate
-{
-    
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus)
-    {
-        if status == .authorizedAlways || status == .denied
-        {
-            if status == .authorizedAlways {
-                settingsService.setUserGaveLocationPermission()
-            }
-            
-            locationManager.delegate = nil
-            locationAuthorizationSubject.onNext(())
-        }
     }
 }

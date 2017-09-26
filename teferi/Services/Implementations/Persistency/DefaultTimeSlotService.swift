@@ -1,7 +1,6 @@
 import CoreData
 import RxSwift
 import Foundation
-import CoreLocation
 
 class DefaultTimeSlotService : TimeSlotService
 {
@@ -36,7 +35,7 @@ class DefaultTimeSlotService : TimeSlotService
     // MARK: Public Methods
     @discardableResult func addTimeSlot(withStartTime startTime: Date, category: Category, categoryWasSetByUser: Bool, tryUsingLatestLocation: Bool) -> TimeSlot?
     {
-        let location : CLLocation? = tryUsingLatestLocation ? locationService.getLastKnownLocation() : nil
+        let location : Location? = tryUsingLatestLocation ? locationService.getLastKnownLocation() : nil
         
         return addTimeSlot(withStartTime: startTime,
                                 category: category,
@@ -44,7 +43,7 @@ class DefaultTimeSlotService : TimeSlotService
                                 location: location)
     }
     
-    @discardableResult func addTimeSlot(withStartTime startTime: Date, category: Category, categoryWasSetByUser: Bool, location: CLLocation?) -> TimeSlot?
+    @discardableResult func addTimeSlot(withStartTime startTime: Date, category: Category, categoryWasSetByUser: Bool, location: Location?) -> TimeSlot?
     {
         let timeSlot = TimeSlot(withStartTime: startTime,
                                 category: category, 
@@ -54,7 +53,7 @@ class DefaultTimeSlotService : TimeSlotService
         return tryAdd(timeSlot: timeSlot)
     }
     
-    @discardableResult func addTimeSlot(withStartTime startTime: Date, smartGuess: SmartGuess, location: CLLocation?) -> TimeSlot?
+    @discardableResult func addTimeSlot(withStartTime startTime: Date, smartGuess: SmartGuess, location: Location?) -> TimeSlot?
     {
         let timeSlot = TimeSlot(withStartTime: startTime,
                                 smartGuess: smartGuess,

@@ -1,13 +1,12 @@
 import Foundation
-import CoreLocation
 import RxSwift
 @testable import teferi
 
 class MockLocationService : LocationService
 {
     //MARK: Fields
-    private var lastLocation = CLLocation()
-    private var eventSubject = PublishSubject<CLLocation>()
+    private var lastLocation: Location? = nil
+    private var eventSubject = PublishSubject<Location>()
     
     //MARK: Properties
     private(set) var locationStarted = false
@@ -15,6 +14,15 @@ class MockLocationService : LocationService
     
     //MARK: LocationService implementation
     var isInBackground : Bool = false
+    
+    var alwaysAuthorizationGranted: Observable<Bool> {
+        return Observable.empty()
+    }
+    
+    func requestAuthorization()
+    {
+        
+    }
     
     func startLocationTracking()
     {
@@ -26,7 +34,7 @@ class MockLocationService : LocationService
         locationStarted = false
     }
     
-    func getLastKnownLocation() -> CLLocation?
+    func getLastKnownLocation() -> Location?
     {
         return useNilOnLastKnownLocation ? nil : lastLocation
     }
@@ -35,12 +43,11 @@ class MockLocationService : LocationService
     {
         return eventSubject
                 .asObservable()
-                .map(Location.init)
                 .map(Location.asTrackEvent)
     }
     
     //MARK: Methods
-    func sendNewTrackEvent(_ location: CLLocation)
+    func sendNewTrackEvent(_ location: Location)
     {
         lastLocation = location
         eventSubject.onNext(location)

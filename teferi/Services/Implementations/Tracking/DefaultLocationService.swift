@@ -52,25 +52,39 @@ class DefaultLocationService : NSObject, LocationService
                 }
             )
             .map(Location.init(fromCLLocation:))
+            .filterNil()
             .map(Location.asTrackEvent)
             .bindTo(eventSubject)
     }
     
     
-    // MARK: Public Methods    
+    // MARK: Public Methods
+    var alwaysAuthorizationGranted: Observable<Bool>
+    {
+        return locationManager.rx.didChangeAuthorization
+            .map { $0 == CLAuthorizationStatus.authorizedAlways }
+    }
+    
+    func requestAuthorization()
+    {
+        locationManager.requestAlwaysAuthorization()
+    }
+
     func startLocationTracking()
     {
         loggingService.log(withLogLevel: .info, message: "Location Service started")
         locationManager.startMonitoringSignificantLocationChanges()
     }
     
-    func getLastKnownLocation() -> CLLocation?
+    func getLastKnownLocation() -> Location?
     {
-        return [locationManager.location, accurateLocationManager.location]
+        let clLocation = [locationManager.location, accurateLocationManager.location]
             .flatMap({$0})
             .max { lc1, lc2 in
                 return lc1.horizontalAccuracy > lc2.horizontalAccuracy
         }
+        
+        return clLocation == nil ? nil : Location(fromCLLocation: clLocation!)
     }
     
     // MARK: Private Methods
@@ -94,7 +108,7 @@ class DefaultLocationService : NSObject, LocationService
                 guard let gpsLocation = gpsLocation else { return locations }
                 guard let lastLocation = locations.last else { return [gpsLocation] }
                 
-                if lastLocation.isMoreAccurate(than: gpsLocation)
+                if lastLocation.horizontalAccuracy < gpsLocation.horizontalAccuracy
                 {
                     return locations
                 }

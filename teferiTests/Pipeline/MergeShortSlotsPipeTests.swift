@@ -1,7 +1,6 @@
 import XCTest
 import UserNotifications
 import Nimble
-import CoreLocation
 @testable import teferi
 
 class MergeShortSlotsPipeTests : XCTestCase
@@ -191,7 +190,7 @@ class MergeShortSlotsPipeTests : XCTestCase
     
     func testIfBothHaveSmartGuessesTakesTheOneWithLocation()
     {
-        let location = Location(fromCLLocation: CLLocation.baseLocation)
+        let location = Location.baseLocation
         
         let timeline = [
             TemporaryTimeSlotBuilder(duration: 6 * 60),
@@ -212,8 +211,8 @@ class MergeShortSlotsPipeTests : XCTestCase
     
     func testIfBothHaveSmartGuessAndLocationTakeTheMostAccurateOne()
     {
-        let lessAccurateLocation = Location(fromCLLocation:CLLocation.baseLocation.with(accuracy: 100))
-        let moreAccurateLocation = Location(fromCLLocation:CLLocation.baseLocation.with(accuracy: 20))
+        let lessAccurateLocation = Location.baseLocation.with(accuracy: 100)
+        let moreAccurateLocation = Location.baseLocation.with(accuracy: 20)
         
         let timeline = [
             TemporaryTimeSlotBuilder(duration: 6 * 60),
@@ -234,8 +233,8 @@ class MergeShortSlotsPipeTests : XCTestCase
     
     func testIfBothHaveLocationTakeTheMostAccurateOne()
     {
-        let lessAccurateLocation = Location(fromCLLocation:CLLocation.baseLocation.with(accuracy: 100))
-        let moreAccurateLocation = Location(fromCLLocation:CLLocation.baseLocation.with(accuracy: 20))
+        let lessAccurateLocation = Location.baseLocation.with(accuracy: 100)
+        let moreAccurateLocation = Location.baseLocation.with(accuracy: 20)
         
         let timeline = [
             TemporaryTimeSlotBuilder(duration: 6 * 60),
@@ -259,7 +258,7 @@ class MergeShortSlotsPipeTests : XCTestCase
         return SmartGuess(
             withId: 0,
             category: category,
-            location: CLLocation.baseLocation,
+            location: Location.baseLocation,
             lastUsed: Date())
     }
 }

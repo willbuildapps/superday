@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -20,17 +21,17 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OG6-wl-hm1">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="611"/>
                                 <connections>
                                     <segue destination="7OT-Wf-TWW" kind="embed" id="6ps-b0-68Z"/>
                                 </connections>
                             </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1QJ-v9-Pue" customClass="WelcomeView" customModule="teferi" customModuleProvider="target">
-                                <rect key="frame" x="94" y="276" width="187.5" height="50"/>
+                                <rect key="frame" x="94" y="280" width="187.5" height="50"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I30-ze-lOs">
                                         <rect key="frame" x="0.0" y="0.0" width="187.5" height="21"/>
@@ -64,7 +65,7 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="1QJ-v9-Pue" firstAttribute="centerX" secondItem="OG6-wl-hm1" secondAttribute="centerX" id="4nt-ZG-0zd"/>
-                            <constraint firstItem="OG6-wl-hm1" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="NCU-n0-Cem"/>
+                            <constraint firstItem="OG6-wl-hm1" firstAttribute="bottomMargin" secondItem="wfy-db-euE" secondAttribute="top" id="NCU-n0-Cem"/>
                             <constraint firstAttribute="trailing" secondItem="OG6-wl-hm1" secondAttribute="trailing" id="VX2-IW-m1O"/>
                             <constraint firstItem="1QJ-v9-Pue" firstAttribute="centerY" secondItem="OG6-wl-hm1" secondAttribute="centerY" id="YxV-0c-sm2"/>
                             <constraint firstItem="1QJ-v9-Pue" firstAttribute="width" secondItem="OG6-wl-hm1" secondAttribute="width" multiplier="0.5" id="cxQ-Tm-1Ob"/>
@@ -91,7 +92,7 @@
                         <viewControllerLayoutGuide type="bottom" id="Q2i-wf-CNf"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="0JV-at-uhw">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="611"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
@@ -113,24 +114,24 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tx9-mT-IJt" userLabel="CalendarBackgroundView">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="298"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="298"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="298" id="fsZ-Gh-krj"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zbj-TW-Dk2" userLabel="SemiTransparentView">
-                                <rect key="frame" x="0.0" y="298" width="375" height="369"/>
+                                <rect key="frame" x="0.0" y="318" width="375" height="349"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="July 2016" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6jf-tP-iE3">
-                                <rect key="frame" x="151" y="19" width="74" height="20.5"/>
+                                <rect key="frame" x="151" y="39" width="74" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="knj-9u-WUa">
-                                <rect key="frame" x="16" y="19" width="20" height="20"/>
+                                <rect key="frame" x="16" y="39" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="20" id="2Ei-z7-h7h"/>
                                     <constraint firstAttribute="height" constant="20" id="ffv-Qc-xfc"/>
@@ -138,7 +139,7 @@
                                 <state key="normal" image="icArrowLeft"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aEt-Kt-vQb">
-                                <rect key="frame" x="339" y="20" width="20" height="20"/>
+                                <rect key="frame" x="339" y="40" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="NmE-Op-z1f"/>
                                     <constraint firstAttribute="width" constant="20" id="gvF-w9-uFS"/>
@@ -146,13 +147,13 @@
                                 <state key="normal" image="icArrowRight"/>
                             </button>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P1q-Pj-kdM" customClass="JTAppleCalendarView" customModule="JTAppleCalendar">
-                                <rect key="frame" x="16" y="78.5" width="343" height="270"/>
+                                <rect key="frame" x="16" y="98.5" width="343" height="270"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="270" id="it3-Kv-UCG"/>
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Ik7-d5-Fp7">
-                                <rect key="frame" x="16" y="55.5" width="343" height="13"/>
+                                <rect key="frame" x="16" y="75.5" width="343" height="13"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="M" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a95-i7-kdE">
                                         <rect key="frame" x="0.0" y="0.0" width="49" height="13"/>
