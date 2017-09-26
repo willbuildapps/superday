@@ -21,10 +21,7 @@ class MainViewModel : RxViewModel
             .map { [unowned self] () -> PermissionRequestType? in
                 if self.shouldShowLocationPermissionRequest() {
                     return PermissionRequestType.location
-                } else if self.shouldShowHealthKitPermissionRequest() {
-                    return PermissionRequestType.health
                 }
-                
                 return nil
             }
             .filterNil()
@@ -32,23 +29,20 @@ class MainViewModel : RxViewModel
     
     var welcomeMessageHiddenObservable : Observable<Bool>
     {
+        if self.settingsService.didShowWelcomeMessage {
+            return Observable.just(true)
+        }
+        
         return Observable.of(
-            self.appLifecycleService.movedToForegroundObservable.skip(1),
-            self.didBecomeActive,
+            self.didBecomeActive.skip(1),
             self.beganEditingObservable.mapTo(()),
-            self.timeSlotService.timeSlotCreatedObservable.mapTo(()) )
+            self.timeSlotService.timeSlotCreatedObservable.mapTo(()).skip(1))
             .merge()
-            .map { [unowned self] () -> Bool in
-                guard self.timeService.now.ignoreTimeComponents() == self.settingsService.installDate!.ignoreTimeComponents()
-                else {
-                    self.settingsService.setWelcomeMessageShown()
-                    return true
-                }
-                
-                let value = self.settingsService.didShowWelcomeMessage
+            .mapTo(true)
+            .startWith(false)
+            .do(onNext: { _ in
                 self.settingsService.setWelcomeMessageShown()
-                return value
-            }
+            })
     }
     
     var moveToForegroundObservable : Observable<Void>
@@ -87,8 +81,13 @@ class MainViewModel : RxViewModel
         return timeService.now
     }
 
+    var locating:Observable<Bool> {
+        return locatingActivity.asObservable()
+            .observeOn(MainScheduler.instance)
+    }
     
     // MARK: Private Properties
+    private let loggingService: LoggingService
     private let timeService : TimeService
     private let metricsService : MetricsService
     private let timeSlotService : TimeSlotService
@@ -96,17 +95,27 @@ class MainViewModel : RxViewModel
     private let smartGuessService : SmartGuessService
     private let settingsService : SettingsService
     private let appLifecycleService : AppLifecycleService
+    private let locationService: LocationService
+    private let trackEventService: TrackEventService
+    
+    private let locatingActivity = ActivityIndicator()
+    private let timelineGenerator: TimelineGenerator
+    private var disposeBag = DisposeBag()
     
     // MARK: Initializer
-    init(timeService: TimeService,
+    init(loggingService: LoggingService,
+         timeService: TimeService,
          metricsService: MetricsService,
          timeSlotService: TimeSlotService,
          editStateService: EditStateService,
          smartGuessService : SmartGuessService,
          selectedDateService : SelectedDateService,
          settingsService : SettingsService,
-         appLifecycleService: AppLifecycleService)
+         appLifecycleService: AppLifecycleService,
+         locationService: LocationService,
+         trackEventService: TrackEventService)
     {
+        self.loggingService = loggingService
         self.timeService = timeService
         self.metricsService = metricsService
         self.timeSlotService = timeSlotService
@@ -114,12 +123,39 @@ class MainViewModel : RxViewModel
         self.smartGuessService = smartGuessService
         self.settingsService = settingsService
         self.appLifecycleService = appLifecycleService
+        self.locationService = locationService
+        self.trackEventService = trackEventService
+        
+        timelineGenerator = TimelineGenerator(loggingService: loggingService,
+                                              trackEventService: trackEventService,
+                                              smartGuessService: smartGuessService,
+                                              timeService: timeService,
+                                              timeSlotService: timeSlotService,
+                                              metricsService: metricsService,
+                                              settingsService: settingsService)
         
         isEditingObservable = editStateService.isEditingObservable
         dateObservable = selectedDateService.currentlySelectedDateObservable
         beganEditingObservable = editStateService.beganEditingObservable
         
         categoryProvider = DefaultCategoryProvider(timeSlotService: timeSlotService)
+
+        super.init()
+        
+        didBecomeActive
+            .flatMap { [unowned self] _ -> Observable<Location> in
+                if let location = settingsService.lastLocation {
+                    return Observable.just(location)
+                }
+                
+                return locationService.currentLocation
+                    .subscribeOn(OperationQueueScheduler(operationQueue: OperationQueue()))
+                    .do(onNext: settingsService.setLastLocation)
+                    .trackActivity(self.locatingActivity)
+            }
+            .mapTo(())
+            .subscribe(onNext: timelineGenerator.execute)
+            .addDisposableTo(disposeBag)        
 
     }
     
@@ -177,21 +213,6 @@ class MainViewModel : RxViewModel
     
     private func shouldShowLocationPermissionRequest() -> Bool
     {
-        if settingsService.hasLocationPermission { return false }
-        
-        //If user doesn't have permissions and we never showed the overlay, do it
-        guard let lastRequestedDate = settingsService.lastAskedForLocationPermission else { return true }
-        
-        let minimumRequestDate = lastRequestedDate.addingTimeInterval(Constants.timeToWaitBeforeShowingLocationPermissionsAgain)
-        
-        //If we previously showed the overlay, we must only do it again after timeToWaitBeforeShowingLocationPermissionsAgain
-        return minimumRequestDate < timeService.now
-    }
-    
-    private func shouldShowHealthKitPermissionRequest() -> Bool
-    {
-        guard let installDate = settingsService.installDate else { return false }
-        
-        return !settingsService.hasHealthKitPermission && installDate.addingTimeInterval(Constants.timeToWaitBeforeShowingHealthKitPermissions - 5) < timeService.now
+        return !settingsService.hasLocationPermission
     }
 }

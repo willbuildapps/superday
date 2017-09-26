@@ -8,6 +8,7 @@ class MainViewModelTests : XCTestCase
     private var viewModel : MainViewModel!
     private var disposable : Disposable? = nil
     
+    private var loggingService: MockLoggingService!
     private var timeService : MockTimeService!
     private var metricsService : MockMetricsService!
     private var feedbackService : MockFeedbackService!
@@ -18,9 +19,11 @@ class MainViewModelTests : XCTestCase
     private var smartGuessService : MockSmartGuessService!
     private var appLifecycleService : MockAppLifecycleService!
     private var selectedDateService : MockSelectedDateService!
+    private var trackEventService: MockTrackEventService!
     
     override func setUp()
     {
+        loggingService = MockLoggingService()
         timeService = MockTimeService()
         metricsService = MockMetricsService()
         locationService = MockLocationService()
@@ -32,15 +35,19 @@ class MainViewModelTests : XCTestCase
         selectedDateService = MockSelectedDateService()
         timeSlotService = MockTimeSlotService(timeService: timeService,
                                                    locationService: locationService)
+        trackEventService = MockTrackEventService()
         
-        viewModel = MainViewModel(timeService: timeService,
-                                       metricsService: metricsService,
-                                       timeSlotService: timeSlotService,
-                                       editStateService: editStateService,
-                                       smartGuessService: smartGuessService,
-                                       selectedDateService: selectedDateService,
-                                       settingsService: settingsService,
-                                       appLifecycleService: appLifecycleService)
+        viewModel = MainViewModel(loggingService: loggingService,
+                                  timeService: timeService,
+                                  metricsService: metricsService,
+                                  timeSlotService: timeSlotService,
+                                  editStateService: editStateService,
+                                  smartGuessService: smartGuessService,
+                                  selectedDateService: selectedDateService,
+                                  settingsService: settingsService,
+                                  appLifecycleService: appLifecycleService,
+                                  locationService: locationService,
+                                  trackEventService: trackEventService)
         
     }
     
@@ -160,45 +167,6 @@ class MainViewModelTests : XCTestCase
         expect(self.smartGuessService.smartGuesses.count).to(equal(previousCount + 1))
     }
     
-    func testHKPermissionShouldNotBeShownIfTheUserHasAlreadyAuthorized()
-    {
-        settingsService.hasHealthKitPermission = true
-        
-        var wouldShow = false
-        disposable = viewModel.showPermissionControllerObservable
-            .subscribe(onNext:  { _ in wouldShow = true })
-        
-        expect(wouldShow).to(beFalse())
-    }
-    
-    func testHKPermissionShouldBeShownIfItWasNotShownForTheDurationSpecifiedInConstant()
-    {
-        timeService.mockDate = Date().addingTimeInterval(Constants.timeToWaitBeforeShowingHealthKitPermissions)
-        settingsService.hasHealthKitPermission = false
-        
-        var wouldShow = false
-        disposable = viewModel.showPermissionControllerObservable
-            .subscribe(onNext: { _ in wouldShow = true })
-        
-        appLifecycleService.publish(.movedToForeground(withDailyVotingNotificationDate: nil))
-        
-        expect(wouldShow).to(beTrue())
-    }
-    
-    func testHKPermissionShouldBeNotShownIfItWasNotShownBeforTheDurationSpecifiedInConstant()
-    {
-        timeService.mockDate = Date().addingTimeInterval(Constants.timeToWaitBeforeShowingHealthKitPermissions - 15*60)
-        settingsService.hasHealthKitPermission = false
-        
-        var wouldShow = false
-        disposable = viewModel.showPermissionControllerObservable
-            .subscribe(onNext: { _ in wouldShow = true })
-        
-        appLifecycleService.publish(.movedToForeground(withDailyVotingNotificationDate: nil))
-        
-        expect(wouldShow).to(beFalse())
-    }
-    
     func testLocationPermissionShouldNotBeShownIfTheUserHasAlreadyAuthorized()
     {
         settingsService.hasLocationPermission = true
@@ -213,7 +181,6 @@ class MainViewModelTests : XCTestCase
     func testIfLocationPermissionWasNeverShownItNeedsToBeShown()
     {
         settingsService.hasLocationPermission = false
-        settingsService.lastAskedForLocationPermission = nil
         
         var wouldShow = false
         disposable = viewModel.showPermissionControllerObservable
@@ -222,32 +189,6 @@ class MainViewModelTests : XCTestCase
         appLifecycleService.publish(.movedToForeground(withDailyVotingNotificationDate: nil))
         
         expect(wouldShow).to(beTrue())
-    }
-    
-    func testLocationPermissionShouldBeShownIfItWasNotShownForSpecifiedTime()
-    {
-        settingsService.hasLocationPermission = false
-        settingsService.lastAskedForLocationPermission = Date().addingTimeInterval(-(Constants.timeToWaitBeforeShowingLocationPermissionsAgain*2))
-        
-        var wouldShow = false
-        disposable = viewModel.showPermissionControllerObservable
-            .subscribe(onNext: { type in wouldShow = type == .location })
-        
-        appLifecycleService.publish(.movedToForeground(withDailyVotingNotificationDate: nil))
-        
-        expect(wouldShow).to(beTrue())
-    }
-    
-    func testLocationPermissionShouldNotBeShownIfItWasLastShownInTheLastSpecifiedTime()
-    {
-        settingsService.hasLocationPermission = false
-        settingsService.lastAskedForLocationPermission = Date().ignoreTimeComponents()
-        
-        var wouldShow = false
-        disposable = viewModel.showPermissionControllerObservable
-            .subscribe(onNext: { _ in wouldShow = true })
-        
-        expect(wouldShow).to(beFalse())
     }
     
     private func addTimeSlot(withCategory category: teferi.Category) -> TimeSlot

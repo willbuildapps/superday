@@ -3,6 +3,8 @@ import RxSwift
 
 class OnboardingPage4 : OnboardingPage
 {
+    private var disposeBag : DisposeBag = DisposeBag()
+
     required init?(coder aDecoder: NSCoder)
     {
         super.init(coder: aDecoder, nextButtonText: nil)
@@ -10,6 +12,10 @@ class OnboardingPage4 : OnboardingPage
     
     override func startAnimations()
     {
-        viewModel.requestNotificationPermission(finish)        
+        viewModel.requestCoreMotionAuthorization()
+        
+        viewModel.motionAuthorizationChangedObservable
+            .subscribe(onNext: finish)
+            .addDisposableTo(disposeBag)
     }
 }

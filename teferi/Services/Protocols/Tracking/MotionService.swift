@@ -1,11 +1,15 @@
-import CoreMotion
+import RxSwift
+
+enum MotionServiceError: Error
+{
+    case notAvailable
+    case noActivities
+}
 
 protocol MotionService
 {
-    /**
-     Called when a new Motion Event happens.
-     
-     - Parameter activity: Contains the motion activity information.
-     */
-    func onNewMotion(_ activity: CMMotionActivity)
+    var motionAuthorizationGranted: Observable<Bool> { get }
+
+    func askForAuthorization()
+    func getActivities(since start: Date, until end: Date) -> Observable<[MotionEvent]>
 }

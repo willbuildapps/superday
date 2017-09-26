@@ -9,10 +9,6 @@ protocol SettingsService
     
     var hasLocationPermission : Bool { get }
     
-    var hasHealthKitPermission : Bool { get }
-    
-    var lastAskedForLocationPermission : Date? { get }
-        
     var hasNotificationPermission : Bool { get }
     
     var userEverGaveLocationPermission : Bool { get }
@@ -22,20 +18,12 @@ protocol SettingsService
     var lastShownWeeklyRating : Date? { get }
     
     //MARK: Methods
-    func lastHealthKitUpdate(for identifier: String) -> Date
-    
-    func setLastHealthKitUpdate(for identifier: String, date: Date)
-    
     func setInstallDate(_ date: Date)
     
     func setLastLocation(_ location: Location)
-    
-    func setLastAskedForLocationPermission(_ date: Date)
-    
-    func setUserGaveLocationPermission()
-    
-    func setUserGaveHealthKitPermission()
         
+    func setUserGaveLocationPermission()
+            
     func setWelcomeMessageShown()
     
     func setVote(forDate date: Date)

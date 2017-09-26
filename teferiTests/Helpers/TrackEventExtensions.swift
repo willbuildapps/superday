@@ -10,15 +10,6 @@ extension TrackEvent
     func delay(hours:Double = 0, minutes:Double = 0, seconds:Double = 0) -> TrackEvent
     {
         switch self {
-        case .newHealthSample(let sample):
-            return TrackEvent.newHealthSample(
-                sample: HealthSample(
-                    withIdentifier: sample.identifier,
-                    startTime: sample.startTime.addingTimeInterval(hours*60*60 + minutes*60 + seconds),
-                    endTime: sample.endTime.addingTimeInterval(seconds),
-                    value: sample.value
-                )
-            )
         case .newLocation(let location):
             return TrackEvent.newLocation(
                 location: Location(
@@ -38,17 +29,6 @@ extension TrackEvent
     func offset(meters:Double) -> TrackEvent
     {
         switch self {
-            
-        case .newHealthSample(let sample):
-            return TrackEvent.newHealthSample(
-                sample: HealthSample(
-                    withIdentifier: sample.identifier,
-                    startTime: sample.startTime,
-                    endTime: sample.endTime,
-                    value: sample.value
-                )
-            )
-            
         case .newLocation(let oldLocation):
             
             let location = oldLocation.offset(.north, meters:meters)

@@ -57,12 +57,22 @@ class DefaultLocationService : NSObject, LocationService
             .bindTo(eventSubject)
     }
     
-    
     // MARK: Public Methods
     var alwaysAuthorizationGranted: Observable<Bool>
     {
         return locationManager.rx.didChangeAuthorization
             .map { $0 == CLAuthorizationStatus.authorizedAlways }
+    }
+    
+    var currentLocation: Observable<Location>
+    {
+        let currentGPSLocation = getBestGPSLocation()
+            .map(Location.init(fromCLLocation:))
+            .filterNil()
+        
+        self.startGPSTracking()
+        
+        return currentGPSLocation
     }
     
     func requestAuthorization()

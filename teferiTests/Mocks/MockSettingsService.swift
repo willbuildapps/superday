@@ -8,35 +8,14 @@ class MockSettingsService : SettingsService
     var installDate : Date? = Date()
     var lastInactiveDate : Date? = nil
     var lastLocation : Location? = nil
-    var lastAskedForLocationPermission : Date? = nil
     var userEverGaveLocationPermission : Bool = false
     var didShowWelcomeMessage : Bool = true
     var lastShownWeeklyRating : Date? = Date()
     
-
     var hasLocationPermission = true
-    var hasHealthKitPermission = true
     var hasNotificationPermission = true
-    
-    var healthKitUpdates = [String: Date]()
-    
-    //MARK: Methods
-    func lastHealthKitUpdate(for identifier: String) -> Date
-    {
-        guard let dateToReturn = healthKitUpdates[identifier]
-        else
-        {
-            return lastInactiveDate!
-        }
         
-        return dateToReturn
-    }
-    
-    func setLastHealthKitUpdate(for identifier: String, date: Date)
-    {
-        healthKitUpdates[identifier] = date
-    }
-    
+    //MARK: Methods
     func setInstallDate(_ date: Date)
     {
         installDate = date
@@ -45,11 +24,6 @@ class MockSettingsService : SettingsService
     func setLastLocation(_ location: Location)
     {
         lastLocation = location
-    }
-    
-    func setLastAskedForLocationPermission(_ date: Date)
-    {
-        lastAskedForLocationPermission = date
     }
     
     func getNextSmartGuessId() -> Int
@@ -65,11 +39,6 @@ class MockSettingsService : SettingsService
     func setUserGaveLocationPermission()
     {
         userEverGaveLocationPermission = true
-    }
-    
-    func setUserGaveHealthKitPermission()
-    {
-        hasHealthKitPermission = true
     }
     
     func setWelcomeMessageShown()

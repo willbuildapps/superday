@@ -15,7 +15,7 @@ PODS:
   - SnapKit (3.2.0)
   - SwiftGen (4.1.0)
   - SwiftLint (0.16.1)
-  - SwiftyBeaver (1.4.0)
+  - SwiftyBeaver (1.4.1)
 
 DEPENDENCIES:
   - Crashlytics
@@ -43,7 +43,7 @@ SPEC CHECKSUMS:
   SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
   SwiftGen: d29fd8b7aa52092411d415fb09d0abd3d79ea1a5
   SwiftLint: b8b683208cc09640898f16318a7a452274e91f61
-  SwiftyBeaver: 78d9186ce7595b4400ce01e5fd750d263e72dd7b
+  SwiftyBeaver: f04f739cca6826c5fb0f575fed8fa3293f76b83e
 
 PODFILE CHECKSUM: a86c82b1f7f38bb5ea8ee002c5c5450e36c4c085
 

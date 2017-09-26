@@ -10,28 +10,33 @@ class OnboardingPageViewModel: NSObject
     var locationAuthorizationChangedObservable: Observable<Void>
     {
         guard !settingsService.hasLocationPermission else { return Observable.just(()) }
-        return locationService.alwaysAuthorizationGranted.debug().mapTo(())
+        return locationService.alwaysAuthorizationGranted.mapTo(())
     }
     
+    var motionAuthorizationChangedObservable: Observable<Void>
+    {
+        return motionService.motionAuthorizationGranted.mapTo(())
+    }
+
     private var timeService : TimeService!
     private var timeSlotService : TimeSlotService!
     fileprivate var settingsService : SettingsService!
     private var appLifecycleService : AppLifecycleService!
-    private var notificationService : NotificationService!
+    private var motionService: MotionService!
     private var locationService : LocationService!
     
     init(timeService: TimeService,
          timeSlotService: TimeSlotService,
          settingsService: SettingsService,
          appLifecycleService: AppLifecycleService,
-         notificationService: NotificationService,
+         motionService: MotionService,
          locationService: LocationService)
     {
         self.timeService = timeService
         self.timeSlotService = timeSlotService
         self.settingsService = settingsService
         self.appLifecycleService = appLifecycleService
-        self.notificationService = notificationService
+        self.motionService = motionService
         self.locationService = locationService
     }
     
@@ -58,9 +63,9 @@ class OnboardingPageViewModel: NSObject
         return timeSlot
     }
     
-    func requestNotificationPermission(_ completed:@escaping ()->())
+    func requestCoreMotionAuthorization()
     {
-        notificationService.requestNotificationPermission(completed: completed)
+        motionService.askForAuthorization()
     }
     
     func requestLocationAuthorization()

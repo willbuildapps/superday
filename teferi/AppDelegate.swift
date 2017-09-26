@@ -14,7 +14,6 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     private let disposeBag = DisposeBag()
     private let notificationAuthorizedSubject = PublishSubject<Void>()
     
-    private let pipeline : Pipeline
     private let timeService : TimeService
     private let metricsService : MetricsService
     private let loggingService : LoggingService
@@ -23,11 +22,11 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     private let settingsService : SettingsService
     private let timeSlotService : TimeSlotService
     private let editStateService : EditStateService
-    private let healthKitService : HealthKitService
     private let smartGuessService : SmartGuessService
     private let trackEventService : TrackEventService
     private let appLifecycleService : AppLifecycleService
     private let notificationService : NotificationService
+    private let motionService: MotionService
     private let selectedDateService : DefaultSelectedDateService
     
     private let coreDataStack : CoreDataStack
@@ -42,7 +41,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         appLifecycleService = DefaultAppLifecycleService()
         editStateService = DefaultEditStateService(timeService: timeService)
         locationService = DefaultLocationService(loggingService: loggingService)
-        healthKitService = DefaultHealthKitService(settingsService: settingsService, loggingService: loggingService)
+        motionService = DefaultMotionService()
         selectedDateService = DefaultSelectedDateService(timeService: timeService)
         feedbackService = MailFeedbackService(recipients: ["support@toggl.com"], subject: "Superday feedback", body: "")
         
@@ -50,7 +49,6 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         let timeSlotPersistencyService = CoreDataPersistencyService(loggingService: loggingService, modelAdapter: TimeSlotModelAdapter(), managedObjectContext: coreDataStack.managedObjectContext)
         let locationPersistencyService = CoreDataPersistencyService(loggingService: loggingService, modelAdapter: LocationModelAdapter(), managedObjectContext: coreDataStack.managedObjectContext)
         let smartGuessPersistencyService = CoreDataPersistencyService(loggingService: loggingService, modelAdapter: SmartGuessModelAdapter(), managedObjectContext: coreDataStack.managedObjectContext)
-        let healthSamplePersistencyService = CoreDataPersistencyService(loggingService: loggingService, modelAdapter: HealthSampleModelAdapter(), managedObjectContext: coreDataStack.managedObjectContext)
         
         smartGuessService = DefaultSmartGuessService(timeService: timeService,
                                                           loggingService: loggingService,
@@ -78,34 +76,11 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         }
         
         let trackEventServicePersistency = TrackEventPersistencyService(loggingService: loggingService,
-                                                                        locationPersistencyService: locationPersistencyService,
-                                                                        healthSamplePersistencyService: healthSamplePersistencyService)
+                                                                        locationPersistencyService: locationPersistencyService)
         
         trackEventService = DefaultTrackEventService(loggingService: loggingService,
                                                           persistencyService: trackEventServicePersistency,
-                                                          withEventSources: locationService, healthKitService)
-        
-        let locationPump = LocationPump(trackEventService: trackEventService,
-                                        settingsService: settingsService,
-                                        timeSlotService: timeSlotService,
-                                        loggingService: loggingService,
-                                        timeService: timeService)
-        
-        let healthKitPump = HealthKitPump(trackEventService: trackEventService, loggingService: loggingService)
-        
-        pipeline = Pipeline.with(loggingService: loggingService, pumps: locationPump, healthKitPump)
-                                .pipe(to: MergePipe())
-                                .pipe(to: SmartGuessPipe(smartGuessService: smartGuessService))
-                                .pipe(to: MergeMiniCommuteTimeSlotsPipe(timeService: timeService))
-                                .pipe(to: MergeShortTimeSlotsPipe())
-                                .pipe(to: CapMidnightPipe(timeService: timeService))
-                                .pipe(to: FirstTimeSlotOfDayPipe(timeService: timeService, timeSlotService: timeSlotService))
-                                .sink(PersistencySink(settingsService: settingsService,
-                                                      timeSlotService: timeSlotService,
-                                                      smartGuessService: smartGuessService,
-                                                      trackEventService: trackEventService,
-                                                      timeService: timeService,
-                                                      metricsService: metricsService))
+                                                          withEventSources: locationService)
     }
     
     //MARK: UIApplicationDelegate lifecycle
@@ -119,11 +94,6 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         let isInBackground = launchOptions?[UIApplicationLaunchOptionsKey.location] != nil
         
         logAppStartup(isInBackground)
-
-        if settingsService.hasHealthKitPermission
-        {
-            healthKitService.startHealthKitTracking()
-        }
         
         if #available(iOS 10.0, *) {
             UNUserNotificationCenter.current().delegate = self
@@ -133,11 +103,11 @@ class AppDelegate : UIResponder, UIApplicationDelegate
             }
         }
         
-        appLifecycleService.publish(isInBackground ? .movedToBackground : .movedToForeground(withDailyVotingNotificationDate: dailyVotingNotificationDate))
         
         //Faster startup when the app wakes up for location updates
         if isInBackground
         {
+            appLifecycleService.publish(.movedToBackground)
             locationService.startLocationTracking()
             return true
         }
@@ -192,8 +162,9 @@ class AppDelegate : UIResponder, UIApplicationDelegate
                                                        appLifecycleService: appLifecycleService,
                                                        selectedDateService: selectedDateService,
                                                        loggingService: loggingService,
-                                                       healthKitService: healthKitService,
-                                                       notificationService: notificationService)
+                                                       notificationService: notificationService,
+                                                       motionService: motionService,
+                                                       trackEventService: trackEventService)
         
         window!.rootViewController = IntroPresenter.create(with: viewModelLocator)
         window!.makeKeyAndVisible()
@@ -208,9 +179,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     func applicationDidBecomeActive(_ application: UIApplication)
     {
         notificationService.clearAndScheduleAllDefaultNotifications()
-        
-        pipeline.run()
-        
+
         initializeWindowIfNeeded()
         
         appLifecycleService.publish(.movedToForeground(withDailyVotingNotificationDate: dailyVotingNotificationDate))
