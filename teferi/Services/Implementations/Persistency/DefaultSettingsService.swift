@@ -31,12 +31,17 @@ class DefaultSettingsService : SettingsService
         return location
     }
     
+    var lastTimelineGenerationDate: Date?
+    {
+        return get(forKey: lastTimelineGenerationDateKey)
+    }
+    
     var hasLocationPermission : Bool
     {
         guard CLLocationManager.locationServicesEnabled() else { return false }
         return CLLocationManager.authorizationStatus() == .authorizedAlways
     }
-    
+
     var hasNotificationPermission : Bool
     {
         let notificationSettings = UIApplication.shared.currentUserNotificationSettings
@@ -71,6 +76,7 @@ class DefaultSettingsService : SettingsService
     private let welcomeMessageShownKey = "welcomeMessageShown"
     private let votingHistoryKey = "votingHistory"
     private let lastShownWeeklyRatingKey = "lastShownWeeklyRating"
+    private let lastTimelineGenerationDateKey = "lastTimelineGenerationDate"
     
     //MARK: Initialiazers
     init (timeService : TimeService)
@@ -92,6 +98,11 @@ class DefaultSettingsService : SettingsService
         set(location.latitude, forKey: lastLocationLatKey)
         set(location.longitude, forKey: lastLocationLngKey)
         set(location.horizontalAccuracy, forKey: lastLocationHorizontalAccuracyKey)
+    }
+    
+    func setLastTimelineGenerationDate(_ date: Date)
+    {
+        set(date, forKey: lastTimelineGenerationDateKey)
     }
     
     func setUserGaveLocationPermission()

@@ -16,6 +16,13 @@ typealias Coordinates = (latitude: Double, longitude: Double)
 
 extension Location
 {
+    static var baseLocation:Location
+    {
+        return Location(timestamp: Date.noon,
+                        latitude: 37.628060, longitude: -116.848463,
+                        accuracy: 100)
+    }
+    
     fileprivate func offsetCoordinates(_ direction: Direction, meters: Double) -> Coordinates
     {
         let newLatitude : Double

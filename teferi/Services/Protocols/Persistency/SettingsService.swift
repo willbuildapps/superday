@@ -7,6 +7,8 @@ protocol SettingsService
     
     var lastLocation : Location? { get }
     
+    var lastTimelineGenerationDate: Date? { get }
+    
     var hasLocationPermission : Bool { get }
     
     var hasNotificationPermission : Bool { get }
@@ -21,6 +23,8 @@ protocol SettingsService
     func setInstallDate(_ date: Date)
     
     func setLastLocation(_ location: Location)
+    
+    func setLastTimelineGenerationDate(_ date: Date)
         
     func setUserGaveLocationPermission()
             

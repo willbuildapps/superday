@@ -1,41 +1,35 @@
 import Foundation
 
-class PersistencySink : Sink
+class Persister
 {
     private typealias SmartGuessUpdate = (smartGuess: SmartGuess, time: Date)
     
-    private let settingsService : SettingsService
     private let timeSlotService : TimeSlotService
     private let smartGuessService : SmartGuessService
-    private let trackEventService : TrackEventService
     private let timeService : TimeService
     private let metricsService:  MetricsService
     
-    init(settingsService: SettingsService,
-         timeSlotService: TimeSlotService,
+    init(timeSlotService: TimeSlotService,
          smartGuessService: SmartGuessService,
-         trackEventService: TrackEventService,
          timeService: TimeService,
          metricsService: MetricsService)
     {
-        self.settingsService = settingsService
         self.timeSlotService = timeSlotService
         self.smartGuessService = smartGuessService
-        self.trackEventService = trackEventService
         self.timeService = timeService
         self.metricsService = metricsService
     }
     
-    func execute(timeline: [TemporaryTimeSlot])
+    func persist(slots: [TemporaryTimeSlot])
     {
-        if timeline.isEmpty { return }
+        if slots.isEmpty { return }
         
         var lastLocation : Location? = nil
         var smartGuessesToUpdate = [SmartGuessUpdate]()
         
         var firstSlotCreated : TimeSlot? = nil
         
-        for temporaryTimeSlot in timeline
+        for temporaryTimeSlot in slots
         {
             let addedTimeSlot : TimeSlot?
             if let smartGuess = temporaryTimeSlot.smartGuess
@@ -62,11 +56,7 @@ class PersistencySink : Sink
         }
 
         logTimeSlotsSince(date: firstSlotCreated?.startTime)
-        
-        updateIfNeeded(lastLocation: lastLocation)
         smartGuessesToUpdate.forEach { self.smartGuessService.markAsUsed($0.smartGuess, atTime: $0.time) }
-        
-        trackEventService.clearAllData()
     }
     
     private func logTimeSlotsSince(date: Date?)
@@ -74,7 +64,6 @@ class PersistencySink : Sink
         guard let startDate = date else { return }
         
         timeSlotService.getTimeSlots(betweenDate: startDate, andDate: timeService.now).forEach({ slot in
-            print(slot)
             metricsService.log(event: .timeSlotCreated(date: timeService.now, category: slot.category, duration: slot.duration))
             if let _ = slot.smartGuessId
             {
@@ -84,10 +73,5 @@ class PersistencySink : Sink
             }
         })
     }
-    
-    private func updateIfNeeded(lastLocation: Location?)
-    {
-        guard let lastLocation = lastLocation else { return }        
-        settingsService.setLastLocation(lastLocation)
-    }
 }
+

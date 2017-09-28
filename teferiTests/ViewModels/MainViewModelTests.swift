@@ -20,6 +20,7 @@ class MainViewModelTests : XCTestCase
     private var appLifecycleService : MockAppLifecycleService!
     private var selectedDateService : MockSelectedDateService!
     private var trackEventService: MockTrackEventService!
+    private var motionService: MockMotionService!
     
     override func setUp()
     {
@@ -36,6 +37,7 @@ class MainViewModelTests : XCTestCase
         timeSlotService = MockTimeSlotService(timeService: timeService,
                                                    locationService: locationService)
         trackEventService = MockTrackEventService()
+        motionService = MockMotionService()
         
         viewModel = MainViewModel(loggingService: loggingService,
                                   timeService: timeService,
@@ -47,7 +49,8 @@ class MainViewModelTests : XCTestCase
                                   settingsService: settingsService,
                                   appLifecycleService: appLifecycleService,
                                   locationService: locationService,
-                                  trackEventService: trackEventService)
+                                  trackEventService: trackEventService,
+                                  motionService: motionService)
         
     }
     

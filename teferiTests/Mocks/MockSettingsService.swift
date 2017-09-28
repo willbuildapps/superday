@@ -8,6 +8,7 @@ class MockSettingsService : SettingsService
     var installDate : Date? = Date()
     var lastInactiveDate : Date? = nil
     var lastLocation : Location? = nil
+    var lastTimelineGenerationDate: Date? = nil
     var userEverGaveLocationPermission : Bool = false
     var didShowWelcomeMessage : Bool = true
     var lastShownWeeklyRating : Date? = Date()
@@ -24,6 +25,11 @@ class MockSettingsService : SettingsService
     func setLastLocation(_ location: Location)
     {
         lastLocation = location
+    }
+    
+    func setLastTimelineGenerationDate(_ date: Date)
+    {
+        lastTimelineGenerationDate = date
     }
     
     func getNextSmartGuessId() -> Int

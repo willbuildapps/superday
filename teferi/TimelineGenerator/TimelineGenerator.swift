@@ -1,16 +1,18 @@
 import Foundation
+import RxSwift
 
 class TimelineGenerator
 {
-    private let pipeline : Pipeline
+    private let eventAnnotator: EventAnnotator
+    private let eventsParser: EventsParser
+    private let timelineProcessor: TimelineProcessor
+    private let smartGuesser: SmartGuesser
+    private let persister: Persister
+    private let cleaner: Cleaner
     
-    private let loggingService: LoggingService
-    private let trackEventService: TrackEventService
-    private let smartGuessService: SmartGuessService
-    private let timeService: TimeService
-    private let timeSlotService: TimeSlotService
-    private let metricsService: MetricsService
-    private let settingsService: SettingsService
+    private var generator: Observable<[TemporaryTimeSlot]>!
+    private var disposeBag = DisposeBag()
+    private var returnSubject: PublishSubject<Void> = PublishSubject<Void>()
     
     init(loggingService: LoggingService,
          trackEventService: TrackEventService,
@@ -18,39 +20,50 @@ class TimelineGenerator
          timeService: TimeService,
          timeSlotService: TimeSlotService,
          metricsService: MetricsService,
-         settingsService: SettingsService)
+         settingsService: SettingsService,
+         motionService: MotionService)
     {
-        self.loggingService = loggingService
-        self.trackEventService = trackEventService
-        self.smartGuessService = smartGuessService
-        self.timeService = timeService
-        self.timeSlotService = timeSlotService
-        self.metricsService = metricsService
-        self.settingsService = settingsService
-        
-        let locationPump = LocationPump(trackEventService: trackEventService,
-                                        settingsService: settingsService,
-                                        timeSlotService: timeSlotService,
-                                        loggingService: loggingService,
-                                        timeService: timeService)
-        
-        pipeline = Pipeline.with(loggingService: loggingService, pumps: locationPump)
-            .pipe(to: MergePipe())
-            .pipe(to: SmartGuessPipe(smartGuessService: smartGuessService))
-            .pipe(to: MergeMiniCommuteTimeSlotsPipe(timeService: timeService))
-            .pipe(to: MergeShortTimeSlotsPipe())
-            .pipe(to: CapMidnightPipe(timeService: timeService))
-            .pipe(to: FirstTimeSlotOfDayPipe(timeService: timeService, timeSlotService: timeSlotService))
-            .sink(PersistencySink(settingsService: settingsService,
-                                  timeSlotService: timeSlotService,
-                                  smartGuessService: smartGuessService,
-                                  trackEventService: trackEventService,
-                                  timeService: timeService,
-                                  metricsService: metricsService))
+        eventAnnotator = EventAnnotator(settingsService: settingsService, timeSlotService: timeSlotService, timeService: timeService, trackEventService: trackEventService, motionService: motionService)
+        eventsParser = EventsParser()
+        timelineProcessor = TimelineProcessor(settingsService: settingsService, timeSlotService: timeSlotService, timeService: timeService)
+        smartGuesser = SmartGuesser(smartGuessService: smartGuessService)
+        persister = Persister(timeSlotService: timeSlotService, smartGuessService: smartGuessService, timeService: timeService, metricsService: metricsService)
+        cleaner = Cleaner(settingsService: settingsService, trackEventService: trackEventService, timeService: timeService)
     }
     
-    func execute()
+    func execute() -> Observable<Void>
     {
-        pipeline.run()
+        generator = eventAnnotator.annotatedEvents()
+            .map(eventsParser.parse)
+            .map(toTemporaryTimeslots)
+            .map(timelineProcessor.process)
+            .map(smartGuesser.run)
+            .do(onNext: { [unowned self] slots in
+                self.persister.persist(slots: slots)
+                self.cleaner.cleanUp(slots: slots)
+            })
+                
+        generator
+            .subscribe(
+                onNext: { [unowned self] _ in
+                    self.returnSubject.onNext(())
+            },
+                onError: { [unowned self] error in
+                    self.returnSubject.onError(error)
+            },
+                onCompleted: { [unowned self] in
+                    self.returnSubject.onCompleted()
+            }
+            )
+            .addDisposableTo(disposeBag)
+        
+        return returnSubject
+            .observeOn(MainScheduler.instance)
+            .asObservable()
+    }
+    
+    private func toTemporaryTimeslots(events: [AnnotatedEvent]) -> [TemporaryTimeSlot]
+    {
+        return events.map(TemporaryTimeSlot.init)
     }
 }

@@ -119,6 +119,10 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
         viewModel.locating
             .bindTo(LoadingView.locating.rx.isActive)
             .addDisposableTo(disposeBag)
+        
+        viewModel.generating
+            .bindTo(LoadingView.generating.rx.isActive)
+            .addDisposableTo(disposeBag)
     }
     
     private func onBecomeActive()

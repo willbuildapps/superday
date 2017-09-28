@@ -2,15 +2,15 @@ import XCTest
 import Nimble
 @testable import teferi
 
-class SmartGuessPipeTests: XCTestCase
+class SmartGuesserTests: XCTestCase
 {
     private var smartGuessService : MockSmartGuessService!
-    private var pipe : SmartGuessPipe!
+    private var smartGuesser : SmartGuesser!
     
     override func setUp()
     {
         smartGuessService = MockSmartGuessService()
-        pipe = SmartGuessPipe(smartGuessService: smartGuessService)
+        smartGuesser = SmartGuesser(smartGuessService: smartGuessService)
     }
     
     func testAlgorithmAsksForSmartGuessWithCorrectLocation()
@@ -18,10 +18,10 @@ class SmartGuessPipeTests: XCTestCase
         let location = Location.baseLocation.offset(.north, meters: 200, seconds: 60*30)
         
         let timeline = [
-            TemporaryTimeSlot(location: location, category: .unknown)
+            TemporaryTimeSlot(start: Date.noon, location: location, category: .unknown)
         ]
         
-        let _ = pipe.process(timeline: timeline)
+        let _ = smartGuesser.run(timeline: timeline)
         
         expect(self.smartGuessService.locationsAskedFor.count).to(equal(1))
         
@@ -39,10 +39,10 @@ class SmartGuessPipeTests: XCTestCase
         let location = Location.baseLocation.offset(.north, meters: 200, seconds: 60*30)
         
         let timeline = [
-            TemporaryTimeSlot(location: location, category: .unknown)
+            TemporaryTimeSlot(start: Date.noon, location: location, category: .unknown)
         ]
         
-        let timeSlots = pipe.process(timeline: timeline)
+        let timeSlots = smartGuesser.run(timeline: timeline)
         
         expect(timeSlots.count).to(equal(1))
         expect(timeSlots[0].category).to(equal(Category.unknown))
@@ -55,10 +55,10 @@ class SmartGuessPipeTests: XCTestCase
         let location = Location.baseLocation.offset(.north, meters: 200, seconds: 60*30)
         
         let timeline = [
-            TemporaryTimeSlot(location: location, category: .unknown)
+            TemporaryTimeSlot(start: Date.noon, location: location, category: .unknown)
         ]
         
-        let timeSlots = pipe.process(timeline: timeline)
+        let timeSlots = smartGuesser.run(timeline: timeline)
         
         expect(timeSlots.count).to(equal(1))
         expect(timeSlots[0].category).to(equal(Category.food))
@@ -70,13 +70,13 @@ class SmartGuessPipeTests: XCTestCase
         let location2 = Location.baseLocation.offset(.north, meters: 400, seconds: 60*30*2)
         
         let timeline = [
-            TemporaryTimeSlot(location: Location.baseLocation, category: .food),
-            TemporaryTimeSlot(location: location1, category: .unknown),
-            TemporaryTimeSlot(location: Location.baseLocation, category: .commute),
-            TemporaryTimeSlot(location: location2, category: .unknown)
+            TemporaryTimeSlot(start: Date.noon, location: Location.baseLocation, category: .food),
+            TemporaryTimeSlot(start: Date.noon, location: location1, category: .unknown),
+            TemporaryTimeSlot(start: Date.noon, location: Location.baseLocation, category: .commute),
+            TemporaryTimeSlot(start: Date.noon, location: location2, category: .unknown)
         ]
         
-        let _ = pipe.process(timeline: timeline)
+        let _ = smartGuesser.run(timeline: timeline)
         
         expect(self.smartGuessService.locationsAskedFor.count).to(equal(2))
         

@@ -112,7 +112,8 @@ class DefaultViewModelLocator : ViewModelLocator
                                       settingsService: self.settingsService,
                                       appLifecycleService: self.appLifecycleService,
                                       locationService: self.locationService,
-                                      trackEventService: self.trackEventService)
+                                      trackEventService: self.trackEventService,
+                                      motionService: self.motionService)
 
         return viewModel
     }

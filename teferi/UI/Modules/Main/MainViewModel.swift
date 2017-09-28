@@ -86,6 +86,11 @@ class MainViewModel : RxViewModel
             .observeOn(MainScheduler.instance)
     }
     
+    var generating: Observable<Bool> {
+        return generatingTimelineActivity.asObservable()
+            .observeOn(MainScheduler.instance)
+    }
+    
     // MARK: Private Properties
     private let loggingService: LoggingService
     private let timeService : TimeService
@@ -97,8 +102,10 @@ class MainViewModel : RxViewModel
     private let appLifecycleService : AppLifecycleService
     private let locationService: LocationService
     private let trackEventService: TrackEventService
+    private let motionService: MotionService
     
     private let locatingActivity = ActivityIndicator()
+    private let generatingTimelineActivity = ActivityIndicator()
     private let timelineGenerator: TimelineGenerator
     private var disposeBag = DisposeBag()
     
@@ -113,7 +120,8 @@ class MainViewModel : RxViewModel
          settingsService : SettingsService,
          appLifecycleService: AppLifecycleService,
          locationService: LocationService,
-         trackEventService: TrackEventService)
+         trackEventService: TrackEventService,
+         motionService: MotionService)
     {
         self.loggingService = loggingService
         self.timeService = timeService
@@ -125,6 +133,7 @@ class MainViewModel : RxViewModel
         self.appLifecycleService = appLifecycleService
         self.locationService = locationService
         self.trackEventService = trackEventService
+        self.motionService = motionService
         
         timelineGenerator = TimelineGenerator(loggingService: loggingService,
                                               trackEventService: trackEventService,
@@ -132,7 +141,8 @@ class MainViewModel : RxViewModel
                                               timeService: timeService,
                                               timeSlotService: timeSlotService,
                                               metricsService: metricsService,
-                                              settingsService: settingsService)
+                                              settingsService: settingsService,
+                                              motionService: motionService)
         
         isEditingObservable = editStateService.isEditingObservable
         dateObservable = selectedDateService.currentlySelectedDateObservable
@@ -142,7 +152,7 @@ class MainViewModel : RxViewModel
 
         super.init()
         
-        didBecomeActive
+        appLifecycleService.movedToForegroundObservable
             .flatMap { [unowned self] _ -> Observable<Location> in
                 if let location = settingsService.lastLocation {
                     return Observable.just(location)
@@ -153,8 +163,11 @@ class MainViewModel : RxViewModel
                     .do(onNext: settingsService.setLastLocation)
                     .trackActivity(self.locatingActivity)
             }
-            .mapTo(())
-            .subscribe(onNext: timelineGenerator.execute)
+            .flatMap { [unowned self] _ in
+                return self.timelineGenerator.execute()
+                    .trackActivity(self.generatingTimelineActivity)
+            }
+            .subscribe()
             .addDisposableTo(disposeBag)        
 
     }

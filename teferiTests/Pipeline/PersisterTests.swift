@@ -4,14 +4,14 @@ import Nimble
 import HealthKit
 @testable import teferi
 
-class PersistencySinkTests : XCTestCase
+class PersisterTests : XCTestCase
 {
     typealias TestData = TempTimelineTestData
     
     private var noon : Date!
     private var baseSlot : TemporaryTimeSlot!
 
-    private var persistencySink : PersistencySink!
+    private var persister : Persister!
     
     private var timeService : MockTimeService!
     private var locationService : MockLocationService!
@@ -36,7 +36,8 @@ class PersistencySinkTests : XCTestCase
     override func setUp()
     {
         noon = Date().ignoreTimeComponents().addingTimeInterval(12 * 60 * 60)
-        baseSlot = TemporaryTimeSlot(start: noon, category: Category.unknown)
+        let baseLocation = Location.baseLocation
+        baseSlot = TemporaryTimeSlot(start: noon, location: baseLocation, category: Category.unknown)
         
         timeService = MockTimeService()
         timeService.mockDate = noon.addingTimeInterval(1301)
@@ -48,34 +49,10 @@ class PersistencySinkTests : XCTestCase
         trackEventService = MockTrackEventService()
         metricsService = MockMetricsService()
         
-        persistencySink = PersistencySink(settingsService: settingsService,
-                                               timeSlotService: timeSlotService,
-                                               smartGuessService: smartGuessService,
-                                               trackEventService: trackEventService,
-                                               timeService: timeService,
-                                               metricsService: metricsService)
-    }
-    
-    func testTheLastUsedLocationIsPersisted()
-    {
-        var data = getTestData()
-        
-        settingsService.lastLocation = nil
-        
-        let otherLocation = Location(timestamp: Date(),
-                                     latitude: 38.628060, longitude: -117.848463)
-        
-        let expectedLocation = Location(timestamp: Date(),
-                                        latitude: 37.628060, longitude: -116.848463)        
-        
-        data[4] = data[4].with(location: otherLocation)
-        data[5] = data[5].with(location: expectedLocation)
-        
-        persistencySink.execute(timeline: data)
-        
-        expect(self.settingsService.lastLocation).toNot(beNil())
-        expect(self.settingsService.lastLocation!.latitude).to(equal(expectedLocation.latitude))
-        expect(self.settingsService.lastLocation!.longitude).to(equal(expectedLocation.longitude))
+        persister = Persister(timeSlotService: timeSlotService,
+                              smartGuessService: smartGuessService,
+                              timeService: timeService,
+                              metricsService: metricsService)
     }
     
     func testUsedSmartGuessesGetUpdated()
@@ -91,7 +68,7 @@ class PersistencySinkTests : XCTestCase
         
         let expectedDate = data[5].start
         
-        persistencySink.execute(timeline: data)
+        persister.persist(slots: data)
         
         let actualDate = smartGuessService.smartGuessUpdates.last!.1
         
@@ -109,7 +86,7 @@ class PersistencySinkTests : XCTestCase
         
         data[5] = data[5].with(smartGuess: smartGuess)
         
-        persistencySink.execute(timeline: data)
+        persister.persist(slots: data)
         
         data.forEach { tempTimeSLot in
             expect(self.metricsService.didLog(event: .timeSlotCreated(date: self.timeService.now, category: .unknown, duration: tempTimeSLot.duration))).to(beTrue())
@@ -119,15 +96,6 @@ class PersistencySinkTests : XCTestCase
                 expect(self.metricsService.didLog(event: .timeSlotNotSmartGuessed(date: self.timeService.now, category: .unknown, duration: tempTimeSLot.duration))).to(beTrue())
             }
         }
-    }
-    
-    func testAllTempDataIsCleared()
-    {
-        trackEventService.mockEvents = [ TrackEvent.newLocation(location: Location.baseLocation) ]
-        
-        persistencySink.execute(timeline: getTestData())
-        
-        expect(self.trackEventService.getEventData(ofType: Location.self).count).to(equal(0))
     }
     
     private func toTempTimeSlot(data: TestData) -> TemporaryTimeSlot
@@ -144,5 +112,20 @@ class PersistencySinkTests : XCTestCase
     private func smartGuess(withCategory category: teferi.Category) -> SmartGuess
     {
         return SmartGuess(withId: 0, category: category, location: Location.baseLocation, lastUsed: noon)
+    }
+}
+
+extension TemporaryTimeSlot
+{
+    func with(location: Location) -> TemporaryTimeSlot
+    {
+        return TemporaryTimeSlot(
+            start: self.start,
+            end: self.end,
+            category: self.category,
+            location: location,
+            activityTag: self.activityTag,
+            smartGuess: self.smartGuess
+        )
     }
 }

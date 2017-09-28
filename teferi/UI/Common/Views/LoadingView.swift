@@ -110,4 +110,18 @@ extension LoadingView
         
         return loadingView
     }()
+    
+    static var generating: LoadingView = {
+        let loadingView = LoadingView.sharedInstance
+        
+        let textAttachment = NSTextAttachment()
+        textAttachment.image = #imageLiteral(resourceName: "icEmojiNerd")
+        textAttachment.bounds = CGRect(x: 0.0, y: UIFont.systemFont(ofSize: 12).descender, width: textAttachment.image!.size.width, height: textAttachment.image!.size.height)
+        let text = NSMutableAttributedString(string: "Generating your timeline... ")
+        text.append(NSAttributedString(attachment: textAttachment))
+        
+        loadingView.text = text
+        
+        return loadingView
+    }()
 }

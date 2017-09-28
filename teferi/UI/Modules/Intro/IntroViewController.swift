@@ -19,8 +19,7 @@ class IntroViewController: UIViewController
 
         launchAnim = LaunchAnimationView(frame: view.bounds)
         view.addSubview(launchAnim)
-
-
+ 
         // Do any additional setup after loading the view.
     }
     

@@ -4,57 +4,62 @@ struct TemporaryTimeSlot
 {
     let start : Date
     let end : Date?
-    let smartGuess : SmartGuess?
     let category : Category
-    let location : Location?
+    let location : Location
+    let activityTag: MotionEventType
+    let smartGuess : SmartGuess?
 }
 
 extension TemporaryTimeSlot
 {
-    init(start: Date, category: Category = .unknown)
+    init(withEvent event: AnnotatedEvent)
+    {
+        self.start = event.startTime
+        self.end = event.endTime
+        self.category = TemporaryTimeSlot.getCategory(from: event.type)
+        self.location = event.location
+        self.activityTag = event.type
+        self.smartGuess = nil
+    }
+    
+    init(start: Date, location: Location, end: Date? = nil, category: Category = .unknown, activityTag: MotionEventType = .still, smartGuess: SmartGuess? = nil)
     {
         self.start = start
-        self.end = nil
-        self.smartGuess = nil
-        self.category = category
-        self.location = nil
-    }
-    
-    init(location:Location, category:Category)
-    {
-        self.start = location.timestamp
-        self.end = nil
-        self.smartGuess = nil
+        self.end = end
         self.category = category
         self.location = location
+        self.activityTag = activityTag
+        self.smartGuess = nil
     }
     
-    init(location:Location, smartGuess:SmartGuess?)
+    func with(start: Date? = nil, end: Date? = nil) -> TemporaryTimeSlot
     {
-        self.start = location.timestamp
-        self.end = nil
-        self.smartGuess = smartGuess
-        self.category = smartGuess?.category ?? .unknown
-        self.location = location
+        return TemporaryTimeSlot(
+            start: start ?? self.start,
+            end: end ?? self.end,
+            category: self.category,
+            location: self.location,
+            activityTag: self.activityTag,
+            smartGuess: self.smartGuess
+        )
     }
     
-    func with(start startTime: Date? = nil,
-              end endTime: Date? = nil,
-              smartGuess: SmartGuess? = nil,
-              category: Category? = nil,
-              location: Location? = nil) -> TemporaryTimeSlot
+    private static func getCategory(from type: MotionEventType) -> Category
     {
-        return TemporaryTimeSlot(start: startTime ?? self.start,
-                                 end: endTime ?? self.end,
-                                 smartGuess: smartGuess ?? self.smartGuess,
-                                 category: category ?? self.category,
-                                 location: location ?? self.location)
+        switch type {
+        case .cycling, .run:
+            return .fitness
+        case .other, .still:
+            return .unknown
+        case .walk, .auto:
+            return .commute
+        }
     }
     
     var duration : TimeInterval?
     {
         guard let end = self.end else { return nil }
-        
+
         return end.timeIntervalSince(start)
     }
 }
