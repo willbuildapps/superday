@@ -19,7 +19,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.3.0</string>
+	<string>1.4.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
@@ -50,11 +50,11 @@
 	<string>We use your HealthKit data to magically guess &amp; track your activities</string>
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>We use your HealthKit data to magically guess &amp; track your activities</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Not to sound like your mother or anything, but Superday needs to know where you are.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Not to sound like your mother or anything, but Superday needs to know where you are.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Not to sound like your mother or anything, but Superday needs to know where you are.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Not to sound like your mother or anything, but Superday needs to know where you are.</string>
 	<key>UIBackgroundModes</key>
 	<array>
