@@ -108,11 +108,6 @@ class TimelineViewController : UIViewController
     
     private func createBindings()
     {
-        viewModel.timeObservable
-            .asDriver(onErrorJustReturn: ())
-            .drive(onNext: onTimeTick)
-            .addDisposableTo(disposeBag)
-        
         viewModel.timelineItemsObservable
             .map({ [TimelineSection(items:$0)] })
             .bindTo(tableView.rx.items(dataSource: dataSource))
@@ -229,12 +224,6 @@ class TimelineViewController : UIViewController
             .addDisposableTo(cell.disposeBag)
         
         return cell
-    }
-    
-    private func onTimeTick()
-    {
-        let indexPath = IndexPath(row: tableView.numberOfRows(inSection: 0) - 1, section: 0)
-        tableView.reloadRows(at: [indexPath], with: .none)
     }
     
     private func buttonPosition(forCellIndex index: Int) -> CGPoint

@@ -6,7 +6,6 @@ class TimelineViewModel
 {
     //MARK: Public Properties
     let date : Date
-    let timeObservable : Observable<Void>
     var timelineItemsObservable : Observable<[TimelineItem]> { return self.timelineItems.asObservable() }
 
     //MARK: Private Properties
@@ -58,7 +57,7 @@ class TimelineViewModel
         
         isCurrentDay = timeService.now.ignoreTimeComponents() == date
         
-        timeObservable = !isCurrentDay ? Observable.empty() : Observable<Int>.timer(1, period: 10, scheduler: MainScheduler.instance).mapTo(())
+        let timeObservable = !isCurrentDay ? Observable.empty() : Observable<Int>.timer(1, period: 10, scheduler: MainScheduler.instance).mapTo(())
         
         let newTimeSlotForThisDate = !isCurrentDay ? Observable.empty() : timeSlotService
             .timeSlotCreatedObservable
@@ -74,7 +73,7 @@ class TimelineViewModel
             .mapTo(())
         
         let refreshObservable =
-            Observable.of(newTimeSlotForThisDate, updatedTimeSlotForThisDate, movedToForeground, manualRefreshSubject.asObservable())
+            Observable.of(newTimeSlotForThisDate, updatedTimeSlotForThisDate, movedToForeground, manualRefreshSubject.asObservable(), timeObservable.mapTo(()))
                       .merge()
                       .startWith(()) // This is a hack I can't remove due to something funky with the view controllery lifecycle. We should fix this in the refactor
                 

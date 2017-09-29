@@ -30,6 +30,7 @@ func == (lhs: TimelineItem, rhs: TimelineItem) -> Bool
 {
     return lhs.category == rhs.category && lhs.isCollapsed == rhs.isCollapsed
         && lhs.hasCollapseButton == rhs.hasCollapseButton && lhs.isRunning == rhs.isRunning
+        && lhs.elapsedTimeText == rhs.elapsedTimeText
 }
 
 
