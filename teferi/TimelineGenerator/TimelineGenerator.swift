@@ -37,7 +37,7 @@ class TimelineGenerator
             .map(eventsParser.parse)
             .map(toTemporaryTimeslots)
             .map(timelineProcessor.process)
-            .map(smartGuesser.run)
+            //.map(smartGuesser.run)
             .do(onNext: { [unowned self] slots in
                 self.persister.persist(slots: slots)
                 self.cleaner.cleanUp(slots: slots)
