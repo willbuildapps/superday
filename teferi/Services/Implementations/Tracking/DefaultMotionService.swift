@@ -5,6 +5,7 @@ import RxSwift
 
 class DefaultMotionService: MotionService
 {
+    let settingsService: SettingsService
     let motionActivityManager: CMMotionActivityManager
     
     var motionAuthorizationGranted: Observable<Bool>
@@ -12,6 +13,16 @@ class DefaultMotionService: MotionService
         return Observable<Bool>.create { [unowned self] observer in
             
             self.motionActivityManager.queryActivityStarting(from: Date().addingTimeInterval(-24*60*60), to: Date(), to: OperationQueue.main) { activities, error in
+                
+                if let error = error, (error as NSError).code == CMErrorMotionActivityNotAuthorized.rawValue
+                {
+                    self.settingsService.setCoreMotionPermission(userGavePermission: false)
+                }
+                else
+                {
+                    self.settingsService.setCoreMotionPermission(userGavePermission: true)
+                }
+                
                 if let _ = error {
                     observer.onNext(false)
                 } else {
@@ -24,14 +35,25 @@ class DefaultMotionService: MotionService
         }
     }
     
-    init ()
+    init (settingsService: SettingsService)
     {
+        self.settingsService = settingsService
         motionActivityManager = CMMotionActivityManager()
     }
     
     func askForAuthorization()
     {
-        motionActivityManager.queryActivityStarting(from: Date().addingTimeInterval(-24*60*60), to: Date(), to: OperationQueue.main) { _ in }
+        motionActivityManager.queryActivityStarting(from: Date().addingTimeInterval(-24*60*60), to: Date(), to: OperationQueue.main) { (_, error) in
+            
+            if let error = error, (error as NSError).code == CMErrorMotionActivityNotAuthorized.rawValue
+            {
+                self.settingsService.setCoreMotionPermission(userGavePermission: false)
+            }
+            else
+            {
+                self.settingsService.setCoreMotionPermission(userGavePermission: true)
+            }
+        }
     }
     
     func getActivities(since start: Date, until end: Date) -> Observable<[MotionEvent]>
@@ -43,7 +65,17 @@ class DefaultMotionService: MotionService
         return Observable.create { [unowned self] observer in
             
             self.motionActivityManager.queryActivityStarting(from: start, to: end, to: OperationQueue.current ?? OperationQueue(), withHandler: { (activities, error) in
+                
                 guard error == nil else {
+                    if let error = error, (error as NSError).code == CMErrorMotionActivityNotAuthorized.rawValue
+                    {
+                        self.settingsService.setCoreMotionPermission(userGavePermission: false)
+                    }
+                    else
+                    {
+                        self.settingsService.setCoreMotionPermission(userGavePermission: true)
+                    }
+
                     observer.onError(error!)
                     return
                 }

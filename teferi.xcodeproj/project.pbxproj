@@ -213,6 +213,9 @@
 		AC69F0AB1F4C40CD00EF2CC9 /* Rating.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC69F0A91F4C40CD00EF2CC9 /* Rating.storyboard */; };
 		AC6C12981F4C7EAB0045B341 /* ReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6C12971F4C7EAB0045B341 /* ReviewTableViewCell.swift */; };
 		AC6C129A1F4E01DE0045B341 /* StarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6C12991F4E01DE0045B341 /* StarsView.swift */; };
+		AC7374901F7121D500AF9C96 /* CMAccessForExistingUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC73748F1F7121D500AF9C96 /* CMAccessForExistingUsersViewController.swift */; };
+		AC7374921F71220A00AF9C96 /* CMAccessForExistingUsersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7374911F71220A00AF9C96 /* CMAccessForExistingUsersViewModel.swift */; };
+		AC7374941F71222100AF9C96 /* CMAccessForExistingUsersPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7374931F71222100AF9C96 /* CMAccessForExistingUsersPresenter.swift */; };
 		AC8BE49F1F2A011900351C2F /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8BE49E1F2A011900351C2F /* WelcomeView.swift */; };
 		AC9718451F4734570027E761 /* TimelineProcessorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9718441F4734570027E761 /* TimelineProcessorTests.swift */; };
 		ACCAFD251E8BDF490097F037 /* NotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCAFD241E8BDF490097F037 /* NotificationType.swift */; };
@@ -498,6 +501,9 @@
 		AC69F0AA1F4C40CD00EF2CC9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Rating.storyboard; sourceTree = "<group>"; };
 		AC6C12971F4C7EAB0045B341 /* ReviewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReviewTableViewCell.swift; path = Rating/Views/ReviewTableViewCell.swift; sourceTree = "<group>"; };
 		AC6C12991F4E01DE0045B341 /* StarsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StarsView.swift; path = Rating/Views/StarsView.swift; sourceTree = "<group>"; };
+		AC73748F1F7121D500AF9C96 /* CMAccessForExistingUsersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMAccessForExistingUsersViewController.swift; sourceTree = "<group>"; };
+		AC7374911F71220A00AF9C96 /* CMAccessForExistingUsersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMAccessForExistingUsersViewModel.swift; sourceTree = "<group>"; };
+		AC7374931F71222100AF9C96 /* CMAccessForExistingUsersPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMAccessForExistingUsersPresenter.swift; sourceTree = "<group>"; };
 		AC8BE49E1F2A011900351C2F /* WelcomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		AC9718441F4734570027E761 /* TimelineProcessorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineProcessorTests.swift; sourceTree = "<group>"; };
 		ACCAFD241E8BDF490097F037 /* NotificationType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationType.swift; sourceTree = "<group>"; };
@@ -1125,6 +1131,9 @@
 				8C26A1771ECAEAD800EFE509 /* MainPresenter.swift */,
 				24564F4F1D8320FC00D9A8AE /* MainViewController.swift */,
 				24564F4B1D83207900D9A8AE /* MainViewModel.swift */,
+				AC73748F1F7121D500AF9C96 /* CMAccessForExistingUsersViewController.swift */,
+				AC7374911F71220A00AF9C96 /* CMAccessForExistingUsersViewModel.swift */,
+				AC7374931F71222100AF9C96 /* CMAccessForExistingUsersPresenter.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -1696,6 +1705,7 @@
 				513535D61DA2756C00A365A9 /* OnboardingViewController.swift in Sources */,
 				AC3901F41E5665CF008063C7 /* CategoryButtonsHandler.swift in Sources */,
 				8C26A1711ECAE65A00EFE509 /* IntroPresenter.swift in Sources */,
+				AC7374941F71222100AF9C96 /* CMAccessForExistingUsersPresenter.swift in Sources */,
 				24224B081E28E37700AD7575 /* TimelineItem.swift in Sources */,
 				8C9C256B1ED348EE00B10187 /* NavigationViewModel.swift in Sources */,
 				24EB96761DE7080F0040C211 /* TimeSlotService.swift in Sources */,
@@ -1762,11 +1772,14 @@
 				242FE7D61DE7689A00EAEEE3 /* AutoResizingLayerView.swift in Sources */,
 				24EB96771DE7080F0040C211 /* MotionService.swift in Sources */,
 				8C4C5B5D1ECEEC34003239BE /* CalendarPresenter.swift in Sources */,
+				AC7374921F71220A00AF9C96 /* CMAccessForExistingUsersViewModel.swift in Sources */,
 				8C26A1781ECAEAD800EFE509 /* MainPresenter.swift in Sources */,
 				2482CAFD1DB12F9F00E892C1 /* OnboardingPage3.swift in Sources */,
 				8C26A1731ECAE66C00EFE509 /* IntroViewController.swift in Sources */,
 				BEA024321E4106980061FE53 /* Colors.swift in Sources */,
 				24EB967D1DE708570040C211 /* AppState.swift in Sources */,
+				AC7374901F7121D500AF9C96 /* CMAccessForExistingUsersViewController.swift in Sources */,
+				ACFF02631E8286F500498981 /* HealthSampleExtensions.swift in Sources */,
 				8C17290A1EF119E5002ABDDA /* PagerPresenter.swift in Sources */,
 				BE0A5B791EE151FE00200939 /* TimelinePresenter.swift in Sources */,
 				AC0CA4BD1F3DB76300EAEB44 /* TimelineVoteView.swift in Sources */,

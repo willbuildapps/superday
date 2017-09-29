@@ -63,6 +63,11 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
     {
         super.viewDidAppear(animated)
         viewModel.active = true
+        
+        if viewModel.shouldShowCMAccessForExistingUsers
+        {
+            presenter.showCMAccessForExistingUsers()
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool)

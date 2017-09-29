@@ -15,6 +15,20 @@ class MockSettingsService : SettingsService
     
     var hasLocationPermission = true
     var hasNotificationPermission = true
+    var hasCoreMotionPermission = true
+    var isFirstTimeAppRuns = false
+    var isPostCoreMotionUser = true
+        
+    //MARK: Methods
+    func setIsFirstTimeAppRuns()
+    {
+        isFirstTimeAppRuns = false
+    }
+    
+    func setIsPostCoreMotionUser()
+    {
+        isPostCoreMotionUser = true
+    }
         
     //MARK: Methods
     func setInstallDate(_ date: Date)
@@ -45,6 +59,11 @@ class MockSettingsService : SettingsService
     func setUserGaveLocationPermission()
     {
         userEverGaveLocationPermission = true
+    }
+    
+    func setCoreMotionPermission(userGavePermission: Bool)
+    {
+        hasCoreMotionPermission = userGavePermission
     }
     
     func setWelcomeMessageShown()

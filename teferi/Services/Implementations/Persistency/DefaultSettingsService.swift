@@ -1,6 +1,7 @@
 import CoreData
 import UIKit
 import CoreLocation
+import CoreMotion
 
 class DefaultSettingsService : SettingsService
 {
@@ -9,6 +10,16 @@ class DefaultSettingsService : SettingsService
     var installDate : Date?
     {
         return get(forKey: installDateKey)
+    }
+    
+    var isFirstTimeAppRuns : Bool
+    {
+        return !getBool(forKey: isFirstTimeAppRunsKey)
+    }
+    
+    var isPostCoreMotionUser : Bool
+    {
+        return getBool(forKey: isPostCoreMotionUserKey)
     }
     
     var lastLocation : Location?
@@ -41,7 +52,16 @@ class DefaultSettingsService : SettingsService
         guard CLLocationManager.locationServicesEnabled() else { return false }
         return CLLocationManager.authorizationStatus() == .authorizedAlways
     }
-
+    
+    var hasCoreMotionPermission : Bool
+    {
+        if #available(iOS 11.0, *) {
+            return CMMotionActivityManager.authorizationStatus() == .authorized
+        } else {
+            return getBool(forKey: hasCoreMotionPermissionKey)
+        }
+    }
+    
     var hasNotificationPermission : Bool
     {
         let notificationSettings = UIApplication.shared.currentUserNotificationSettings
@@ -76,6 +96,9 @@ class DefaultSettingsService : SettingsService
     private let welcomeMessageShownKey = "welcomeMessageShown"
     private let votingHistoryKey = "votingHistory"
     private let lastShownWeeklyRatingKey = "lastShownWeeklyRating"
+    private let isFirstTimeAppRunsKey = "isFirstTimeAppRuns"
+    private let isPostCoreMotionUserKey = "isPostCoreMotionUser"
+    private let hasCoreMotionPermissionKey = "hasCoreMotionPermission"
     private let lastTimelineGenerationDateKey = "lastTimelineGenerationDate"
     
     //MARK: Initialiazers
@@ -84,7 +107,17 @@ class DefaultSettingsService : SettingsService
         self.timeService = timeService
     }
 
-    //MARK: Public Methods    
+    //MARK: Public Methods
+    func setIsFirstTimeAppRuns()
+    {
+        set(true, forKey: isFirstTimeAppRunsKey)
+    }
+    
+    func setIsPostCoreMotionUser()
+    {
+        set(true, forKey: isPostCoreMotionUserKey)
+    }
+    
     func setInstallDate(_ date: Date)
     {
         guard installDate == nil else { return }
@@ -109,7 +142,12 @@ class DefaultSettingsService : SettingsService
     {
         set(true, forKey: userGaveLocationPermissionKey)
     }
-
+    
+    func setCoreMotionPermission(userGavePermission: Bool)
+    {
+        set(userGavePermission, forKey: hasCoreMotionPermissionKey)
+    }
+    
     func setWelcomeMessageShown()
     {
         set(true, forKey: welcomeMessageShownKey)

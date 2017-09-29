@@ -50,6 +50,11 @@ class MainViewModel : RxViewModel
         return appLifecycleService.movedToForegroundObservable
     }
     
+    var shouldShowCMAccessForExistingUsers : Bool
+    {
+        return !settingsService.isPostCoreMotionUser && !settingsService.hasCoreMotionPermission
+    }
+    
     var shouldShowWeeklyRatingUI : Bool
     {
         guard let installDate = settingsService.installDate else { return false }

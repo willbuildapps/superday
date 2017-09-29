@@ -41,7 +41,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         appLifecycleService = DefaultAppLifecycleService()
         editStateService = DefaultEditStateService(timeService: timeService)
         locationService = DefaultLocationService(loggingService: loggingService)
-        motionService = DefaultMotionService()
+        motionService = DefaultMotionService(settingsService: settingsService)
         selectedDateService = DefaultSelectedDateService(timeService: timeService)
         feedbackService = MailFeedbackService(recipients: ["support@toggl.com"], subject: "Superday feedback", body: "")
         
@@ -88,6 +88,12 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     {
         setVersionInSettings()
         setAppearance()
+        
+        if !settingsService.didShowWelcomeMessage
+        {
+            settingsService.setIsFirstTimeAppRuns()
+            settingsService.setIsPostCoreMotionUser()
+        }
         
         smartGuessService.purgeEntries(olderThan: timeService.now.add(days: -30))
         

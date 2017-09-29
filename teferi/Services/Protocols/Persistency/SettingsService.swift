@@ -5,11 +5,17 @@ protocol SettingsService
     //MARK: Properties
     var installDate : Date? { get }
     
+    var isFirstTimeAppRuns : Bool { get }
+    
+    var isPostCoreMotionUser : Bool { get }
+    
     var lastLocation : Location? { get }
     
     var lastTimelineGenerationDate: Date? { get }
     
     var hasLocationPermission : Bool { get }
+    
+    var hasCoreMotionPermission : Bool { get }
     
     var hasNotificationPermission : Bool { get }
     
@@ -20,6 +26,10 @@ protocol SettingsService
     var lastShownWeeklyRating : Date? { get }
     
     //MARK: Methods
+    func setIsFirstTimeAppRuns()
+    
+    func setIsPostCoreMotionUser()
+    
     func setInstallDate(_ date: Date)
     
     func setLastLocation(_ location: Location)
@@ -27,7 +37,9 @@ protocol SettingsService
     func setLastTimelineGenerationDate(_ date: Date)
         
     func setUserGaveLocationPermission()
-            
+    
+    func setCoreMotionPermission(userGavePermission: Bool)
+        
     func setWelcomeMessageShown()
     
     func setVote(forDate date: Date)

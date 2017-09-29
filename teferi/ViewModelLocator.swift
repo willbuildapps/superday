@@ -15,6 +15,8 @@ protocol ViewModelLocator
     
     func getLocationPermissionViewModel() -> PermissionViewModel
     
+    func getCMAccessForExistingUsersViewModel() -> CMAccessForExistingUsersViewModel
+    
     func getTimelineViewModel(forDate date: Date) -> TimelineViewModel
     
     func getWeeklySummaryViewModel() -> WeeklySummaryViewModel
@@ -149,6 +151,12 @@ class DefaultViewModelLocator : ViewModelLocator
                                                     appLifecycleService: self.appLifecycleService)
         
         return viewModel
+    }
+    
+    func getCMAccessForExistingUsersViewModel() -> CMAccessForExistingUsersViewModel
+    {
+        return CMAccessForExistingUsersViewModel(settingsService: settingsService,
+                                                 motionService: motionService)
     }
     
     func getCalendarViewModel() -> CalendarViewModel

@@ -97,6 +97,11 @@ class MockLocator : ViewModelLocator
         return viewModel
     }
     
+    func getCMAccessForExistingUsersViewModel() -> CMAccessForExistingUsersViewModel
+    {
+        return CMAccessForExistingUsersViewModel(settingsService: settingsService, motionService: motionService)
+    }
+    
     func getCalendarViewModel() -> CalendarViewModel
     {
         return CalendarViewModel(timeService: timeService,
