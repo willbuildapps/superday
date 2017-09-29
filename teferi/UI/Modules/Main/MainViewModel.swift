@@ -16,11 +16,14 @@ class MainViewModel : RxViewModel
     {
         return Observable.of(
             self.appLifecycleService.movedToForegroundObservable,
-            self.didBecomeActive)
+            self.didBecomeActive,
+            self.motionService.motionAuthorizationGranted.mapTo(()))
             .merge()
             .map { [unowned self] () -> PermissionRequestType? in
                 if self.shouldShowLocationPermissionRequest() {
                     return PermissionRequestType.location
+                } else if self.shouldShowMotionPermissionRequest() {
+                    return PermissionRequestType.motion
                 }
                 return nil
             }
@@ -232,5 +235,10 @@ class MainViewModel : RxViewModel
     private func shouldShowLocationPermissionRequest() -> Bool
     {
         return !settingsService.hasLocationPermission
+    }
+    
+    private func shouldShowMotionPermissionRequest() -> Bool
+    {
+        return !settingsService.hasCoreMotionPermission
     }
 }

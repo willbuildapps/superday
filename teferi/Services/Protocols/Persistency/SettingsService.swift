@@ -1,4 +1,5 @@
 import Foundation
+import RxSwift
 
 protocol SettingsService
 {
@@ -21,9 +22,13 @@ protocol SettingsService
     
     var userEverGaveLocationPermission : Bool { get }
     
+    var userEverGaveMotionPermission : Bool { get }
+    
     var didShowWelcomeMessage : Bool { get }
     
     var lastShownWeeklyRating : Date? { get }
+    
+    var motionPermissionGranted: Observable<Bool> { get }
     
     //MARK: Methods
     func setIsFirstTimeAppRuns()

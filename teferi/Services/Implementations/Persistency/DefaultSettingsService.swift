@@ -1,7 +1,7 @@
 import CoreData
 import UIKit
 import CoreLocation
-import CoreMotion
+import RxSwift
 
 class DefaultSettingsService : SettingsService
 {
@@ -55,11 +55,7 @@ class DefaultSettingsService : SettingsService
     
     var hasCoreMotionPermission : Bool
     {
-        if #available(iOS 11.0, *) {
-            return CMMotionActivityManager.authorizationStatus() == .authorized
-        } else {
-            return getBool(forKey: hasCoreMotionPermissionKey)
-        }
+        return getBool(forKey: hasCoreMotionPermissionKey)
     }
     
     var hasNotificationPermission : Bool
@@ -73,6 +69,11 @@ class DefaultSettingsService : SettingsService
         return getBool(forKey: userGaveLocationPermissionKey)
     }
     
+    var userEverGaveMotionPermission: Bool
+    {
+        return getBool(forKey: userGaveMotionPermissionKey)
+    }
+    
     var didShowWelcomeMessage : Bool
     {
         return getBool(forKey: welcomeMessageShownKey)
@@ -81,6 +82,12 @@ class DefaultSettingsService : SettingsService
     var lastShownWeeklyRating : Date?
     {
         return get(forKey: lastShownWeeklyRatingKey)
+    }
+    
+    var motionPermissionGranted: Observable<Bool>
+    {
+        return UserDefaults.standard.rx.observe(Bool.self, hasCoreMotionPermissionKey)
+            .filterNil().debug()
     }
     
     //MARK: Private Properties
@@ -93,6 +100,7 @@ class DefaultSettingsService : SettingsService
     private let lastLocationDateKey = "lastLocationDate"
     private let lastLocationHorizontalAccuracyKey = "lastLocationHorizongalAccuracy"
     private let userGaveLocationPermissionKey = "canIgnoreLocationPermission"
+    private let userGaveMotionPermissionKey = "userGaveMotionPermissionKey"
     private let welcomeMessageShownKey = "welcomeMessageShown"
     private let votingHistoryKey = "votingHistory"
     private let lastShownWeeklyRatingKey = "lastShownWeeklyRating"
@@ -145,6 +153,7 @@ class DefaultSettingsService : SettingsService
     
     func setCoreMotionPermission(userGavePermission: Bool)
     {
+        set(true, forKey: userGaveMotionPermissionKey)
         set(userGavePermission, forKey: hasCoreMotionPermissionKey)
     }
     

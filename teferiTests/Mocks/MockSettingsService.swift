@@ -1,8 +1,10 @@
 import Foundation
+import RxSwift
 @testable import teferi
 
 class MockSettingsService : SettingsService
 {
+    
     //MARK: Properties
     var nextSmartGuessId = 0
     var installDate : Date? = Date()
@@ -10,8 +12,11 @@ class MockSettingsService : SettingsService
     var lastLocation : Location? = nil
     var lastTimelineGenerationDate: Date? = nil
     var userEverGaveLocationPermission : Bool = false
+    var userEverGaveMotionPermission: Bool = false
     var didShowWelcomeMessage : Bool = true
     var lastShownWeeklyRating : Date? = Date()
+
+    var motionPermissionGranted: Observable<Bool> = Observable<Bool>.empty()
     
     var hasLocationPermission = true
     var hasNotificationPermission = true

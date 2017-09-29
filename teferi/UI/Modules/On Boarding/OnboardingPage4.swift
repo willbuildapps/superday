@@ -15,7 +15,14 @@ class OnboardingPage4 : OnboardingPage
         viewModel.requestCoreMotionAuthorization()
         
         viewModel.motionAuthorizationChangedObservable
+            .observeOn(MainScheduler.instance)
             .subscribe(onNext: finish)
             .addDisposableTo(disposeBag)
+    }
+    
+    override func finish()
+    {
+        disposeBag = DisposeBag()
+        onboardingPageViewController.goToNextPage(forceNext: false)
     }
 }

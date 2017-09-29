@@ -32,7 +32,7 @@ class TimelineGenerator
     }
     
     func execute() -> Observable<Void>
-    {
+    {        
         generator = eventAnnotator.annotatedEvents()
             .map(eventsParser.parse)
             .map(toTemporaryTimeslots)

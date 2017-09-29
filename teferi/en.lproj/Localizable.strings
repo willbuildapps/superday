@@ -10,6 +10,13 @@
 "LocationDisabledDescription" = "We use your location to magically guess & track your activities. 🤘";
 "LocationEnableButtonTitle" = "Enable Location";
 
+"MotionDisabledTitleFirstUse" = "One more thing.";
+"MotionDisabledDescriptionFirstUse" = "We need to access your motion activity to magically track & guess your activities. 🙌";
+
+"MotionDisabledTitle" = "Oops! Your motion is disabled.";
+"MotionDisabledDescription" = "We need to access your motion activity to magically track & guess your activities. 🙌";
+"MotionEnableButtonTitle" = "Allow & Start Tracking";
+
 "NotificationText" = "I'm so excited to hear what you're doing right now. Would you please tell me?";
 
 "NotificationBody" = "What are you doing right now?";

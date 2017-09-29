@@ -2,9 +2,7 @@ import UIKit
 import SnapKit
 
 class LoadingView: UIView
-{
-    static let sharedInstance = LoadingView()
-    
+{    
     private let backgroundView = UIView()
     private let loadingIndicator = LoadingIndicator()
     private let label = UILabel()
@@ -15,7 +13,7 @@ class LoadingView: UIView
         }
     }
     
-    fileprivate init()
+    init()
     {
         super.init(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         
@@ -98,7 +96,7 @@ class LoadingView: UIView
 extension LoadingView
 {
     static var locating: LoadingView = {
-        let loadingView = LoadingView.sharedInstance
+        let loadingView = LoadingView()
         
         let textAttachment = NSTextAttachment()
         textAttachment.image = #imageLiteral(resourceName: "icEmojiNerd")
@@ -112,7 +110,7 @@ extension LoadingView
     }()
     
     static var generating: LoadingView = {
-        let loadingView = LoadingView.sharedInstance
+        let loadingView = LoadingView()
         
         let textAttachment = NSTextAttachment()
         textAttachment.image = #imageLiteral(resourceName: "icEmojiNerd")
