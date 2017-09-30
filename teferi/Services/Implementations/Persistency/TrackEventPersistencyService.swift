@@ -1,19 +1,15 @@
 import Darwin
-import HealthKit
 
 class TrackEventPersistencyService : BasePersistencyService<TrackEvent>
 {
     private let loggingService : LoggingService
     private let locationPersistencyService : BasePersistencyService<Location>
-    private let healthSamplePersistencyService : BasePersistencyService<HealthSample>
     
     init(loggingService: LoggingService,
-         locationPersistencyService: BasePersistencyService<Location>,
-         healthSamplePersistencyService: BasePersistencyService<HealthSample>)
+         locationPersistencyService: BasePersistencyService<Location>)
     {
         self.loggingService = loggingService
         self.locationPersistencyService = locationPersistencyService
-        self.healthSamplePersistencyService = healthSamplePersistencyService
     }
     
     override func get(withPredicate predicate: Predicate?) -> [TrackEvent]
@@ -24,8 +20,6 @@ class TrackEventPersistencyService : BasePersistencyService<TrackEvent>
         {
             case String(describing: Location.self):
                 return locationPersistencyService.get().map(Location.asTrackEvent)
-            case String(describing: HealthSample.self):
-                return healthSamplePersistencyService.get().map(HealthSample.asTrackEvent)
             default:
                 return []
         }
@@ -37,17 +31,12 @@ class TrackEventPersistencyService : BasePersistencyService<TrackEvent>
         {
             case .newLocation(let location):
                 return locationPersistencyService.create(location)
-            case .newHealthSample(let sample):
-                return healthSamplePersistencyService.create(sample)
         }
     }
     
     override func delete(withPredicate predicate: Predicate?) -> Bool
     {
-        var deleted = true
-        deleted = locationPersistencyService.delete(withPredicate: predicate)
-        deleted = healthSamplePersistencyService.delete(withPredicate: predicate) && deleted
-        
+        let deleted = locationPersistencyService.delete(withPredicate: predicate)
         return deleted
     }
 }

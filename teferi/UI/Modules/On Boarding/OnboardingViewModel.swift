@@ -6,21 +6,21 @@ class OnboardingViewModel
     private(set) var timeSlotService : TimeSlotService
     private(set) var settingsService : SettingsService
     private(set) var appLifecycleService : AppLifecycleService
-    private(set) var notificationService : NotificationService
+    private let motionService: MotionService
     private let locationService: LocationService
     
     init(timeService: TimeService,
          timeSlotService: TimeSlotService,
          settingsService: SettingsService,
          appLifecycleService: AppLifecycleService,
-         notificationService: NotificationService,
+         motionService: MotionService,
          locationService: LocationService)
     {
         self.timeService = timeService
         self.timeSlotService = timeSlotService
         self.settingsService = settingsService
         self.appLifecycleService = appLifecycleService
-        self.notificationService = notificationService
+        self.motionService = motionService
         self.locationService = locationService
     }
     
@@ -31,7 +31,7 @@ class OnboardingViewModel
             timeSlotService: timeSlotService,
             settingsService: settingsService,
             appLifecycleService: appLifecycleService,
-            notificationService: notificationService,
+            motionService: motionService,
             locationService: locationService)
     }
 }

@@ -32,6 +32,16 @@ class MainPresenter : NSObject
         viewController.present(vc, animated: true)
     }
     
+    func showCMAccessForExistingUsers()
+    {
+        padding = ContainerPadding(left: 16, top: 16, right: 16, bottom: 16)
+        
+        let vc = CMAccessForExistingUsersPresenter.create(with: viewModelLocator)
+        vc.modalPresentationStyle = .custom
+        vc.transitioningDelegate = self
+        viewController.present(vc, animated: true, completion: nil)
+    }
+    
     func showWeeklyRating(fromDate: Date, toDate: Date)
     {
         padding = ContainerPadding(left: 16, top: 56, right: 16, bottom: 56)
@@ -54,19 +64,33 @@ extension MainPresenter : UIViewControllerTransitioningDelegate
 {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController?
     {
-        guard presented is RatingViewController else { return nil }
-        return ModalPresentationController(presentedViewController: presented, presenting: presenting, containerPadding: padding)
+        if presented is RatingViewController
+        {
+            return ModalPresentationController(presentedViewController: presented, presenting: presenting, containerPadding: padding)
+        }
+        else if presented is CMAccessForExistingUsersViewController
+        {
+            return ModalPresentationController(presentedViewController: presented, presenting: presenting, containerPadding: padding, canBeDismissedByUser: false)
+        }
+        
+        return nil
     }
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning?
     {
-        guard presented is RatingViewController else { return nil }
+        guard
+            presented is RatingViewController ||
+            presented is CMAccessForExistingUsersViewController
+        else { return nil }
         return FromBottomTransition(presenting:true)
     }
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning?
     {
-        guard dismissed is RatingViewController else { return nil }
+        guard
+            dismissed is RatingViewController ||
+            dismissed is CMAccessForExistingUsersViewController
+        else { return nil }
         return FromBottomTransition(presenting:false)
     }
     

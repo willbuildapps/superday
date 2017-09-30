@@ -11,12 +11,14 @@ class LocationPermissionViewModelTests : XCTestCase
     private var timeService : MockTimeService!
     private var settingsService : MockSettingsService!
     private var appLifecycleService : MockAppLifecycleService!
+    private var locationService: MockLocationService!
     
     override func setUp()
     {
         timeService = MockTimeService()
         settingsService = MockSettingsService()
         appLifecycleService = MockAppLifecycleService()
+        locationService = MockLocationService()
         
         viewModel = LocationPermissionViewModel(timeService: timeService,
                                                      settingsService: settingsService,
@@ -27,19 +29,10 @@ class LocationPermissionViewModelTests : XCTestCase
     {
         disposable?.dispose()
     }
-    
-    func testPermissionShouldShowBlockingOverlayFirstTimeUserOpensTheApp()
-    {
-        settingsService.hasLocationPermission = false
-        settingsService.lastAskedForLocationPermission = nil
         
-        expect(self.viewModel.remindMeLater).to(beTrue())
-    }
-    
     func testPermissionShouldShowNonBlockingOverlayIfUserAlreadyGavePermission()
     {
         settingsService.hasLocationPermission = false
-        settingsService.lastAskedForLocationPermission = nil
         
         viewModel.permissionGiven()
         

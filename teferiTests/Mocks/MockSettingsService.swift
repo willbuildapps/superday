@@ -1,42 +1,41 @@
 import Foundation
+import RxSwift
 @testable import teferi
 
 class MockSettingsService : SettingsService
 {
+    
     //MARK: Properties
     var nextSmartGuessId = 0
     var installDate : Date? = Date()
     var lastInactiveDate : Date? = nil
     var lastLocation : Location? = nil
-    var lastAskedForLocationPermission : Date? = nil
+    var lastTimelineGenerationDate: Date? = nil
     var userEverGaveLocationPermission : Bool = false
+    var userEverGaveMotionPermission: Bool = false
     var didShowWelcomeMessage : Bool = true
     var lastShownWeeklyRating : Date? = Date()
-    
 
+    var motionPermissionGranted: Observable<Bool> = Observable<Bool>.empty()
+    
     var hasLocationPermission = true
-    var hasHealthKitPermission = true
     var hasNotificationPermission = true
-    
-    var healthKitUpdates = [String: Date]()
-    
-    //MARK: Methods
-    func lastHealthKitUpdate(for identifier: String) -> Date
-    {
-        guard let dateToReturn = healthKitUpdates[identifier]
-        else
-        {
-            return lastInactiveDate!
-        }
+    var hasCoreMotionPermission = true
+    var isFirstTimeAppRuns = false
+    var isPostCoreMotionUser = true
         
-        return dateToReturn
-    }
-    
-    func setLastHealthKitUpdate(for identifier: String, date: Date)
+    //MARK: Methods
+    func setIsFirstTimeAppRuns()
     {
-        healthKitUpdates[identifier] = date
+        isFirstTimeAppRuns = false
     }
     
+    func setIsPostCoreMotionUser()
+    {
+        isPostCoreMotionUser = true
+    }
+        
+    //MARK: Methods
     func setInstallDate(_ date: Date)
     {
         installDate = date
@@ -47,9 +46,9 @@ class MockSettingsService : SettingsService
         lastLocation = location
     }
     
-    func setLastAskedForLocationPermission(_ date: Date)
+    func setLastTimelineGenerationDate(_ date: Date)
     {
-        lastAskedForLocationPermission = date
+        lastTimelineGenerationDate = date
     }
     
     func getNextSmartGuessId() -> Int
@@ -67,9 +66,9 @@ class MockSettingsService : SettingsService
         userEverGaveLocationPermission = true
     }
     
-    func setUserGaveHealthKitPermission()
+    func setCoreMotionPermission(userGavePermission: Bool)
     {
-        hasHealthKitPermission = true
+        hasCoreMotionPermission = userGavePermission
     }
     
     func setWelcomeMessageShown()

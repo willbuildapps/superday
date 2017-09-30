@@ -15,8 +15,9 @@ class MockLocator : ViewModelLocator
     var selectedDateService = MockSelectedDateService()
     var appLifecycleService = MockAppLifecycleService()
     var loggingService = MockLoggingService()
-    var healthKitService = MockHealthKitService()
     var notificationService  = MockNotificationService()
+    var motionService = MockMotionService()
+    var trackEventService = MockTrackEventService()
     
     init()
     {
@@ -45,20 +46,24 @@ class MockLocator : ViewModelLocator
                                    timeSlotService: timeSlotService,
                                    settingsService: settingsService,
                                    appLifecycleService: appLifecycleService,
-                                   notificationService: notificationService,
+                                   motionService: motionService,
                                    locationService: locationService)
     }
     
     func getMainViewModel() -> MainViewModel
     {
-        return MainViewModel(timeService: timeService,
+        return MainViewModel(loggingService: loggingService,
+                             timeService: timeService,
                              metricsService: metricsService,
                              timeSlotService: timeSlotService,
                              editStateService: editStateService,
                              smartGuessService: smartGuessService,
                              selectedDateService: selectedDateService,
                              settingsService: settingsService,
-                             appLifecycleService: appLifecycleService)
+                             appLifecycleService: appLifecycleService,
+                             locationService: locationService,
+                             trackEventService: trackEventService,
+                             motionService: motionService)
     }
     
     func getPagerViewModel() -> PagerViewModel
@@ -92,14 +97,17 @@ class MockLocator : ViewModelLocator
         return viewModel
     }
     
-    func getHealthKitPermissionViewModel() -> PermissionViewModel
+    func getMotionPermissionViewModel() -> PermissionViewModel
     {
-        let viewModel = HealthKitPermissionViewModel(timeService: timeService,
-                                                    settingsService: settingsService,
-                                                    appLifecycleService: appLifecycleService,
-                                                    healthKitService: healthKitService)
+        let viewModel = MotionPermissionViewModel(settingsService: settingsService,
+                                                  appLifecycleService: appLifecycleService)
         
         return viewModel
+    }
+    
+    func getCMAccessForExistingUsersViewModel() -> CMAccessForExistingUsersViewModel
+    {
+        return CMAccessForExistingUsersViewModel(settingsService: settingsService, motionService: motionService)
     }
     
     func getCalendarViewModel() -> CalendarViewModel

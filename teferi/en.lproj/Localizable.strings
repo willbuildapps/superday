@@ -10,15 +10,17 @@
 "LocationDisabledDescription" = "We use your location to magically guess & track your activities. 🤘";
 "LocationEnableButtonTitle" = "Enable Location";
 
-"HealthKitDisabledDescription" = "We need to access the Health app for more accurate tracking. 🙏";
-"HealthKitEnableButtonTitle" = "Enable Health app access";
+"MotionDisabledTitleFirstUse" = "One more thing.";
+"MotionDisabledDescriptionFirstUse" = "We need to access your motion activity to magically track & guess your activities. 🙌";
+
+"MotionDisabledTitle" = "Oops! Your motion is disabled.";
+"MotionDisabledDescription" = "We need to access your motion activity to magically track & guess your activities. 🙌";
+"MotionEnableButtonTitle" = "Allow & Start Tracking";
 
 "NotificationText" = "I'm so excited to hear what you're doing right now. Would you please tell me?";
 
 "NotificationBody" = "What are you doing right now?";
 "NotificationTitle" = "Howdy!";
-
-"NotificationHealthKitAccessBody" = "Superday needs access to the Health app for more accurate tracking. 🙏";
 
 "DailySummaryTitle" = "Daily Summary";
 
@@ -37,9 +39,13 @@
 "RatingMessage" = "Did Superday track your time accurately this week?";
 "RatingThankYou" = "Thank you for your feedback! 🎉";
 
+"CMExistingUsersAccessTitle" = "We’re gonna tune up Superday!";
+"CMExistingUsersAccessDescription" = "Visually everything remains the same but under the hood we will use Motion Data instead of Health App to provide better tracking results.\n\nTo help us make Superday even better, please allow it to access your Motion Data.";
+"CMExistingUsersAccessFinePrint" = "* Health App access won't be needed anymore";
+"CMExistingUsersAccessButtonTitle" = "Make Superday better";
 
 //Categories
-"Commute" = "Commute";
+"Commute" = "Movement";
 "Work" = "Work";
 "Food" = "Food";
 "Leisure" = "Leisure";

@@ -1,40 +1,49 @@
 import Foundation
+import RxSwift
 
 protocol SettingsService
 {
     //MARK: Properties
     var installDate : Date? { get }
     
+    var isFirstTimeAppRuns : Bool { get }
+    
+    var isPostCoreMotionUser : Bool { get }
+    
     var lastLocation : Location? { get }
+    
+    var lastTimelineGenerationDate: Date? { get }
     
     var hasLocationPermission : Bool { get }
     
-    var hasHealthKitPermission : Bool { get }
+    var hasCoreMotionPermission : Bool { get }
     
-    var lastAskedForLocationPermission : Date? { get }
-        
     var hasNotificationPermission : Bool { get }
     
     var userEverGaveLocationPermission : Bool { get }
+    
+    var userEverGaveMotionPermission : Bool { get }
     
     var didShowWelcomeMessage : Bool { get }
     
     var lastShownWeeklyRating : Date? { get }
     
-    //MARK: Methods
-    func lastHealthKitUpdate(for identifier: String) -> Date
+    var motionPermissionGranted: Observable<Bool> { get }
     
-    func setLastHealthKitUpdate(for identifier: String, date: Date)
+    //MARK: Methods
+    func setIsFirstTimeAppRuns()
+    
+    func setIsPostCoreMotionUser()
     
     func setInstallDate(_ date: Date)
     
     func setLastLocation(_ location: Location)
     
-    func setLastAskedForLocationPermission(_ date: Date)
-    
+    func setLastTimelineGenerationDate(_ date: Date)
+        
     func setUserGaveLocationPermission()
     
-    func setUserGaveHealthKitPermission()
+    func setCoreMotionPermission(userGavePermission: Bool)
         
     func setWelcomeMessageShown()
     

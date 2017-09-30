@@ -6,7 +6,7 @@ class LocationPermissionViewModel : PermissionViewModel
     // MARK: Public Properties
     var remindMeLater : Bool
     {
-        return isFirstTimeUser
+        return false
     }
 
     var titleText : String?
@@ -46,7 +46,6 @@ class LocationPermissionViewModel : PermissionViewModel
             .map(self.overlayVisibilityState)
             .filter{ !$0 }
             .mapTo(())
-            .debug()
     }()
     
     // MARK: Private Properties
@@ -83,17 +82,10 @@ class LocationPermissionViewModel : PermissionViewModel
     
     func permissionGiven()
     {
-        if settingsService.userEverGaveLocationPermission {
-            settingsService.setLastAskedForLocationPermission(timeService.now)
-        } else {
-            settingsService.setUserGaveLocationPermission()
-        }
+        settingsService.setUserGaveLocationPermission()
     }
     
-    func permissionDeferred()
-    {
-        settingsService.setLastAskedForLocationPermission(timeService.now)
-    }
+    func permissionDeferred() { }
     
     // MARK: Private Methods
         

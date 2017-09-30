@@ -1,6 +1,7 @@
 import CoreData
 import UIKit
 import CoreLocation
+import RxSwift
 
 class DefaultSettingsService : SettingsService
 {
@@ -9,6 +10,16 @@ class DefaultSettingsService : SettingsService
     var installDate : Date?
     {
         return get(forKey: installDateKey)
+    }
+    
+    var isFirstTimeAppRuns : Bool
+    {
+        return !getBool(forKey: isFirstTimeAppRunsKey)
+    }
+    
+    var isPostCoreMotionUser : Bool
+    {
+        return getBool(forKey: isPostCoreMotionUserKey)
     }
     
     var lastLocation : Location?
@@ -31,15 +42,20 @@ class DefaultSettingsService : SettingsService
         return location
     }
     
+    var lastTimelineGenerationDate: Date?
+    {
+        return get(forKey: lastTimelineGenerationDateKey)
+    }
+    
     var hasLocationPermission : Bool
     {
         guard CLLocationManager.locationServicesEnabled() else { return false }
         return CLLocationManager.authorizationStatus() == .authorizedAlways
     }
     
-    var hasHealthKitPermission : Bool
+    var hasCoreMotionPermission : Bool
     {
-        return getBool(forKey: healthKitPermissionKey)
+        return getBool(forKey: hasCoreMotionPermissionKey)
     }
     
     var hasNotificationPermission : Bool
@@ -48,14 +64,14 @@ class DefaultSettingsService : SettingsService
         return notificationSettings?.types.contains([.alert, .badge]) ?? false
     }
     
-    var lastAskedForLocationPermission : Date?
-    {
-        return get(forKey: lastAskedForLocationPermissionKey)
-    }
-    
     var userEverGaveLocationPermission: Bool
     {
         return getBool(forKey: userGaveLocationPermissionKey)
+    }
+    
+    var userEverGaveMotionPermission: Bool
+    {
+        return getBool(forKey: userGaveMotionPermissionKey)
     }
     
     var didShowWelcomeMessage : Bool
@@ -68,6 +84,12 @@ class DefaultSettingsService : SettingsService
         return get(forKey: lastShownWeeklyRatingKey)
     }
     
+    var motionPermissionGranted: Observable<Bool>
+    {
+        return UserDefaults.standard.rx.observe(Bool.self, hasCoreMotionPermissionKey)
+            .filterNil().debug()
+    }
+    
     //MARK: Private Properties
     
     private let timeService : TimeService
@@ -77,13 +99,15 @@ class DefaultSettingsService : SettingsService
     private let lastLocationLngKey = "lastLocationLng"
     private let lastLocationDateKey = "lastLocationDate"
     private let lastLocationHorizontalAccuracyKey = "lastLocationHorizongalAccuracy"
-    private let lastAskedForLocationPermissionKey = "lastAskedForLocationPermission"
     private let userGaveLocationPermissionKey = "canIgnoreLocationPermission"
-    private let lastHealthKitUpdateKey = "lastHealthKitUpdate"
-    private let healthKitPermissionKey = "healthKitPermission"
+    private let userGaveMotionPermissionKey = "userGaveMotionPermissionKey"
     private let welcomeMessageShownKey = "welcomeMessageShown"
     private let votingHistoryKey = "votingHistory"
     private let lastShownWeeklyRatingKey = "lastShownWeeklyRating"
+    private let isFirstTimeAppRunsKey = "isFirstTimeAppRuns"
+    private let isPostCoreMotionUserKey = "isPostCoreMotionUser"
+    private let hasCoreMotionPermissionKey = "hasCoreMotionPermission"
+    private let lastTimelineGenerationDateKey = "lastTimelineGenerationDate"
     
     //MARK: Initialiazers
     init (timeService : TimeService)
@@ -92,25 +116,14 @@ class DefaultSettingsService : SettingsService
     }
 
     //MARK: Public Methods
-    func lastHealthKitUpdate(for identifier: String) -> Date
+    func setIsFirstTimeAppRuns()
     {
-        let key = lastHealthKitUpdateKey + identifier
-        
-        guard let lastUpdate : Date = get(forKey: key)
-        else
-        {
-            let initialDate = timeService.now
-            setLastHealthKitUpdate(for: identifier, date: initialDate)
-            return initialDate
-        }
-        
-        return lastUpdate
+        set(true, forKey: isFirstTimeAppRunsKey)
     }
     
-    func setLastHealthKitUpdate(for identifier: String, date: Date)
+    func setIsPostCoreMotionUser()
     {
-        let key = lastHealthKitUpdateKey + identifier
-        set(date, forKey: key)
+        set(true, forKey: isPostCoreMotionUserKey)
     }
     
     func setInstallDate(_ date: Date)
@@ -128,9 +141,9 @@ class DefaultSettingsService : SettingsService
         set(location.horizontalAccuracy, forKey: lastLocationHorizontalAccuracyKey)
     }
     
-    func setLastAskedForLocationPermission(_ date: Date)
+    func setLastTimelineGenerationDate(_ date: Date)
     {
-        set(date, forKey: lastAskedForLocationPermissionKey)
+        set(date, forKey: lastTimelineGenerationDateKey)
     }
     
     func setUserGaveLocationPermission()
@@ -138,9 +151,10 @@ class DefaultSettingsService : SettingsService
         set(true, forKey: userGaveLocationPermissionKey)
     }
     
-    func setUserGaveHealthKitPermission()
+    func setCoreMotionPermission(userGavePermission: Bool)
     {
-        set(true, forKey: healthKitPermissionKey)
+        set(true, forKey: userGaveMotionPermissionKey)
+        set(userGavePermission, forKey: hasCoreMotionPermissionKey)
     }
     
     func setWelcomeMessageShown()

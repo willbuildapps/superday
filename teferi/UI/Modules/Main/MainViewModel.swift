@@ -16,15 +16,15 @@ class MainViewModel : RxViewModel
     {
         return Observable.of(
             self.appLifecycleService.movedToForegroundObservable,
-            self.didBecomeActive)
+            self.didBecomeActive,
+            self.motionService.motionAuthorizationGranted.mapTo(()))
             .merge()
             .map { [unowned self] () -> PermissionRequestType? in
                 if self.shouldShowLocationPermissionRequest() {
                     return PermissionRequestType.location
-                } else if self.shouldShowHealthKitPermissionRequest() {
-                    return PermissionRequestType.health
+                } else if self.shouldShowMotionPermissionRequest() {
+                    return PermissionRequestType.motion
                 }
-                
                 return nil
             }
             .filterNil()
@@ -32,28 +32,30 @@ class MainViewModel : RxViewModel
     
     var welcomeMessageHiddenObservable : Observable<Bool>
     {
+        if self.settingsService.didShowWelcomeMessage {
+            return Observable.just(true)
+        }
+        
         return Observable.of(
-            self.appLifecycleService.movedToForegroundObservable.skip(1),
-            self.didBecomeActive,
+            self.didBecomeActive.skip(1),
             self.beganEditingObservable.mapTo(()),
-            self.timeSlotService.timeSlotCreatedObservable.mapTo(()) )
+            self.timeSlotService.timeSlotCreatedObservable.mapTo(()).skip(1))
             .merge()
-            .map { [unowned self] () -> Bool in
-                guard self.timeService.now.ignoreTimeComponents() == self.settingsService.installDate!.ignoreTimeComponents()
-                else {
-                    self.settingsService.setWelcomeMessageShown()
-                    return true
-                }
-                
-                let value = self.settingsService.didShowWelcomeMessage
+            .mapTo(true)
+            .startWith(false)
+            .do(onNext: { _ in
                 self.settingsService.setWelcomeMessageShown()
-                return value
-            }
+            })
     }
     
     var moveToForegroundObservable : Observable<Void>
     {
         return appLifecycleService.movedToForegroundObservable
+    }
+    
+    var shouldShowCMAccessForExistingUsers : Bool
+    {
+        return !settingsService.isPostCoreMotionUser && !settingsService.hasCoreMotionPermission
     }
     
     var shouldShowWeeklyRatingUI : Bool
@@ -87,8 +89,18 @@ class MainViewModel : RxViewModel
         return timeService.now
     }
 
+    var locating:Observable<Bool> {
+        return locatingActivity.asObservable()
+            .observeOn(MainScheduler.instance)
+    }
+    
+    var generating: Observable<Bool> {
+        return generatingTimelineActivity.asObservable()
+            .observeOn(MainScheduler.instance)
+    }
     
     // MARK: Private Properties
+    private let loggingService: LoggingService
     private let timeService : TimeService
     private let metricsService : MetricsService
     private let timeSlotService : TimeSlotService
@@ -96,17 +108,30 @@ class MainViewModel : RxViewModel
     private let smartGuessService : SmartGuessService
     private let settingsService : SettingsService
     private let appLifecycleService : AppLifecycleService
+    private let locationService: LocationService
+    private let trackEventService: TrackEventService
+    private let motionService: MotionService
+    
+    private let locatingActivity = ActivityIndicator()
+    private let generatingTimelineActivity = ActivityIndicator()
+    private let timelineGenerator: TimelineGenerator
+    private var disposeBag = DisposeBag()
     
     // MARK: Initializer
-    init(timeService: TimeService,
+    init(loggingService: LoggingService,
+         timeService: TimeService,
          metricsService: MetricsService,
          timeSlotService: TimeSlotService,
          editStateService: EditStateService,
          smartGuessService : SmartGuessService,
          selectedDateService : SelectedDateService,
          settingsService : SettingsService,
-         appLifecycleService: AppLifecycleService)
+         appLifecycleService: AppLifecycleService,
+         locationService: LocationService,
+         trackEventService: TrackEventService,
+         motionService: MotionService)
     {
+        self.loggingService = loggingService
         self.timeService = timeService
         self.metricsService = metricsService
         self.timeSlotService = timeSlotService
@@ -114,12 +139,44 @@ class MainViewModel : RxViewModel
         self.smartGuessService = smartGuessService
         self.settingsService = settingsService
         self.appLifecycleService = appLifecycleService
+        self.locationService = locationService
+        self.trackEventService = trackEventService
+        self.motionService = motionService
+        
+        timelineGenerator = TimelineGenerator(loggingService: loggingService,
+                                              trackEventService: trackEventService,
+                                              smartGuessService: smartGuessService,
+                                              timeService: timeService,
+                                              timeSlotService: timeSlotService,
+                                              metricsService: metricsService,
+                                              settingsService: settingsService,
+                                              motionService: motionService)
         
         isEditingObservable = editStateService.isEditingObservable
         dateObservable = selectedDateService.currentlySelectedDateObservable
         beganEditingObservable = editStateService.beganEditingObservable
         
         categoryProvider = DefaultCategoryProvider(timeSlotService: timeSlotService)
+
+        super.init()
+        
+        appLifecycleService.movedToForegroundObservable
+            .flatMap { [unowned self] _ -> Observable<Location> in
+                if let location = settingsService.lastLocation {
+                    return Observable.just(location)
+                }
+                
+                return locationService.currentLocation
+                    .subscribeOn(OperationQueueScheduler(operationQueue: OperationQueue()))
+                    .do(onNext: settingsService.setLastLocation)
+                    .trackActivity(self.locatingActivity)
+            }
+            .flatMap { [unowned self] _ in
+                return self.timelineGenerator.execute()
+                    .trackActivity(self.generatingTimelineActivity)
+            }
+            .subscribe()
+            .addDisposableTo(disposeBag)        
 
     }
     
@@ -177,21 +234,11 @@ class MainViewModel : RxViewModel
     
     private func shouldShowLocationPermissionRequest() -> Bool
     {
-        if settingsService.hasLocationPermission { return false }
-        
-        //If user doesn't have permissions and we never showed the overlay, do it
-        guard let lastRequestedDate = settingsService.lastAskedForLocationPermission else { return true }
-        
-        let minimumRequestDate = lastRequestedDate.addingTimeInterval(Constants.timeToWaitBeforeShowingLocationPermissionsAgain)
-        
-        //If we previously showed the overlay, we must only do it again after timeToWaitBeforeShowingLocationPermissionsAgain
-        return minimumRequestDate < timeService.now
+        return !settingsService.hasLocationPermission
     }
     
-    private func shouldShowHealthKitPermissionRequest() -> Bool
+    private func shouldShowMotionPermissionRequest() -> Bool
     {
-        guard let installDate = settingsService.installDate else { return false }
-        
-        return !settingsService.hasHealthKitPermission && installDate.addingTimeInterval(Constants.timeToWaitBeforeShowingHealthKitPermissions - 5) < timeService.now
+        return !settingsService.hasCoreMotionPermission
     }
 }

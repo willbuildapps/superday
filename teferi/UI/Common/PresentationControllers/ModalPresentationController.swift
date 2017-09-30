@@ -8,16 +8,24 @@ struct ContainerPadding
     let bottom : CGFloat
 }
 
+protocol DesiredHeightProtocol
+{
+    func height(forWidth width: CGFloat) -> CGFloat
+}
+
 class ModalPresentationController: UIPresentationController
 {
     private var dimmingView : UIView!
     private var containerPadding : ContainerPadding?
+    private var canBeDismissedByUser : Bool
     
     init(presentedViewController: UIViewController,
          presenting presentingViewController: UIViewController?,
-         containerPadding: ContainerPadding? = ContainerPadding(left: 16, top: 78, right: 16, bottom: 78))
+         containerPadding: ContainerPadding? = ContainerPadding(left: 16, top: 78, right: 16, bottom: 78),
+         canBeDismissedByUser: Bool = true)
     {
         self.containerPadding = containerPadding
+        self.canBeDismissedByUser = canBeDismissedByUser
         
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
         
@@ -31,8 +39,11 @@ class ModalPresentationController: UIPresentationController
         dimmingView.backgroundColor = UIColor(white: 1.0, alpha: 0.8)
         dimmingView.alpha = 0.0
         
-        let recognizer = UITapGestureRecognizer(target: self, action: #selector(ModalPresentationController.dismiss))
-        dimmingView.addGestureRecognizer(recognizer)
+        if canBeDismissedByUser
+        {
+            let dismissTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ModalPresentationController.dismiss))
+            dimmingView.addGestureRecognizer(dismissTapRecognizer)
+        }
     }
     
     @objc private func dismiss()
@@ -99,8 +110,18 @@ class ModalPresentationController: UIPresentationController
         var frame: CGRect = .zero
         frame.size = size(forChildContentContainer: presentedViewController,
                           withParentContainerSize: containerSize)
-
-        frame.origin = CGPoint(x: containerPadding.left, y: containerPadding.top)
+        
+        if let container = presentedViewController as? DesiredHeightProtocol
+        {
+            let newSize = CGSize(width: frame.size.width, height: container.height(forWidth: frame.size.width))
+            frame = CGRect(origin: CGPoint(x: containerPadding.left, y: containerSize.height / 2 - newSize.height / 2),
+                           size: newSize)
+        }
+        else
+        {
+            frame.origin = CGPoint(x: containerPadding.left, y: containerPadding.top)
+        }
+        
         return frame
     }
 }

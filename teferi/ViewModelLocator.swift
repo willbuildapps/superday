@@ -14,7 +14,9 @@ protocol ViewModelLocator
     func getPagerViewModel() -> PagerViewModel
     
     func getLocationPermissionViewModel() -> PermissionViewModel
-    func getHealthKitPermissionViewModel() -> PermissionViewModel
+    func getMotionPermissionViewModel() -> PermissionViewModel
+    
+    func getCMAccessForExistingUsersViewModel() -> CMAccessForExistingUsersViewModel
     
     func getTimelineViewModel(forDate date: Date) -> TimelineViewModel
     
@@ -40,8 +42,9 @@ class DefaultViewModelLocator : ViewModelLocator
     private let appLifecycleService : AppLifecycleService
     private let selectedDateService : SelectedDateService
     private let loggingService : LoggingService
-    private let healthKitService : HealthKitService
     private let notificationService : NotificationService
+    private let motionService: MotionService
+    private let trackEventService: TrackEventService
     
     init(timeService: TimeService,
          metricsService: MetricsService,
@@ -54,8 +57,9 @@ class DefaultViewModelLocator : ViewModelLocator
          appLifecycleService: AppLifecycleService,
          selectedDateService: SelectedDateService,
          loggingService: LoggingService,
-         healthKitService : HealthKitService,
-         notificationService: NotificationService)
+         notificationService: NotificationService,
+         motionService: MotionService,
+         trackEventService: TrackEventService)
     {
         self.timeService = timeService
         self.metricsService = metricsService
@@ -68,8 +72,9 @@ class DefaultViewModelLocator : ViewModelLocator
         self.appLifecycleService = appLifecycleService
         self.selectedDateService = selectedDateService
         self.loggingService = loggingService
-        self.healthKitService = healthKitService
         self.notificationService = notificationService
+        self.motionService = motionService
+        self.trackEventService = trackEventService
     }
     
     func getNavigationViewModel(forViewController viewController: UIViewController) -> NavigationViewModel
@@ -93,20 +98,26 @@ class DefaultViewModelLocator : ViewModelLocator
                                    timeSlotService: self.timeSlotService,
                                    settingsService: self.settingsService,
                                    appLifecycleService: self.appLifecycleService,
-                                   notificationService: self.notificationService,
+                                   motionService: self.motionService,
                                    locationService: self.locationService)
     }
     
+    
     func getMainViewModel() -> MainViewModel
     {
-        let viewModel = MainViewModel(timeService: self.timeService,
+        let viewModel = MainViewModel(loggingService: self.loggingService,
+                                      timeService: self.timeService,
                                       metricsService: self.metricsService,
                                       timeSlotService: self.timeSlotService,
                                       editStateService: self.editStateService,
                                       smartGuessService: self.smartGuessService,
                                       selectedDateService: self.selectedDateService,
                                       settingsService: self.settingsService,
-                                      appLifecycleService: self.appLifecycleService)
+                                      appLifecycleService: self.appLifecycleService,
+                                      locationService: self.locationService,
+                                      trackEventService: self.trackEventService,
+                                      motionService: self.motionService)
+
         return viewModel
     }
     
@@ -143,14 +154,18 @@ class DefaultViewModelLocator : ViewModelLocator
         return viewModel
     }
     
-    func getHealthKitPermissionViewModel() -> PermissionViewModel
+    func getMotionPermissionViewModel() -> PermissionViewModel
     {
-        let viewModel = HealthKitPermissionViewModel(timeService: self.timeService,
-                                                     settingsService: self.settingsService,
-                                                     appLifecycleService: self.appLifecycleService,
-                                                     healthKitService: self.healthKitService)
+        let viewModel = MotionPermissionViewModel(settingsService: self.settingsService,
+                                                  appLifecycleService: self.appLifecycleService)
         
         return viewModel
+    }
+    
+    func getCMAccessForExistingUsersViewModel() -> CMAccessForExistingUsersViewModel
+    {
+        return CMAccessForExistingUsersViewModel(settingsService: settingsService,
+                                                 motionService: motionService)
     }
     
     func getCalendarViewModel() -> CalendarViewModel
