@@ -1395,6 +1395,7 @@
 				TargetAttributes = {
 					240AC7131D748C8800F21F4F = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = B227VTMZ94;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
@@ -2031,15 +2032,15 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 37;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = B227VTMZ94;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = teferi/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -DDEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.toggl.superday.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "6ab204ba-0fb7-49ed-89b5-67e86f62faaa";
+				PROVISIONING_PROFILE_SPECIFIER = "Superday Development";
 				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "";
 				VERSIONING_SYSTEM = "apple-generic";
