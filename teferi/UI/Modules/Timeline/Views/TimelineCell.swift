@@ -58,6 +58,7 @@ class TimelineCell : UITableViewCell
     @IBOutlet private weak var dotView : UIView!
     @IBOutlet private weak var collapseButton: UIButton!
     @IBOutlet private weak var expandButton: UIButton!
+    @IBOutlet weak var activityTagView: ActivityTagView!
     
     private var lineFadeView : AutoResizingLayerView?
     
@@ -79,6 +80,7 @@ class TimelineCell : UITableViewCell
         layoutElapsedTimeLabel(withItem: timelineItem)
         layoutDescriptionLabel(withItem: timelineItem)
         layoutCategoryIcon(forCategory: timelineItem.category)
+        setupActivityTag(withTagText: timelineItem.activityTagText)
         
         let image = UIImage(asset: Asset.icCollapse).withRenderingMode(.alwaysTemplate)
         collapseButton.setImage(image, for: .normal)
@@ -156,6 +158,17 @@ class TimelineCell : UITableViewCell
         lineView.collapsable = item.timeSlots.count > 1
         
         lineView.layoutIfNeeded()
+    }
+    
+    private func setupActivityTag(withTagText tagText: String?)
+    {
+        guard let tagText = tagText else {
+            activityTagView.isHidden = true
+            return
+        }
+        
+        activityTagView.isHidden = false
+        activityTagView.configure(name: tagText)
     }
     
     /// Configure the fade overlay

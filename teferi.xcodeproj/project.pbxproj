@@ -172,6 +172,9 @@
 		8C9D25E31E97FC9100D39119 /* LocationPermissionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDE5B391E4A3F260082FFC3 /* LocationPermissionViewModel.swift */; };
 		8C9D25E41E97FD1000D39119 /* TimelineViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24564F6C1D8326F100D9A8AE /* TimelineViewModelTests.swift */; };
 		8C9D25E51E97FD3F00D39119 /* MockMetricsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B03B621D9E946900452D16 /* MockMetricsService.swift */; };
+		8C9EF43D1F823C02002AE07C /* ShortTimelineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9EF43C1F823C02002AE07C /* ShortTimelineCell.swift */; };
+		8C9EF43F1F823C18002AE07C /* ShortTimelineCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C9EF43E1F823C18002AE07C /* ShortTimelineCell.xib */; };
+		8C9EF4411F8240EE002AE07C /* ActivityTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9EF4401F8240EE002AE07C /* ActivityTagView.swift */; };
 		8CA0C53A1F7264350024B2DE /* LoadingView+RxExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA0C5391F7264350024B2DE /* LoadingView+RxExtensions.swift */; };
 		8CA0C53C1F72791A0024B2DE /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA0C53B1F72791A0024B2DE /* ActivityIndicator.swift */; };
 		8CA0C53F1F737D760024B2DE /* TimelineGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA0C53E1F737D760024B2DE /* TimelineGenerator.swift */; };
@@ -457,6 +460,9 @@
 		8C9C25661ED3397E00B10187 /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationController.swift; path = Navigation/NavigationController.swift; sourceTree = "<group>"; };
 		8C9C25681ED3398D00B10187 /* NavigationPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationPresenter.swift; path = Navigation/NavigationPresenter.swift; sourceTree = "<group>"; };
 		8C9C256A1ED348EE00B10187 /* NavigationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationViewModel.swift; path = Navigation/NavigationViewModel.swift; sourceTree = "<group>"; };
+		8C9EF43C1F823C02002AE07C /* ShortTimelineCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortTimelineCell.swift; sourceTree = "<group>"; };
+		8C9EF43E1F823C18002AE07C /* ShortTimelineCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShortTimelineCell.xib; sourceTree = "<group>"; };
+		8C9EF4401F8240EE002AE07C /* ActivityTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTagView.swift; sourceTree = "<group>"; };
 		8CA0C5391F7264350024B2DE /* LoadingView+RxExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoadingView+RxExtensions.swift"; sourceTree = "<group>"; };
 		8CA0C53B1F72791A0024B2DE /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		8CA0C53E1F737D760024B2DE /* TimelineGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineGenerator.swift; sourceTree = "<group>"; };
@@ -1192,9 +1198,12 @@
 				2420A8671DB56B6800C0478C /* EmptyStateView.xib */,
 				24564F531D83254E00D9A8AE /* TimelineCell.swift */,
 				24564F541D83254E00D9A8AE /* TimelineCell.xib */,
+				8C9EF43C1F823C02002AE07C /* ShortTimelineCell.swift */,
+				8C9EF43E1F823C18002AE07C /* ShortTimelineCell.xib */,
 				8C71A5321F33779B00E8258C /* TimelineItem+TimelineCell.swift */,
 				AC0CA4BC1F3DB76300EAEB44 /* TimelineVoteView.swift */,
 				AC0CA4BE1F3DB78400EAEB44 /* TimelineVoteView.xib */,
+				8C9EF4401F8240EE002AE07C /* ActivityTagView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1442,6 +1451,7 @@
 			files = (
 				24564F571D83254E00D9A8AE /* TimelineCell.xib in Resources */,
 				24564F771D837FBE00D9A8AE /* Localizable.strings in Resources */,
+				8C9EF43F1F823C18002AE07C /* ShortTimelineCell.xib in Resources */,
 				AC69F0AB1F4C40CD00EF2CC9 /* Rating.storyboard in Resources */,
 				8C7E110A1E9B6E79009AAF49 /* Settings.bundle in Resources */,
 				240AC7221D748C8800F21F4F /* Assets.xcassets in Resources */,
@@ -1660,8 +1670,10 @@
 				24DE23F51E1BB33B0089B49E /* Activity.swift in Sources */,
 				2407A9881D9D512D00066889 /* LaunchAnimationView.swift in Sources */,
 				24DE23EC1E1BB3180089B49E /* CalendarCell.swift in Sources */,
+				8C9EF43D1F823C02002AE07C /* ShortTimelineCell.swift in Sources */,
 				BEA783651E6DB5AF00D44603 /* DefaultCategoryProvider.swift in Sources */,
 				BE0A5B771EE03F0A00200939 /* DailySummaryBarView.swift in Sources */,
+				8C9EF4411F8240EE002AE07C /* ActivityTagView.swift in Sources */,
 				8C6417011EAE02B700B893D7 /* ModalPresentationController.swift in Sources */,
 				8C028DA81EF8296500CABCE9 /* SmartGuesser.swift in Sources */,
 				8CA987391F7A2F95003AB4B9 /* Cleaner.swift in Sources */,

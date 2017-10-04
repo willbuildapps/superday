@@ -77,6 +77,7 @@ class TimelineViewController : UIViewController
         tableView.showsVerticalScrollIndicator = false
         tableView.showsHorizontalScrollIndicator = false
         tableView.register(UINib.init(nibName: "TimelineCell", bundle: Bundle.main), forCellReuseIdentifier: TimelineCell.cellIdentifier)
+        tableView.register(UINib.init(nibName: "ShortTimelineCell", bundle: Bundle.main), forCellReuseIdentifier: ShortTimelineCell.cellIdentifier)
         tableView.contentInset = UIEdgeInsets(top: 34, left: 0, bottom: 120, right: 0)
         
         dataSource.configureCell = constructCell
@@ -204,6 +205,13 @@ class TimelineViewController : UIViewController
     
     private func constructCell(dataSource: TableViewSectionedDataSource<TimelineSection>, tableView: UITableView, indexPath: IndexPath, item:TimelineItem) -> UITableViewCell
     {
+        if item.category == .commute {
+         
+            let cell = tableView.dequeueReusableCell(withIdentifier: ShortTimelineCell.cellIdentifier, for: indexPath) as! ShortTimelineCell
+            cell.timelineItem = item
+            return cell
+        }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: TimelineCell.cellIdentifier, for: indexPath) as! TimelineCell
         cell.timelineItem = item
         
