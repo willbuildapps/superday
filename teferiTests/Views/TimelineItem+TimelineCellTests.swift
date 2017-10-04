@@ -12,14 +12,26 @@ class TimelineItem_TimelineCellTests: XCTestCase
         var timeslots = [
             TimeSlot(withStartTime: now, category: .work, categoryWasSetByUser: false),
         ]
-        let item1 = TimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 15 * 60)
+        let item1 = TimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 150 * 60)
         
         timeslots = [
             TimeSlot(withStartTime: now, category: .work, categoryWasSetByUser: false),
         ]
-        let item2 = TimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 30 * 60)
+        let item2 = TimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 300 * 60)
         
         expect(item1.lineHeight).to(beLessThan(item2.lineHeight))
+    }
+    
+    func testTheTimelineCellLineHeightCantBeShorterThan16()
+    {
+        let now = Date()
+        
+        let timeslots = [
+            TimeSlot(withStartTime: now, category: .work, categoryWasSetByUser: false),
+            ]
+        let item = TimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 15)
+        
+        expect(item.lineHeight).to(equal(16))
     }
     
     func testGroupedTimelineItemsAlwaysHaveTheSameHeightRegardlessOfTotalDuration()

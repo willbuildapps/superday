@@ -5,16 +5,16 @@ extension TimelineItem
 {
     var lineHeight: CGFloat
     {
-        if timeSlots.count > 1 {
-            return 64
-        }
+        let minutes = duration / 60
+        let height: Double
         
-        if category == .sleep {
-            return 20.0
+        if minutes <= 60 {
+            height = 8/(15*minutes) + 120/15
         } else {
-            let newHeight = Constants.minLineHeight + Constants.timelineSlope * (CGFloat(duration) - Constants.minTimelineInterval)
-            return max(min(newHeight, Constants.maxLineHeight), Constants.minLineHeight)
+            height = (480 + minutes) / 13.5
         }
+
+        return CGFloat(max(height, 16))
     }
     
     var slotTimeText: String
