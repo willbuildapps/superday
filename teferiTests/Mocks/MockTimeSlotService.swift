@@ -105,6 +105,12 @@ class MockTimeSlotService : TimeSlotService
         return tryAdd(timeSlot: timeSlot)
     }
     
+    @discardableResult func addTimeSlot(fromTemporaryTimeslot temporaryTimeslot: TemporaryTimeSlot) -> TimeSlot?
+    {
+        let timeSlot = TimeSlot(startTime: temporaryTimeslot.start, endTime: temporaryTimeslot.end, category: temporaryTimeslot.category, smartGuessId: temporaryTimeslot.smartGuess?.id, location: temporaryTimeslot.location, categoryWasSetByUser: false, activity: temporaryTimeslot.activity)
+        return tryAdd(timeSlot: timeSlot)
+    }
+    
     private func tryAdd(timeSlot: TimeSlot) -> TimeSlot
     {
         if let lastTimeSlot = timeSlots.last

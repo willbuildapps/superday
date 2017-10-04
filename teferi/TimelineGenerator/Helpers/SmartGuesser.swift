@@ -35,7 +35,7 @@ extension TemporaryTimeSlot
             end: end,
             category: smartGuess.category,
             location: location,
-            activityTag: activityTag,
+            activity: activity,
             smartGuess: smartGuess
         )
     }

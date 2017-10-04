@@ -28,6 +28,11 @@ class SimpleMockTimeSlotService : TimeSlotService
         return newTimeSlotToReturn
     }
     
+    @discardableResult func addTimeSlot(fromTemporaryTimeslot: TemporaryTimeSlot) -> TimeSlot?
+    {
+        return newTimeSlotToReturn
+    }
+    
     func getTimeSlots(forDay day: Date) -> [TimeSlot]
     {
         dateAsked = day

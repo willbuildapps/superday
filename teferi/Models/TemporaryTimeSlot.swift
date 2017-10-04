@@ -6,7 +6,7 @@ struct TemporaryTimeSlot
     let end : Date?
     let category : Category
     let location : Location
-    let activityTag: MotionEventType
+    let activity: MotionEventType
     let smartGuess : SmartGuess?
 }
 
@@ -18,17 +18,17 @@ extension TemporaryTimeSlot
         self.end = event.endTime
         self.category = TemporaryTimeSlot.getCategory(from: event.type)
         self.location = event.location
-        self.activityTag = event.type
+        self.activity = event.type
         self.smartGuess = nil
     }
     
-    init(start: Date, location: Location, end: Date? = nil, category: Category = .unknown, activityTag: MotionEventType = .still, smartGuess: SmartGuess? = nil)
+    init(start: Date, location: Location, end: Date? = nil, category: Category = .unknown, activity: MotionEventType = .still, smartGuess: SmartGuess? = nil)
     {
         self.start = start
         self.end = end
         self.category = category
         self.location = location
-        self.activityTag = activityTag
+        self.activity = activity
         self.smartGuess = nil
     }
     
@@ -39,7 +39,7 @@ extension TemporaryTimeSlot
             end: end ?? self.end,
             category: self.category,
             location: self.location,
-            activityTag: self.activityTag,
+            activity: self.activity,
             smartGuess: self.smartGuess
         )
     }

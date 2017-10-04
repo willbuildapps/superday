@@ -124,7 +124,7 @@ extension TemporaryTimeSlot
             end: self.end,
             category: self.category,
             location: location,
-            activityTag: self.activityTag,
+            activity: self.activity,
             smartGuess: self.smartGuess
         )
     }

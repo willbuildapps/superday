@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="16D32" minimumToolsVersion="Xcode 7.3" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13240" systemVersion="16G29" minimumToolsVersion="Xcode 7.3" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
     <entity name="HealthSample" syncable="YES">
         <attribute name="endTime" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="identifier" attributeType="String" syncable="YES"/>
@@ -26,6 +26,7 @@
         <attribute name="locationTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
     </entity>
     <entity name="TimeSlot" syncable="YES">
+        <attribute name="activity" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="category" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="categoryWasSetByUser" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="endTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -39,6 +40,6 @@
         <element name="HealthSample" positionX="-27" positionY="90" width="128" height="30"/>
         <element name="Location" positionX="-45" positionY="81" width="128" height="30"/>
         <element name="SmartGuess" positionX="-63" positionY="36" width="128" height="150"/>
-        <element name="TimeSlot" positionX="-63" positionY="-18" width="128" height="165"/>
+        <element name="TimeSlot" positionX="-63" positionY="-18" width="128" height="180"/>
     </elements>
 </model>

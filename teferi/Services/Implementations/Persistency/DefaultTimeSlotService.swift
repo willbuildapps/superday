@@ -62,6 +62,19 @@ class DefaultTimeSlotService : TimeSlotService
         return tryAdd(timeSlot: timeSlot)
     }
     
+    @discardableResult func addTimeSlot(fromTemporaryTimeslot temporaryTimeSlot: TemporaryTimeSlot) -> TimeSlot?
+    {
+        let timeSlot = TimeSlot(startTime: temporaryTimeSlot.start,
+                                endTime: temporaryTimeSlot.end,
+                                category: temporaryTimeSlot.category,
+                                smartGuessId: nil,
+                                location: temporaryTimeSlot.location,
+                                categoryWasSetByUser: false,
+                                activity: temporaryTimeSlot.activity)
+        
+        return tryAdd(timeSlot: timeSlot)
+    }
+    
     func getTimeSlots(forDay day: Date) -> [TimeSlot]
     {
         let startTime = day.ignoreTimeComponents() as NSDate

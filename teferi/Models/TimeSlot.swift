@@ -10,7 +10,7 @@ struct TimeSlot
     let smartGuessId : Int?
     let location: Location?
     let categoryWasSetByUser: Bool
-    
+    let activity: MotionEventType?
 }
 
 extension TimeSlot
@@ -23,7 +23,7 @@ extension TimeSlot
         self.smartGuessId = nil
         self.location = location
         self.categoryWasSetByUser = categoryWasSetByUser
-        
+        self.activity = nil
     }
     
     init(withStartTime time: Date, endTime: Date? = nil, smartGuess: SmartGuess, location: Location?)
@@ -34,7 +34,7 @@ extension TimeSlot
         self.smartGuessId = smartGuess.id
         self.location = location
         self.categoryWasSetByUser = false
-
+        self.activity = nil
     }
 }
 
@@ -42,13 +42,13 @@ extension TimeSlot
 {
     func withCategory(_ category: Category, setByUser: Bool? = nil) -> TimeSlot
     {
-        return TimeSlot(
-            withStartTime: self.startTime,
-            endTime: self.endTime,
-            category: category,
-            categoryWasSetByUser: setByUser ?? self.categoryWasSetByUser,
-            location: self.location
-        )
+        return TimeSlot(startTime: self.startTime,
+                        endTime: self.endTime,
+                        category: category,
+                        smartGuessId: self.smartGuessId,
+                        location: self.location,
+                        categoryWasSetByUser: setByUser ?? self.categoryWasSetByUser,
+                        activity: self.activity)
     }
     
     func withEndDate( _ endDate: Date) -> TimeSlot
@@ -59,8 +59,8 @@ extension TimeSlot
             category: self.category,
             smartGuessId: self.smartGuessId,
             location: self.location,
-            categoryWasSetByUser: self.categoryWasSetByUser
-        )
+            categoryWasSetByUser: self.categoryWasSetByUser,
+            activity: self.activity)
     }
 }
 

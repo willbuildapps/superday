@@ -123,7 +123,7 @@ class TimelineProcessorTests: XCTestCase
             end: data.endOffset != nil ? date(data.endOffset!) : nil,
             category: data.category,
             location: baseSlot.location,
-            activityTag: baseSlot.activityTag,
+            activity: baseSlot.activity,
             smartGuess: nil)
     }
     

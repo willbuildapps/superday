@@ -12,6 +12,7 @@ protocol TimeSlotService
     
     @discardableResult func addTimeSlot(withStartTime startTime: Date, smartGuess: SmartGuess, location: Location?) -> TimeSlot?
     
+    @discardableResult func addTimeSlot(fromTemporaryTimeslot: TemporaryTimeSlot) -> TimeSlot?
     /**
      Gets TimeSlots for any given day.
      

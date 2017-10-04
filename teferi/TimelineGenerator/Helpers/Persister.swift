@@ -31,27 +31,11 @@ class Persister
         
         for temporaryTimeSlot in slots
         {
-            let addedTimeSlot : TimeSlot?
-            if let smartGuess = temporaryTimeSlot.smartGuess
-            {
-                addedTimeSlot = timeSlotService.addTimeSlot(withStartTime: temporaryTimeSlot.start,
-                                                                 smartGuess: smartGuess,
-                                                                 location: temporaryTimeSlot.location)
-                
+            let addedTimeSlot = timeSlotService.addTimeSlot(fromTemporaryTimeslot: temporaryTimeSlot)
+            if let smartGuess = temporaryTimeSlot.smartGuess {
                 smartGuessesToUpdate.append((smartGuess, temporaryTimeSlot.start))
-                
-                if firstSlotCreated == nil { firstSlotCreated = addedTimeSlot }
             }
-            else
-            {
-                addedTimeSlot = timeSlotService.addTimeSlot(withStartTime: temporaryTimeSlot.start,
-                                                                 category: temporaryTimeSlot.category,
-                                                                 categoryWasSetByUser: false,
-                                                                 location: temporaryTimeSlot.location)
-
-                if firstSlotCreated == nil { firstSlotCreated = addedTimeSlot }
-            }
-            
+            if firstSlotCreated == nil { firstSlotCreated = addedTimeSlot }
             lastLocation = addedTimeSlot?.location ?? lastLocation
         }
 
