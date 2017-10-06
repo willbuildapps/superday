@@ -7,6 +7,9 @@ extension TimelineItem
     {
         let minutes = duration / 60
         let height: Double
+        let minHeight: Double = 16
+        
+        guard minutes > 0 else { return CGFloat(minHeight) }
         
         if minutes <= 60 {
             height = 8/(15*minutes) + 120/15
@@ -14,7 +17,7 @@ extension TimelineItem
             height = (480 + minutes) / 13.5
         }
 
-        return CGFloat(max(height, 16))
+        return CGFloat(max(height, minHeight))
     }
     
     var slotTimeText: String
