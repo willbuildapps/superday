@@ -222,15 +222,7 @@ class TimelineViewController : UIViewController
             }
             .subscribe(onNext: self.viewModel.notifyEditingBegan)
             .addDisposableTo(cell.disposeBag)
-        
-        cell.collapseClickObservable
-            .subscribe(onNext: viewModel.collapseSlots)
-            .addDisposableTo(cell.disposeBag)
-        
-        cell.expandClickObservable
-            .subscribe(onNext: viewModel.expandSlots)
-            .addDisposableTo(cell.disposeBag)
-        
+                
         return cell
     }
     

@@ -219,58 +219,6 @@ class TimelineViewModelTests : XCTestCase
         expect(items.count).to(equal(2))
     }
     
-    func testConsecutiveTimeSlotsCanBeExpanded()
-    {
-        addTimeSlot(minutesAfterNoon: 0, category: .leisure)
-        addTimeSlot(minutesAfterNoon: 30, category: .leisure)
-        addTimeSlot(minutesAfterNoon: 60, category: .work)
-        addTimeSlot(minutesAfterNoon: 90, category: .work)
-        
-        var lastEvent = observer.events.last!
-        var items = lastEvent.value.element!
-        
-        viewModel.expandSlots(item: items[0])
-
-        lastEvent = observer.events.last!
-        items = lastEvent.value.element!
-
-        expect(items.count).to(equal(3))
-    }
-    
-    func testExpandingOneSlotCollapsesPreviousOne()
-    {
-        addTimeSlot(minutesAfterNoon: 0, category: .leisure)
-        addTimeSlot(minutesAfterNoon: 30, category: .leisure)
-        addTimeSlot(minutesAfterNoon: 60, category: .work)
-        addTimeSlot(minutesAfterNoon: 90, category: .work)
-        addTimeSlot(minutesAfterNoon: 120, category: .work)
-        
-        var lastEvent = observer.events.last!
-        var items = lastEvent.value.element!
-        
-        viewModel.expandSlots(item: items[0])
-        
-        lastEvent = observer.events.last!
-        items = lastEvent.value.element!
-        
-        expect(items.count).to(equal(3))
-        expect(items[0].category).to(equal(Category.leisure))
-        expect(items[1].category).to(equal(Category.leisure))
-        expect(items[2].category).to(equal(Category.work))
-        
-        viewModel.expandSlots(item: items[2])
-        
-        lastEvent = observer.events.last!
-        items = lastEvent.value.element!
-        
-        expect(items.count).to(equal(4))
-        expect(items[0].category).to(equal(Category.leisure))
-        expect(items[1].category).to(equal(Category.work))
-        expect(items[2].category).to(equal(Category.work))
-        expect(items[3].category).to(equal(Category.work))
-
-    }
-    
     func testVotesAreLoggedToFabric()
     {
         viewModel.setVote(vote: true)

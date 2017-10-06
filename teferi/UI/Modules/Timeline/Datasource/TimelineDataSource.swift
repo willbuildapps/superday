@@ -28,9 +28,10 @@ extension TimelineItem: IdentifiableType, Equatable
 
 func == (lhs: TimelineItem, rhs: TimelineItem) -> Bool
 {
-    return lhs.category == rhs.category && lhs.isCollapsed == rhs.isCollapsed
-        && lhs.hasCollapseButton == rhs.hasCollapseButton && lhs.isRunning == rhs.isRunning
+    return lhs.category == rhs.category
+        && lhs.isRunning == rhs.isRunning
         && lhs.elapsedTimeText == rhs.elapsedTimeText
+        && lhs.containsMultiple == rhs.containsMultiple
 }
 
 

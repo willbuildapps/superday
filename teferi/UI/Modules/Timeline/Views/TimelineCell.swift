@@ -25,21 +25,6 @@ class TimelineCell : UITableViewCell
             .asObservable()
     }
     
-    var collapseClickObservable : Observable<TimelineItem> {
-        return self.collapseButton.rx.tap
-            .mapTo(self.timelineItem)
-            .filterNil()
-            .asObservable()
-    }
-    
-    var expandClickObservable : Observable<TimelineItem> {
-        return self.expandButton.rx.tap
-            .mapTo(self.timelineItem)
-            .filterNil()
-            .asObservable()
-    }
-    
-    
     @IBOutlet private(set) weak var categoryCircle: UIView!
     
     // MARK: Private Properties
@@ -56,8 +41,6 @@ class TimelineCell : UITableViewCell
     @IBOutlet private weak var lineHeight: NSLayoutConstraint!
     @IBOutlet private weak var bottomMargin: NSLayoutConstraint!
     @IBOutlet private weak var dotView : UIView!
-    @IBOutlet private weak var collapseButton: UIButton!
-    @IBOutlet private weak var expandButton: UIButton!
     @IBOutlet weak var activityTagView: ActivityTagView!
     
     private var lineFadeView : AutoResizingLayerView?
@@ -81,9 +64,7 @@ class TimelineCell : UITableViewCell
         layoutDescriptionLabel(withItem: timelineItem)
         layoutCategoryIcon(forCategory: timelineItem.category)
         setupActivityTag(withTagText: timelineItem.activityTagText)
-        
-        let image = UIImage(asset: Asset.icCollapse).withRenderingMode(.alwaysTemplate)
-        collapseButton.setImage(image, for: .normal)
+
     }
     
     func animateIntro()
@@ -142,21 +123,17 @@ class TimelineCell : UITableViewCell
     {
         lineHeight.constant = item.lineHeight
         lineView.color = item.category.color
+        lineView.collapsed = item.containsMultiple
         dotView.backgroundColor = item.category.color
         
         lineView.fading = item.isLastInPastDay
         
         lineFadeView?.isHidden = !item.isLastInPastDay
         
-        dotView.isHidden = !item.isRunning && !item.isLastInPastDay || item.hasCollapseButton
-        collapseButton.isHidden = !item.hasCollapseButton
-        collapseButton.tintColor = item.category.color
+        dotView.isHidden = !item.isRunning && !item.isLastInPastDay
         
-        bottomMargin.constant = item.isRunning || item.hasCollapseButton ? 20 : 0
-        
-        expandButton.isHidden = item.timeSlots.count == 1
-        lineView.collapsable = item.timeSlots.count > 1
-        
+        bottomMargin.constant = item.isRunning ? 20 : 0
+                
         lineView.layoutIfNeeded()
     }
     

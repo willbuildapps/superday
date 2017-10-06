@@ -8,7 +8,6 @@ struct TimelineItem
     let shouldDisplayCategoryName : Bool
     let isLastInPastDay : Bool
     let isRunning: Bool
-    let hasCollapseButton: Bool
     
     var startTime: Date
     {
@@ -20,7 +19,7 @@ struct TimelineItem
         return timeSlots.last!.endTime
     }
     
-    var isCollapsed: Bool
+    var containsMultiple: Bool
     {
         return timeSlots.count > 1
     }
@@ -28,7 +27,7 @@ struct TimelineItem
 
 extension TimelineItem
 {
-    init(withTimeSlots timeSlots: [TimeSlot], category: Category, duration: TimeInterval, shouldDisplayCategoryName: Bool = false, isLastInPastDay: Bool = false, isRunning: Bool = false, hasCollapseButton: Bool = false)
+    init(withTimeSlots timeSlots: [TimeSlot], category: Category, duration: TimeInterval, shouldDisplayCategoryName: Bool = false, isLastInPastDay: Bool = false, isRunning: Bool = false)
     {
         self.timeSlots = timeSlots
         self.category = category
@@ -36,7 +35,6 @@ extension TimelineItem
         self.shouldDisplayCategoryName = shouldDisplayCategoryName
         self.isLastInPastDay = isLastInPastDay
         self.isRunning = isRunning
-        self.hasCollapseButton = hasCollapseButton
     }
 }
 
@@ -50,8 +48,6 @@ extension TimelineItem
             duration: self.duration,
             shouldDisplayCategoryName: self.shouldDisplayCategoryName,
             isLastInPastDay: !isCurrentDay,
-            isRunning: isCurrentDay,
-            hasCollapseButton: self.hasCollapseButton
-        )
+            isRunning: isCurrentDay)
     }
 }
