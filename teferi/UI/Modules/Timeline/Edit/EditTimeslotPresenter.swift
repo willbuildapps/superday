@@ -1,60 +1,65 @@
-import UIKit
+import Foundation
 import RxSwift
 
-class TimelinePresenter : NSObject
+class EditTimeslotPresenter: NSObject
 {
-    private weak var viewController : TimelineViewController!
+    private weak var viewController : EditTimeslotViewController!
     private let viewModelLocator : ViewModelLocator
     fileprivate var padding : ContainerPadding?
     fileprivate let swipeInteractionController = SwipeInteractionController()
     
-    private init(viewModelLocator: ViewModelLocator)
+    init(viewModelLocator: ViewModelLocator)
     {
         self.viewModelLocator = viewModelLocator
     }
     
-    static func create(with viewModelLocator: ViewModelLocator, andDate date: Date) -> TimelineViewController
+    static func create(with viewModelLocator: ViewModelLocator, startDate: Date, timelineItemsObservable: Observable<[TimelineItem]>, isShowingSubSlot: Bool = false) -> EditTimeslotViewController
     {
-        let presenter = TimelinePresenter(viewModelLocator: viewModelLocator)
-        let viewModel = viewModelLocator.getTimelineViewModel(forDate: date)
+        let presenter = EditTimeslotPresenter(viewModelLocator: viewModelLocator)
+        let viewModel = viewModelLocator.getEditTimeslotViewModel(for: startDate, timelineItemsObservable: timelineItemsObservable, isShowingSubSlot: isShowingSubSlot)
         
-        let viewController = TimelineViewController(presenter: presenter, viewModel: viewModel)
+        let viewController = StoryboardScene.Main.instantiateEditTimeslot()
+        viewController.inject(presenter: presenter, viewModel: viewModel)
         presenter.viewController = viewController
         
         return viewController
     }
     
-    func showEditTimeSlot(with startDate: Date, timelineItemsObservable: Observable<[TimelineItem]>)
-    {        
-        let vc = EditTimeslotPresenter.create(with: viewModelLocator, startDate: startDate, timelineItemsObservable: timelineItemsObservable)
+    func showEditSubTimeSlot(with startDate: Date, timelineItemsObservable: Observable<[TimelineItem]>)
+    {
+        let vc = EditTimeslotPresenter.create(with: viewModelLocator, startDate: startDate, timelineItemsObservable: timelineItemsObservable, isShowingSubSlot: true)
         vc.modalPresentationStyle = .overCurrentContext
         vc.transitioningDelegate = self
         viewController.present(vc, animated: true, completion: nil)
         
         swipeInteractionController.wireToViewController(viewController: vc)
     }
+    
+    func dismiss()
+    {
+        viewController.dismiss(animated: true)
+    }
 }
 
-extension TimelinePresenter : UIViewControllerTransitioningDelegate
+extension EditTimeslotPresenter : UIViewControllerTransitioningDelegate
 {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController?
     {
         return ModalPresentationController(presentedViewController: presented, presenting: presenting, containerPadding: padding)
     }
-
+    
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning?
     {
         return FromBottomTransition(presenting:true)
     }
-
+    
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning?
     {
         return FromBottomTransition(presenting:false)
     }
-
+    
     func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning?
     {
         return swipeInteractionController.interactionInProgress ? swipeInteractionController : nil
     }
 }
-

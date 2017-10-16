@@ -4,7 +4,7 @@ import RxSwift
 protocol TimeSlotService
 {
     var timeSlotCreatedObservable : Observable<TimeSlot> { get }
-    var timeSlotUpdatedObservable : Observable<TimeSlot> { get }
+    var timeSlotsUpdatedObservable : Observable<[TimeSlot]> { get }
 
     @discardableResult func addTimeSlot(withStartTime startTime: Date, category: Category, categoryWasSetByUser: Bool, tryUsingLatestLocation: Bool) -> TimeSlot?
     
@@ -33,7 +33,7 @@ protocol TimeSlotService
      
      - Parameter setByUser: Indicates if the user initiated the action that changed the TimeSlot.
      */
-    func update(timeSlot: TimeSlot, withCategory category: Category)
+    func update(timeSlots: [TimeSlot], withCategory category: Category)
     
     /**
      Gets last registered TimeSlot.

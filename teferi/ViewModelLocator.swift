@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import RxSwift
 
 protocol ViewModelLocator
 {
@@ -27,6 +28,8 @@ protocol ViewModelLocator
     func getSummaryPageViewModel(forDate date: Date) -> SummaryPageViewModel
     
     func getRatingViewModel(start startDate: Date, end endDate: Date) -> RatingViewModel
+    
+    func getEditTimeslotViewModel(for startDate: Date, timelineItemsObservable: Observable<[TimelineItem]>, isShowingSubSlot: Bool) -> EditTimeslotViewModel
 }
 
 class DefaultViewModelLocator : ViewModelLocator
@@ -215,5 +218,16 @@ class DefaultViewModelLocator : ViewModelLocator
                                metricsService: metricsService,
                                settingsService: settingsService,
                                timeService: timeService)
+    }
+    
+    func getEditTimeslotViewModel(for startDate: Date, timelineItemsObservable: Observable<[TimelineItem]>, isShowingSubSlot: Bool = false) -> EditTimeslotViewModel
+    {
+        return EditTimeslotViewModel(startDate: startDate,
+                                     isShowingSubSlot: isShowingSubSlot,
+                                     timelineItemsObservable: timelineItemsObservable,
+                                     timeSlotService: timeSlotService,
+                                     metricsService: metricsService,
+                                     smartGuessService: smartGuessService,
+                                     timeService: timeService)
     }
 }

@@ -1,5 +1,6 @@
 import UIKit
 import Foundation
+import RxSwift
 @testable import teferi
 
 class MockLocator : ViewModelLocator
@@ -154,5 +155,16 @@ class MockLocator : ViewModelLocator
                                metricsService: metricsService,
                                settingsService: settingsService,
                                timeService: timeService)
+    }
+    
+    func getEditTimeslotViewModel(for startDate: Date, timelineItemsObservable: Observable<[TimelineItem]>, isShowingSubSlot: Bool) -> EditTimeslotViewModel
+    {
+        return EditTimeslotViewModel(startDate: startDate,
+                                     isShowingSubSlot: isShowingSubSlot,
+                                     timelineItemsObservable: timelineItemsObservable,
+                                     timeSlotService: timeSlotService,
+                                     metricsService: metricsService,
+                                     smartGuessService: smartGuessService,
+                                     timeService: timeService)
     }
 }

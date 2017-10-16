@@ -6,7 +6,7 @@ class DefaultTimeSlotService : TimeSlotService
 {
     // MARK: Public Properties
     let timeSlotCreatedObservable : Observable<TimeSlot>
-    let timeSlotUpdatedObservable : Observable<TimeSlot>
+    let timeSlotsUpdatedObservable : Observable<[TimeSlot]>
     
     // MARK: Private Properties
     private let timeService : TimeService
@@ -15,7 +15,7 @@ class DefaultTimeSlotService : TimeSlotService
     private let persistencyService : BasePersistencyService<TimeSlot>
     
     private let timeSlotCreatedSubject = PublishSubject<TimeSlot>()
-    private let timeSlotUpdatedSubject = PublishSubject<TimeSlot>()
+    private let timeSlotsUpdatedSubject = PublishSubject<[TimeSlot]>()
     
     // MARK: Initializer
     init(timeService: TimeService,
@@ -29,7 +29,7 @@ class DefaultTimeSlotService : TimeSlotService
         self.persistencyService = persistencyService
 
         timeSlotCreatedObservable = timeSlotCreatedSubject.asObservable()
-        timeSlotUpdatedObservable = timeSlotUpdatedSubject.asObservable()
+        timeSlotsUpdatedObservable = timeSlotsUpdatedSubject.asObservable()
     }
 
     // MARK: Public Methods
@@ -107,22 +107,22 @@ class DefaultTimeSlotService : TimeSlotService
         return timeSlots
     }
     
-    func update(timeSlot: TimeSlot, withCategory category: Category)
+    func update(timeSlots: [TimeSlot], withCategory category: Category)
     {
-        guard category != timeSlot.category else { return }
-
-        let predicate = Predicate(parameter: "startTime", equals: timeSlot.startTime as AnyObject)
+        let predicate = Predicate(parameter: "startTime", in: timeSlots.map({ $0.startTime }) as [AnyObject])
         let editFunction = { (timeSlot: TimeSlot) -> (TimeSlot) in
             return timeSlot.withCategory(category, setByUser: true)
         }
         
-        if let updatedTimeSlot = persistencyService.update(withPredicate: predicate, updateFunction: editFunction)
+        if let updatedTimeSlots = persistencyService.batchUpdate(withPredicate: predicate, updateFunction: editFunction)
         {
-            timeSlotUpdatedSubject.on(.next(updatedTimeSlot))
+            timeSlotsUpdatedSubject.on(.next(updatedTimeSlots))
         }
         else
         {
-            loggingService.log(withLogLevel: .warning, message: "Error updating category of TimeSlot created on \(timeSlot.startTime) from \(timeSlot.category) to \(category)")
+            timeSlots.forEach({ (timeSlot) in
+                loggingService.log(withLogLevel: .warning, message: "Error updating category of TimeSlot created on \(timeSlot.startTime) from \(timeSlot.category) to \(category)")
+            })
         }
     }
     
@@ -194,7 +194,7 @@ class DefaultTimeSlotService : TimeSlotService
             return timeSlot.withEndDate(endDate)
         }
         
-        guard let _ = persistencyService.update(withPredicate: predicate, updateFunction: editFunction) else
+        guard let _ = persistencyService.singleUpdate(withPredicate: predicate, updateFunction: editFunction) else
         {
             loggingService.log(withLogLevel: .warning, message: "Failed to end TimeSlot started at \(timeSlot.startTime) with category \(timeSlot.category)")
             return false
