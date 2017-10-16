@@ -92,7 +92,7 @@ extension TimelineItem
         } else {
             switch groupActivity! {
             case .auto, .walk, .cycling, .run:
-                return groupActivity!.rawValue.capitalized
+                return groupActivity!.name
             default:
                 return nil
             }

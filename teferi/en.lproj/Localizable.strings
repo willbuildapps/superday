@@ -48,6 +48,9 @@
 "EditTimeSlotEndTitle" = "End";
 "EditTimeSlotCategoryTitle" = "Category";
 
+"Transport" = "Transport";
+"Movement" = "Movement";
+
 //Categories
 "Commute" = "Movement";
 "Work" = "Work";
