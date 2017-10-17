@@ -1,32 +1,32 @@
 import RxSwift
 import Foundation
 
-class MotionPermissionViewModel : PermissionViewModel
+class NotificationPermissionViewModel : PermissionViewModel
 {
     // MARK: Public Properties
     var isSecondaryButtonHidden : Bool
     {
-        return true
+        return false
     }
     
     var titleText : String?
     {
-        return self.isFirstTimeUser ? self.titleFirstUse : self.title
+        return L10n.notificationsPermissionsTitle
     }
     
     var descriptionText : String
     {
-        return self.isFirstTimeUser ? self.disabledDescriptionFirstUse : self.disabledDescription
+        return L10n.notificationsPermissionsDescription
     }
     
     var enableButtonTitle : String
     {
-        return L10n.motionEnableButtonTitle
+        return L10n.notificationsPermissionsEnableButtonTitle
     }
     
     var secondaryButtonTitle : String?
     {
-        return nil
+        return L10n.notificationsPermissionsSecondaryButtonTitle
     }
     
     var image : UIImage?
@@ -36,40 +36,37 @@ class MotionPermissionViewModel : PermissionViewModel
     
     var permissionGivenObservable : Observable<Void>
     {
-        return self.appLifecycleService
-            .movedToForegroundObservable
+        return self.appLifecycleService.movedToForegroundObservable
             .map { [unowned self] in
-                return self.settingsService.hasCoreMotionPermission
+                return self.settingsService.hasNotificationPermission
             }
             .filter{ $0 }
             .mapTo(())
     }
     
+    private let hideOverlaySubject = PublishSubject<Void>()
+    
     private(set) lazy var hideOverlayObservable : Observable<Void> =
     {
-        return self.appLifecycleService.movedToForegroundObservable
+        return Observable.of(self.appLifecycleService.movedToForegroundObservable, self.hideOverlaySubject.asObservable()).merge()
             .map(self.overlayVisibilityState)
             .filter{ !$0 }
             .mapTo(())
     }()
     
     // MARK: Private Properties
-    private let title = L10n.motionDisabledTitle
-    private let titleFirstUse = L10n.motionDisabledTitleFirstUse
-    private let disabledDescription = L10n.motionDisabledDescription
-    private let disabledDescriptionFirstUse = L10n.motionDisabledDescriptionFirstUse
-    
+    private let notificationService : NotificationService
     private let settingsService : SettingsService
     private let appLifecycleService : AppLifecycleService
     
     private let disposeBag = DisposeBag()
     
-    private var isFirstTimeUser : Bool { return !self.settingsService.userEverGaveMotionPermission }
-    
     // MARK: Initializers
-    init(settingsService: SettingsService,
+    init(notificationService: NotificationService,
+         settingsService: SettingsService,
          appLifecycleService : AppLifecycleService)
     {
+        self.notificationService = notificationService
         self.settingsService = settingsService
         self.appLifecycleService = appLifecycleService
     }
@@ -78,21 +75,29 @@ class MotionPermissionViewModel : PermissionViewModel
     
     func getUserPermission()
     {
-        settingsService.setCoreMotionPermission(userGavePermission: true)
+        notificationService.requestNotificationPermission(completed: { [unowned self] in
 
-        let url = URL(string: UIApplicationOpenSettingsURLString)!
-        UIApplication.shared.openURL(url)
+            if !self.settingsService.hasNotificationPermission
+            {
+                self.settingsService.setUserRejectedNotificationPermission()
+            }
+            
+            self.hideOverlaySubject.on(.next())
+        })
     }
     
     func permissionGiven() {}
     
-    func secondaryAction() {}
+    func secondaryAction()
+    {
+        settingsService.setUserRejectedNotificationPermission()
+    }
     
     // MARK: Private Methods
     
     private func overlayVisibilityState() -> Bool
     {
-        return !settingsService.hasCoreMotionPermission
+        return !settingsService.hasNotificationPermission
     }
 }
 
