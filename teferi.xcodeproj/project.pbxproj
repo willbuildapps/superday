@@ -72,14 +72,11 @@
 		24C72AAA1D90731C00DABAC3 /* LoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C72AA91D90731C00DABAC3 /* LoggingService.swift */; };
 		24D18E221DEF69030046B202 /* SmartGuessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D18E211DEF69030046B202 /* SmartGuessService.swift */; };
 		24D18E241DEF6B300046B202 /* DefaultSmartGuessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D18E231DEF6B300046B202 /* DefaultSmartGuessService.swift */; };
-		24D18E261DEF6D640046B202 /* SmartGuess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D18E251DEF6D640046B202 /* SmartGuess.swift */; };
 		24D18E281DF0251A0046B202 /* MockSmartGuessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D18E271DF0251A0046B202 /* MockSmartGuessService.swift */; };
 		24D18E2E1DF06B450046B202 /* TimeSlotModelAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D18E2D1DF06B450046B202 /* TimeSlotModelAdapter.swift */; };
-		24D18E301DF06B9E0046B202 /* SmartGuessModelAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D18E2F1DF06B9E0046B202 /* SmartGuessModelAdapter.swift */; };
 		24D213AB1DB8CA4600E429CA /* AppLifecycleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D213AA1DB8CA4600E429CA /* AppLifecycleService.swift */; };
 		24D213AF1DB8CB8300E429CA /* DefaultAppLifecycleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D213AE1DB8CB8300E429CA /* DefaultAppLifecycleService.swift */; };
 		24D73F2B1E1FB8B9009FC2DF /* SmartGuessServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D73F2A1E1FB8B9009FC2DF /* SmartGuessServiceTests.swift */; };
-		24D73F2D1E1FBA59009FC2DF /* MockSmartGuessPersistencyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D73F2C1E1FBA59009FC2DF /* MockSmartGuessPersistencyService.swift */; };
 		24DE23EC1E1BB3180089B49E /* CalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DE23E91E1BB3180089B49E /* CalendarCell.swift */; };
 		24DE23ED1E1BB3180089B49E /* CalendarCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 24DE23EA1E1BB3180089B49E /* CalendarCell.xib */; };
 		24DE23EE1E1BB3180089B49E /* CalendarDailyActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DE23EB1E1BB3180089B49E /* CalendarDailyActivityView.swift */; };
@@ -376,14 +373,11 @@
 		24C72AA91D90731C00DABAC3 /* LoggingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingService.swift; sourceTree = "<group>"; };
 		24D18E211DEF69030046B202 /* SmartGuessService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmartGuessService.swift; sourceTree = "<group>"; };
 		24D18E231DEF6B300046B202 /* DefaultSmartGuessService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultSmartGuessService.swift; sourceTree = "<group>"; };
-		24D18E251DEF6D640046B202 /* SmartGuess.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmartGuess.swift; sourceTree = "<group>"; };
 		24D18E271DF0251A0046B202 /* MockSmartGuessService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockSmartGuessService.swift; sourceTree = "<group>"; };
 		24D18E2D1DF06B450046B202 /* TimeSlotModelAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSlotModelAdapter.swift; sourceTree = "<group>"; };
-		24D18E2F1DF06B9E0046B202 /* SmartGuessModelAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmartGuessModelAdapter.swift; sourceTree = "<group>"; };
 		24D213AA1DB8CA4600E429CA /* AppLifecycleService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppLifecycleService.swift; sourceTree = "<group>"; };
 		24D213AE1DB8CB8300E429CA /* DefaultAppLifecycleService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultAppLifecycleService.swift; sourceTree = "<group>"; };
 		24D73F2A1E1FB8B9009FC2DF /* SmartGuessServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmartGuessServiceTests.swift; sourceTree = "<group>"; };
-		24D73F2C1E1FBA59009FC2DF /* MockSmartGuessPersistencyService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockSmartGuessPersistencyService.swift; sourceTree = "<group>"; };
 		24DE23E91E1BB3180089B49E /* CalendarCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarCell.swift; sourceTree = "<group>"; };
 		24DE23EA1E1BB3180089B49E /* CalendarCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CalendarCell.xib; sourceTree = "<group>"; };
 		24DE23EB1E1BB3180089B49E /* CalendarDailyActivityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarDailyActivityView.swift; sourceTree = "<group>"; };
@@ -520,6 +514,7 @@
 		AC1085381EEE9FDD00E5F03B /* WeeklySummaryEmptyEtateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeeklySummaryEmptyEtateView.swift; path = "teferi/UI/Modules/Weekly Summary/Views/WeeklySummaryEmptyEtateView.swift"; sourceTree = SOURCE_ROOT; };
 		AC14E7F21E7BE31D0034A1BA /* teferi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = teferi.entitlements; sourceTree = "<group>"; };
 		AC1E70F01E3F4C490090D474 /* KNN.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KNN.swift; sourceTree = "<group>"; };
+		AC2D206C1F965C93006488E9 /* teferi4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = teferi4.xcdatamodel; sourceTree = "<group>"; };
 		AC34445D1E697D1100B1D53B /* KNNDecisionType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KNNDecisionType.swift; sourceTree = "<group>"; };
 		AC3901F31E5665CF008063C7 /* CategoryButtonsHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryButtonsHandler.swift; sourceTree = "<group>"; };
 		AC449C301E92BC8C00847957 /* PermissionViewModelProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionViewModelProtocol.swift; sourceTree = "<group>"; };
@@ -739,7 +734,6 @@
 				BE1898CF1E77F53E00EF3035 /* MockPersistencyService.swift */,
 				24DE24051E1BBD6E0089B49E /* MockSelectedDateService.swift */,
 				24B03B601D9E5DEE00452D16 /* MockSettingsService.swift */,
-				24D73F2C1E1FBA59009FC2DF /* MockSmartGuessPersistencyService.swift */,
 				24D18E271DF0251A0046B202 /* MockSmartGuessService.swift */,
 				24DE24031E1BBD500089B49E /* MockTimeService.swift */,
 				24EB96861DE7163E0040C211 /* MockTimeSlotService.swift */,
@@ -787,7 +781,6 @@
 				24C72AA51D906BDA00DABAC3 /* LogLevel.swift */,
 				ACCAFD241E8BDF490097F037 /* NotificationType.swift */,
 				24EB967C1DE708570040C211 /* Predicate.swift */,
-				24D18E251DEF6D640046B202 /* SmartGuess.swift */,
 				BE55CED01E7AC994006B851E /* TemporaryTimeSlot.swift */,
 				24564F5D1D8325CC00D9A8AE /* TimeSlot.swift */,
 				24224B071E28E37700AD7575 /* TimelineItem.swift */,
@@ -821,7 +814,6 @@
 			children = (
 				24EB96711DE7080F0040C211 /* CoreDataModelAdapter.swift */,
 				BE7FAFC91E7319AD00A62AC9 /* LocationModelAdapter.swift */,
-				24D18E2F1DF06B9E0046B202 /* SmartGuessModelAdapter.swift */,
 				24D18E2D1DF06B450046B202 /* TimeSlotModelAdapter.swift */,
 			);
 			path = Adapters;
@@ -1799,7 +1791,6 @@
 				24DE24011E1BB3A40089B49E /* DefaultSelectedDateService.swift in Sources */,
 				8C26A17A1ECAED7300EFE509 /* FadeTransition.swift in Sources */,
 				24564F601D8325CC00D9A8AE /* TimeSlot.swift in Sources */,
-				24D18E301DF06B9E0046B202 /* SmartGuessModelAdapter.swift in Sources */,
 				AC8BE49F1F2A011900351C2F /* WelcomeView.swift in Sources */,
 				513535D61DA2756C00A365A9 /* OnboardingViewController.swift in Sources */,
 				AC3901F41E5665CF008063C7 /* CategoryButtonsHandler.swift in Sources */,
@@ -1810,7 +1801,6 @@
 				8C9C256B1ED348EE00B10187 /* NavigationViewModel.swift in Sources */,
 				24EB96761DE7080F0040C211 /* TimeSlotService.swift in Sources */,
 				AC1085371EEE971700E5F03B /* PieSliceLayer.swift in Sources */,
-				24D18E261DEF6D640046B202 /* SmartGuess.swift in Sources */,
 				2420A86A1DB6271000C0478C /* EditTimeSlotView.swift in Sources */,
 				24B03B651DA3864500452D16 /* AddTimeSlotView.swift in Sources */,
 				BE03D9241E797A1D00F79377 /* EventSource.swift in Sources */,
@@ -1961,7 +1951,6 @@
 				24564F6A1D8326E700D9A8AE /* DateExtensionsTests.swift in Sources */,
 				BE1898CE1E77F27E00EF3035 /* TrackEventServiceTests.swift in Sources */,
 				249B359D1E1A6015005793B9 /* MockLocator.swift in Sources */,
-				24D73F2D1E1FBA59009FC2DF /* MockSmartGuessPersistencyService.swift in Sources */,
 				24B03B611D9E5DEE00452D16 /* MockSettingsService.swift in Sources */,
 				24564F691D8326E700D9A8AE /* ColorExtensionsTests.swift in Sources */,
 				8CE6BDE11E7D4BF5003B852C /* TrackEventExtensions.swift in Sources */,
@@ -2342,11 +2331,12 @@
 		240AC71E1D748C8800F21F4F /* teferi.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				AC2D206C1F965C93006488E9 /* teferi4.xcdatamodel */,
 				240AC71F1D748C8800F21F4F /* teferi.xcdatamodel */,
 				24C1FB741DF86F98006AFBD4 /* teferi2.xcdatamodel */,
 				BE24B8831E76D9CE005DF5B3 /* teferi3.xcdatamodel */,
 			);
-			currentVersion = BE24B8831E76D9CE005DF5B3 /* teferi3.xcdatamodel */;
+			currentVersion = AC2D206C1F965C93006488E9 /* teferi4.xcdatamodel */;
 			path = teferi.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

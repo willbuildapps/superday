@@ -18,7 +18,7 @@ class SmartGuesserTests: XCTestCase
         let location = Location.baseLocation.offset(.north, meters: 200, seconds: 60*30)
         
         let timeline = [
-            TemporaryTimeSlot(start: Date.noon, location: location, category: .unknown)
+            TemporaryTimeSlot(start: Date.noon, category: .unknown, location: location)
         ]
         
         let _ = smartGuesser.run(timeline: timeline)
@@ -39,7 +39,7 @@ class SmartGuesserTests: XCTestCase
         let location = Location.baseLocation.offset(.north, meters: 200, seconds: 60*30)
         
         let timeline = [
-            TemporaryTimeSlot(start: Date.noon, location: location, category: .unknown)
+            TemporaryTimeSlot(start: Date.noon, category: .unknown, location: location)
         ]
         
         let timeSlots = smartGuesser.run(timeline: timeline)
@@ -50,12 +50,12 @@ class SmartGuesserTests: XCTestCase
     
     func testTimeSlotGetsCorrectCategoryIfSmartGuessExists()
     {
-        smartGuessService.smartGuessToReturn = SmartGuess(withId: 0, category: .food, location: Location.baseLocation, lastUsed: Date.midnight)
+        smartGuessService.smartGuessToReturn = TimeSlot(withStartTime: Date(), category: .food, location: Location.baseLocation)
         
         let location = Location.baseLocation.offset(.north, meters: 200, seconds: 60*30)
         
         let timeline = [
-            TemporaryTimeSlot(start: Date.noon, location: location, category: .unknown)
+            TemporaryTimeSlot(start: Date.noon, category: .unknown, location: location)
         ]
         
         let timeSlots = smartGuesser.run(timeline: timeline)
@@ -70,10 +70,10 @@ class SmartGuesserTests: XCTestCase
         let location2 = Location.baseLocation.offset(.north, meters: 400, seconds: 60*30*2)
         
         let timeline = [
-            TemporaryTimeSlot(start: Date.noon, location: Location.baseLocation, category: .food),
-            TemporaryTimeSlot(start: Date.noon, location: location1, category: .unknown),
-            TemporaryTimeSlot(start: Date.noon, location: Location.baseLocation, category: .commute),
-            TemporaryTimeSlot(start: Date.noon, location: location2, category: .unknown)
+            TemporaryTimeSlot(start: Date.noon, category: .food, location: Location.baseLocation),
+            TemporaryTimeSlot(start: Date.noon, category: .unknown, location: location1),
+            TemporaryTimeSlot(start: Date.noon, category: .commute, location: Location.baseLocation),
+            TemporaryTimeSlot(start: Date.noon, category: .unknown, location: location2)
         ]
         
         let _ = smartGuesser.run(timeline: timeline)

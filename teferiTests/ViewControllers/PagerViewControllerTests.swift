@@ -123,8 +123,7 @@ class PagerViewControllerTests : XCTestCase
     private func createEmptyTimelineItem() -> TimelineItem
     {
         let timeSlot = TimeSlot(withStartTime: Date(),
-                        category: .unknown,
-                        categoryWasSetByUser: false)
+                        category: .unknown)
         
         return TimelineItem(
             withTimeSlots: [timeSlot],

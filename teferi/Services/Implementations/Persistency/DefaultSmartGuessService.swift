@@ -2,130 +2,47 @@ import Foundation
 
 class DefaultSmartGuessService : SmartGuessService
 {
-    typealias KNNInstance = (location: Location, timeStamp: Date, category: Category, smartGuess: SmartGuess?)
+    typealias KNNInstance = (location: Location, timeStamp: Date, category: Category, timeSlot: TimeSlot?)
     
     //MARK: Private Properties
     private let distanceThreshold = 400.0 //TODO: We have to think about the 400m constant. Might be too low or too high.
-    private let timeThreshold : TimeInterval = 2*60*60 //2h
     private let kNeighbors = 3
-    private let smartGuessErrorThreshold = 3
-    private let smartGuessIdKey = "smartGuessId"
     private let categoriesToSkip : [Category] = [.commute]
     
     private let timeService : TimeService
     private let loggingService: LoggingService
     private let settingsService: SettingsService
-    private let persistencyService : BasePersistencyService<SmartGuess>
+    private let timeSlotService : TimeSlotService
     
     //MARK: Initializers
     init(timeService: TimeService,
          loggingService: LoggingService,
          settingsService: SettingsService,
-         persistencyService: BasePersistencyService<SmartGuess>)
+         timeSlotService : TimeSlotService)
     {
         self.timeService = timeService
         self.loggingService = loggingService
         self.settingsService = settingsService
-        self.persistencyService = persistencyService
+        self.timeSlotService = timeSlotService
     }
     
     //MARK: Public Methods
-    
-    @discardableResult func add(withCategory category: Category, location: Location) -> SmartGuess?
+    func get(forLocation location: Location) -> TimeSlot?
     {
-        guard !categoriesToSkip.contains(category) else { return nil }
-        
-        let id = getNextSmartGuessId()
-        let smartGuess = SmartGuess(withId: id, category: category, location: location, lastUsed: timeService.now)
-        
-        guard persistencyService.create(smartGuess) else
-        {
-            loggingService.log(withLogLevel: .warning, message: "Failed to create new SmartGuess")
-            return nil
-        }
-        
-        //Bump the identifier
-        incrementSmartGuessId()
-        loggingService.log(withLogLevel: .info, message: "New SmartGuess with category \"\(smartGuess.category)\" created")
-        
-        return smartGuess
-    }
-    
-    func markAsUsed(_ smartGuess: SmartGuess, atTime time: Date)
-    {
-        let id = smartGuess.id
-        let predicate = Predicate(parameter: SmartGuessModelAdapter.idKey, equals: id as AnyObject)
-        
-        guard let persistedSmartGuess = persistencyService.get(withPredicate: predicate).first else
-        {
-            loggingService.log(withLogLevel: .warning, message: "Tried updating smart guess with invalid id \(id)")
-            return
-        }
-        guard time >= persistedSmartGuess.lastUsed else
-        {
-            loggingService.log(withLogLevel: .warning, message: "Tried updating smart guess with date before the one already set  \(id)")
-            return
-        }
-        
-        let editFunction = { (smartGuess: SmartGuess) -> (SmartGuess) in
-            smartGuess.lastUsed = time
-            return smartGuess
-        }
-        
-        if persistencyService.singleUpdate(withPredicate: predicate, updateFunction: editFunction) == nil
-        {
-            loggingService.log(withLogLevel: .warning, message: "Error trying to update last-used time of SmartGuess with id \(id)")
-        }
-        
-        smartGuess.lastUsed = time
-
-    }
-    
-    func strike(withId id: Int)
-    {
-        let predicate = Predicate(parameter: SmartGuessModelAdapter.idKey, equals: id as AnyObject)
-        
-        // Invalid Ids should be ignore
-        guard let smartGuess = persistencyService.get(withPredicate: predicate).first else
-        {
-            loggingService.log(withLogLevel: .warning, message: "Tried striking smart guess with invalid id \(id)")
-            return
-        }
-        
-        // Purge SmartGuess if needed
-        if shouldPurge(smartGuess: smartGuess)
-        {
-            persistencyService.delete(withPredicate: predicate)
-            return
-        }
-        
-        let editFunction = { (smartGuess: SmartGuess) -> (SmartGuess) in
-            
-            smartGuess.errorCount += 1
-            return smartGuess
-        }
-        
-        if persistencyService.singleUpdate(withPredicate: predicate, updateFunction: editFunction) == nil
-        {
-            loggingService.log(withLogLevel: .warning, message: "Error trying to increase errorCount of SmartGuess with id \(id)")
-        }
-    }
-    
-    func get(forLocation location: Location) -> SmartGuess?
-    {
-        let bestMatches = persistencyService.get()
+        let bestMatches = timeSlotService.getTimeSlots(betweenDate: timeService.now.add(days: -15), andDate: timeService.now)
+            .filter(isNotcommuteSlot)
+            .filter(hasLocation)
             .filter(isWithinDistanceThreshold(from: location))
-            .filter(isWithinTimeThresholdIgnoringDate(from: location))
         
         guard bestMatches.count > 0 else { return nil }
         
-        let knnInstances = bestMatches.map { (location: $0.location, timeStamp: $0.location.timestamp, category: $0.category, smartGuess: Optional($0)) }
+        let knnInstances = bestMatches.map { (location: $0.location!, timeStamp: $0.location!.timestamp, category: $0.category, timeSlot: Optional($0)) }
         
         let startTimeForKNN = Date()
         
         let bestKnnMatch = KNN<KNNInstance, Category>
             .prediction(
-                for: (location: location, timeStamp: location.timestamp, category: Category.unknown, smartGuess: nil),
+                for: (location: location, timeStamp: location.timestamp, category: Category.unknown, timeSlot: nil),
                 usingK: knnInstances.count >= kNeighbors ? kNeighbors : knnInstances.count,
                 with: knnInstances,
                 decisionType: .maxScoreSum,
@@ -134,38 +51,19 @@ class DefaultSmartGuessService : SmartGuessService
         
         loggingService.log(withLogLevel: .debug, message: "KNN executed in \(Date().timeIntervalSince(startTimeForKNN)) with k = \(knnInstances.count >= kNeighbors ? kNeighbors : knnInstances.count) on a dataset of \(knnInstances.count)")
         
-        guard let bestMatch = bestKnnMatch?.smartGuess else { return nil }
+        guard let bestMatch = bestKnnMatch?.timeSlot else { return nil }
         
-        loggingService.log(withLogLevel: .debug, message: "SmartGuess found for location: \(location.latitude),\(location.longitude) -> \(bestMatch.category)")
+        loggingService.log(withLogLevel: .debug, message: "TimeSlot found for location: \(location.latitude),\(location.longitude) -> \(bestMatch.category)")
         return bestMatch
-    }
-    
-    func purgeEntries(olderThan maxAge: Date)
-    {
-        guard let initialDate = settingsService.installDate, maxAge > initialDate else { return }
-        
-        let predicate = Predicate(parameter: "lastUsed",
-                                  rangesFromDate: initialDate as NSDate,
-                                  toDate: maxAge as NSDate)
-        
-        persistencyService.delete(withPredicate: predicate)
     }
     
     //MARK: Private Methods
     
-    private func isWithinDistanceThreshold(from location: Location) -> (SmartGuess) -> Bool
+    private func isWithinDistanceThreshold(from location: Location) -> (TimeSlot) -> Bool
     {
-        return { smartGuess in return smartGuess.location.distance(from: location) <= self.distanceThreshold }
-    }
-    
-    private func isWithinTimeThresholdIgnoringDate(from location: Location) -> (SmartGuess) -> Bool
-    {
-        return { smartGuess in
-            
-            let smartGuessTimestamp = smartGuess.location.timestamp
-            let locationTimestamp = location.timestamp
-            
-            return abs(smartGuessTimestamp.absoluteTimeIntervalIgnoringDateSince(locationTimestamp)) <= self.timeThreshold
+        return { timeSlot in
+            guard let location = timeSlot.location else { return false }
+            return location.distance(from: location) <= self.distanceThreshold
         }
     }
     
@@ -175,27 +73,17 @@ class DefaultSmartGuessService : SmartGuessService
 
         let locationDifference = instance1.location.distance(from: instance2.location) / distanceThreshold
         accumulator += pow(locationDifference, 2)
-
-        let timeDifference = instance1.timeStamp.absoluteTimeIntervalIgnoringDateSince(instance2.timeStamp) / timeThreshold
-        accumulator += pow(timeDifference, 2)
         
         return sqrt(accumulator)
     }
     
-    private func getNextSmartGuessId() -> Int
+    private func isNotcommuteSlot(_ timeSlot: TimeSlot) -> Bool
     {
-        return UserDefaults.standard.integer(forKey: smartGuessIdKey)
+        return timeSlot.category != .commute
     }
     
-    private func incrementSmartGuessId()
+    private func hasLocation(_ timeSlot: TimeSlot) -> Bool
     {
-        var id = getNextSmartGuessId()
-        id += 1
-        UserDefaults.standard.set(id, forKey: smartGuessIdKey)
-    }
-    
-    private func shouldPurge(smartGuess: SmartGuess) -> Bool
-    {
-        return smartGuess.errorCount >= smartGuessErrorThreshold
+        return timeSlot.location != nil
     }
 }

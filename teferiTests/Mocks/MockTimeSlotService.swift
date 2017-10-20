@@ -12,7 +12,7 @@ class MockTimeSlotService : TimeSlotService
     private let timeSlotsUpdatedSubject = PublishSubject<[TimeSlot]>()
     
     //MARK: Properties
-    private(set) var timeSlots = [TimeSlot]()
+    var timeSlots = [TimeSlot]()
     private(set) var getLastTimeSlotWasCalled = false
     
     init(timeService: TimeService, locationService: LocationService)
@@ -84,7 +84,7 @@ class MockTimeSlotService : TimeSlotService
     
     func getTimeSlots(betweenDate firstDate: Date, andDate secondDate: Date) -> [TimeSlot]
     {
-        return timeSlots.filter { t in t.startTime > firstDate && t.startTime < secondDate }
+        return timeSlots.filter { t in t.startTime >= firstDate && t.startTime <= secondDate }
     }
     
     @discardableResult func addTimeSlot(withStartTime startTime: Date, category: teferi.Category, categoryWasSetByUser: Bool, tryUsingLatestLocation: Bool) -> TimeSlot?
@@ -95,19 +95,23 @@ class MockTimeSlotService : TimeSlotService
     
     @discardableResult func addTimeSlot(withStartTime startTime: Date, category: teferi.Category, categoryWasSetByUser: Bool, location: Location?) -> TimeSlot?
     {
-        let timeSlot = TimeSlot(withStartTime: startTime, category: category, categoryWasSetByUser: categoryWasSetByUser, location: location)
-        return tryAdd(timeSlot: timeSlot)
-    }
-    
-    @discardableResult func addTimeSlot(withStartTime startTime: Date, smartGuess: SmartGuess, location: Location?) -> TimeSlot?
-    {
-        let timeSlot = TimeSlot(withStartTime: startTime, smartGuess: smartGuess, location: location)
+        let timeSlot = TimeSlot(withStartTime: startTime,
+                                category: category,
+                                categoryWasSetByUser: categoryWasSetByUser,
+                                categoryWasSmartGuessed: false,
+                                location: location)
         return tryAdd(timeSlot: timeSlot)
     }
     
     @discardableResult func addTimeSlot(fromTemporaryTimeslot temporaryTimeslot: TemporaryTimeSlot) -> TimeSlot?
     {
-        let timeSlot = TimeSlot(startTime: temporaryTimeslot.start, endTime: temporaryTimeslot.end, category: temporaryTimeslot.category, smartGuessId: temporaryTimeslot.smartGuess?.id, location: temporaryTimeslot.location, categoryWasSetByUser: false, activity: temporaryTimeslot.activity)
+        let timeSlot = TimeSlot(startTime: temporaryTimeslot.start,
+                                endTime: temporaryTimeslot.end,
+                                category: temporaryTimeslot.category,
+                                location: temporaryTimeslot.location,
+                                categoryWasSetByUser: false,
+                                categoryWasSmartGuessed: temporaryTimeslot.isSmartGuessed,
+                                activity: temporaryTimeslot.activity)
         return tryAdd(timeSlot: timeSlot)
     }
     
@@ -153,11 +157,6 @@ class PagerMockTimeSlotService : MockTimeSlotService
     }
     
     @discardableResult override func addTimeSlot(withStartTime startTime: Date, category: teferi.Category, categoryWasSetByUser: Bool, location: Location?) -> TimeSlot?
-    {
-        return nil
-    }
-    
-    @discardableResult override func addTimeSlot(withStartTime startTime: Date, smartGuess: SmartGuess, location: Location?) -> TimeSlot?
     {
         return nil
     }

@@ -75,16 +75,6 @@ class MainViewModelTests : XCTestCase
         expect(self.metricsService.didLog(event: .timeSlotManualCreation(date: self.timeService.now, category: .commute))).to(beTrue())
     }
     
-    func testSmartGuessIsAddedIfLocationServiceReturnsKnownLastLocationOnAddNewSlot()
-    {
-        locationService.sendNewTrackEvent(Location.baseLocation)
-        let previousCount = smartGuessService.smartGuesses.count
-        
-        viewModel.addNewSlot(withCategory: .food)
-        
-        expect(self.smartGuessService.smartGuesses.count).to(equal(previousCount + 1))
-    }
-    
     func testLocationPermissionShouldNotBeShownIfTheUserHasAlreadyAuthorized()
     {
         settingsService.hasLocationPermission = true

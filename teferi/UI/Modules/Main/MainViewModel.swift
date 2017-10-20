@@ -177,7 +177,7 @@ class MainViewModel : RxViewModel
                 return self.timelineGenerator.execute()
                     .trackActivity(self.generatingTimelineActivity)
             }
-            .subscribe()
+            .subscribe() // this givees a "Received unhandled error: "
             .addDisposableTo(disposeBag)        
 
     }
@@ -187,17 +187,12 @@ class MainViewModel : RxViewModel
 
     func addNewSlot(withCategory category: Category)
     {
-        guard let timeSlot =
+        guard let _ =
             timeSlotService.addTimeSlot(withStartTime: timeService.now,
                                              category: category,
                                              categoryWasSetByUser: true,
                                              tryUsingLatestLocation: true)
-            else { return }
-        
-        if let location = timeSlot.location
-        {
-            smartGuessService.add(withCategory: timeSlot.category, location: location)
-        }
+        else { return }
         
         metricsService.log(event: .timeSlotManualCreation(date: timeService.now, category: category))
         metricsService.log(event: .timeSlotCreated(date: timeService.now, category: category, duration: nil))

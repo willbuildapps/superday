@@ -54,23 +54,10 @@ class EditTimeslotViewModel
     // MARK: - Private methods
     private func updateTimeSlot(_ timeSlots: [TimeSlot], withCategory category: Category)
     {
-//        let categoryWasOriginallySetByUser = timeSlot.categoryWasSetByUser
-        
         timeSlotService.update(timeSlots: timeSlots, withCategory: category)
         timeSlots.forEach { (timeSlot) in
             metricsService.log(event: .timeSlotEditing(date: timeService.now, fromCategory: timeSlot.category, toCategory: category, duration: timeSlot.duration))
         }
-        
-//        let smartGuessId = timeSlot.smartGuessId
-//        if !categoryWasOriginallySetByUser && smartGuessId != nil
-//        {
-//            //Strike the smart guess if it was wrong
-//            smartGuessService.strike(withId: smartGuessId!)
-//        }
-//        else if smartGuessId == nil, let location = timeSlot.location
-//        {
-//            smartGuessService.add(withCategory: category, location: location)
-//        }
     }
     
     private func filterSelectedElement(for date: Date) -> ([TimelineItem]) -> TimelineItem?

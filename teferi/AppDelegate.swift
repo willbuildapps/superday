@@ -48,17 +48,16 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         coreDataStack = CoreDataStack(loggingService: loggingService)
         let timeSlotPersistencyService = CoreDataPersistencyService(loggingService: loggingService, modelAdapter: TimeSlotModelAdapter(), managedObjectContext: coreDataStack.managedObjectContext)
         let locationPersistencyService = CoreDataPersistencyService(loggingService: loggingService, modelAdapter: LocationModelAdapter(), managedObjectContext: coreDataStack.managedObjectContext)
-        let smartGuessPersistencyService = CoreDataPersistencyService(loggingService: loggingService, modelAdapter: SmartGuessModelAdapter(), managedObjectContext: coreDataStack.managedObjectContext)
-        
-        smartGuessService = DefaultSmartGuessService(timeService: timeService,
-                                                          loggingService: loggingService,
-                                                          settingsService: settingsService,
-                                                          persistencyService: smartGuessPersistencyService)
         
         timeSlotService = DefaultTimeSlotService(timeService: timeService,
-                                                      loggingService: loggingService,
-                                                      locationService: locationService,
-                                                      persistencyService: timeSlotPersistencyService)
+                                                 loggingService: loggingService,
+                                                 locationService: locationService,
+                                                 persistencyService: timeSlotPersistencyService)
+        
+        smartGuessService = DefaultSmartGuessService(timeService: timeService,
+                                                     loggingService: loggingService,
+                                                     settingsService: settingsService,
+                                                     timeSlotService: timeSlotService)
         
         if #available(iOS 10.0, *)
         {
@@ -99,8 +98,6 @@ class AppDelegate : UIResponder, UIApplicationDelegate
             settingsService.setIsFirstTimeAppRuns()
             settingsService.setIsPostCoreMotionUser()
         }
-        
-        smartGuessService.purgeEntries(olderThan: timeService.now.add(days: -30))
         
         let isInBackground = launchOptions?[UIApplicationLaunchOptionsKey.location] != nil
         

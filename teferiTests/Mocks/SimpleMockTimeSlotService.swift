@@ -23,11 +23,6 @@ class SimpleMockTimeSlotService : TimeSlotService
         return newTimeSlotToReturn
     }
     
-    @discardableResult func addTimeSlot(withStartTime startTime: Date, smartGuess: SmartGuess, location: Location?) -> TimeSlot?
-    {
-        return newTimeSlotToReturn
-    }
-    
     @discardableResult func addTimeSlot(fromTemporaryTimeslot: TemporaryTimeSlot) -> TimeSlot?
     {
         return newTimeSlotToReturn
