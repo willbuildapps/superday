@@ -2,8 +2,8 @@ import RxSwift
 
 enum MotionServiceError: Error
 {
-    case notAvailable
-    case noActivities
+    case motionNotAvailable
+    case noMotionActivities
 }
 
 protocol MotionService

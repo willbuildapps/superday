@@ -177,7 +177,7 @@ class MainViewModel : RxViewModel
                 return self.timelineGenerator.execute()
                     .trackActivity(self.generatingTimelineActivity)
             }
-            .subscribe() // this givees a "Received unhandled error: "
+            .subscribe()
             .addDisposableTo(disposeBag)        
 
     }
