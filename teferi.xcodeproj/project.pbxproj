@@ -2157,7 +2157,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.toggl.superday;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d34528e7-a767-44fc-baf7-941aa8c79f88";
+				PROVISIONING_PROFILE = "78174097-895b-44dd-91ce-44dc056d3a54";
 				PROVISIONING_PROFILE_SPECIFIER = Superday_AppStore;
 				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "";
@@ -2264,7 +2264,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.toggl.superday.adhoc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "67d362b9-f0a6-4057-9661-4e44c6679fa5";
+				PROVISIONING_PROFILE = "c085077f-8eb4-4e1c-bfe0-a97a10c864ce";
 				PROVISIONING_PROFILE_SPECIFIER = Superday_AdHoc;
 				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "";
