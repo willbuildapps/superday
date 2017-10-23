@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import RxSwift
 
 protocol ViewModelLocator
 {
@@ -15,6 +16,7 @@ protocol ViewModelLocator
     
     func getLocationPermissionViewModel() -> PermissionViewModel
     func getMotionPermissionViewModel() -> PermissionViewModel
+    func getNotificationPermissionViewModel() -> PermissionViewModel
     
     func getCMAccessForExistingUsersViewModel() -> CMAccessForExistingUsersViewModel
     
@@ -27,6 +29,8 @@ protocol ViewModelLocator
     func getSummaryPageViewModel(forDate date: Date) -> SummaryPageViewModel
     
     func getRatingViewModel(start startDate: Date, end endDate: Date) -> RatingViewModel
+    
+    func getEditTimeslotViewModel(for startDate: Date, timelineItemsObservable: Observable<[TimelineItem]>, isShowingSubSlot: Bool) -> EditTimeslotViewModel
 }
 
 class DefaultViewModelLocator : ViewModelLocator
@@ -162,6 +166,15 @@ class DefaultViewModelLocator : ViewModelLocator
         return viewModel
     }
     
+    func getNotificationPermissionViewModel() -> PermissionViewModel
+    {
+        let viewModel = NotificationPermissionViewModel(notificationService: self.notificationService,
+                                                        settingsService: self.settingsService,
+                                                        appLifecycleService: self.appLifecycleService)
+        
+        return viewModel
+    }
+    
     func getCMAccessForExistingUsersViewModel() -> CMAccessForExistingUsersViewModel
     {
         return CMAccessForExistingUsersViewModel(settingsService: settingsService,
@@ -215,5 +228,16 @@ class DefaultViewModelLocator : ViewModelLocator
                                metricsService: metricsService,
                                settingsService: settingsService,
                                timeService: timeService)
+    }
+    
+    func getEditTimeslotViewModel(for startDate: Date, timelineItemsObservable: Observable<[TimelineItem]>, isShowingSubSlot: Bool = false) -> EditTimeslotViewModel
+    {
+        return EditTimeslotViewModel(startDate: startDate,
+                                     isShowingSubSlot: isShowingSubSlot,
+                                     timelineItemsObservable: timelineItemsObservable,
+                                     timeSlotService: timeSlotService,
+                                     metricsService: metricsService,
+                                     smartGuessService: smartGuessService,
+                                     timeService: timeService)
     }
 }

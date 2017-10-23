@@ -29,6 +29,6 @@ class ShortTimelineCell: UITableViewCell
         durationLabel.text = timelineItem.elapsedTimeText
         durationLabel.textColor = timelineItem.category.color
         
-        activityTag.configure(name: timelineItem.activityTagText ?? "Movement", amount: timelineItem.timeSlots.count)
+        activityTag.configure(name: timelineItem.activityTagText ?? L10n.movement, amount: timelineItem.timeSlots.count)
     }
 }

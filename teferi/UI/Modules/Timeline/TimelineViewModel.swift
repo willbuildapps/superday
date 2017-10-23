@@ -7,6 +7,7 @@ class TimelineViewModel
     //MARK: Public Properties
     let date : Date
     var timelineItemsObservable : Observable<[TimelineItem]> { return self.timelineItems.asObservable() }
+    let lastSlotUpdateObservable : Observable<Void>
 
     //MARK: Private Properties
     private var isCurrentDay : Bool
@@ -21,7 +22,7 @@ class TimelineViewModel
     private let metricsService : MetricsService
     
     private var activities : Variable<[Activity]> = Variable([])
-    private var timelineItems : Variable<[TimelineItem]> = Variable([])
+    private(set) var timelineItems : Variable<[TimelineItem]> = Variable([])
     
     var dailyVotingNotificationObservable : Observable<Date>
     {
@@ -54,15 +55,15 @@ class TimelineViewModel
         
         isCurrentDay = timeService.now.ignoreTimeComponents() == date
         
-        let timeObservable = !isCurrentDay ? Observable.empty() : Observable<Int>.timer(1, period: 10, scheduler: MainScheduler.instance).mapTo(())
+        self.lastSlotUpdateObservable = !isCurrentDay ? Observable.empty() : Observable<Int>.timer(1, period: 10, scheduler: MainScheduler.instance).mapTo(())
         
         let newTimeSlotForThisDate = !isCurrentDay ? Observable.empty() : timeSlotService
             .timeSlotCreatedObservable
             .filter(timeSlotBelongsToThisDate)
             .mapTo(())
         
-        let updatedTimeSlotForThisDate = timeSlotService.timeSlotUpdatedObservable
-            .filter(timeSlotBelongsToThisDate)
+        let updatedTimeSlotsForThisDate = timeSlotService.timeSlotsUpdatedObservable
+            .mapTo(belongsToThisDate)
             .mapTo(())
         
         let movedToForeground = appLifecycleService
@@ -70,7 +71,7 @@ class TimelineViewModel
             .mapTo(())
         
         let refreshObservable =
-            Observable.of(newTimeSlotForThisDate, updatedTimeSlotForThisDate, movedToForeground, timeObservable.mapTo(()))
+            Observable.of(newTimeSlotForThisDate, updatedTimeSlotsForThisDate, movedToForeground)//, timeObservable.mapTo(()))
                       .merge()
                       .startWith(()) // This is a hack I can't remove due to something funky with the view controllery lifecycle. We should fix this in the refactor
                 
@@ -176,6 +177,11 @@ class TimelineViewModel
     private func timeSlotBelongsToThisDate(_ timeSlot: TimeSlot) -> Bool
     {
         return timeSlot.startTime.ignoreTimeComponents() == date
+    }
+    
+    private func belongsToThisDate(_ timeSlots: [TimeSlot]) -> [TimeSlot]
+    {
+        return timeSlots.filter(timeSlotBelongsToThisDate(_:))
     }
     
     private func isLastInPastDay(_ index: Int, count: Int) -> Bool

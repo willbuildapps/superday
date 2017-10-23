@@ -28,7 +28,7 @@ class CleanerTests: XCTestCase
     override func setUp()
     {
         let baseLocation = Location.baseLocation
-        baseSlot = TemporaryTimeSlot(start: Date.noon, location: baseLocation, category: Category.unknown)
+        baseSlot = TemporaryTimeSlot(start: Date.noon, category: Category.unknown, location: baseLocation)
 
         let noon = Date.noon.ignoreTimeComponents().addingTimeInterval(12 * 60 * 60)
         timeService = MockTimeService()

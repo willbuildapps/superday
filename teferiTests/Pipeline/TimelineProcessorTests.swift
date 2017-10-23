@@ -27,7 +27,7 @@ class TimelineProcessorTests: XCTestCase
         midnight = Date().ignoreTimeComponents()
         let baseLocation = Location.baseLocation
         
-        baseSlot = TemporaryTimeSlot(start: midnight, location: baseLocation, category: Category.commute)
+        baseSlot = TemporaryTimeSlot(start: midnight, category: Category.commute, location: baseLocation)
         
         settingsService.setLastLocation(Location.baseLocation)
         timeService.mockDate = midnight.addingTimeInterval(1000)
@@ -123,8 +123,7 @@ class TimelineProcessorTests: XCTestCase
             end: data.endOffset != nil ? date(data.endOffset!) : nil,
             category: data.category,
             location: baseSlot.location,
-            activity: baseSlot.activity,
-            smartGuess: nil)
+            activity: baseSlot.activity)
     }
     
     private func date(_ timeInterval: TimeInterval) -> Date
@@ -139,7 +138,6 @@ class TimelineProcessorTests: XCTestCase
         
         compareOptional(actualTimeSlot.end, expectedTimeSlot.end)
         compareOptional(actualTimeSlot.location, expectedTimeSlot.location)
-        compareOptional(actualTimeSlot.smartGuess, expectedTimeSlot.smartGuess)
     }
     
     private func compareOptional<T : Equatable>(_ actual: T?, _ expected: T?)
@@ -152,16 +150,5 @@ class TimelineProcessorTests: XCTestCase
         {
             expect(actual).to(equal(expected))
         }
-    }
-}
-
-extension SmartGuess : Equatable
-{
-    public static func ==(lhs: SmartGuess, rhs: SmartGuess) -> Bool
-    {
-        return lhs.id == rhs.id &&
-            lhs.errorCount == rhs.errorCount &&
-            lhs.category == rhs.category &&
-            lhs.lastUsed == rhs.lastUsed
     }
 }

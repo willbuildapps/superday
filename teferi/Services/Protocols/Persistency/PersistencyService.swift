@@ -37,7 +37,8 @@ protocol PersistencyService
      
      - Returns: A Bool indicating whether the operation suceeded or not.
      */
-    @discardableResult func update(withPredicate predicate: Predicate, updateFunction: @escaping (T) -> T) -> T?
+    @discardableResult func singleUpdate(withPredicate predicate: Predicate, updateFunction: @escaping (T) -> T) -> T?
+    @discardableResult func batchUpdate(withPredicate predicate: Predicate, updateFunction: @escaping (T) -> T) -> [T]?
     
     /**
      Updates the element.
@@ -91,7 +92,12 @@ class BasePersistencyService<T> : PersistencyService
      
      - Returns: A Bool indicating whether the operation suceeded or not.
      */
-    @discardableResult func update(withPredicate predicate: Predicate, updateFunction: @escaping (T) -> T) -> T?
+    @discardableResult func singleUpdate(withPredicate predicate: Predicate, updateFunction: @escaping (T) -> T) -> T?
+    {
+        fatalError("Not implemented")
+    }
+    
+    @discardableResult func batchUpdate(withPredicate predicate: Predicate, updateFunction: @escaping (T) -> T) -> [T]?
     {
         fatalError("Not implemented")
     }

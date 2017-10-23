@@ -7,51 +7,13 @@ class MockSmartGuessService : SmartGuessService
     private var smartGuessId = 0
     
     var addShouldWork = true
-    var smartGuessToReturn : SmartGuess? = nil
-    var smartGuessUpdates = [(SmartGuess, Date)]()
+    var smartGuessToReturn : TimeSlot? = nil
     var locationsAskedFor = [Location]()
-    var smartGuesses = [SmartGuess]()
+    var guesses = [TimeSlot]()
     
-    func get(forLocation location: Location) -> SmartGuess?
+    func get(forLocation location: Location) -> TimeSlot?
     {
         locationsAskedFor.append(location)
         return smartGuessToReturn
-    }
-    
-    @discardableResult func add(withCategory category: teferi.Category, location: Location) -> SmartGuess?
-    {
-        let smartGuess = SmartGuess(withId: smartGuessId, category: category, location: location, lastUsed: Date())
-        smartGuesses.append(smartGuess)
-        
-        smartGuessId += 1
-        
-        return smartGuess
-    }
-    
-    func markAsUsed(_ smartGuess: SmartGuess, atTime time: Date)
-    {
-        smartGuess.lastUsed = time
-        smartGuessUpdates.append(smartGuess, time)
-    }
-    
-    func strike(withId id: Int)
-    {
-        guard let smartGuessIndex = smartGuesses.index(where: { smartGuess in smartGuess.id == id }) else { return }
-        
-        let smartGuess = smartGuesses[smartGuessIndex]
-        
-        if smartGuess.errorCount >= 3
-        {
-            smartGuesses.remove(at: smartGuessIndex)
-        }
-        else
-        {
-            smartGuess.errorCount += 1
-        }
-    }
-    
-    func purgeEntries(olderThan maxAge: Date)
-    {
-        
     }
 }

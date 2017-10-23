@@ -109,7 +109,7 @@ class TimelineViewModelTests : XCTestCase
         let ts = addTimeSlot(minutesAfterNoon: 0)
         addTimeSlot(minutesAfterNoon: 3)
         
-        timeSlotService.update(timeSlot: ts, withCategory: .family)
+        timeSlotService.update(timeSlots: [ts], withCategory: .family)
         
         let timelineItems = observer.events.last!.value.element!
         
@@ -140,7 +140,7 @@ class TimelineViewModelTests : XCTestCase
             .addDisposableTo(disposeBag)
         
         
-        timeSlotService.update(timeSlot: ts, withCategory: .leisure)
+        timeSlotService.update(timeSlots: [ts], withCategory: .leisure)
         
         let timelineItems = observer.events.last!.value.element!
         

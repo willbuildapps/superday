@@ -4,9 +4,9 @@ import Foundation
 class MotionPermissionViewModel : PermissionViewModel
 {
     // MARK: Public Properties
-    var remindMeLater : Bool
+    var isSecondaryButtonHidden : Bool
     {
-        return false
+        return true
     }
     
     var titleText : String?
@@ -22,6 +22,11 @@ class MotionPermissionViewModel : PermissionViewModel
     var enableButtonTitle : String
     {
         return L10n.motionEnableButtonTitle
+    }
+    
+    var secondaryButtonTitle : String?
+    {
+        return nil
     }
     
     var image : UIImage?
@@ -79,11 +84,9 @@ class MotionPermissionViewModel : PermissionViewModel
         UIApplication.shared.openURL(url)
     }
     
-    func permissionGiven()
-    {
-    }
+    func permissionGiven() {}
     
-    func permissionDeferred() { }
+    func secondaryAction() {}
     
     // MARK: Private Methods
     

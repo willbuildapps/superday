@@ -8,6 +8,12 @@ enum MotionEventType: String
     case auto
     case other
     case still
+    
+    var name : String
+    {
+        guard self != .auto else { return L10n.transport }
+        return self.rawValue.capitalized
+    }
 }
 
 struct MotionEvent: Equatable

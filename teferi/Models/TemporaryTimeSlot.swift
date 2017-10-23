@@ -7,7 +7,17 @@ struct TemporaryTimeSlot
     let category : Category
     let location : Location
     let activity: MotionEventType
-    let smartGuess : SmartGuess?
+    let isSmartGuessed: Bool
+    
+    init(start: Date, end: Date? = nil, category: Category = .unknown, location: Location, activity: MotionEventType = .still, isSmartGuessed: Bool = false)
+    {
+        self.start = start
+        self.end = end
+        self.category = category
+        self.location = location
+        self.activity = activity
+        self.isSmartGuessed = isSmartGuessed
+    }
 }
 
 extension TemporaryTimeSlot
@@ -19,17 +29,7 @@ extension TemporaryTimeSlot
         self.category = TemporaryTimeSlot.getCategory(from: event.type)
         self.location = event.location
         self.activity = event.type
-        self.smartGuess = nil
-    }
-    
-    init(start: Date, location: Location, end: Date? = nil, category: Category = .unknown, activity: MotionEventType = .still, smartGuess: SmartGuess? = nil)
-    {
-        self.start = start
-        self.end = end
-        self.category = category
-        self.location = location
-        self.activity = activity
-        self.smartGuess = nil
+        self.isSmartGuessed = false
     }
     
     func with(start: Date? = nil, end: Date? = nil) -> TemporaryTimeSlot
@@ -40,7 +40,7 @@ extension TemporaryTimeSlot
             category: self.category,
             location: self.location,
             activity: self.activity,
-            smartGuess: self.smartGuess
+            isSmartGuessed: self.isSmartGuessed
         )
     }
     

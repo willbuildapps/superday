@@ -11,6 +11,7 @@ class TimeSlotModelAdapter : CoreDataModelAdapter<TimeSlot>
     private let locationLatitudeKey = "locationLatitude"
     private let locationLongitudeKey = "locationLongitude"
     private let categoryWasSetByUserKey = "categoryWasSetByUser"
+    private let categoryWasSmartGuessedKey = "categoryWasSmartGuessed"
     private let activityKey = "activity"
     
     //MARK: Initializers
@@ -28,6 +29,7 @@ class TimeSlotModelAdapter : CoreDataModelAdapter<TimeSlot>
         let endTime = managedObject.value(forKey: endTimeKey) as? Date
         let category = Category(rawValue: managedObject.value(forKey: categoryKey) as! String)!
         let categoryWasSetByUser = managedObject.value(forKey: categoryWasSetByUserKey) as? Bool ?? false
+        let categoryWasSmartGuessed = managedObject.value(forKey: categoryWasSmartGuessedKey) as? Bool ?? false
         
         var activity: MotionEventType? = nil
         if let activityString = managedObject.value(forKey: activityKey) as? String {
@@ -42,9 +44,9 @@ class TimeSlotModelAdapter : CoreDataModelAdapter<TimeSlot>
         let timeSlot = TimeSlot(startTime: startTime,
                                 endTime: endTime,
                                 category: category,
-                                smartGuessId: nil,
                                 location: location,
                                 categoryWasSetByUser: categoryWasSetByUser,
+                                categoryWasSmartGuessed: categoryWasSmartGuessed,
                                 activity: activity)
         
         return timeSlot

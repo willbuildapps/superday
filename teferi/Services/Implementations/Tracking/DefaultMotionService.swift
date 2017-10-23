@@ -43,7 +43,7 @@ class DefaultMotionService: MotionService
     func getActivities(since start: Date, until end: Date) -> Observable<[MotionEvent]>
     {
         guard CMMotionActivityManager.isActivityAvailable() else {
-            return Observable.error(MotionServiceError.notAvailable)
+            return Observable.error(MotionServiceError.motionNotAvailable)
         }
         
         return Observable.create { [unowned self] observer in
@@ -84,7 +84,7 @@ class DefaultMotionService: MotionService
                     })
                 
                 guard let last = events.last else {
-                    observer.onError(MotionServiceError.noActivities)
+                    observer.onError(MotionServiceError.noMotionActivities)
                     return
                 }
                 

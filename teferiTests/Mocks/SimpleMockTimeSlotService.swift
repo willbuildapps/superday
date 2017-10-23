@@ -11,7 +11,7 @@ class SimpleMockTimeSlotService : TimeSlotService
     private(set) var dateAsked:Date? = nil
     
     var timeSlotCreatedObservable : Observable<TimeSlot> = Observable<TimeSlot>.empty()
-    var timeSlotUpdatedObservable : Observable<TimeSlot> = Observable<TimeSlot>.empty()
+    var timeSlotsUpdatedObservable : Observable<[TimeSlot]> = Observable<[TimeSlot]>.empty()
     
     @discardableResult func addTimeSlot(withStartTime startTime: Date, category: teferi.Category, categoryWasSetByUser: Bool, tryUsingLatestLocation: Bool) -> TimeSlot?
     {
@@ -19,11 +19,6 @@ class SimpleMockTimeSlotService : TimeSlotService
     }
     
     @discardableResult func addTimeSlot(withStartTime startTime: Date, category: teferi.Category, categoryWasSetByUser: Bool, location: Location?) -> TimeSlot?
-    {
-        return newTimeSlotToReturn
-    }
-    
-    @discardableResult func addTimeSlot(withStartTime startTime: Date, smartGuess: SmartGuess, location: Location?) -> TimeSlot?
     {
         return newTimeSlotToReturn
     }
@@ -49,7 +44,7 @@ class SimpleMockTimeSlotService : TimeSlotService
         return timeSlotsToReturn ?? []
     }
 
-    func update(timeSlot: TimeSlot, withCategory category: teferi.Category)
+    func update(timeSlots: [TimeSlot], withCategory category: teferi.Category)
     {
         
     }

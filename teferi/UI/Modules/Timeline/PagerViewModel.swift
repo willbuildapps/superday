@@ -48,7 +48,7 @@ class PagerViewModel
         let addedTimeSlot = timeSlotService.timeSlotCreatedObservable
             .mapTo(())
         
-        let updatedTimeSlot = timeSlotService.timeSlotUpdatedObservable
+        let updatedTimeSlot = timeSlotService.timeSlotsUpdatedObservable
             .mapTo(())
         
         let dateChage = selectedDateService.currentlySelectedDateObservable
