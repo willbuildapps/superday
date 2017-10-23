@@ -43,7 +43,7 @@ class TimelineProcessor
         
         guard !hasTimeSlotsForToday(slots) && timeSlotService.getTimeSlots(forDay: now).isEmpty else { return slots }
         
-        return slots + [ TemporaryTimeSlot(start: now, location: slotLocation, category: .leisure)]
+        return slots + [ TemporaryTimeSlot(start: now, category: .leisure, location: slotLocation)]
     }
     
     private func hasTimeSlotsForToday(_ timeline: [TemporaryTimeSlot]) -> Bool

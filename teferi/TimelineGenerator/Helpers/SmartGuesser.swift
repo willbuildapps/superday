@@ -22,21 +22,20 @@ class SmartGuesser
             return timeSlot
         }
         
-        return timeSlot.with(smartGuess: smartGuess)
+        return timeSlot.with(newCategory: smartGuess.category)
     }
 }
 
 extension TemporaryTimeSlot
 {
-    func with(smartGuess: SmartGuess) -> TemporaryTimeSlot
+    func with(newCategory: Category) -> TemporaryTimeSlot
     {
         return TemporaryTimeSlot(
             start: start,
             end: end,
-            category: smartGuess.category,
+            category: newCategory,
             location: location,
-            activityTag: activityTag,
-            smartGuess: smartGuess
+            activity: activity
         )
     }
 }

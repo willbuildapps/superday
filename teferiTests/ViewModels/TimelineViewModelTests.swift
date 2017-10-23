@@ -109,7 +109,7 @@ class TimelineViewModelTests : XCTestCase
         let ts = addTimeSlot(minutesAfterNoon: 0)
         addTimeSlot(minutesAfterNoon: 3)
         
-        timeSlotService.update(timeSlot: ts, withCategory: .family)
+        timeSlotService.update(timeSlots: [ts], withCategory: .family)
         
         let timelineItems = observer.events.last!.value.element!
         
@@ -140,7 +140,7 @@ class TimelineViewModelTests : XCTestCase
             .addDisposableTo(disposeBag)
         
         
-        timeSlotService.update(timeSlot: ts, withCategory: .leisure)
+        timeSlotService.update(timeSlots: [ts], withCategory: .leisure)
         
         let timelineItems = observer.events.last!.value.element!
         
@@ -217,58 +217,6 @@ class TimelineViewModelTests : XCTestCase
         let items = lastEvent.value.element!
         
         expect(items.count).to(equal(2))
-    }
-    
-    func testConsecutiveTimeSlotsCanBeExpanded()
-    {
-        addTimeSlot(minutesAfterNoon: 0, category: .leisure)
-        addTimeSlot(minutesAfterNoon: 30, category: .leisure)
-        addTimeSlot(minutesAfterNoon: 60, category: .work)
-        addTimeSlot(minutesAfterNoon: 90, category: .work)
-        
-        var lastEvent = observer.events.last!
-        var items = lastEvent.value.element!
-        
-        viewModel.expandSlots(item: items[0])
-
-        lastEvent = observer.events.last!
-        items = lastEvent.value.element!
-
-        expect(items.count).to(equal(3))
-    }
-    
-    func testExpandingOneSlotCollapsesPreviousOne()
-    {
-        addTimeSlot(minutesAfterNoon: 0, category: .leisure)
-        addTimeSlot(minutesAfterNoon: 30, category: .leisure)
-        addTimeSlot(minutesAfterNoon: 60, category: .work)
-        addTimeSlot(minutesAfterNoon: 90, category: .work)
-        addTimeSlot(minutesAfterNoon: 120, category: .work)
-        
-        var lastEvent = observer.events.last!
-        var items = lastEvent.value.element!
-        
-        viewModel.expandSlots(item: items[0])
-        
-        lastEvent = observer.events.last!
-        items = lastEvent.value.element!
-        
-        expect(items.count).to(equal(3))
-        expect(items[0].category).to(equal(Category.leisure))
-        expect(items[1].category).to(equal(Category.leisure))
-        expect(items[2].category).to(equal(Category.work))
-        
-        viewModel.expandSlots(item: items[2])
-        
-        lastEvent = observer.events.last!
-        items = lastEvent.value.element!
-        
-        expect(items.count).to(equal(4))
-        expect(items[0].category).to(equal(Category.leisure))
-        expect(items[1].category).to(equal(Category.work))
-        expect(items[2].category).to(equal(Category.work))
-        expect(items[3].category).to(equal(Category.work))
-
     }
     
     func testVotesAreLoggedToFabric()

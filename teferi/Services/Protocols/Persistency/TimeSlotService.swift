@@ -4,14 +4,13 @@ import RxSwift
 protocol TimeSlotService
 {
     var timeSlotCreatedObservable : Observable<TimeSlot> { get }
-    var timeSlotUpdatedObservable : Observable<TimeSlot> { get }
+    var timeSlotsUpdatedObservable : Observable<[TimeSlot]> { get }
 
     @discardableResult func addTimeSlot(withStartTime startTime: Date, category: Category, categoryWasSetByUser: Bool, tryUsingLatestLocation: Bool) -> TimeSlot?
     
     @discardableResult func addTimeSlot(withStartTime startTime: Date, category: Category, categoryWasSetByUser: Bool, location: Location?) -> TimeSlot?
     
-    @discardableResult func addTimeSlot(withStartTime startTime: Date, smartGuess: SmartGuess, location: Location?) -> TimeSlot?
-    
+    @discardableResult func addTimeSlot(fromTemporaryTimeslot: TemporaryTimeSlot) -> TimeSlot?
     /**
      Gets TimeSlots for any given day.
      
@@ -32,7 +31,7 @@ protocol TimeSlotService
      
      - Parameter setByUser: Indicates if the user initiated the action that changed the TimeSlot.
      */
-    func update(timeSlot: TimeSlot, withCategory category: Category)
+    func update(timeSlots: [TimeSlot], withCategory category: Category)
     
     /**
      Gets last registered TimeSlot.

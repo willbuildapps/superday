@@ -27,7 +27,7 @@ class TimelineGenerator
         eventsParser = EventsParser()
         timelineProcessor = TimelineProcessor(settingsService: settingsService, timeSlotService: timeSlotService, timeService: timeService)
         smartGuesser = SmartGuesser(smartGuessService: smartGuessService)
-        persister = Persister(timeSlotService: timeSlotService, smartGuessService: smartGuessService, timeService: timeService, metricsService: metricsService)
+        persister = Persister(timeSlotService: timeSlotService, timeService: timeService, metricsService: metricsService)
         cleaner = Cleaner(settingsService: settingsService, trackEventService: trackEventService, timeService: timeService)
     }
     
@@ -37,7 +37,7 @@ class TimelineGenerator
             .map(eventsParser.parse)
             .map(toTemporaryTimeslots)
             .map(timelineProcessor.process)
-            //.map(smartGuesser.run)
+            .map(smartGuesser.run)
             .do(onNext: { [unowned self] slots in
                 self.persister.persist(slots: slots)
                 self.cleaner.cleanUp(slots: slots)

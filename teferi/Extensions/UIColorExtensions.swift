@@ -48,4 +48,19 @@ extension UIColor
     {
         return UIColor(r: 4, g: 4, b: 6)
     }
+    
+    static var normalGray: UIColor
+    {
+        return UIColor(r: 144, g: 146, b: 147)
+    }
+    
+    static var lightBlue: UIColor
+    {
+        return UIColor(hex: 0xE6F8FC)
+    }
+    
+    static var lightBlue2: UIColor
+    {
+        return UIColor(hex: 0xD1F2F9)
+    }
 }

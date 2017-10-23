@@ -1,5 +1,4 @@
 import Foundation
-import CoreData
 
 struct TimeSlot
 {
@@ -7,34 +6,34 @@ struct TimeSlot
     let startTime: Date
     let endTime: Date?
     let category: Category
-    let smartGuessId : Int?
     let location: Location?
     let categoryWasSetByUser: Bool
-    
+    let categoryWasSmartGuessed: Bool
+    let activity: MotionEventType?
 }
 
 extension TimeSlot
 {
-    init(withStartTime startTime: Date, endTime: Date? = nil, category: Category, categoryWasSetByUser: Bool, location: Location? = nil)
+    init(withStartTime startTime: Date, endTime: Date? = nil, category: Category, categoryWasSetByUser: Bool, categoryWasSmartGuessed: Bool, location: Location? = nil)
     {
         self.startTime = startTime
         self.endTime = endTime
         self.category = category
-        self.smartGuessId = nil
         self.location = location
         self.categoryWasSetByUser = categoryWasSetByUser
-        
+        self.categoryWasSmartGuessed = categoryWasSmartGuessed
+        self.activity = nil
     }
     
-    init(withStartTime time: Date, endTime: Date? = nil, smartGuess: SmartGuess, location: Location?)
+    init(withStartTime time: Date, endTime: Date? = nil, category: Category, location: Location? = nil)
     {
         self.startTime = time
         self.endTime = endTime
-        self.category = smartGuess.category
-        self.smartGuessId = smartGuess.id
+        self.category = category
         self.location = location
         self.categoryWasSetByUser = false
-
+        self.categoryWasSmartGuessed = false
+        self.activity = nil
     }
 }
 
@@ -42,13 +41,13 @@ extension TimeSlot
 {
     func withCategory(_ category: Category, setByUser: Bool? = nil) -> TimeSlot
     {
-        return TimeSlot(
-            withStartTime: self.startTime,
-            endTime: self.endTime,
-            category: category,
-            categoryWasSetByUser: setByUser ?? self.categoryWasSetByUser,
-            location: self.location
-        )
+        return TimeSlot(startTime: self.startTime,
+                        endTime: self.endTime,
+                        category: category,
+                        location: self.location,
+                        categoryWasSetByUser: setByUser ?? self.categoryWasSetByUser,
+                        categoryWasSmartGuessed: false,
+                        activity: self.activity)
     }
     
     func withEndDate( _ endDate: Date) -> TimeSlot
@@ -57,10 +56,10 @@ extension TimeSlot
             startTime: self.startTime,
             endTime: endDate,
             category: self.category,
-            smartGuessId: self.smartGuessId,
             location: self.location,
-            categoryWasSetByUser: self.categoryWasSetByUser
-        )
+            categoryWasSetByUser: self.categoryWasSetByUser,
+            categoryWasSmartGuessed: false,
+            activity: self.activity)
     }
 }
 

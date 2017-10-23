@@ -7,7 +7,6 @@ struct TempTimelineTestData
     let endOffset : TimeInterval?
     let category : teferi.Category
     let includeLocation : Bool
-    let includeSmartGuess : Bool
 }
 
 extension TempTimelineTestData
@@ -17,7 +16,6 @@ extension TempTimelineTestData
         self.startOffset = startOffset
         self.endOffset = endOffset
         self.category = .unknown
-        self.includeSmartGuess = false
         self.includeLocation = false
     }
     
@@ -26,7 +24,6 @@ extension TempTimelineTestData
         self.startOffset = startOffset
         self.endOffset = endOffset
         self.category = isCommute ? .commute : .unknown
-        self.includeSmartGuess = false
         self.includeLocation = false
     }
     
@@ -39,7 +36,6 @@ extension TempTimelineTestData
         self.startOffset = startOffset
         self.endOffset = endOffset
         self.category = category
-        self.includeSmartGuess = includeSmartGuess
         self.includeLocation = includeLocation
     }
 }

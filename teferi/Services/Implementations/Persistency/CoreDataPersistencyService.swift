@@ -114,7 +114,7 @@ class CoreDataPersistencyService<T> : BasePersistencyService<T>
         return boolToReturn
     }
     
-    override func update(withPredicate predicate: Predicate, updateFunction: @escaping (T) -> T) -> T?
+    override func singleUpdate(withPredicate predicate: Predicate, updateFunction: @escaping (T) -> T) -> T?
     {
         var newEntity: T? = nil
         
@@ -149,6 +149,47 @@ class CoreDataPersistencyService<T> : BasePersistencyService<T>
         }
         
         return newEntity
+    }
+    
+    override func batchUpdate(withPredicate predicate: Predicate, updateFunction: @escaping (T) -> T) -> [T]?
+    {
+        var newEntities = [T]()
+        
+        managedObjectContext.performAndWait
+            { [unowned self] in
+                let entity = NSEntityDescription.entity(forEntityName: self.entityName, in: self.managedObjectContext)
+                
+                let request = NSFetchRequest<NSFetchRequestResult>()
+                let predicate = predicate.convertToNSPredicate()
+                
+                request.entity = entity
+                request.predicate = predicate
+                
+                do
+                {
+                    if let managedElements = try self.managedObjectContext.fetch(request) as [AnyObject]?
+                    {
+                        managedElements.forEach({ managedElement in
+                            let managedObject = managedElement as! NSManagedObject
+                            
+                            let entity = self.modelAdapter.getModel(fromManagedObject: managedObject)
+                            let newEntity = updateFunction(entity)
+                            
+                            self.setManagedElementProperties(newEntity, managedObject)
+                            
+                            newEntities.append(newEntity)
+                        })
+                        
+                        try self.managedObjectContext.save()
+                    }
+                }
+                catch
+                {
+                    self.loggingService.log(withLogLevel: .warning, message: "No \(T.self) found when trying to update")
+                }
+        }
+        
+        return newEntities.count > 0 ? newEntities : nil
     }
     
     @discardableResult override func delete(withPredicate predicate: Predicate? = nil) -> Bool

@@ -11,6 +11,8 @@ class TimeSlotModelAdapter : CoreDataModelAdapter<TimeSlot>
     private let locationLatitudeKey = "locationLatitude"
     private let locationLongitudeKey = "locationLongitude"
     private let categoryWasSetByUserKey = "categoryWasSetByUser"
+    private let categoryWasSmartGuessedKey = "categoryWasSmartGuessed"
+    private let activityKey = "activity"
     
     //MARK: Initializers
     override init()
@@ -27,17 +29,25 @@ class TimeSlotModelAdapter : CoreDataModelAdapter<TimeSlot>
         let endTime = managedObject.value(forKey: endTimeKey) as? Date
         let category = Category(rawValue: managedObject.value(forKey: categoryKey) as! String)!
         let categoryWasSetByUser = managedObject.value(forKey: categoryWasSetByUserKey) as? Bool ?? false
+        let categoryWasSmartGuessed = managedObject.value(forKey: categoryWasSmartGuessedKey) as? Bool ?? false
+        
+        var activity: MotionEventType? = nil
+        if let activityString = managedObject.value(forKey: activityKey) as? String {
+            activity = MotionEventType(rawValue: activityString)
+        }
         
         let location = super.getLocation(managedObject,
                                          timeKey: locationTimeKey,
                                          latKey: locationLatitudeKey,
                                          lngKey: locationLongitudeKey)
         
-        let timeSlot = TimeSlot(withStartTime: startTime,
+        let timeSlot = TimeSlot(startTime: startTime,
                                 endTime: endTime,
                                 category: category,
+                                location: location,
                                 categoryWasSetByUser: categoryWasSetByUser,
-                                location: location)
+                                categoryWasSmartGuessed: categoryWasSmartGuessed,
+                                activity: activity)
         
         return timeSlot
     }
@@ -52,5 +62,7 @@ class TimeSlotModelAdapter : CoreDataModelAdapter<TimeSlot>
         managedObject.setValue(model.location?.timestamp, forKey: locationTimeKey)
         managedObject.setValue(model.location?.latitude, forKey: locationLatitudeKey)
         managedObject.setValue(model.location?.longitude, forKey: locationLongitudeKey)
+        
+        managedObject.setValue(model.activity?.rawValue, forKey: activityKey)
     }
 }

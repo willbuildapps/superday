@@ -5,16 +5,25 @@ extension TimelineItem
 {
     var lineHeight: CGFloat
     {
-        if timeSlots.count > 1 {
-            return 64
-        }
+        return calculatedLineHeight(for: duration)
+    }
+    
+    var startTimeText: String
+    {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
         
-        if category == .sleep {
-            return 20.0
-        } else {
-            let newHeight = Constants.minLineHeight + Constants.timelineSlope * (CGFloat(duration) - Constants.minTimelineInterval)
-            return max(min(newHeight, Constants.maxLineHeight), Constants.minLineHeight)
-        }
+        return formatter.string(from: startTime)
+    }
+    
+    var endTimeText: String?
+    {
+        guard let endTime = endTime else { return nil }
+        
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        
+        return formatter.string(from: endTime)
     }
     
     var slotTimeText: String
@@ -32,15 +41,27 @@ extension TimelineItem
         }
     }
     
+    var slotStartAndStopTimeText: String
+    {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        
+        let startString = formatter.string(from: startTime)
+        
+        if let endTime = endTime
+        {
+            let endString = formatter.string(from: endTime)
+            return startString + " - " + endString
+        }
+        else
+        {
+            return startString
+        }
+    }
+    
     var elapsedTimeText: String
     {
-        let hourMask = "%02d h %02d min"
-        let minuteMask = "%02d min"
-
-        let minutes = (Int(duration) / 60) % 60
-        let hours = (Int(duration) / 3600)
-        
-        return hours > 0 ? String(format: hourMask, hours, minutes) : String(format: minuteMask, minutes)
+        return formatedElapsedTimeText(for: duration)
     }
     
     var slotDescriptionText: String
@@ -50,5 +71,31 @@ extension TimelineItem
         }
 
         return category.description
+    }
+    
+    var activityTagText: String?
+    {
+        guard let firstActivity = timeSlots.first?.activity else { return nil }
+        
+        let groupActivity = timeSlots.dropFirst().reduce(firstActivity) { acc, timeSlot -> MotionEventType? in
+            guard let acc = acc, let timeSlotActivity = timeSlot.activity, acc == timeSlotActivity else { return nil }
+            return timeSlotActivity
+        }
+                
+        if groupActivity == nil {
+            switch category {
+            case .commute:
+                return category.description
+            default:
+                return nil
+            }
+        } else {
+            switch groupActivity! {
+            case .auto, .walk, .cycling, .run:
+                return groupActivity!.name
+            default:
+                return nil
+            }
+        }
     }
 }

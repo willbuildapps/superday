@@ -18,7 +18,7 @@ class LineView: UIView
         }
     }
     
-    var collapsable: Bool = false
+    var collapsed: Bool = false
     {
         didSet
         {
@@ -35,12 +35,12 @@ class LineView: UIView
     override func draw(_ rect: CGRect)
     {        
         backgroundColor = UIColor.clear
-        let dotsHeight:CGFloat = 24
+        let dotHeight:CGFloat = rect.width
         
-        if collapsable {
-            drawLine(inRect: CGRect(x: 0, y: 0, width: rect.width, height: rect.height / 2 - dotsHeight / 2))
-            drawDottedLine(inRect: CGRect(x: 0, y: rect.height / 2 - dotsHeight / 2 + rect.width, width: rect.width, height: dotsHeight - rect.width*2))
-            drawLine(inRect: CGRect(x: 0, y: rect.height / 2 + dotsHeight / 2, width: rect.width, height: rect.height / 2 - dotsHeight / 2))
+        if collapsed {
+            drawLine(inRect: CGRect(x: 0, y: 0, width: rect.width, height: rect.height / 2 - dotHeight))
+            drawDot(atPoint: CGPoint(x: 0, y: rect.height / 2), width: rect.width)
+            drawLine(inRect: CGRect(x: 0, y: rect.height / 2 + dotHeight, width: rect.width, height: rect.height / 2 - dotHeight))
         } else {
             drawSingleLine(inRect: rect)
         }
@@ -56,18 +56,11 @@ class LineView: UIView
         ctx.drawPath(using: .fill)
     }
     
-    private func drawDottedLine(inRect rect: CGRect)
+    private func drawDot(atPoint point: CGPoint, width: CGFloat)
     {
         guard let ctx = UIGraphicsGetCurrentContext() else { return }
         
-        let spacing:CGFloat = 2
-        let side = rect.width
-        var n:CGFloat = 0
-        while n * side + (n-1) * spacing < rect.height
-        {
-            ctx.addEllipse(in: CGRect(x: rect.origin.x, y: rect.origin.y + (side+spacing)*n, width: side, height: side))
-            n += 1
-        }
+        ctx.addEllipse(in: CGRect(x: point.x, y: point.y - width/2, width: width, height: width))
         
         color.setFill()
         ctx.drawPath(using: .fill)

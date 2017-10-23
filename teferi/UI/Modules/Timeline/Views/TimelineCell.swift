@@ -4,41 +4,40 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
+enum TimelineCellUseType
+{
+    case timeline
+    case editTimeslot
+}
+
 ///Cell that represents a TimeSlot in the timeline
 class TimelineCell : UITableViewCell
 {
     static let cellIdentifier = "timelineCell"
 
     // MARK: Public Properties
-    var timelineItem: TimelineItem? = nil {
-        didSet {
+    var timelineItem: TimelineItem? = nil
+    {
+        didSet
+        {
             configure()
         }
     }
     
+    var useType: TimelineCellUseType = .timeline
+    {
+        didSet
+        {
+            if let tagLeadingSpaceConstraint = tagLeadingSpaceConstraint, let tagYAlignConstraint = tagYAlignConstraint
+            {
+                tagLeadingSpaceConstraint.isActive = useType == .timeline
+                tagYAlignConstraint.isActive = useType == .timeline
+                setNeedsLayout()
+            }
+        }
+    }
+    
     private(set) var disposeBag = DisposeBag()
-    
-    var editClickObservable : Observable<TimelineItem> {
-        return self.categoryButton.rx.tap
-            .mapTo(self.timelineItem)
-            .filterNil()
-            .asObservable()
-    }
-    
-    var collapseClickObservable : Observable<TimelineItem> {
-        return self.collapseButton.rx.tap
-            .mapTo(self.timelineItem)
-            .filterNil()
-            .asObservable()
-    }
-    
-    var expandClickObservable : Observable<TimelineItem> {
-        return self.expandButton.rx.tap
-            .mapTo(self.timelineItem)
-            .filterNil()
-            .asObservable()
-    }
-    
     
     @IBOutlet private(set) weak var categoryCircle: UIView!
     
@@ -49,15 +48,15 @@ class TimelineCell : UITableViewCell
     @IBOutlet private weak var lineView : LineView!
     @IBOutlet private weak var slotTime : UILabel!
     @IBOutlet private weak var elapsedTime : UILabel!
-    @IBOutlet private weak var categoryButton : UIButton!
     @IBOutlet private weak var slotDescription : UILabel!
     @IBOutlet private weak var timeSlotDistanceConstraint : NSLayoutConstraint!
     @IBOutlet private weak var categoryIcon: UIImageView!
     @IBOutlet private weak var lineHeight: NSLayoutConstraint!
     @IBOutlet private weak var bottomMargin: NSLayoutConstraint!
+    @IBOutlet private weak var tagLeadingSpaceConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var tagYAlignConstraint: NSLayoutConstraint!
     @IBOutlet private weak var dotView : UIView!
-    @IBOutlet private weak var collapseButton: UIButton!
-    @IBOutlet private weak var expandButton: UIButton!
+    @IBOutlet private weak var activityTagView: ActivityTagView!
     
     private var lineFadeView : AutoResizingLayerView?
     
@@ -79,9 +78,7 @@ class TimelineCell : UITableViewCell
         layoutElapsedTimeLabel(withItem: timelineItem)
         layoutDescriptionLabel(withItem: timelineItem)
         layoutCategoryIcon(forCategory: timelineItem.category)
-        
-        let image = UIImage(asset: Asset.icCollapse).withRenderingMode(.alwaysTemplate)
-        collapseButton.setImage(image, for: .normal)
+        setupActivityTag(withTagText: timelineItem.activityTagText)
     }
     
     func animateIntro()
@@ -125,7 +122,11 @@ class TimelineCell : UITableViewCell
     /// Updates the label that shows the time the TimeSlot was created
     private func layoutSlotTime(withItem timelineItem: TimelineItem)
     {
-        slotTime.text = timelineItem.slotTimeText
+
+        slotTime.text = (useType == .editTimeslot) ?
+            timelineItem.slotStartAndStopTimeText :
+            timelineItem.slotTimeText
+
     }
     
     /// Updates the label that shows how long the slot lasted
@@ -140,22 +141,31 @@ class TimelineCell : UITableViewCell
     {
         lineHeight.constant = item.lineHeight
         lineView.color = item.category.color
+        lineView.collapsed = item.containsMultiple
         dotView.backgroundColor = item.category.color
         
-        lineView.fading = item.isLastInPastDay
+        lineView.fading = useType == .timeline ? item.isLastInPastDay : false
         
         lineFadeView?.isHidden = !item.isLastInPastDay
         
-        dotView.isHidden = !item.isRunning && !item.isLastInPastDay || item.hasCollapseButton
-        collapseButton.isHidden = !item.hasCollapseButton
-        collapseButton.tintColor = item.category.color
+        dotView.isHidden = !item.isRunning && !item.isLastInPastDay
         
-        bottomMargin.constant = item.isRunning || item.hasCollapseButton ? 20 : 0
-        
-        expandButton.isHidden = item.timeSlots.count == 1
-        lineView.collapsable = item.timeSlots.count > 1
-        
+        bottomMargin.constant = useType == .timeline ?
+            (item.isRunning ? 20 : 0) :
+            (timelineItem?.activityTagText != nil ? 30 : 20)
+                
         lineView.layoutIfNeeded()
+    }
+    
+    private func setupActivityTag(withTagText tagText: String?)
+    {
+        guard let tagText = tagText else {
+            activityTagView.isHidden = true
+            return
+        }
+        
+        activityTagView.isHidden = false
+        activityTagView.configure(name: tagText)
     }
     
     /// Configure the fade overlay

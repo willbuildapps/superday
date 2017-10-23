@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSMotionUsageDescription</key>
-	<string>We use this data to magically guess &amp; track your activities</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -19,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.5.1</string>
+	<string>1.6.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
@@ -52,6 +50,8 @@
 	<string>Not to sound like your mother or anything, but Superday needs to know where you are.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Not to sound like your mother or anything, but Superday needs to know where you are.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>We use this data to magically guess &amp; track your activities</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>location</string>

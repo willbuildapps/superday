@@ -58,7 +58,7 @@ class OnboardingPageViewModel: NSObject
         let timeSlot = TimeSlot(withStartTime: startTime,
                                 endTime: endTime,
                                 category: category,
-                                categoryWasSetByUser: false)
+                                location: nil)
         
         return timeSlot
     }

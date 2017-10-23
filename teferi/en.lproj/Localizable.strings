@@ -44,6 +44,18 @@
 "CMExistingUsersAccessFinePrint" = "* Health App access won't be needed anymore";
 "CMExistingUsersAccessButtonTitle" = "Make Superday better";
 
+"EditTimeSlotStartTitle" = "Start";
+"EditTimeSlotEndTitle" = "End";
+"EditTimeSlotCategoryTitle" = "Category";
+
+"NotificationsPermissionsTitle" = "Hey there!";
+"NotificationsPermissionsDescription" = "Superday would like to send you\nnotifications once in a while.\nWe promise, we won't annoy\nyou too much. 🤓";
+"NotificationsPermissionsEnableButtonTitle" = "Enable notifications";
+"NotificationsPermissionsSecondaryButtonTitle" = "No, thanks";
+
+"Transport" = "Transport";
+"Movement" = "Movement";
+
 //Categories
 "Commute" = "Movement";
 "Work" = "Work";

@@ -10,16 +10,28 @@ class TimelineItem_TimelineCellTests: XCTestCase
         let now = Date()
         
         var timeslots = [
-            TimeSlot(withStartTime: now, category: .work, categoryWasSetByUser: false),
+            TimeSlot(withStartTime: now, category: .work),
         ]
-        let item1 = TimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 15 * 60)
+        let item1 = TimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 150 * 60)
         
         timeslots = [
-            TimeSlot(withStartTime: now, category: .work, categoryWasSetByUser: false),
+            TimeSlot(withStartTime: now, category: .work),
         ]
-        let item2 = TimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 30 * 60)
+        let item2 = TimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 300 * 60)
         
         expect(item1.lineHeight).to(beLessThan(item2.lineHeight))
+    }
+    
+    func testTheTimelineCellLineHeightCantBeShorterThan16()
+    {
+        let now = Date()
+        
+        let timeslots = [
+            TimeSlot(withStartTime: now, category: .work),
+            ]
+        let item = TimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 15)
+        
+        expect(item.lineHeight).to(equal(16))
     }
     
     func testGroupedTimelineItemsAlwaysHaveTheSameHeightRegardlessOfTotalDuration()
@@ -27,14 +39,14 @@ class TimelineItem_TimelineCellTests: XCTestCase
         let now = Date()
         
         var timeslots = [
-            TimeSlot(withStartTime: now, category: .work, categoryWasSetByUser: false),
-            TimeSlot(withStartTime: now.addingTimeInterval(15*60), category: .work, categoryWasSetByUser: false)
+            TimeSlot(withStartTime: now, category: .work),
+            TimeSlot(withStartTime: now.addingTimeInterval(15*60), category: .work)
         ]
         let item1 = TimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 15*60)
         
         timeslots = [
-            TimeSlot(withStartTime: now, category: .work, categoryWasSetByUser: false),
-            TimeSlot(withStartTime: now.addingTimeInterval(30*60), category: .work, categoryWasSetByUser: false)
+            TimeSlot(withStartTime: now, category: .work),
+            TimeSlot(withStartTime: now.addingTimeInterval(30*60), category: .work)
         ]
         let item2 = TimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 30*60)
         
@@ -50,7 +62,7 @@ class TimelineItem_TimelineCellTests: XCTestCase
         let expected = formatter.string(from: startTime)
         
         let timeslots = [
-            TimeSlot(withStartTime: startTime, category: .work, categoryWasSetByUser: false),
+            TimeSlot(withStartTime: startTime, category: .work),
         ]
         let item = TimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 15*60)
         
@@ -69,7 +81,7 @@ class TimelineItem_TimelineCellTests: XCTestCase
         let expectedText = "\(startText) - \(endText)"
         
         let timeslots = [
-            TimeSlot(withStartTime: startTime, category: .work, categoryWasSetByUser: false).withEndDate(endTime),
+            TimeSlot(withStartTime: startTime, category: .work).withEndDate(endTime),
         ]
         let item = TimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 15*60, isLastInPastDay: true)
         
@@ -86,7 +98,7 @@ class TimelineItem_TimelineCellTests: XCTestCase
         let expectedText = String(format: minuteMask, minutes)
         
         let timeslots = [
-            TimeSlot(withStartTime: startTime, category: .work, categoryWasSetByUser: false),
+            TimeSlot(withStartTime: startTime, category: .work),
             ]
         let item = TimelineItem(withTimeSlots: timeslots, category: Category.work, duration: duration)
         
@@ -104,7 +116,7 @@ class TimelineItem_TimelineCellTests: XCTestCase
         let expectedText = String(format: hourMask, hours, minutes)
         
         let timeslots = [
-            TimeSlot(withStartTime: startTime, category: .work, categoryWasSetByUser: false),
+            TimeSlot(withStartTime: startTime, category: .work),
             ]
         let item = TimelineItem(withTimeSlots: timeslots, category: Category.work, duration: duration)
         
@@ -116,7 +128,7 @@ class TimelineItem_TimelineCellTests: XCTestCase
         let startTime = Date()
         
         let timeslots = [
-            TimeSlot(withStartTime: startTime, category: .work, categoryWasSetByUser: false),
+            TimeSlot(withStartTime: startTime, category: .work),
             ]
         let item = TimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 15*60, shouldDisplayCategoryName: true)
         
@@ -128,7 +140,7 @@ class TimelineItem_TimelineCellTests: XCTestCase
         let startTime = Date()
         
         let timeslots = [
-            TimeSlot(withStartTime: startTime, category: .unknown, categoryWasSetByUser: false),
+            TimeSlot(withStartTime: startTime, category: .unknown),
             ]
         let item = TimelineItem(withTimeSlots: timeslots, category: Category.unknown, duration: 15*60, shouldDisplayCategoryName: true)
         
@@ -140,7 +152,7 @@ class TimelineItem_TimelineCellTests: XCTestCase
         let startTime = Date()
         
         let timeslots = [
-            TimeSlot(withStartTime: startTime, category: .unknown, categoryWasSetByUser: false),
+            TimeSlot(withStartTime: startTime, category: .unknown),
             ]
         let item = TimelineItem(withTimeSlots: timeslots, category: Category.unknown, duration: 15*60, shouldDisplayCategoryName: false)
         
