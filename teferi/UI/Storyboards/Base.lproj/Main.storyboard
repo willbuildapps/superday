@@ -122,9 +122,9 @@
                                 </constraints>
                             </view>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ItQ-NB-6Ao">
-                                <rect key="frame" x="0.0" y="70" width="375" height="597"/>
+                                <rect key="frame" x="0.0" y="70" width="375" height="607"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="m5Q-Cw-rI2">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="597"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="607"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FUo-Sx-CXU">
@@ -139,7 +139,7 @@
                                     <constraints>
                                         <constraint firstItem="FUo-Sx-CXU" firstAttribute="top" secondItem="m5Q-Cw-rI2" secondAttribute="top" id="0hy-I4-pxi"/>
                                         <constraint firstItem="FUo-Sx-CXU" firstAttribute="leading" secondItem="m5Q-Cw-rI2" secondAttribute="leading" id="n5y-xa-i5u"/>
-                                        <constraint firstAttribute="bottom" secondItem="FUo-Sx-CXU" secondAttribute="bottom" id="rDM-hG-Q2z"/>
+                                        <constraint firstAttribute="bottom" secondItem="FUo-Sx-CXU" secondAttribute="bottom" constant="10" id="rDM-hG-Q2z"/>
                                         <constraint firstAttribute="trailing" secondItem="FUo-Sx-CXU" secondAttribute="trailing" id="uLj-l0-3E9"/>
                                     </constraints>
                                 </view>
@@ -166,7 +166,7 @@
                             <constraint firstItem="ItQ-NB-6Ao" firstAttribute="leading" secondItem="Jpu-7P-ywT" secondAttribute="leading" id="U54-bW-P4W"/>
                             <constraint firstItem="f5a-8d-b7J" firstAttribute="width" secondItem="FUo-Sx-CXU" secondAttribute="width" id="bXz-Fe-Il1"/>
                             <constraint firstItem="f5a-8d-b7J" firstAttribute="centerX" secondItem="FUo-Sx-CXU" secondAttribute="centerX" id="cgz-BF-PSM"/>
-                            <constraint firstAttribute="bottom" secondItem="ItQ-NB-6Ao" secondAttribute="bottom" id="eZe-Ki-wJG"/>
+                            <constraint firstAttribute="bottom" secondItem="ItQ-NB-6Ao" secondAttribute="bottom" constant="-10" id="eZe-Ki-wJG"/>
                             <constraint firstItem="FUo-Sx-CXU" firstAttribute="top" secondItem="f5a-8d-b7J" secondAttribute="bottom" constant="-10" id="yEH-eJ-5ou"/>
                         </constraints>
                     </view>
