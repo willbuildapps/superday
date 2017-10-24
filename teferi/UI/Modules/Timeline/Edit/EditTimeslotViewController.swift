@@ -90,6 +90,9 @@ class EditTimeslotViewController: UIViewController
         let footerView = UIView()
         footerView.backgroundColor = .clear
         tableView.tableFooterView = footerView
+        
+        blurView.layer.cornerRadius = 10
+        blurView.clipsToBounds = true
     }
     
     func createBindings()
@@ -118,20 +121,6 @@ class EditTimeslotViewController: UIViewController
                 self.timelineItem = item
             })
             .addDisposableTo(disposeBag)
-    }
-    
-    override func viewDidLayoutSubviews()
-    {
-        super.viewDidLayoutSubviews()
-        
-        let frame = blurView.bounds
-        
-        let maskPath = UIBezierPath(roundedRect: CGRect(x: frame.minX, y: frame.minY, width: frame.width, height: frame.height), byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 10, height: 10))
-        let mask = CAShapeLayer()
-        mask.frame = frame
-        mask.path = maskPath.cgPath
-        
-        blurView.layer.mask = mask
     }
     
     // MARK: - Actions
