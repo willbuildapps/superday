@@ -34,12 +34,6 @@ class NavigationPresenter : NSObject
         }
     }
     
-    func showWeeklySummary()
-    {
-        let vc = WeeklySummaryPresenter.create(with: viewModelLocator)
-        viewController.present(vc, animated: true, completion: nil)
-    }
-    
     private func showCalendar()
     {
         calendarViewController = CalendarPresenter.create(with: viewModelLocator, dismissCallback: didHideCalendar)

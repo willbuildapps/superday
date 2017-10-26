@@ -9,7 +9,6 @@ class WeeklySummaryViewController: UIViewController
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var weeklyChartView: ChartView!
-    @IBOutlet weak var closeButton: UIButton!
     
     @IBOutlet weak var weekLabel: UILabel!
     @IBOutlet weak var previousButton: UIButton!
@@ -34,12 +33,6 @@ class WeeklySummaryViewController: UIViewController
         
         view.backgroundColor = Color.white
         self.scrollView.addSubview(self.emptyStateView)
-        
-        closeButton.rx.tap
-            .subscribe(onNext: { [unowned self] in
-                self.presenter.dismiss()
-            })
-            .addDisposableTo(disposeBag)
         
         previousButton.rx.tap
             .subscribe(onNext: { [unowned self] in

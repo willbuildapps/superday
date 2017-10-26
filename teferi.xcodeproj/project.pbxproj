@@ -1112,6 +1112,7 @@
 		8CA461381EC9A2DE00587399 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				ACB8402C1FA0E36B004B451F /* TabBar */,
 				AC69F0A01F4C3E4800EF2CC9 /* Rating */,
 				8C9C25651ED3394E00B10187 /* Navigation */,
 				8C26A16F1ECAE64A00EFE509 /* Intro */,
@@ -1366,6 +1367,13 @@
 				AC6C12991F4E01DE0045B341 /* StarsView.swift */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		ACB8402C1FA0E36B004B451F /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = TabBar;
 			sourceTree = "<group>";
 		};
 		ACCF03491F8FD8D200F3DCFF /* Helper */ = {

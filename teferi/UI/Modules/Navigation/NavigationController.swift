@@ -10,7 +10,6 @@ class NavigationController: UINavigationController
     private var presenter : NavigationPresenter!
     
     private var calendarButton : UIButton!
-    private var summaryButton : UIButton!
     private var feedbackButton : UIButton!
     private var logoImageView : UIImageView!
     private var titleLabel : UILabel!
@@ -35,14 +34,6 @@ class NavigationController: UINavigationController
         calendarButton.rx.tap
             .subscribe(onNext: { [unowned self] in
                 self.presenter.toggleCalendar()
-            })
-            .addDisposableTo(disposeBag)
-        
-        summaryButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-        summaryButton.setBackgroundImage(Image(asset: Asset.icChart), for: .normal)
-        summaryButton.rx.tap
-            .subscribe(onNext: { [unowned self] in
-                self.presenter.showWeeklySummary()
             })
             .addDisposableTo(disposeBag)
         
@@ -100,12 +91,10 @@ class NavigationController: UINavigationController
     private func setupNavigationBar(viewController: UIViewController)
     {
         let calendarBarButtonItem = UIBarButtonItem(customView: calendarButton)
-        let summaryBarButtonItem = UIBarButtonItem(customView: summaryButton)
         let feedbackBarButtonItem = UIBarButtonItem(customView: feedbackButton)
         
         viewController.navigationItem.rightBarButtonItems = [
             calendarBarButtonItem,
-            summaryBarButtonItem,
             feedbackBarButtonItem
         ]
         
