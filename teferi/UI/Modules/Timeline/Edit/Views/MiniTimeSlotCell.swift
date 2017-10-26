@@ -45,7 +45,7 @@ class MiniTimeSlotCell: UITableViewCell
     
     private func setupActivityTag(with timeSlot: TimeSlot)
     {
-        guard let tagText = timeSlot.activity?.rawValue.capitalized else {
+        guard let tagText = timeSlot.activity?.name else {
             activityTagView.isHidden = true
             return
         }
