@@ -30,6 +30,10 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
     {
         super.viewDidLoad()
         
+        self.edgesForExtendedLayout = UIRectEdge()
+        self.extendedLayoutIncludesOpaqueBars = false
+        self.automaticallyAdjustsScrollViewInsets = false
+        
         pagerViewController = presenter.setupPagerViewController(vc: self.childViewControllers.firstOfType())
         
         //Add button
