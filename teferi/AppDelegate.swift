@@ -28,6 +28,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     private let notificationService : NotificationService
     private let motionService: MotionService
     private let selectedDateService : DefaultSelectedDateService
+    private let goalService : GoalService
     
     private let coreDataStack : CoreDataStack
     
@@ -48,11 +49,23 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         coreDataStack = CoreDataStack(loggingService: loggingService)
         let timeSlotPersistencyService = CoreDataPersistencyService(loggingService: loggingService, modelAdapter: TimeSlotModelAdapter(), managedObjectContext: coreDataStack.managedObjectContext)
         let locationPersistencyService = CoreDataPersistencyService(loggingService: loggingService, modelAdapter: LocationModelAdapter(), managedObjectContext: coreDataStack.managedObjectContext)
+        let goalPersistencyService = CoreDataPersistencyService(loggingService: loggingService, modelAdapter: GoalModelAdapter(), managedObjectContext: coreDataStack.managedObjectContext)
         
         timeSlotService = DefaultTimeSlotService(timeService: timeService,
                                                  loggingService: loggingService,
                                                  locationService: locationService,
                                                  persistencyService: timeSlotPersistencyService)
+        
+        goalService = DefaultGoalService(timeService: timeService,
+                                         timeSlotService: timeSlotService,
+                                         loggingService: loggingService,
+                                         persistencyService: goalPersistencyService)
+        
+//        goalService.addGoal(forDate: timeService.now.add(days: -10), category: .work, value: 1000)
+//        goalService.addGoal(forDate: timeService.now.add(days: -5), category: .work, value: 1000)
+//        goalService.addGoal(forDate: timeService.now.add(days: -4), category: .work, value: 1000)
+//        goalService.addGoal(forDate: timeService.now.add(days: -1), category: .friends, value: 1000)
+//        goalService.addGoal(forDate: timeService.now, category: .work, value: 1000)
         
         smartGuessService = DefaultSmartGuessService(timeService: timeService,
                                                      loggingService: loggingService,
@@ -172,7 +185,8 @@ class AppDelegate : UIResponder, UIApplicationDelegate
                                                        loggingService: loggingService,
                                                        notificationService: notificationService,
                                                        motionService: motionService,
-                                                       trackEventService: trackEventService)
+                                                       trackEventService: trackEventService,
+                                                       goalService: goalService)
         
         window!.rootViewController = IntroPresenter.create(with: viewModelLocator)
         window!.makeKeyAndVisible()
@@ -239,7 +253,6 @@ extension AppDelegate:UNUserNotificationCenterDelegate
 {
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void)
     {
-        
         dailyVotingNotificationDate = dailyVotingDate(response.notification)
         completionHandler()
     }

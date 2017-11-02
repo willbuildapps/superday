@@ -21,7 +21,6 @@ class TimelineViewModel
     private let settingsService : SettingsService
     private let metricsService : MetricsService
     
-    private var activities : Variable<[Activity]> = Variable([])
     private(set) var timelineItems : Variable<[TimelineItem]> = Variable([])
     
     var dailyVotingNotificationObservable : Observable<Date>

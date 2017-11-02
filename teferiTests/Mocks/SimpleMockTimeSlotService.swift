@@ -34,6 +34,12 @@ class SimpleMockTimeSlotService : TimeSlotService
         return timeSlotsToReturn ?? []
     }
     
+    func getTimeSlots(forDay day: Date, category: teferi.Category?) -> [TimeSlot]
+    {
+        dateAsked = day
+        return timeSlotsToReturn ?? []
+    }
+    
     func getTimeSlots(sinceDaysAgo days: Int) -> [TimeSlot]
     {
         return timeSlotsToReturn ?? []

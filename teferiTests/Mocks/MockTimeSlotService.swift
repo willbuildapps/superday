@@ -72,6 +72,14 @@ class MockTimeSlotService : TimeSlotService
         return timeSlots.filter { t in t.startTime > startDate && t.startTime < endDate }
     }
     
+    func getTimeSlots(forDay day: Date, category: teferi.Category?) -> [TimeSlot]
+    {
+        let startDate = day.ignoreTimeComponents()
+        let endDate = day.tomorrow.ignoreTimeComponents()
+        
+        return timeSlots.filter { t in t.startTime > startDate && t.startTime < endDate && t.category == category }
+    }
+    
     func getTimeSlots(sinceDaysAgo days: Int) -> [TimeSlot]
     {
         let today = timeService.now

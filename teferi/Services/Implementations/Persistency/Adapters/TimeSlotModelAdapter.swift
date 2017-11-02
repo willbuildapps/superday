@@ -19,7 +19,8 @@ class TimeSlotModelAdapter : CoreDataModelAdapter<TimeSlot>
     {
         super.init()
         
-        sortDescriptors = [ NSSortDescriptor(key: startTimeKey, ascending: false) ]
+        sortDescriptorsForList = [ NSSortDescriptor(key: startTimeKey, ascending: true) ]
+        sortDescriptorsForLast = [ NSSortDescriptor(key: startTimeKey, ascending: false) ]
     }
     
     //MARK: Public Methods

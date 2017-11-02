@@ -48,11 +48,15 @@ class IntroPresenter : NSObject
         navigationController.tabBarItem.image = Asset.home.image
         navigationController.tabBarItem.imageInsets = imageInsets
         
+        let goalNavigationController = GoalNavigationPresenter.create(with: viewModelLocator)
+        goalNavigationController.tabBarItem.image = Asset.goals.image
+        goalNavigationController.tabBarItem.imageInsets = imageInsets
+        
         let weeklySummary = WeeklySummaryPresenter.create(with: viewModelLocator)
         weeklySummary.tabBarItem.image = Asset.icChart.image
         weeklySummary.tabBarItem.imageInsets = imageInsets
         
-        tabBarController.viewControllers = [navigationController, weeklySummary]
+        tabBarController.viewControllers = [goalNavigationController, navigationController, weeklySummary]
 
         viewController.present(tabBarController, animated: true)
     }

@@ -41,7 +41,7 @@ class CoreDataPersistencyService<T> : BasePersistencyService<T>
             let request = NSFetchRequest<NSFetchRequestResult>()
             request.entity = NSEntityDescription.entity(forEntityName: self.entityName, in: self.managedObjectContext)!
             request.fetchLimit = 1
-            request.sortDescriptors = self.modelAdapter.sortDescriptors
+            request.sortDescriptors = self.modelAdapter.sortDescriptorsForLast
             
             do
             {
@@ -61,9 +61,20 @@ class CoreDataPersistencyService<T> : BasePersistencyService<T>
     
     override func get(withPredicate predicate: Predicate? = nil) -> [ T ]
     {
+        return get(withNSPredicate: predicate?.convertToNSPredicate())
+    }
+    
+    override func get(withANDPredicates predicates: [Predicate]?) -> [ T ]
+    {
+        return get(withNSPredicate: predicates?.convertToANDNSPredicate())
+    }
+    
+    private func get(withNSPredicate predicate: NSPredicate? = nil) -> [ T ]
+    {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+        fetchRequest.sortDescriptors = self.modelAdapter.sortDescriptorsForList
         
-        if let nsPredicate = predicate?.convertToNSPredicate()
+        if let nsPredicate = predicate
         {
             fetchRequest.predicate = nsPredicate
         }

@@ -78,11 +78,28 @@ class DefaultTimeSlotService : TimeSlotService
     
     func getTimeSlots(forDay day: Date) -> [TimeSlot]
     {
+        return getTimeSlots(forDay: day, category: nil)
+    }
+    
+    func getTimeSlots(forDay day: Date, category: Category?) -> [TimeSlot]
+    {
         let startTime = day.ignoreTimeComponents() as NSDate
         let endTime = day.tomorrow.ignoreTimeComponents().addingTimeInterval(-1) as NSDate
-        let predicate = Predicate(parameter: "startTime", rangesFromDate: startTime, toDate: endTime)
         
-        let timeSlots = persistencyService.get(withPredicate: predicate)
+        var timeSlots = [TimeSlot]()
+        
+        if let category = category
+        {
+            let predicates = [Predicate(parameter: "startTime", rangesFromDate: startTime, toDate: endTime),
+                              Predicate(parameter: "category", equals: category.rawValue as AnyObject)]
+            timeSlots = persistencyService.get(withANDPredicates: predicates)
+        }
+        else
+        {
+            let predicate = Predicate(parameter: "startTime", rangesFromDate: startTime, toDate: endTime)
+            timeSlots = persistencyService.get(withPredicate: predicate)
+        }
+        
         return timeSlots
     }
     
