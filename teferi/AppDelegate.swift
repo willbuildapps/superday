@@ -61,12 +61,6 @@ class AppDelegate : UIResponder, UIApplicationDelegate
                                          loggingService: loggingService,
                                          persistencyService: goalPersistencyService)
         
-//        goalService.addGoal(forDate: timeService.now.add(days: -10), category: .work, value: 1000)
-//        goalService.addGoal(forDate: timeService.now.add(days: -5), category: .work, value: 1000)
-//        goalService.addGoal(forDate: timeService.now.add(days: -4), category: .work, value: 1000)
-//        goalService.addGoal(forDate: timeService.now.add(days: -1), category: .friends, value: 1000)
-//        goalService.addGoal(forDate: timeService.now, category: .work, value: 1000)
-        
         smartGuessService = DefaultSmartGuessService(timeService: timeService,
                                                      loggingService: loggingService,
                                                      settingsService: settingsService,
