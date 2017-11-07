@@ -15,7 +15,7 @@ class GoalPresenter
         let presenter = GoalPresenter(viewModelLocator: viewModelLocator)
         let viewModel = viewModelLocator.getGoalViewModel()
         
-        let viewController = StoryboardScene.Goal.instantiateGoal() //GoalViewController(presenter: presenter, viewModel: viewModel)
+        let viewController = StoryboardScene.Goal.instantiateGoal()
         viewController.inject(presenter: presenter, viewModel: viewModel)
         presenter.viewController = viewController
         
