@@ -63,7 +63,18 @@ class DefaultGoalService : GoalService
         else
         {
             goals.forEach({ (goal) in
-                loggingService.log(withLogLevel: .warning, message: "Error updating category or value of Goal created on \(goal.date). Category from \(goal.category) to \(category) or value from \(goal.value) to \(value)")
+                if let category = category, let value = value
+                {
+                    loggingService.log(withLogLevel: .warning, message: "Error updating category or value of Goal created on \(goal.date). Category from \(goal.category) to \(category) or value from \(goal.value) to \(value)")
+                }
+                else if let category = category
+                {
+                    loggingService.log(withLogLevel: .warning, message: "Error updating category of Goal created on \(goal.date). Category from \(goal.category) to \(category)")
+                }
+                else if let value = value
+                {
+                    loggingService.log(withLogLevel: .warning, message: "Error updating value of Goal created on \(goal.date). Value from from \(goal.value) to \(value)")
+                }
             })
         }
     }
