@@ -65,6 +65,12 @@ class GoalViewModel
     }
     
     //MARK: Private Methods
+    
+    /// Adds placeholder goals to the given goals array to fill the dates that did not have any goal.
+    /// The placeholder goals have the date of the days that do not have any goal and a category of .unknown
+    ///
+    /// - Parameter goals: Goals that were set by the user already
+    /// - Returns: Goals that have extra placeholder goals for the date that the user did not set a goal
     private func withMissingDateGoals(_ goals: [Goal]) -> [Goal]
     {
         var goalsToReturn = [Goal]()
