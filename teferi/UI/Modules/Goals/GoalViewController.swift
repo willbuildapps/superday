@@ -10,6 +10,7 @@ class GoalViewController: UIViewController
     
     @IBOutlet private var tableView : UITableView!
     private let dataSource = GoalDataSource()
+    private let header = GoalHeader.fromNib()
     
     func inject(presenter: GoalPresenter, viewModel: GoalViewModel)
     {
@@ -45,10 +46,9 @@ class GoalViewController: UIViewController
 
         viewModel.goalsObservable
             .subscribe(onNext: { [unowned self] (goals) in
-                let header = GoalHeader.fromNib()
-                self.tableView.tableHeaderView = header
-                header.goal = self.viewModel.isCurrentGoal(goals.first) ? goals.first : nil
-                header.snp.makeConstraints { make in
+                self.tableView.tableHeaderView = self.header
+                self.header.goal = self.viewModel.isCurrentGoal(goals.first) ? goals.first : nil
+                self.header.snp.makeConstraints { make in
                     make.width.equalToSuperview()
                 }
             })
