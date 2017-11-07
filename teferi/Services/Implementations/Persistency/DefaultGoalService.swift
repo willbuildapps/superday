@@ -84,9 +84,11 @@ class DefaultGoalService : GoalService
     {
         let slotsFromSameCateoryAndDay = timeSlotService.getTimeSlots(forDay: goal.date, category: goal.category)
         
-        return goal.with(completed: slotsFromSameCateoryAndDay
+        let sumOfDurations = slotsFromSameCateoryAndDay
             .map({ timeSlotService.calculateDuration(ofTimeSlot: $0) })
-            .reduce(0, +))
+            .reduce(0, +)
+        
+        return goal.with(completed: sumOfDurations)
     }
     
     private func tryAdd(goal: Goal) -> Goal?
