@@ -17,12 +17,17 @@ class Persister
     
     func persist(slots: [TemporaryTimeSlot])
     {
-        if slots.isEmpty { return }
+        guard let firstSlot = slots.first else { return }
         
         var lastLocation : Location? = nil
         var firstSlotCreated : TimeSlot? = nil
         
-        for temporaryTimeSlot in slots
+        var auxSlots = slots
+        if let lastSlot = timeSlotService.getLast(), shouldContinue(lastSlot: lastSlot, withSlot: firstSlot) {
+            auxSlots = Array(auxSlots.dropFirst())
+        }
+        
+        for temporaryTimeSlot in auxSlots
         {
             let addedTimeSlot = timeSlotService.addTimeSlot(fromTemporaryTimeslot: temporaryTimeSlot)
             if firstSlotCreated == nil { firstSlotCreated = addedTimeSlot }
@@ -30,6 +35,32 @@ class Persister
         }
 
         logTimeSlotsSince(date: firstSlotCreated?.startTime)
+    }
+    
+    private func shouldContinue(lastSlot: TimeSlot, withSlot nextSlot: TemporaryTimeSlot) -> Bool
+    {
+        guard lastSlot.startTime.ignoreTimeComponents() == nextSlot.start.ignoreTimeComponents() else { return false }
+        
+        let activityMatches = activitiesMatch(slot: lastSlot, temporaryTimeSlot: nextSlot)
+        if lastSlot.categoryWasSetByUser {
+            // If the last stored slot category was set by user and the activity matches the first TTS, we just continue the last stored one
+            return activityMatches
+        }
+        
+        // If the last stored slot category was NOT set by user we also check the category matches with the smartguessed one
+        return activityMatches && (lastSlot.category == nextSlot.category || nextSlot.category == .unknown)
+    }
+    
+    private func activitiesMatch(slot: TimeSlot, temporaryTimeSlot: TemporaryTimeSlot) -> Bool
+    {
+        switch (slot.activity, temporaryTimeSlot.activity) {
+        case (nil, .still):
+            return true
+        case (nil, _):
+            return false
+        case (let a, let b):
+            return a == b
+        }
     }
     
     private func logTimeSlotsSince(date: Date?)
