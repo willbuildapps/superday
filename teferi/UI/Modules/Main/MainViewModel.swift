@@ -165,7 +165,8 @@ class MainViewModel : RxViewModel
         appLifecycleService.movedToForegroundObservable
             .flatMap { [unowned self] _ -> Observable<Location> in
                 if let location = settingsService.lastLocation {
-                    return Observable.just(location)
+                    return self.didBecomeActive
+                        .mapTo(location)
                 }
                 
                 return locationService.currentLocation
