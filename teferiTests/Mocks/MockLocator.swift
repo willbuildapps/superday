@@ -184,4 +184,11 @@ class MockLocator : ViewModelLocator
                              goalService: goalService,
                              appLifecycleService: appLifecycleService)
     }
+    
+    func getNewGoalViewModel() -> NewGoalViewModel
+    {
+        return NewGoalViewModel(timeService: timeService,
+                                goalService: goalService,
+                                categoryProvider: DefaultCategoryProvider(timeSlotService:  timeSlotService))
+    }
 }

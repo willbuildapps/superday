@@ -53,6 +53,14 @@
 "NotificationsPermissionsEnableButtonTitle" = "Enable notifications";
 "NotificationsPermissionsSecondaryButtonTitle" = "No, thanks";
 
+"NewGoalTitle" = "What do you want to\nachieve today?";
+"NewGoalTopDescription" = "I WANT TO SPEND";
+"NewGoalMiddleDescription" = "ON";
+"NewGoalActionButtonTitle" = "Set a goal";
+"minutes" = "minutes";
+"hour" = "hour";
+"hours" = "hours";
+
 "Transport" = "Transport";
 "Movement" = "Movement";
 

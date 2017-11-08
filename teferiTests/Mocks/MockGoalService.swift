@@ -21,9 +21,9 @@ class MockGoalService : GoalService
         goalsUpdatedObservable = goalssUpdatedSubject.asObservable()
     }
     
-    func addGoal(forDate date: Date, category: teferi.Category, value: Seconds) -> Goal?
+    func addGoal(forDate date: Date, category: teferi.Category, targetTime: Seconds) -> Goal?
     {
-        goals.append(Goal(date: date, category: category, value: value))
+        goals.append(Goal(date: date, category: category, targetTime: targetTime))
         return goals.last
     }
     
@@ -34,14 +34,14 @@ class MockGoalService : GoalService
         })
     }
     
-    func update(goals: [Goal], withCategory category: teferi.Category?, withValue value: Seconds?)
+    func update(goals: [Goal], withCategory category: teferi.Category?, withTargetTime targetTime: Seconds?)
     {
         self.goals = self.goals.map({ (goal) in
             var goalToReturn = goal
             goals.forEach({ (innerGoal) in
                 if innerGoal == goalToReturn
                 {
-                    goalToReturn = goalToReturn.with(category: category, value: value)
+                    goalToReturn = goalToReturn.with(category: category, targetTime: targetTime)
                 }
             })
             return goalToReturn

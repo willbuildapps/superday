@@ -30,7 +30,7 @@ func == (lhs: Goal, rhs: Goal) -> Bool
 {
     return lhs.category == rhs.category
         && lhs.date == rhs.date
-        && lhs.value == rhs.value
+        && lhs.targetTime == rhs.targetTime
 }
 
 class GoalDataSource: RxTableViewSectionedAnimatedDataSource<GoalSection>

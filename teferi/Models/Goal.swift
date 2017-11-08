@@ -4,22 +4,22 @@ struct Goal
 {
     let date: Date
     let category: Category
-    let value: Seconds
-    let completed: Seconds // This is not stored to core data but calculated at runtime
+    let targetTime: Seconds
+    let timeSoFar: Seconds // This is not stored to core data but calculated at runtime
     
-    init(date: Date, category: Category, value: Seconds, completed: Seconds = 0)
+    init(date: Date, category: Category, targetTime: Seconds, timeSoFar: Seconds = 0)
     {
         self.date = date
         self.category = category
-        self.value = value
-        self.completed = completed
+        self.targetTime = targetTime
+        self.timeSoFar = timeSoFar
     }
 }
 
 extension Goal
 {
-    func with(category: Category? = nil, value: Seconds? = nil, completed: Seconds? = nil) -> Goal
+    func with(category: Category? = nil, targetTime: Seconds? = nil, timeSoFar: Seconds? = nil) -> Goal
     {
-        return Goal(date: self.date, category: category ?? self.category, value: value ?? self.value, completed: completed ?? self.completed)
+        return Goal(date: self.date, category: category ?? self.category, targetTime: targetTime ?? self.targetTime, timeSoFar: timeSoFar ?? self.timeSoFar)
     }
 }

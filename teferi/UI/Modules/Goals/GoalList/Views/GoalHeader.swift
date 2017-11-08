@@ -5,7 +5,7 @@ class GoalHeader: UIView
     @IBOutlet private weak var textLabel: UILabel!
     @IBOutlet private weak var categoryBackground: UIView!
     @IBOutlet private weak var categoryImageView: UIImageView!
-    @IBOutlet private weak var newGoalButton: UIButton!
+    @IBOutlet private(set) weak var newGoalButton: UIButton!
     @IBOutlet private weak var separatorView: UIView!
     @IBOutlet private weak var bottomConstraint: NSLayoutConstraint!
     
@@ -15,7 +15,7 @@ class GoalHeader: UIView
         {
             if let goal = self.goal
             {
-                let components = elapsedTimeComponents(for: goal.value)
+                let components = elapsedTimeComponents(for: goal.targetTime)
                 textLabel.text = "Today i want to\nspend \(components.hour!) hours on"
                 
                 categoryBackground.backgroundColor = goal.category.color

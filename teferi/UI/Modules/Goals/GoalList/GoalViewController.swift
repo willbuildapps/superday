@@ -53,6 +53,12 @@ class GoalViewController: UIViewController
                 }
             })
             .addDisposableTo(disposeBag)
+        
+        header.newGoalButton.rx.tap
+            .subscribe(onNext: { [unowned self] in
+                self.presenter.showNewGoalUI()
+            })
+            .addDisposableTo(self.disposeBag)
     }
 
     private func constructCell(dataSource: TableViewSectionedDataSource<GoalSection>,

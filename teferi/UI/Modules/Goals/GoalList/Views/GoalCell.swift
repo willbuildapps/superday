@@ -39,7 +39,7 @@ class GoalCell: UITableViewCell
             }
             else
             {
-                let completion = Float(goal.completed / goal.value)
+                let completion = goal.targetTime == 0 ? 0 : Float(goal.timeSoFar / goal.targetTime)
                 
                 categoryLabel.text = goal.category.description + (completion >= 1 ? "🏆" : "")
                 categoryLabel.textColor = Color.almostBlack
@@ -48,7 +48,7 @@ class GoalCell: UITableViewCell
                 progressIndicator.layer.cornerRadius = 2
                 progressIndicator.progress = completion
                 
-                durationLabel.text = formatedElapsedTimeText(for: goal.completed)
+                durationLabel.text = formatedElapsedTimeText(for: goal.timeSoFar)
                 
                 percentageLabel.text = "\(Int(completion * 100))%"
             }

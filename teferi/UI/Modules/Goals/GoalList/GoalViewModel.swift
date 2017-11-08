@@ -73,29 +73,52 @@ class GoalViewModel
     /// - Returns: Goals that have extra placeholder goals for the date that the user did not set a goal
     private func withMissingDateGoals(_ goals: [Goal]) -> [Goal]
     {
+        guard goals.count > 0 else { return [] }
+        
         var goalsToReturn = [Goal]()
         
-        for (goal1, goal2) in zip(goals, goals.dropFirst())
+        for goal in goals
         {
-            if goalsToReturn.last != goal1
+            if goalsToReturn.isEmpty
             {
-                goalsToReturn.append(goal1)
+                if goal.date.differenceInDays(toDate: timeService.now) > 1
+                {
+                    goalsToReturn.append(contentsOf: placeHolderGoals(fromDate: goal.date.add(days: 1), toDate: timeService.now.add(days: -1)))
+                }
+                goalsToReturn.append(goal)
+                continue
             }
             
-            guard goal2.date.differenceInDays(toDate: goal1.date) != 1 else { continue }
+            let lastGoal = goalsToReturn.last!
             
-            var date = goal1.date.add(days: -1)
-            
-            while goal2.date.differenceInDays(toDate: date) >= 1
-            {
-                goalsToReturn.append(Goal(date: date, category: .unknown, value: 0))
-                date = date.add(days: -1)
-            }
-            
-            goalsToReturn.append(goal2)
+            goalsToReturn.append(contentsOf: placeHolderGoals(fromDate: goal.date.add(days: 1), toDate: lastGoal.date.add(days: -1)))
+
+            goalsToReturn.append(goal)
         }
         
         return goalsToReturn
+    }
+    
+    private func placeHolderGoals(fromDate: Date, toDate: Date) -> [Goal]
+    {
+        guard fromDate != toDate else { return [Goal(date: fromDate, category: .unknown, targetTime: 0)] }
+        
+        let ascending = fromDate < toDate
+        
+        let correctFromDate = min(fromDate, toDate)
+        let correctToDate = max(fromDate, toDate)
+        
+        var goalsToReturn = [Goal(date: correctToDate, category: .unknown, targetTime: 0)]
+        
+        var lastGoal = goalsToReturn.last!
+        
+        while correctFromDate.differenceInDays(toDate: lastGoal.date) > 0
+        {
+            goalsToReturn.append(Goal(date: lastGoal.date.add(days: -1), category: .unknown, targetTime: 0))
+            lastGoal = goalsToReturn.last!
+        }
+        
+        return ascending ? goalsToReturn : goalsToReturn.reversed()
     }
     
     private func getGoals() -> [Goal]

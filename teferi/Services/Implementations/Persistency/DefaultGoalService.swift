@@ -30,9 +30,9 @@ class DefaultGoalService : GoalService
         goalsUpdatedObservable = goalsUpdatedSubject.asObservable()
     }
     
-    func addGoal(forDate date: Date, category: Category, value: Seconds) -> Goal?
+    func addGoal(forDate date: Date, category: Category, targetTime: Seconds) -> Goal?
     {
-        let goal = Goal(date: date, category: category, value: value)
+        let goal = Goal(date: date, category: category, targetTime: targetTime)
         return tryAdd(goal: goal)
     }
     
@@ -49,11 +49,11 @@ class DefaultGoalService : GoalService
         return goals.map(withCompletedTimes)
     }
     
-    func update(goals: [Goal], withCategory category: Category?, withValue value: Seconds?)
+    func update(goals: [Goal], withCategory category: Category?, withTargetTime targetTime: Seconds?)
     {
         let predicate = Predicate(parameter: "date", in: goals.map({ $0.date }) as [AnyObject])
         let editFunction = { (goal: Goal) -> (Goal) in
-            return goal.with(category: category, value: value)
+            return goal.with(category: category, targetTime: targetTime)
         }
         
         if let updatedGoals = persistencyService.batchUpdate(withPredicate: predicate, updateFunction: editFunction)
@@ -63,17 +63,17 @@ class DefaultGoalService : GoalService
         else
         {
             goals.forEach({ (goal) in
-                if let category = category, let value = value
+                if let category = category, let targetTime = targetTime
                 {
-                    loggingService.log(withLogLevel: .warning, message: "Error updating category or value of Goal created on \(goal.date). Category from \(goal.category) to \(category) or value from \(goal.value) to \(value)")
+                    loggingService.log(withLogLevel: .warning, message: "Error updating category or value of Goal created on \(goal.date). Category from \(goal.category) to \(category) or targetTime from \(goal.targetTime) to \(targetTime)")
                 }
                 else if let category = category
                 {
                     loggingService.log(withLogLevel: .warning, message: "Error updating category of Goal created on \(goal.date). Category from \(goal.category) to \(category)")
                 }
-                else if let value = value
+                else if let targetTime = targetTime
                 {
-                    loggingService.log(withLogLevel: .warning, message: "Error updating value of Goal created on \(goal.date). Value from from \(goal.value) to \(value)")
+                    loggingService.log(withLogLevel: .warning, message: "Error updating value of Goal created on \(goal.date). Value from from \(goal.targetTime) to \(targetTime)")
                 }
             })
         }
@@ -88,7 +88,7 @@ class DefaultGoalService : GoalService
             .map({ timeSlotService.calculateDuration(ofTimeSlot: $0) })
             .reduce(0, +)
         
-        return goal.with(completed: sumOfDurations)
+        return goal.with(timeSoFar: sumOfDurations)
     }
     
     private func tryAdd(goal: Goal) -> Goal?
@@ -99,7 +99,7 @@ class DefaultGoalService : GoalService
             return nil
         }
         
-        loggingService.log(withLogLevel: .info, message: "New Goal with category \"\(goal.category)\" value \"\(goal.value)\" created")
+        loggingService.log(withLogLevel: .info, message: "New Goal with category \"\(goal.category)\" value \"\(goal.targetTime)\" created")
         
         goalCreatedSubject.on(.next(goal))
         

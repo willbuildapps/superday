@@ -33,6 +33,7 @@ protocol ViewModelLocator
     func getEditTimeslotViewModel(for startDate: Date, timelineItemsObservable: Observable<[TimelineItem]>, isShowingSubSlot: Bool) -> EditTimeslotViewModel
     
     func getGoalViewModel() -> GoalViewModel
+    func getNewGoalViewModel() -> NewGoalViewModel
 }
 
 class DefaultViewModelLocator : ViewModelLocator
@@ -252,5 +253,12 @@ class DefaultViewModelLocator : ViewModelLocator
                              timeSlotService: timeSlotService,
                              goalService: goalService,
                              appLifecycleService: appLifecycleService)
+    }
+    
+    func getNewGoalViewModel() -> NewGoalViewModel
+    {
+        return NewGoalViewModel(timeService: timeService,
+                                goalService: goalService,
+                                categoryProvider: DefaultCategoryProvider(timeSlotService:  timeSlotService))
     }
 }

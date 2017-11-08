@@ -6,7 +6,7 @@ class GoalModelAdapter : CoreDataModelAdapter<Goal>
     //MARK: Private Properties
     private let dateKey = "date"
     private let categoryKey = "category"
-    private let valueKey = "value"
+    private let targetTimeKey = "targetTime"
     
     //MARK: Initializers
     override init()
@@ -22,16 +22,16 @@ class GoalModelAdapter : CoreDataModelAdapter<Goal>
     {
         let date = managedObject.value(forKey: dateKey) as! Date
         let category = Category(rawValue: managedObject.value(forKey: categoryKey) as! String)!
-        let value = managedObject.value(forKey: valueKey) as! Seconds
+        let targetTime = managedObject.value(forKey: targetTimeKey) as! Seconds
         
-        let goal = Goal(date: date, category: category, value: value)
+        let goal = Goal(date: date, category: category, targetTime: targetTime)
         
         return goal
     }
     
     override func setManagedElementProperties(fromModel model: Goal, managedObject: NSManagedObject)
     {
-        managedObject.setValue(model.value, forKey: valueKey)
+        managedObject.setValue(model.targetTime, forKey: targetTimeKey)
         managedObject.setValue(model.date, forKey: dateKey)
         managedObject.setValue(model.category.rawValue, forKey: categoryKey)
     }
