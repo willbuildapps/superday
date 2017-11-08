@@ -19,11 +19,13 @@ class MockLocator : ViewModelLocator
     var notificationService  = MockNotificationService()
     var motionService = MockMotionService()
     var trackEventService = MockTrackEventService()
+    var goalService : MockGoalService
     
     init()
     {
         timeSlotService = MockTimeSlotService(timeService: timeService,
                                                    locationService: locationService)
+        goalService = MockGoalService(timeService: timeService)
     }
 
     func getNavigationViewModel(forViewController viewController: UIViewController) -> NavigationViewModel
@@ -173,5 +175,13 @@ class MockLocator : ViewModelLocator
                                      metricsService: metricsService,
                                      smartGuessService: smartGuessService,
                                      timeService: timeService)
+    }
+    
+    func getGoalViewModel() -> GoalViewModel
+    {
+        return GoalViewModel(timeService: timeService,
+                             timeSlotService: timeSlotService,
+                             goalService: goalService,
+                             appLifecycleService: appLifecycleService)
     }
 }

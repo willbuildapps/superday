@@ -18,6 +18,7 @@ protocol PersistencyService
      - Returns: The found entities that comply to the provided predicate.
      */
     func get(withPredicate predicate: Predicate?) -> [ T ]
+    func get(withANDPredicates predicates: [Predicate]?) -> [ T ]
     
     /**
      Persists the provided element.
@@ -67,6 +68,11 @@ class BasePersistencyService<T> : PersistencyService
      - Returns: The found entities that comply to the provided predicate.
      */
     func get(withPredicate predicate: Predicate? = nil) -> [ T ]
+    {
+        fatalError("Not implemented")
+    }
+    
+    func get(withANDPredicates predicates: [Predicate]?) -> [ T ]
     {
         fatalError("Not implemented")
     }

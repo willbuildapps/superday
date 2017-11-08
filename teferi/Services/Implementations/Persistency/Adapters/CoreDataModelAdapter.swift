@@ -13,7 +13,8 @@ class CoreDataModelAdapter<T>
         fatalError("Not implemented")
     }
     
-    var sortDescriptors : [NSSortDescriptor]!
+    var sortDescriptorsForList : [NSSortDescriptor]!
+    var sortDescriptorsForLast : [NSSortDescriptor]!
     
     func getLocation(_ managedObject: NSManagedObject, timeKey: String, latKey: String, lngKey: String) -> Location?
     {

@@ -18,6 +18,7 @@ protocol TimeSlotService
      - Returns: The found TimeSlots for the day or an empty array if there are none.
      */
     func getTimeSlots(forDay day: Date) -> [TimeSlot]
+    func getTimeSlots(forDay day: Date, category: Category?) -> [TimeSlot]
     
     func getTimeSlots(sinceDaysAgo days: Int) -> [TimeSlot]
     
