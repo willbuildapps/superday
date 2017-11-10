@@ -250,6 +250,7 @@ class DefaultViewModelLocator : ViewModelLocator
     func getGoalViewModel() -> GoalViewModel
     {
         return GoalViewModel(timeService: timeService,
+                             settingsService: settingsService,
                              timeSlotService: timeSlotService,
                              goalService: goalService,
                              appLifecycleService: appLifecycleService)

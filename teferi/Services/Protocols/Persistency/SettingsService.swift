@@ -31,6 +31,8 @@ protocol SettingsService
     
     var motionPermissionGranted: Observable<Bool> { get }
     
+    var lastUsedGoalAchivedMessageAndDate: [Date: String]? { get }
+    
     //MARK: Methods
     func setIsFirstTimeAppRuns()
     
@@ -55,4 +57,6 @@ protocol SettingsService
     func lastSevenDaysOfVotingHistory() -> [Date]
     
     func setLastShownWeeklyRating(_ date: Date)
+    
+    func setLastUsedGoalAchivedMessageAndDate(_ data: [Date: String])
 }

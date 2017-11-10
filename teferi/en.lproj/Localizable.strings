@@ -61,6 +61,34 @@
 "hour" = "hour";
 "hours" = "hours";
 
+"FirstGoalAchievedMessage" = "You did it! 🏆\nFirst goal achieved.";
+
+"GoalAchievedPart1Message1" = "Daily goal achieved 🏆";
+"GoalAchievedPart1Message2" = "Daily goal achieved 🎉";
+"GoalAchievedPart1Message3" = "Goal achieved 🏆";
+"GoalAchievedPart1Message4" = "Goal achieved 🎉";
+
+"GoalAchievedPart2Before5pmMessage1" = "Enjoy your day";
+"GoalAchievedPart2Before5pmMessage2" = "You're all all done for today!";
+"GoalAchievedPart2Before5pmMessage3" = "You absolutely nailed it, good job!";
+"GoalAchievedPart2Before5pmMessage4" = "Another goal bites the dust - nice work!";
+"GoalAchievedPart2Before5pmMessage5" = "Keep doing what you’re doing 🙌";
+"GoalAchievedPart2Before5pmMessage6" = "Nice going there!";
+
+"GoalAchievedPart2After5pmMessage1" = "Enjoy your evening.";
+"GoalAchievedPart2After5pmMessage2" = "Enjoy your night.";
+"GoalAchievedPart2After5pmMessage3" = "You're all done for today!";
+"GoalAchievedPart2After5pmMessage4" = "You absolutely nailed it, good job!";
+"GoalAchievedPart2After5pmMessage5" = "Another goal bites the dust - nice work!";
+"GoalAchievedPart2After5pmMessage6" = "Keep doing what you’re doing 🙌";
+"GoalAchievedPart2After5pmMessage7" = "Nice going there!";
+
+"GoalOverAchieved1" = "Daily Goal - Smashed to pieces.";
+"GoalOverAchieved2" = "Damn, you’re not kidding around.";
+"GoalOverAchieved3" = "Daily goal achieved 🏆\nLook at you all organized and productive.";
+"GoalOverAchieved4" = "Daily Goal - Done & then some.";
+"GoalOverAchieved5" = "Daily Goal - Neutralized.";
+
 "Transport" = "Transport";
 "Movement" = "Movement";
 

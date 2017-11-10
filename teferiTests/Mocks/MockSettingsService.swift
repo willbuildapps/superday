@@ -14,6 +14,7 @@ class MockSettingsService : SettingsService
     var userEverGaveMotionPermission: Bool = false
     var didShowWelcomeMessage : Bool = true
     var lastShownWeeklyRating : Date? = Date()
+    var lastUsedGoalAchivedMessageAndDate: [Date : String]?
 
     var motionPermissionGranted: Observable<Bool> = Observable<Bool>.empty()
     
@@ -99,5 +100,10 @@ class MockSettingsService : SettingsService
     func setLastShownWeeklyRating(_ date: Date)
     {
         lastShownWeeklyRating = date
+    }
+    
+    func setLastUsedGoalAchivedMessageAndDate(_ data: [Date : String])
+    {
+        lastUsedGoalAchivedMessageAndDate = data
     }
 }

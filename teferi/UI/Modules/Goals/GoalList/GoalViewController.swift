@@ -47,10 +47,11 @@ class GoalViewController: UIViewController
         viewModel.goalsObservable
             .subscribe(onNext: { [unowned self] (goals) in
                 self.tableView.tableHeaderView = self.header
-                self.header.goal = self.viewModel.isCurrentGoal(goals.first) ? goals.first : nil
                 self.header.snp.makeConstraints { make in
                     make.width.equalToSuperview()
                 }
+                self.header.configure(withGoal: self.viewModel.isCurrentGoal(goals.first) ? goals.first : nil,
+                                      message: self.viewModel.message(forGoal: goals.first))
             })
             .addDisposableTo(disposeBag)
         

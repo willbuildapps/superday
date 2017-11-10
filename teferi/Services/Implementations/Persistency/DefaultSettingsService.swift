@@ -96,6 +96,16 @@ class DefaultSettingsService : SettingsService
             .filterNil()
     }
     
+    var lastUsedGoalAchivedMessageAndDate: [Date: String]?
+    {
+        if let archive = UserDefaults.standard.value(forKey: lastUsedGoalAchivedMessageAndDateKey) as? NSData
+        {
+            return NSKeyedUnarchiver.unarchiveObject(with: archive as Data) as! [Date: String]
+        }
+        
+        return nil
+    }
+    
     //MARK: Private Properties
     
     private let timeService : TimeService
@@ -116,6 +126,7 @@ class DefaultSettingsService : SettingsService
     private let hasCoreMotionPermissionKey = "hasCoreMotionPermission"
     private let lastTimelineGenerationDateKey = "lastTimelineGenerationDate"
     private let shouldAskForNotificationPermissionKey = "shouldAskForNotificationPermission"
+    private let lastUsedGoalAchivedMessageAndDateKey = "lastUsedGoalAchivedMessageAndDate"
     
     //MARK: Initialiazers
     init (timeService : TimeService)
@@ -207,6 +218,11 @@ class DefaultSettingsService : SettingsService
     func setLastShownWeeklyRating(_ date: Date)
     {
         set(date, forKey: lastShownWeeklyRatingKey)
+    }
+    
+    func setLastUsedGoalAchivedMessageAndDate(_ data: [Date: String])
+    {
+        UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: data), forKey: lastUsedGoalAchivedMessageAndDateKey)
     }
     
     // MARK: Private Methods

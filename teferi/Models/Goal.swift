@@ -7,6 +7,12 @@ struct Goal
     let targetTime: Seconds
     let timeSoFar: Seconds // This is not stored to core data but calculated at runtime
     
+    var percentageCompleted: Float
+    {
+        guard targetTime > 0, timeSoFar > 0 else { return 0.0 }
+        return Float(timeSoFar / targetTime)
+    }
+    
     init(date: Date, category: Category, targetTime: Seconds, timeSoFar: Seconds = 0)
     {
         self.date = date

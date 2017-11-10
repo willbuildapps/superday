@@ -24,13 +24,13 @@ extension Goal: IdentifiableType, Equatable
     var identity: Date {
         return date
     }
-}
-
-func == (lhs: Goal, rhs: Goal) -> Bool
-{
-    return lhs.category == rhs.category
-        && lhs.date == rhs.date
-        && lhs.targetTime == rhs.targetTime
+    
+    public static func == (lhs: Goal, rhs: Goal) -> Bool
+    {
+        return lhs.category == rhs.category
+            && lhs.date == rhs.date
+            && lhs.targetTime == rhs.targetTime
+    }
 }
 
 class GoalDataSource: RxTableViewSectionedAnimatedDataSource<GoalSection>

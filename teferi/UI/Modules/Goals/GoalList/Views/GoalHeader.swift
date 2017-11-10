@@ -9,40 +9,48 @@ class GoalHeader: UIView
     @IBOutlet private weak var separatorView: UIView!
     @IBOutlet private weak var bottomConstraint: NSLayoutConstraint!
     
-    var goal: Goal?
+    func configure(withGoal goal: Goal?, message: String?)
     {
-        didSet
+        if let goal = goal
         {
-            if let goal = self.goal
+            if let message = message
             {
-                let components = elapsedTimeComponents(for: goal.targetTime)
-                textLabel.text = "Today i want to\nspend \(components.hour!) hours on"
-                
-                categoryBackground.backgroundColor = goal.category.color
-                categoryImageView.image = goal.category.icon.image
-                
-                separatorView.isHidden = true
-                newGoalButton.isHidden = true
-                
-                bottomConstraint.constant = 0
-                frame.size.height = 72
-            }
-            else
-            {
-                textLabel.text = "What do you want to\nachieve today?"
+                textLabel.text = message
                 
                 categoryBackground.backgroundColor = .clear
                 categoryImageView.image = nil
+            }
+            else
+            {
+                let components = elapsedTimeComponents(for: goal.targetTime)
+                textLabel.text = "Today i want to\nspend \(components.hour!) hours on"
+                textLabel.sizeToFit()
                 
-                separatorView.isHidden = false
-                newGoalButton.isHidden = false
-                
-                bottomConstraint.constant = 70
-                frame.size.height = 147
+                categoryBackground.backgroundColor = goal.category.color
+                categoryImageView.image = goal.category.icon.image
             }
             
-            updateConstraintsIfNeeded()
+            separatorView.isHidden = true
+            newGoalButton.isHidden = true
+            
+            bottomConstraint.constant = 0
         }
+        else
+        {
+            textLabel.text = "What do you want to\nachieve today?"
+            textLabel.sizeToFit()
+            
+            categoryBackground.backgroundColor = .clear
+            categoryImageView.image = nil
+            
+            separatorView.isHidden = false
+            newGoalButton.isHidden = false
+            
+            bottomConstraint.constant = 70
+        }
+        
+        updateConstraintsIfNeeded()
+        layoutIfNeeded()
     }
     
     class func fromNib() -> GoalHeader

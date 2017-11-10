@@ -11,20 +11,26 @@ class GoalViewModel
     private var goals : Variable<[Goal]> = Variable([])
     
     private let timeService : TimeService
+    private let settingsService : SettingsService
     private let timeSlotService : TimeSlotService
     private let goalService : GoalService
     private let appLifecycleService : AppLifecycleService
+    private let goalAchievedMessageProvider: GoalAchievedMessageProvider
     
     //MARK: Initializers
     init(timeService: TimeService,
+         settingsService : SettingsService,
          timeSlotService: TimeSlotService,
          goalService: GoalService,
          appLifecycleService: AppLifecycleService)
     {
         self.timeService = timeService
+        self.settingsService = settingsService
         self.timeSlotService = timeSlotService
         self.goalService = goalService
         self.appLifecycleService = appLifecycleService
+        self.goalAchievedMessageProvider = GoalAchievedMessageProvider(timeService: self.timeService, settingsService: self.settingsService)
+        
         
         let newGoalForThisDate = goalService.goalCreatedObservable
             .mapTo(())
@@ -62,6 +68,13 @@ class GoalViewModel
     {
         guard let goal = goal else { return false }
         return goal.date.ignoreTimeComponents() == timeService.now.ignoreTimeComponents()
+    }
+    
+    func message(forGoal goal: Goal?) -> String?
+    {
+        guard let goal = goal else { return nil }
+        
+        return goalAchievedMessageProvider.message(forGoal: goal)
     }
     
     //MARK: Private Methods

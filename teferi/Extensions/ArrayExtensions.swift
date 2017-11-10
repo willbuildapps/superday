@@ -81,6 +81,13 @@ extension Array
         
         return groups
     }
+    
+    var randomItem : Element?
+    {
+        guard count > 0 else { return nil }
+        
+        return self[Int(arc4random_uniform(UInt32(self.count - 1)))]
+    }
 }
 
 extension Array where Element : Hashable
