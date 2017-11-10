@@ -240,6 +240,7 @@
 		AC7374941F71222100AF9C96 /* CMAccessForExistingUsersPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7374931F71222100AF9C96 /* CMAccessForExistingUsersPresenter.swift */; };
 		AC8BE49F1F2A011900351C2F /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8BE49E1F2A011900351C2F /* WelcomeView.swift */; };
 		AC9718451F4734570027E761 /* TimelineProcessorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9718441F4734570027E761 /* TimelineProcessorTests.swift */; };
+		AC99B1E91FB34F4800CF56AC /* TabBarPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC99B1E81FB34F4800CF56AC /* TabBarPresenter.swift */; };
 		ACC11D601F90DDB50025809C /* TimeIntervalHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC11D5F1F90DDB50025809C /* TimeIntervalHelper.swift */; };
 		ACCAFD251E8BDF490097F037 /* NotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCAFD241E8BDF490097F037 /* NotificationType.swift */; };
 		ACCB63391F950D1200B1A40D /* NotificationPermissionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCB63381F950D1200B1A40D /* NotificationPermissionViewModel.swift */; };
@@ -570,6 +571,7 @@
 		AC7374931F71222100AF9C96 /* CMAccessForExistingUsersPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMAccessForExistingUsersPresenter.swift; sourceTree = "<group>"; };
 		AC8BE49E1F2A011900351C2F /* WelcomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		AC9718441F4734570027E761 /* TimelineProcessorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineProcessorTests.swift; sourceTree = "<group>"; };
+		AC99B1E81FB34F4800CF56AC /* TabBarPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarPresenter.swift; sourceTree = "<group>"; };
 		ACC11D5F1F90DDB50025809C /* TimeIntervalHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalHelper.swift; sourceTree = "<group>"; };
 		ACCAFD241E8BDF490097F037 /* NotificationType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationType.swift; sourceTree = "<group>"; };
 		ACCB63381F950D1200B1A40D /* NotificationPermissionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPermissionViewModel.swift; sourceTree = "<group>"; };
@@ -1167,6 +1169,7 @@
 		8CA461381EC9A2DE00587399 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				AC99B1E71FB34F2B00CF56AC /* TabBar */,
 				AC4A55E71FA742CA00A62107 /* Goals */,
 				AC69F0A01F4C3E4800EF2CC9 /* Rating */,
 				8C9C25651ED3394E00B10187 /* Navigation */,
@@ -1449,6 +1452,14 @@
 				AC6C12991F4E01DE0045B341 /* StarsView.swift */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		AC99B1E71FB34F2B00CF56AC /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				AC99B1E81FB34F4800CF56AC /* TabBarPresenter.swift */,
+			);
+			path = TabBar;
 			sourceTree = "<group>";
 		};
 		ACCF03491F8FD8D200F3DCFF /* Helper */ = {
@@ -1958,6 +1969,7 @@
 				24116A041D9DACCD00762BD6 /* AnimationHelpers.swift in Sources */,
 				2482CAFC1DB12F9F00E892C1 /* OnboardingPage2.swift in Sources */,
 				24564F521D8320FC00D9A8AE /* TimelineViewController.swift in Sources */,
+				AC99B1E91FB34F4800CF56AC /* TabBarPresenter.swift in Sources */,
 				2FB611421DE77846007C5646 /* MailFeedbackService.swift in Sources */,
 				AC6C12981F4C7EAB0045B341 /* ReviewTableViewCell.swift in Sources */,
 				24564F5A1D83259100D9A8AE /* DefaultLocationService.swift in Sources */,
