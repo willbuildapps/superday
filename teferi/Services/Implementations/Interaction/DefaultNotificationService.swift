@@ -2,8 +2,7 @@ import Foundation
 import UIKit
 import UserNotifications
 
-@available(iOS 10.0, *)
-class PostiOSTenNotificationService : NotificationService
+class DefaultNotificationService : NotificationService
 {
     //MARK: Private Properties
     private let timeService : TimeService
@@ -147,7 +146,7 @@ class PostiOSTenNotificationService : NotificationService
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = message
-        content.sound = UNNotificationSound(named: UILocalNotificationDefaultSoundName)
+        content.sound = UNNotificationSound.default()
         return content
     }
 }

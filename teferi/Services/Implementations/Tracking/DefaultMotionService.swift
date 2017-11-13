@@ -23,7 +23,7 @@ class DefaultMotionService: MotionService
     {
         guard !settingsService.userEverGaveMotionPermission else {
             let url = URL(string: UIApplicationOpenSettingsURLString)!
-            UIApplication.shared.openURL(url)
+            UIApplication.shared.open(url, options: [:])
             return
         }
         

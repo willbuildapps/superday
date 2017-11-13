@@ -66,20 +66,10 @@ class AppDelegate : UIResponder, UIApplicationDelegate
                                                      settingsService: settingsService,
                                                      timeSlotService: timeSlotService)
         
-        if #available(iOS 10.0, *)
-        {
-            notificationService = PostiOSTenNotificationService(timeService: timeService,
-                                                                     loggingService: loggingService,
-                                                                     settingsService: settingsService,
-                                                                     timeSlotService: timeSlotService)
-        }
-        else
-        {
-            notificationService = PreiOSTenNotificationService(loggingService: loggingService,
-                                                               settingsService: settingsService,
-                                                               timeService: timeService,
-                                                               notificationAuthorizedSubject.asObservable())
-        }
+        notificationService = DefaultNotificationService(timeService: timeService,
+                                                            loggingService: loggingService,
+                                                            settingsService: settingsService,
+                                                            timeSlotService: timeSlotService)
         
         let trackEventServicePersistency = TrackEventPersistencyService(loggingService: loggingService,
                                                                         locationPersistencyService: locationPersistencyService)
@@ -110,14 +100,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         
         logAppStartup(isInBackground)
         
-        if #available(iOS 10.0, *) {
-            UNUserNotificationCenter.current().delegate = self
-        } else {
-            if let notification = launchOptions?[UIApplicationLaunchOptionsKey.localNotification] as? UILocalNotification {
-                dailyVotingNotificationDate = dailyVotingDate(notification)
-            }
-        }
-        
+        UNUserNotificationCenter.current().delegate = self
         
         //Faster startup when the app wakes up for location updates
         if isInBackground
@@ -202,34 +185,11 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         dailyVotingNotificationDate = nil
     }
     
-    func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings)
-    {
-        notificationAuthorizedSubject.on(.next(()))
-    }
-    
     func applicationWillTerminate(_ application: UIApplication)
     {
         coreDataStack.saveContext()
     }
     
-    func application(_ application: UIApplication, didReceive notification: UILocalNotification)
-    {
-        dailyVotingNotificationDate = dailyVotingDate(notification)
-    }
-    
-    private func dailyVotingDate(_ notification: UILocalNotification) -> Date?
-    {
-        guard
-            let type = notification.userInfo?["notificationType"] as? String,
-            type == NotificationType.repeatWeekly.rawValue,
-            let fireDate = notification.fireDate,
-            fireDate.dayOfWeek != 6
-        else { return nil }
-        
-        return fireDate
-    }
-    
-    @available(iOS 10.0, *)
     fileprivate func dailyVotingDate(_ notification: UNNotification) -> Date?
     {
         guard
@@ -242,7 +202,6 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     }
 }
 
-@available(iOS 10.0, *)
 extension AppDelegate:UNUserNotificationCenterDelegate
 {
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void)
