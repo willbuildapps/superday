@@ -22,8 +22,8 @@ class GoalHeader: UIView
             }
             else
             {
-                let components = elapsedTimeComponents(for: goal.targetTime)
-                textLabel.text = "Today i want to\nspend \(components.hour!) hours on"
+                let elapsedTimeText = formatedElapsedTimeLongText(for: goal.targetTime)
+                textLabel.text = "Today I want to\nspend \(elapsedTimeText) on"
                 textLabel.sizeToFit()
                 
                 categoryBackground.backgroundColor = goal.category.color
