@@ -183,6 +183,17 @@ class MainViewModel : RxViewModel
 
     }
     
+    /// - Returns: Current day of a month to put in the calendar button
+    var calendarDay : Observable<String>
+    {
+        return self.appLifecycleService.movedToForegroundObservable
+            .startWith(())
+            .map { [unowned self] in
+                let currentDay = Calendar.current.component(.day, from: self.timeService.now)
+                return String(format: "%02d", currentDay)
+        }
+    }
+    
     //MARK: Public Methods
     func notifyEditingEnded() { editStateService.notifyEditingEnded() }
 

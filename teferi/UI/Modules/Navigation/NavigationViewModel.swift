@@ -31,16 +31,6 @@ class NavigationViewModel
     }
     
     // MARK: Properties
-    var calendarDay : Observable<String>
-    {
-        return self.appLifecycleService.movedToForegroundObservable
-            .startWith(())
-            .map { [unowned self] in
-                let currentDay = Calendar.current.component(.day, from: self.timeService.now)
-                return String(format: "%02d", currentDay)
-        }
-    }
-    
     var title : Observable<String>
     {
         return Observable.combineLatest(

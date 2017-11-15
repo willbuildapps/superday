@@ -14,7 +14,6 @@ class TabBarPresenter
     {
         let presenter = TabBarPresenter(viewModelLocator: viewModelLocator)
         
-
         let imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
         let tabBarController = UITabBarController()
         tabBarController.tabBar.backgroundColor = .white
@@ -29,15 +28,18 @@ class TabBarPresenter
         topline.backgroundColor = UIColor(r: 240, g: 240, b: 240).cgColor
         tabBarController.tabBar.layer.addSublayer(topline)
         
-        let navigationController = NavigationPresenter.create(with: viewModelLocator)
+        let mainViewController = MainPresenter.create(with: viewModelLocator)
+        let navigationController = NavigationPresenter.create(with: viewModelLocator, rootViewController: mainViewController)
         navigationController.tabBarItem.image = Asset.home.image
         navigationController.tabBarItem.imageInsets = imageInsets
         
-        let goalNavigationController = GoalNavigationPresenter.create(with: viewModelLocator)
+        let goalViewController = GoalPresenter.create(with: viewModelLocator)
+        let goalNavigationController = NavigationPresenter.create(with: viewModelLocator, rootViewController: goalViewController)
         goalNavigationController.tabBarItem.image = Asset.goals.image
         goalNavigationController.tabBarItem.imageInsets = imageInsets
         
-        let weeklySummary = WeeklySummaryPresenter.create(with: viewModelLocator)
+        let weeklySummaryViewController = WeeklySummaryPresenter.create(with: viewModelLocator)
+        let weeklySummary = NavigationPresenter.create(with: viewModelLocator, rootViewController: weeklySummaryViewController)
         weeklySummary.tabBarItem.image = Asset.icChart.image
         weeklySummary.tabBarItem.imageInsets = imageInsets
         

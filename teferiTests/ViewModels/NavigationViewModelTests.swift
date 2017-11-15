@@ -4,7 +4,7 @@ import Nimble
 import RxTest
 import RxSwift
 
-class MainNavigationViewModelTests : XCTestCase
+class NavigationViewModelTests : XCTestCase
 {
     private var viewModel : NavigationViewModel!
     
@@ -16,8 +16,7 @@ class MainNavigationViewModelTests : XCTestCase
     private var disposeBag : DisposeBag!
     
     private var scheduler : TestScheduler!
-    private var dateLabelObserver: TestableObserver<String>!
-
+    
     
     override func setUp()
     {
@@ -36,11 +35,6 @@ class MainNavigationViewModelTests : XCTestCase
                                              appLifecycleService: appLifecycleService)
         
         scheduler = TestScheduler(initialClock:0)
-        dateLabelObserver = scheduler.createObserver(String.self)
-        
-        viewModel.calendarDay
-            .subscribe(dateLabelObserver)
-            .addDisposableTo(disposeBag)
     }
     
     func testTheTitlePropertyReturnsSuperdayForTheCurrentDate()
@@ -87,34 +81,7 @@ class MainNavigationViewModelTests : XCTestCase
         expect(observer.events.last!.value.element!).to(equal(expectedText))
     }
     
-    func testTheCalendarDayAlwaysReturnsTheCurrentDate()
-    {
-        let dateText = dateLabelObserver.events.last!.value.element!
-
-        expect(dateText).to(equal("13"))
-    }
     
-    func testTheCalendarDayAlwaysHasTwoPositions()
-    {
-        appLifecycleService.publish(.movedToBackground)
-        timeService.mockDate = getDate(withDay: 1)
-        appLifecycleService.publish(.movedToForeground(withDailyVotingNotificationDate: nil))
-        
-        let dateText = dateLabelObserver.events.last!.value.element!
-        
-        expect(dateText).to(equal("01"))
-    }
-    
-    func testDateLabelChangesIfDateChangesWhileOnBackground()
-    {
-        appLifecycleService.publish(.movedToBackground)
-        timeService.mockDate = getDate(withDay: 14)
-        appLifecycleService.publish(.movedToForeground(withDailyVotingNotificationDate: nil))
-        
-        let dateText = dateLabelObserver.events.last!.value.element!
-
-        expect(dateText).to(equal("14"))
-    }
     
     func testTheTitleChangesWhenTheDateChanges()
     {

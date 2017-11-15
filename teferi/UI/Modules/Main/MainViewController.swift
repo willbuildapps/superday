@@ -17,6 +17,8 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
     private let disposeBag = DisposeBag()
     
     private var addButton : AddTimeSlotView!
+    private var calendarButton : UIButton!
+    
     @IBOutlet private weak var welcomeMessageView: WelcomeView!
     
     func inject(presenter:MainPresenter, viewModel: MainViewModel)
@@ -53,6 +55,17 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
             make.bottom.left.right.equalTo(view)
             make.height.equalTo(100)
         }
+        
+        calendarButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+        calendarButton.titleLabel?.font = UIFont.systemFont(ofSize: 11)
+        calendarButton.setBackgroundImage(Image(asset: Asset.icCalendar), for: .normal)
+        calendarButton.rx.tap
+            .subscribe(onNext: { [unowned self] in
+                self.presenter.toggleCalendar()
+            })
+            .addDisposableTo(disposeBag)
+        
+        setupNavigationBar()
         
         createBindings()
     }
@@ -108,6 +121,10 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
         viewModel.generating
             .bindTo(LoadingView.generating.rx.isActive)
             .addDisposableTo(disposeBag)
+        
+        viewModel.calendarDay
+            .bindTo(calendarButton.rx.title(for: .normal))
+            .addDisposableTo(disposeBag)
     }
     
     private func onBecomeActive()
@@ -141,5 +158,18 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
         fadeOverlay.startPoint = CGPoint(x: 0.0, y: 1.0)
         fadeOverlay.endPoint = CGPoint(x: 0.0, y: 0.0)
         return fadeOverlay
+    }
+    
+    private func setupNavigationBar()
+    {
+        let buttonItems = [
+            .createFixedSpace(of: 8),
+            UIBarButtonItem(customView: calendarButton)
+        ]
+        
+        var rightItems = navigationItem.rightBarButtonItems ?? []
+        rightItems.insert(contentsOf: buttonItems, at: 0)
+        
+        navigationItem.rightBarButtonItems = rightItems
     }
 }

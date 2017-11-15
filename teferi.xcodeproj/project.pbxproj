@@ -19,7 +19,7 @@
 		24116A041D9DACCD00762BD6 /* AnimationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24116A031D9DACCD00762BD6 /* AnimationHelpers.swift */; };
 		24168E3A1DC21125004F90AD /* MockLoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24168E381DC21125004F90AD /* MockLoggingService.swift */; };
 		24168E3B1DC21125004F90AD /* MockNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24168E391DC21125004F90AD /* MockNotificationService.swift */; };
-		2416B2831E27C7D100CE283B /* MainNavigationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2416B2821E27C7D100CE283B /* MainNavigationViewModelTests.swift */; };
+		2416B2831E27C7D100CE283B /* NavigationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2416B2821E27C7D100CE283B /* NavigationViewModelTests.swift */; };
 		2420A8661DB56B5500C0478C /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2420A8651DB56B5500C0478C /* EmptyStateView.swift */; };
 		2420A8681DB56B6800C0478C /* EmptyStateView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2420A8671DB56B6800C0478C /* EmptyStateView.xib */; };
 		2420A86A1DB6271000C0478C /* EditTimeSlotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2420A8691DB6271000C0478C /* EditTimeSlotView.swift */; };
@@ -253,8 +253,6 @@
 		ACE1EB981FB0BEEE00CFDB91 /* CategoryWithNameView.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACE1EB971FB0BEEE00CFDB91 /* CategoryWithNameView.xib */; };
 		ACEA23AF1FA8D2880068C149 /* GoalHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEA23AE1FA8D2880068C149 /* GoalHeader.swift */; };
 		ACEA23B11FA8D2AC0068C149 /* GoalHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACEA23B01FA8D2AC0068C149 /* GoalHeader.xib */; };
-		ACEA23B41FAA2B970068C149 /* GoalNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEA23B31FAA2B970068C149 /* GoalNavigationController.swift */; };
-		ACEA23B61FAA2D270068C149 /* GoalNavigationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEA23B51FAA2D270068C149 /* GoalNavigationPresenter.swift */; };
 		ACEA23B81FAB05880068C149 /* Goal.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACEA23B71FAB05880068C149 /* Goal.storyboard */; };
 		ACEA23BA1FAB95C50068C149 /* MockGoalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEA23B91FAB95C50068C149 /* MockGoalService.swift */; };
 		ACEA23BE1FAC6FC90068C149 /* NewGoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEA23BD1FAC6FC90068C149 /* NewGoalViewController.swift */; };
@@ -262,6 +260,7 @@
 		ACEA23C21FAC70150068C149 /* NewGoalPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEA23C11FAC70150068C149 /* NewGoalPresenter.swift */; };
 		ACEA23C51FAC8EA10068C149 /* HorizontalPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEA23C41FAC8EA10068C149 /* HorizontalPicker.swift */; };
 		ACFF02691E82A21700498981 /* MockTrackEventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACFF02681E82A21700498981 /* MockTrackEventService.swift */; };
+		AF99E5891FBBB0D300809379 /* UIBarButtonExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF99E5881FBBB0D300809379 /* UIBarButtonExtensions.swift */; };
 		BE03D9241E797A1D00F79377 /* EventSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE03D9231E797A1D00F79377 /* EventSource.swift */; };
 		BE0A5B751EE0297600200939 /* TimeSlotServiceExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0A5B741EE0297600200939 /* TimeSlotServiceExtensions.swift */; };
 		BE0A5B771EE03F0A00200939 /* DailySummaryBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0A5B761EE03F0A00200939 /* DailySummaryBarView.swift */; };
@@ -340,7 +339,7 @@
 		24116A031D9DACCD00762BD6 /* AnimationHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationHelpers.swift; sourceTree = "<group>"; };
 		24168E381DC21125004F90AD /* MockLoggingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockLoggingService.swift; sourceTree = "<group>"; };
 		24168E391DC21125004F90AD /* MockNotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockNotificationService.swift; sourceTree = "<group>"; };
-		2416B2821E27C7D100CE283B /* MainNavigationViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNavigationViewModelTests.swift; sourceTree = "<group>"; };
+		2416B2821E27C7D100CE283B /* NavigationViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationViewModelTests.swift; sourceTree = "<group>"; };
 		2420A8651DB56B5500C0478C /* EmptyStateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		2420A8671DB56B6800C0478C /* EmptyStateView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmptyStateView.xib; sourceTree = "<group>"; };
 		2420A8691DB6271000C0478C /* EditTimeSlotView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTimeSlotView.swift; sourceTree = "<group>"; };
@@ -584,8 +583,6 @@
 		ACE1EB971FB0BEEE00CFDB91 /* CategoryWithNameView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryWithNameView.xib; sourceTree = "<group>"; };
 		ACEA23AE1FA8D2880068C149 /* GoalHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalHeader.swift; sourceTree = "<group>"; };
 		ACEA23B01FA8D2AC0068C149 /* GoalHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GoalHeader.xib; sourceTree = "<group>"; };
-		ACEA23B31FAA2B970068C149 /* GoalNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalNavigationController.swift; sourceTree = "<group>"; };
-		ACEA23B51FAA2D270068C149 /* GoalNavigationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalNavigationPresenter.swift; sourceTree = "<group>"; };
 		ACEA23B71FAB05880068C149 /* Goal.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Goal.storyboard; sourceTree = "<group>"; };
 		ACEA23B91FAB95C50068C149 /* MockGoalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGoalService.swift; sourceTree = "<group>"; };
 		ACEA23BD1FAC6FC90068C149 /* NewGoalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGoalViewController.swift; sourceTree = "<group>"; };
@@ -593,6 +590,7 @@
 		ACEA23C11FAC70150068C149 /* NewGoalPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGoalPresenter.swift; sourceTree = "<group>"; };
 		ACEA23C41FAC8EA10068C149 /* HorizontalPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalPicker.swift; sourceTree = "<group>"; };
 		ACFF02681E82A21700498981 /* MockTrackEventService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockTrackEventService.swift; sourceTree = "<group>"; };
+		AF99E5881FBBB0D300809379 /* UIBarButtonExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBarButtonExtensions.swift; sourceTree = "<group>"; };
 		B0E298043A2BB331608A8FD2 /* Pods_teferi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_teferi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE03D9231E797A1D00F79377 /* EventSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventSource.swift; sourceTree = "<group>"; };
 		BE0A5B741EE0297600200939 /* TimeSlotServiceExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSlotServiceExtensions.swift; sourceTree = "<group>"; };
@@ -711,7 +709,7 @@
 				24564F6B1D8326F100D9A8AE /* MainViewModelTests.swift */,
 				24B03B5E1D9E5BB900452D16 /* PagerViewModelTests.swift */,
 				24564F6C1D8326F100D9A8AE /* TimelineViewModelTests.swift */,
-				2416B2821E27C7D100CE283B /* MainNavigationViewModelTests.swift */,
+				2416B2821E27C7D100CE283B /* NavigationViewModelTests.swift */,
 				8C20ABAB1F0A231100C9EE33 /* CalendarViewModelTests.swift */,
 			);
 			path = ViewModels;
@@ -857,6 +855,7 @@
 				24564F611D83265900D9A8AE /* UIColorExtensions.swift */,
 				51EAA2871DC0BA910025680D /* UIViewExtensions.swift */,
 				8CA0C5391F7264350024B2DE /* LoadingView+RxExtensions.swift */,
+				AF99E5881FBBB0D300809379 /* UIBarButtonExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1477,20 +1476,10 @@
 			path = Helper;
 			sourceTree = "<group>";
 		};
-		ACEA23B21FAA2B7A0068C149 /* NavigationController */ = {
-			isa = PBXGroup;
-			children = (
-				ACEA23B31FAA2B970068C149 /* GoalNavigationController.swift */,
-				ACEA23B51FAA2D270068C149 /* GoalNavigationPresenter.swift */,
-			);
-			path = NavigationController;
-			sourceTree = "<group>";
-		};
 		ACEA23BB1FAC6EA80068C149 /* GoalList */ = {
 			isa = PBXGroup;
 			children = (
 				AC99B1EA1FB3674600CF56AC /* Helper */,
-				ACEA23B21FAA2B7A0068C149 /* NavigationController */,
 				AC4A55F71FA87F6C00A62107 /* DataSource */,
 				AC4A55F01FA7437B00A62107 /* Views */,
 				AC4A55EE1FA7435000A62107 /* GoalViewController.swift */,
@@ -1987,7 +1976,6 @@
 				2FB611401DE777B7007C5646 /* FeedbackService.swift in Sources */,
 				ACCF03521F90A89400F3DCFF /* MiniTimeSlotCell.swift in Sources */,
 				BE7FAFC41E72F90600A62AC9 /* TrackEventService.swift in Sources */,
-				ACEA23B61FAA2D270068C149 /* GoalNavigationPresenter.swift in Sources */,
 				ACCF034E1F90A12C00F3DCFF /* MultiSlotHeaderCell.swift in Sources */,
 				2482CAFB1DB12F9F00E892C1 /* OnboardingPage1.swift in Sources */,
 				247F05F81D87322600451BAD /* LocationService.swift in Sources */,
@@ -2031,10 +2019,10 @@
 				8C4C5B5D1ECEEC34003239BE /* CalendarPresenter.swift in Sources */,
 				AC7374921F71220A00AF9C96 /* CMAccessForExistingUsersViewModel.swift in Sources */,
 				8C26A1781ECAEAD800EFE509 /* MainPresenter.swift in Sources */,
-				ACEA23B41FAA2B970068C149 /* GoalNavigationController.swift in Sources */,
 				2482CAFD1DB12F9F00E892C1 /* OnboardingPage3.swift in Sources */,
 				AC99B1EC1FB3678D00CF56AC /* GoalAchievedMessageProvider.swift in Sources */,
 				8C26A1731ECAE66C00EFE509 /* IntroViewController.swift in Sources */,
+				AF99E5891FBBB0D300809379 /* UIBarButtonExtensions.swift in Sources */,
 				BEA024321E4106980061FE53 /* Colors.swift in Sources */,
 				24EB967D1DE708570040C211 /* AppState.swift in Sources */,
 				AC7374901F7121D500AF9C96 /* CMAccessForExistingUsersViewController.swift in Sources */,
@@ -2109,7 +2097,7 @@
 				24168E3B1DC21125004F90AD /* MockNotificationService.swift in Sources */,
 				ACEA23BA1FAB95C50068C149 /* MockGoalService.swift in Sources */,
 				8C8E8CBC1F7A46E3006944BF /* DateExtensions.swift in Sources */,
-				2416B2831E27C7D100CE283B /* MainNavigationViewModelTests.swift in Sources */,
+				2416B2831E27C7D100CE283B /* NavigationViewModelTests.swift in Sources */,
 				7E57ECEC1E30EC000094251E /* LocationExtensions.swift in Sources */,
 				8C20ABB01F0A3F6300C9EE33 /* SimpleMockTimeSlotService.swift in Sources */,
 				24B03B5F1D9E5BB900452D16 /* PagerViewModelTests.swift in Sources */,

@@ -2,11 +2,13 @@ import UIKit
 
 class MainPresenter : NSObject
 {
-    private weak var viewController : MainViewController!    
+    private weak var viewController : MainViewController!
     private let viewModelLocator : ViewModelLocator
+    private var calendarViewController : CalendarViewController? = nil
+    
     fileprivate let swipeInteractionController = SwipeInteractionController()
     fileprivate var padding : ContainerPadding?
-        
+    
     private init(viewModelLocator: ViewModelLocator)
     {
         self.viewModelLocator = viewModelLocator
@@ -57,6 +59,39 @@ class MainPresenter : NSObject
     func setupPagerViewController(vc:PagerViewController) -> PagerViewController
     {
         return PagerPresenter.create(with: viewModelLocator, fromViewController: vc)
+    }
+    
+    func toggleCalendar()
+    {
+        if let _ = calendarViewController {
+            hideCalendar()
+        } else {
+            showCalendar()
+        }
+    }
+    
+    private func showCalendar()
+    {
+        calendarViewController = CalendarPresenter.create(with: viewModelLocator, dismissCallback: didHideCalendar)
+        viewController.addChildViewController(calendarViewController!)
+        viewController.view.addSubview(calendarViewController!.view)
+        calendarViewController!.didMove(toParentViewController: viewController)
+    }
+    
+    private func hideCalendar()
+    {
+        calendarViewController?.hide()
+    }
+    
+    private func didHideCalendar()
+    {
+        guard let calendar = calendarViewController else { return }
+        
+        calendar.willMove(toParentViewController: nil)
+        calendar.view.removeFromSuperview()
+        calendar.removeFromParentViewController()
+        
+        calendarViewController = nil
     }
 }
 
