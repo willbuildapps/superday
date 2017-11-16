@@ -2,25 +2,18 @@ import UIKit
 
 class PickerGradientOverlay: UIView
 {
-    let cellSize : CGSize
+    private let middleGap: CGFloat
     
-    init(withframe frame: CGRect, cellSize: CGSize)
+    init(middleGap: CGFloat = 5)
     {
-        self.cellSize = cellSize
+        self.middleGap = middleGap
         
-        super.init(frame: frame)
-        
+        super.init(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+
         backgroundColor = .clear
         isUserInteractionEnabled = false
     }
-    
-    override func layoutSubviews()
-    {
-        super.layoutSubviews()
-        
-        setNeedsDisplay()
-    }
-    
+
     required init?(coder aDecoder: NSCoder)
     {
         fatalError("init(coder:) has not been implemented")
@@ -28,27 +21,24 @@ class PickerGradientOverlay: UIView
     
     override func draw(_ rect: CGRect)
     {
-        //// General Declarations
+        
         let context = UIGraphicsGetCurrentContext()!
+
+        let location1 = (rect.width / 2 - middleGap/2) / rect.width
+        let location2 = (rect.width / 2 + middleGap/2) / rect.width
         
-        //// Color Declarations
-        let transparentWhite = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 0.000)
-        let semiTransparentWhite = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 0.910)
+        let gradient = CGGradient(
+            colorsSpace: nil,
+            colors: [UIColor(white: 1.0, alpha: 0.9).cgColor, UIColor(white: 1.0, alpha: 0).cgColor, UIColor(white: 1.0, alpha: 0).cgColor, UIColor(white: 1.0, alpha: 0.9).cgColor] as CFArray,
+            locations: [0.2, location1, location2, 0.8]
+        )!
         
-        let percentageOfCellSize = cellSize.width / rect.width
-        let halfPercentageOfCellSize = percentageOfCellSize / 2
-        
-        //// Gradient Declarations
-        let gradient = CGGradient(colorsSpace: nil, colors: [UIColor.white.cgColor, semiTransparentWhite.cgColor, transparentWhite.cgColor, transparentWhite.cgColor, semiTransparentWhite.cgColor, UIColor.white.cgColor] as CFArray, locations: [0.04, 0.36, 0.5 - halfPercentageOfCellSize, 0.5 + halfPercentageOfCellSize, 0.64, 0.96])!
-        
-        //// Rectangle Drawing
-        let rectangleRect = CGRect(x: rect.minX, y: rect.minY, width: rect.width, height: rect.height)
-        let rectanglePath = UIBezierPath(rect: rectangleRect)
+        let rectanglePath = UIBezierPath(rect: rect)
         context.saveGState()
         rectanglePath.addClip()
         context.drawLinearGradient(gradient,
-                                   start: CGPoint(x: rectangleRect.minX, y: rectangleRect.midY),
-                                   end: CGPoint(x: rectangleRect.maxX, y: rectangleRect.midY),
+                                   start: CGPoint(x: rect.minX, y: rect.midY),
+                                   end: CGPoint(x: rect.maxX, y: rect.midY),
                                    options: [])
         context.restoreGState()
     }
