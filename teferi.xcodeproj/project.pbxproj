@@ -120,6 +120,9 @@
 		86499C439951BA9133439EF2 /* Pods_teferiTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43617E462FAF7C2B30BED3B4 /* Pods_teferiTests.framework */; };
 		8C028DA81EF8296500CABCE9 /* SmartGuesser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C028DA71EF8296500CABCE9 /* SmartGuesser.swift */; };
 		8C030D931EB32A9700938A61 /* CategoryWheel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0A632B1E548FE800D56433 /* CategoryWheel.swift */; };
+		8C08DBCF1FBDAD7900B0F642 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C08DBCE1FBDAD7900B0F642 /* Alert.swift */; };
+		8C08DBD11FBDB44300B0F642 /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C08DBD01FBDB44300B0F642 /* UIImageExtensions.swift */; };
+		8C08DBD31FBDEE1B00B0F642 /* AddGoalAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C08DBD21FBDEE1B00B0F642 /* AddGoalAlert.swift */; };
 		8C0B32AA1FBAE1A600FFF991 /* GoalTimeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0B32A91FBAE1A600FFF991 /* GoalTimeCell.swift */; };
 		8C0B32AC1FBAE1DC00FFF991 /* GoalCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0B32AB1FBAE1DC00FFF991 /* GoalCategoryCell.swift */; };
 		8C0B32AF1FBAE34300FFF991 /* GoalTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0B32AE1FBAE34300FFF991 /* GoalTime.swift */; };
@@ -448,6 +451,9 @@
 		7E57ECE81E30DF370094251E /* LocationExtensionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationExtensionsTests.swift; sourceTree = "<group>"; };
 		7E57ECEB1E30EC000094251E /* LocationExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationExtensions.swift; sourceTree = "<group>"; };
 		8C028DA71EF8296500CABCE9 /* SmartGuesser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmartGuesser.swift; sourceTree = "<group>"; };
+		8C08DBCE1FBDAD7900B0F642 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		8C08DBD01FBDB44300B0F642 /* UIImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
+		8C08DBD21FBDEE1B00B0F642 /* AddGoalAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalAlert.swift; sourceTree = "<group>"; };
 		8C0B32A91FBAE1A600FFF991 /* GoalTimeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalTimeCell.swift; sourceTree = "<group>"; };
 		8C0B32AB1FBAE1DC00FFF991 /* GoalCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCategoryCell.swift; sourceTree = "<group>"; };
 		8C0B32AE1FBAE34300FFF991 /* GoalTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalTime.swift; sourceTree = "<group>"; };
@@ -858,6 +864,7 @@
 				51EAA2871DC0BA910025680D /* UIViewExtensions.swift */,
 				8CA0C5391F7264350024B2DE /* LoadingView+RxExtensions.swift */,
 				AF99E5881FBBB0D300809379 /* UIBarButtonExtensions.swift */,
+				8C08DBD01FBDB44300B0F642 /* UIImageExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1308,6 +1315,7 @@
 				8CDB55721F755D0400FAD466 /* LoadingIndicator.swift */,
 				8C6417061EAF415200B893D7 /* CategoryButton.swift */,
 				8C38A8781F711623001883F7 /* LoadingView.swift */,
+				8C08DBCE1FBDAD7900B0F642 /* Alert.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1322,6 +1330,7 @@
 				AC0A632B1E548FE800D56433 /* CategoryWheel.swift */,
 				8C7CCB4C1E9D150A00315BF7 /* MaterialButton.swift */,
 				AC8BE49E1F2A011900351C2F /* WelcomeView.swift */,
+				8C08DBD21FBDEE1B00B0F642 /* AddGoalAlert.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1873,6 +1882,7 @@
 				8CBE30A21ECC5385007C8F6F /* PermissionPresenter.swift in Sources */,
 				24EB96791DE7080F0040C211 /* CoreDataModelAdapter.swift in Sources */,
 				8CA0C53F1F737D760024B2DE /* TimelineGenerator.swift in Sources */,
+				8C08DBD31FBDEE1B00B0F642 /* AddGoalAlert.swift in Sources */,
 				8CF8C0911EDED6DC00EA2C77 /* WeeklySummarPresenter.swift in Sources */,
 				8C7CCB4F1E9D1D1F00315BF7 /* AddTimeSlotButton.swift in Sources */,
 				24564F651D83265900D9A8AE /* DateExtensions.swift in Sources */,
@@ -1896,6 +1906,7 @@
 				24DE23F51E1BB33B0089B49E /* Activity.swift in Sources */,
 				2407A9881D9D512D00066889 /* LaunchAnimationView.swift in Sources */,
 				ACEA23AF1FA8D2880068C149 /* GoalHeader.swift in Sources */,
+				8C08DBCF1FBDAD7900B0F642 /* Alert.swift in Sources */,
 				24DE23EC1E1BB3180089B49E /* CalendarCell.swift in Sources */,
 				8C9EF43D1F823C02002AE07C /* ShortTimelineCell.swift in Sources */,
 				BEA783651E6DB5AF00D44603 /* DefaultCategoryProvider.swift in Sources */,
@@ -1985,6 +1996,7 @@
 				AC69F0A61F4C401A00EF2CC9 /* RatingPresenter.swift in Sources */,
 				AC4A55E91FA7430F00A62107 /* GoalPresenter.swift in Sources */,
 				8C6417051EAE0CDA00B893D7 /* FromBottomTransition.swift in Sources */,
+				8C08DBD11FBDB44300B0F642 /* UIImageExtensions.swift in Sources */,
 				2FB611401DE777B7007C5646 /* FeedbackService.swift in Sources */,
 				ACCF03521F90A89400F3DCFF /* MiniTimeSlotCell.swift in Sources */,
 				BE7FAFC41E72F90600A62AC9 /* TrackEventService.swift in Sources */,
