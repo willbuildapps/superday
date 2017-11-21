@@ -78,7 +78,7 @@ class TimelineViewController : UIViewController
         tableView.showsHorizontalScrollIndicator = false
         tableView.register(UINib.init(nibName: "TimelineCell", bundle: Bundle.main), forCellReuseIdentifier: TimelineCell.cellIdentifier)
         tableView.register(UINib.init(nibName: "ShortTimelineCell", bundle: Bundle.main), forCellReuseIdentifier: ShortTimelineCell.cellIdentifier)
-        tableView.contentInset = UIEdgeInsets(top: 34, left: 0, bottom: 120, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: 34, left: 0, bottom: 49, right: 0)
         
         dataSource.configureCell = constructCell
         

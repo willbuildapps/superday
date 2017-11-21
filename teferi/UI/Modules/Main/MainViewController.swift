@@ -44,18 +44,6 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
         view.addSubview(addButton)
         addButton.constrainEdges(to: view)
         
-        //Add fade overlay at bottom of timeline
-        let bottomFadeOverlay = fadeOverlay(startColor: UIColor.white,
-                                                 endColor: UIColor.white.withAlphaComponent(0.0))
-        
-        let fadeView = AutoResizingLayerView(layer: bottomFadeOverlay)
-        fadeView.isUserInteractionEnabled = false
-        view.insertSubview(fadeView, belowSubview: addButton)
-        fadeView.snp.makeConstraints { make in
-            make.bottom.left.right.equalTo(view)
-            make.height.equalTo(100)
-        }
-        
         calendarButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         calendarButton.titleLabel?.font = UIFont.systemFont(ofSize: 11)
         calendarButton.setBackgroundImage(Image(asset: Asset.icCalendar), for: .normal)
@@ -149,17 +137,7 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
         addButton.close()
         addButton.isUserInteractionEnabled = isToday
     }
-    
-    private func fadeOverlay(startColor: UIColor, endColor: UIColor) -> CAGradientLayer
-    {
-        let fadeOverlay = CAGradientLayer()
-        fadeOverlay.colors = [startColor.cgColor, endColor.cgColor]
-        fadeOverlay.locations = [0.1]
-        fadeOverlay.startPoint = CGPoint(x: 0.0, y: 1.0)
-        fadeOverlay.endPoint = CGPoint(x: 0.0, y: 0.0)
-        return fadeOverlay
-    }
-    
+
     private func setupNavigationBar()
     {
         let buttonItems = [
