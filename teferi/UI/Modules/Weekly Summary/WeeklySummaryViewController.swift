@@ -18,6 +18,7 @@ class WeeklySummaryViewController: UIViewController
     @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var pieChart: ActivityPieChartView!
     @IBOutlet weak var emptyStateView: WeeklySummaryEmptyStateView!
+    @IBOutlet weak var monthSelectorView: UIView!
     
     private var disposeBag = DisposeBag()
     
@@ -102,6 +103,9 @@ class WeeklySummaryViewController: UIViewController
                 self.emptyStateView.isHidden = !activityWithPercentage.isEmpty
             })
             .addDisposableTo(disposeBag)
+        
+        scrollView.addTopShadow()
+
     }
     
     override func viewDidAppear(_ animated: Bool)

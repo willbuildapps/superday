@@ -142,6 +142,7 @@
 		8C20ABAC1F0A231100C9EE33 /* CalendarViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C20ABAB1F0A231100C9EE33 /* CalendarViewModelTests.swift */; };
 		8C20ABAE1F0A338300C9EE33 /* TestableObserverExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C20ABAD1F0A338300C9EE33 /* TestableObserverExtensions.swift */; };
 		8C20ABB01F0A3F6300C9EE33 /* SimpleMockTimeSlotService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C20ABAF1F0A3F6300C9EE33 /* SimpleMockTimeSlotService.swift */; };
+		8C24A2271FBD8FD700C01FE8 /* ScrollShadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C24A2261FBD8FD700C01FE8 /* ScrollShadow.swift */; };
 		8C26A1711ECAE65A00EFE509 /* IntroPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C26A1701ECAE65A00EFE509 /* IntroPresenter.swift */; };
 		8C26A1731ECAE66C00EFE509 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C26A1721ECAE66C00EFE509 /* IntroViewController.swift */; };
 		8C26A1751ECAE67800EFE509 /* IntroViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C26A1741ECAE67800EFE509 /* IntroViewModel.swift */; };
@@ -475,6 +476,7 @@
 		8C20ABAB1F0A231100C9EE33 /* CalendarViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewModelTests.swift; sourceTree = "<group>"; };
 		8C20ABAD1F0A338300C9EE33 /* TestableObserverExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestableObserverExtensions.swift; sourceTree = "<group>"; };
 		8C20ABAF1F0A3F6300C9EE33 /* SimpleMockTimeSlotService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleMockTimeSlotService.swift; sourceTree = "<group>"; };
+		8C24A2261FBD8FD700C01FE8 /* ScrollShadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollShadow.swift; sourceTree = "<group>"; };
 		8C26A1701ECAE65A00EFE509 /* IntroPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IntroPresenter.swift; path = Intro/IntroPresenter.swift; sourceTree = "<group>"; };
 		8C26A1721ECAE66C00EFE509 /* IntroViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IntroViewController.swift; path = Intro/IntroViewController.swift; sourceTree = "<group>"; };
 		8C26A1741ECAE67800EFE509 /* IntroViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IntroViewModel.swift; path = Intro/IntroViewModel.swift; sourceTree = "<group>"; };
@@ -1316,6 +1318,7 @@
 				8C6417061EAF415200B893D7 /* CategoryButton.swift */,
 				8C38A8781F711623001883F7 /* LoadingView.swift */,
 				8C08DBCE1FBDAD7900B0F642 /* Alert.swift */,
+				8C24A2261FBD8FD700C01FE8 /* ScrollShadow.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2062,6 +2065,7 @@
 				243E37AE1DC8FABC0074032D /* DefaultNotificationService.swift in Sources */,
 				240AC7201D748C8800F21F4F /* teferi.xcdatamodeld in Sources */,
 				24DE23FD1E1BB38C0089B49E /* SelectedDateService.swift in Sources */,
+				8C24A2271FBD8FD700C01FE8 /* ScrollShadow.swift in Sources */,
 				24EB967F1DE708570040C211 /* Predicate.swift in Sources */,
 				8CF8C0951EDED72000EA2C77 /* WeeklySummaryViewController.swift in Sources */,
 				8CA987371F7A2DD4003AB4B9 /* TimelineProcessor.swift in Sources */,

@@ -30,7 +30,9 @@ class GoalViewController: UIViewController
         let footerView = UIView(frame: .zero)
         footerView.backgroundColor = .clear
         tableView.tableFooterView = footerView
-
+        
+        tableView.addTopShadow()
+        
         dataSource.configureCell = constructCell
 
         createBindings()
