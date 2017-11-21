@@ -113,6 +113,22 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
         viewModel.calendarDay
             .bindTo(calendarButton.rx.title(for: .normal))
             .addDisposableTo(disposeBag)
+        
+        viewModel.showAddGoalAlert
+            .subscribe(onNext: { [unowned self] show in
+                if show {
+                    AddGoalAlert(inView: self.view, tapClosure: self.addGoalAlertTap).show()
+                } else {
+                    AddGoalAlert.hide()
+                }
+            })
+            .addDisposableTo(disposeBag)
+    }
+    
+    private func addGoalAlertTap()
+    {
+        viewModel.markAddGoalAlertShown()
+        presenter.showNewGoalUI()
     }
     
     private func onBecomeActive()

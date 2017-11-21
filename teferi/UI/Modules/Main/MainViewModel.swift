@@ -101,6 +101,21 @@ class MainViewModel : RxViewModel
             .observeOn(MainScheduler.instance)
     }
     
+    var showAddGoalAlert: Observable<Bool> {
+        return Observable.of(
+            self.appLifecycleService.movedToForegroundObservable,
+            self.didBecomeActive)
+            .merge()
+            .filter{ [unowned self] _ in
+                guard let lastShown = self.settingsService.lastShownAddGoalAlert else { return true }
+                return self.timeService.now.ignoreTimeComponents() > lastShown.ignoreTimeComponents()
+            }
+            .map { [unowned self] _ in
+                guard let lastGoal = self.goalService.getGoals(sinceDaysAgo: 1).first else { return true }
+                return self.timeService.now.ignoreTimeComponents() > lastGoal.date.ignoreTimeComponents()
+            }            
+    }
+    
     // MARK: Private Properties
     private let loggingService: LoggingService
     private let timeService : TimeService
@@ -113,6 +128,7 @@ class MainViewModel : RxViewModel
     private let locationService: LocationService
     private let trackEventService: TrackEventService
     private let motionService: MotionService
+    private let goalService: GoalService
     
     private let locatingActivity = ActivityIndicator()
     private let generatingTimelineActivity = ActivityIndicator()
@@ -131,7 +147,8 @@ class MainViewModel : RxViewModel
          appLifecycleService: AppLifecycleService,
          locationService: LocationService,
          trackEventService: TrackEventService,
-         motionService: MotionService)
+         motionService: MotionService,
+         goalService: GoalService)
     {
         self.loggingService = loggingService
         self.timeService = timeService
@@ -144,6 +161,7 @@ class MainViewModel : RxViewModel
         self.locationService = locationService
         self.trackEventService = trackEventService
         self.motionService = motionService
+        self.goalService = goalService
         
         timelineGenerator = TimelineGenerator(loggingService: loggingService,
                                               trackEventService: trackEventService,
@@ -208,6 +226,11 @@ class MainViewModel : RxViewModel
         
         metricsService.log(event: .timeSlotManualCreation(date: timeService.now, category: category))
         metricsService.log(event: .timeSlotCreated(date: timeService.now, category: category, duration: nil))
+    }
+    
+    func markAddGoalAlertShown()
+    {
+        settingsService.setLastShownAddGoalAlert(timeService.now)
     }
     
     //MARK: Private Methods

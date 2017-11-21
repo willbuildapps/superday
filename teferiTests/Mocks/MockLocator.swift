@@ -66,7 +66,8 @@ class MockLocator : ViewModelLocator
                              appLifecycleService: appLifecycleService,
                              locationService: locationService,
                              trackEventService: trackEventService,
-                             motionService: motionService)
+                             motionService: motionService,
+                             goalService: goalService)
     }
     
     func getPagerViewModel() -> PagerViewModel

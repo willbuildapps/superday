@@ -106,6 +106,11 @@ class DefaultSettingsService : SettingsService
         return nil
     }
     
+    var lastShownAddGoalAlert: Date?
+    {
+        return get(forKey: lastShownGoalAlertKey)
+    }
+    
     //MARK: Private Properties
     
     private let timeService : TimeService
@@ -127,6 +132,7 @@ class DefaultSettingsService : SettingsService
     private let lastTimelineGenerationDateKey = "lastTimelineGenerationDate"
     private let shouldAskForNotificationPermissionKey = "shouldAskForNotificationPermission"
     private let lastUsedGoalAchivedMessageAndDateKey = "lastUsedGoalAchivedMessageAndDate"
+    private let lastShownGoalAlertKey = "lastShownGoalAlert"
     
     //MARK: Initialiazers
     init (timeService : TimeService)
@@ -223,6 +229,11 @@ class DefaultSettingsService : SettingsService
     func setLastUsedGoalAchivedMessageAndDate(_ data: [Date: String])
     {
         UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: data), forKey: lastUsedGoalAchivedMessageAndDateKey)
+    }
+    
+    func setLastShownAddGoalAlert(_ date: Date)
+    {
+        set(date, forKey: lastShownGoalAlertKey)
     }
     
     // MARK: Private Methods

@@ -4,6 +4,19 @@ import SnapKit
 
 class AddGoalAlert: Alert
 {
+    let tapClosure: () -> ()
+    
+    init(inView parentView: UIView?, tapClosure: @escaping () -> ())
+    {
+        self.tapClosure = tapClosure
+        super.init(inView: parentView)
+    }
+    
+    required init?(coder aDecoder: NSCoder)
+    {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func buildContentView() -> UIView
     {
         let btn = UIButton()
@@ -45,5 +58,6 @@ class AddGoalAlert: Alert
     @objc private func tap()
     {
         hide()
+        tapClosure()
     }
 }

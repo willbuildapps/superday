@@ -33,6 +33,8 @@ protocol SettingsService
     
     var lastUsedGoalAchivedMessageAndDate: [Date: String]? { get }
     
+    var lastShownAddGoalAlert : Date? { get }
+    
     //MARK: Methods
     func setIsFirstTimeAppRuns()
     
@@ -59,4 +61,6 @@ protocol SettingsService
     func setLastShownWeeklyRating(_ date: Date)
     
     func setLastUsedGoalAchivedMessageAndDate(_ data: [Date: String])
+    
+    func setLastShownAddGoalAlert(_ date: Date)
 }

@@ -22,6 +22,7 @@ class MainViewModelTests : XCTestCase
     private var selectedDateService : MockSelectedDateService!
     private var trackEventService: MockTrackEventService!
     private var motionService: MockMotionService!
+    private var goalService: MockGoalService!
     
     private var scheduler = TestScheduler(initialClock:0)
     private var dateLabelObserver: TestableObserver<String>!
@@ -44,6 +45,7 @@ class MainViewModelTests : XCTestCase
                                                    locationService: locationService)
         trackEventService = MockTrackEventService()
         motionService = MockMotionService()
+        goalService = MockGoalService(timeService: timeService)
         
         viewModel = MainViewModel(loggingService: loggingService,
                                   timeService: timeService,
@@ -56,7 +58,8 @@ class MainViewModelTests : XCTestCase
                                   appLifecycleService: appLifecycleService,
                                   locationService: locationService,
                                   trackEventService: trackEventService,
-                                  motionService: motionService)
+                                  motionService: motionService,
+                                  goalService: goalService)
         
         timeService.mockDate = getDate(withDay: 13)
         dateLabelObserver = scheduler.createObserver(String.self)

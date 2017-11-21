@@ -61,8 +61,6 @@ class AppDelegate : UIResponder, UIApplicationDelegate
                                          loggingService: loggingService,
                                          persistencyService: goalPersistencyService)
         
-        goalPersistencyService.delete()
-        
         smartGuessService = DefaultSmartGuessService(timeService: timeService,
                                                      loggingService: loggingService,
                                                      settingsService: settingsService,

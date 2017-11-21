@@ -56,6 +56,19 @@ class MainPresenter : NSObject
         swipeInteractionController.wireToViewController(viewController: vc)
     }
     
+    func showNewGoalUI()
+    {
+        let topAndBottomPadding = (UIScreen.main.bounds.height - 431) / 2
+        padding = ContainerPadding(left: 16, top: topAndBottomPadding, right: 16, bottom: topAndBottomPadding)
+        
+        let vc = NewGoalPresenter.create(with: viewModelLocator)
+        vc.modalPresentationStyle = .custom
+        vc.transitioningDelegate = self
+        viewController.present(vc, animated: true, completion: nil)
+        
+        swipeInteractionController.wireToViewController(viewController: vc)
+    }
+    
     func setupPagerViewController(vc:PagerViewController) -> PagerViewController
     {
         return PagerPresenter.create(with: viewModelLocator, fromViewController: vc)
@@ -99,7 +112,7 @@ extension MainPresenter : UIViewControllerTransitioningDelegate
 {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController?
     {
-        if presented is RatingViewController
+        if presented is RatingViewController || presented is NewGoalViewController
         {
             return ModalPresentationController(presentedViewController: presented, presenting: presenting, containerPadding: padding)
         }
@@ -115,7 +128,8 @@ extension MainPresenter : UIViewControllerTransitioningDelegate
     {
         guard
             presented is RatingViewController ||
-            presented is CMAccessForExistingUsersViewController
+            presented is CMAccessForExistingUsersViewController ||
+            presented is NewGoalViewController
         else { return nil }
         return FromBottomTransition(presenting:true)
     }
@@ -124,7 +138,8 @@ extension MainPresenter : UIViewControllerTransitioningDelegate
     {
         guard
             dismissed is RatingViewController ||
-            dismissed is CMAccessForExistingUsersViewController
+            dismissed is CMAccessForExistingUsersViewController ||
+            dismissed is NewGoalViewController
         else { return nil }
         return FromBottomTransition(presenting:false)
     }

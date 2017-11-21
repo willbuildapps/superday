@@ -167,4 +167,10 @@ class Alert: UIView
                 self.removeFromSuperview()
         })
     }
+    
+    static func hide()
+    {
+        guard let alert = Alert.currentAlert else { return }
+        alert.hide()
+    }
 }
