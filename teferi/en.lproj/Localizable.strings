@@ -39,6 +39,11 @@
 "RatingMessage" = "Did Superday track your time accurately this week?";
 "RatingThankYou" = "Thank you for your feedback! 🎉";
 
+"SettingsSubmitFeedback" = "Submit Feedback";
+"SettingsRateUs" = "Rate Superday";
+"SettingsRateUsConvincingMessage" = "Thanks! 🙌";
+"SettingsHelp" = "Help";
+
 "CMExistingUsersAccessTitle" = "We’re gonna tune up Superday!";
 "CMExistingUsersAccessDescription" = "Visually everything remains the same but under the hood we will use Motion Data instead of Health App to provide better tracking results.\n\nTo help us make Superday even better, please allow it to access your Motion Data.";
 "CMExistingUsersAccessFinePrint" = "* Health App access won't be needed anymore";

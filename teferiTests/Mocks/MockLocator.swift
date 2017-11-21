@@ -194,4 +194,10 @@ class MockLocator : ViewModelLocator
                                 goalService: goalService,
                                 categoryProvider: DefaultCategoryProvider(timeSlotService:  timeSlotService))
     }
+    
+    func getSettingsViewModel() -> SettingsViewModel
+    {
+        return SettingsViewModel(settingsService: settingsService,
+                                 feedbackService: feedbackService)
+    }
 }

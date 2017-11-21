@@ -34,6 +34,10 @@ protocol SettingsService
     var lastUsedGoalAchivedMessageAndDate: [Date: String]? { get }
     
     var lastShownAddGoalAlert : Date? { get }
+
+    var versionNumber: String { get }
+    
+    var buildNumber: String { get }
     
     //MARK: Methods
     func setIsFirstTimeAppRuns()

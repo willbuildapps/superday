@@ -43,7 +43,15 @@ class TabBarPresenter
         weeklySummary.tabBarItem.image = Asset.icChart.image
         weeklySummary.tabBarItem.imageInsets = imageInsets
         
-        tabBarController.viewControllers = [navigationController, goalNavigationController, weeklySummary]
+        let settingsViewController = SettingsPresenter.create(with: viewModelLocator)
+        let settingsNavigationController = NavigationPresenter.create(with: viewModelLocator, rootViewController: settingsViewController)
+        settingsNavigationController.tabBarItem.image = Asset.icSettings.image
+        settingsNavigationController.tabBarItem.imageInsets = imageInsets
+        
+        tabBarController.viewControllers = [navigationController,
+                                            goalNavigationController,
+                                            weeklySummary,
+                                            settingsNavigationController]
         
         return tabBarController
     }

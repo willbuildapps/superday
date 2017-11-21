@@ -266,6 +266,10 @@
 		ACEA23C21FAC70150068C149 /* NewGoalPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEA23C11FAC70150068C149 /* NewGoalPresenter.swift */; };
 		ACFF02691E82A21700498981 /* MockTrackEventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACFF02681E82A21700498981 /* MockTrackEventService.swift */; };
 		AF99E5891FBBB0D300809379 /* UIBarButtonExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF99E5881FBBB0D300809379 /* UIBarButtonExtensions.swift */; };
+		AF99E5901FBD8DDF00809379 /* SettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF99E58D1FBD8DDF00809379 /* SettingsPresenter.swift */; };
+		AF99E5911FBD8DDF00809379 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF99E58E1FBD8DDF00809379 /* SettingsViewController.swift */; };
+		AF99E5921FBD8DDF00809379 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF99E58F1FBD8DDF00809379 /* SettingsViewModel.swift */; };
+		AF99E5941FBD8E4800809379 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF99E5931FBD8E4800809379 /* Settings.storyboard */; };
 		BE03D9241E797A1D00F79377 /* EventSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE03D9231E797A1D00F79377 /* EventSource.swift */; };
 		BE0A5B751EE0297600200939 /* TimeSlotServiceExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0A5B741EE0297600200939 /* TimeSlotServiceExtensions.swift */; };
 		BE0A5B771EE03F0A00200939 /* DailySummaryBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0A5B761EE03F0A00200939 /* DailySummaryBarView.swift */; };
@@ -601,6 +605,10 @@
 		ACEA23C11FAC70150068C149 /* NewGoalPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGoalPresenter.swift; sourceTree = "<group>"; };
 		ACFF02681E82A21700498981 /* MockTrackEventService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockTrackEventService.swift; sourceTree = "<group>"; };
 		AF99E5881FBBB0D300809379 /* UIBarButtonExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBarButtonExtensions.swift; sourceTree = "<group>"; };
+		AF99E58D1FBD8DDF00809379 /* SettingsPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsPresenter.swift; sourceTree = "<group>"; };
+		AF99E58E1FBD8DDF00809379 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		AF99E58F1FBD8DDF00809379 /* SettingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		AF99E5931FBD8E4800809379 /* Settings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		B0E298043A2BB331608A8FD2 /* Pods_teferi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_teferi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE03D9231E797A1D00F79377 /* EventSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventSource.swift; sourceTree = "<group>"; };
 		BE0A5B741EE0297600200939 /* TimeSlotServiceExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSlotServiceExtensions.swift; sourceTree = "<group>"; };
@@ -885,6 +893,7 @@
 		24D99F681D74B92C00E68163 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				AF99E5931FBD8E4800809379 /* Settings.storyboard */,
 				8C1729061EF02DB5002ABDDA /* DailySummary.storyboard */,
 				2407A98D1D9D54DB00066889 /* LaunchScreen.storyboard */,
 				240AC71B1D748C8800F21F4F /* Main.storyboard */,
@@ -1186,6 +1195,7 @@
 		8CA461381EC9A2DE00587399 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				AF99E58C1FBD8DBB00809379 /* Settings */,
 				AC99B1E71FB34F2B00CF56AC /* TabBar */,
 				AC4A55E71FA742CA00A62107 /* Goals */,
 				AC69F0A01F4C3E4800EF2CC9 /* Rating */,
@@ -1535,6 +1545,16 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		AF99E58C1FBD8DBB00809379 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				AF99E58D1FBD8DDF00809379 /* SettingsPresenter.swift */,
+				AF99E58E1FBD8DDF00809379 /* SettingsViewController.swift */,
+				AF99E58F1FBD8DDF00809379 /* SettingsViewModel.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		BEA7835F1E6DB48F00D44603 /* Providers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1693,6 +1713,7 @@
 				AC4A55F41FA743A000A62107 /* GoalCell.xib in Resources */,
 				8CF8C0991EDED99300EA2C77 /* WeeklySummary.storyboard in Resources */,
 				ACCF03531F90A89400F3DCFF /* MiniTimeSlotCell.xib in Resources */,
+				AF99E5941FBD8E4800809379 /* Settings.storyboard in Resources */,
 				24DE23ED1E1BB3180089B49E /* CalendarCell.xib in Resources */,
 				ACCF034F1F90A12C00F3DCFF /* MultiSlotHeaderCell.xib in Resources */,
 				ACEA23B11FA8D2AC0068C149 /* GoalHeader.xib in Resources */,
@@ -2040,10 +2061,13 @@
 				8CCEBEC61F79091E00A4D560 /* TimelineProcessingPass.swift in Sources */,
 				AC34445E1E697D1100B1D53B /* KNNDecisionType.swift in Sources */,
 				24D18E221DEF69030046B202 /* SmartGuessService.swift in Sources */,
+				AF99E5921FBD8DDF00809379 /* SettingsViewModel.swift in Sources */,
 				24B03B591D9E4C3E00452D16 /* PagerViewModel.swift in Sources */,
 				242FE7D61DE7689A00EAEEE3 /* AutoResizingLayerView.swift in Sources */,
+				AF99E5911FBD8DDF00809379 /* SettingsViewController.swift in Sources */,
 				24EB96771DE7080F0040C211 /* MotionService.swift in Sources */,
 				8C4C5B5D1ECEEC34003239BE /* CalendarPresenter.swift in Sources */,
+				AF99E5901FBD8DDF00809379 /* SettingsPresenter.swift in Sources */,
 				AC7374921F71220A00AF9C96 /* CMAccessForExistingUsersViewModel.swift in Sources */,
 				8C26A1781ECAEAD800EFE509 /* MainPresenter.swift in Sources */,
 				2482CAFD1DB12F9F00E892C1 /* OnboardingPage3.swift in Sources */,

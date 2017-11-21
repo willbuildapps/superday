@@ -16,6 +16,8 @@ class MockSettingsService : SettingsService
     var lastShownWeeklyRating : Date? = Date()
     var lastUsedGoalAchivedMessageAndDate: [Date : String]?
     var lastShownAddGoalAlert : Date? = Date()
+    var versionNumber: String = ""
+    var buildNumber: String = ""
 
     var motionPermissionGranted: Observable<Bool> = Observable<Bool>.empty()
     

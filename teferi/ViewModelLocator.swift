@@ -34,6 +34,8 @@ protocol ViewModelLocator
     
     func getGoalViewModel() -> GoalViewModel
     func getNewGoalViewModel(goalToBeEdited: Goal?) -> NewGoalViewModel
+    
+    func getSettingsViewModel() -> SettingsViewModel
 }
 
 class DefaultViewModelLocator : ViewModelLocator
@@ -263,5 +265,10 @@ class DefaultViewModelLocator : ViewModelLocator
                                 timeService: timeService,
                                 goalService: goalService,
                                 categoryProvider: DefaultCategoryProvider(timeSlotService:  timeSlotService))
+    }
+    
+    func getSettingsViewModel() -> SettingsViewModel
+    {
+        return SettingsViewModel(settingsService: settingsService, feedbackService: feedbackService)
     }
 }

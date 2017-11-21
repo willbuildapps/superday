@@ -106,10 +106,18 @@ class DefaultSettingsService : SettingsService
         return nil
     }
     
-    var lastShownAddGoalAlert: Date?
-    {
+    var lastShownAddGoalAlert: Date? {
         return get(forKey: lastShownGoalAlertKey)
     }
+    
+    var versionNumber: String {
+        return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
+    }
+    
+    var buildNumber: String {
+        return Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
+    }
+
     
     //MARK: Private Properties
     
@@ -262,5 +270,4 @@ class DefaultSettingsService : SettingsService
     {
         UserDefaults.standard.set(value, forKey: key)
     }
-    
 }
