@@ -105,6 +105,11 @@ extension Date
         return components.day!
     }
     
+    func isSameDay(asDate date: Date) -> Bool
+    {
+        return differenceInDays(toDate: date) == 0
+    }
+    
     func convert(calendarUnits: NSCalendar.Unit, sameAs date: Date) -> Date
     {
         let currentUnits : NSCalendar.Unit = [ .year, .month, .day, .hour, .minute, .second, .nanosecond]
