@@ -5,9 +5,6 @@ protocol NotificationService
 {
     func requestNotificationPermission(completed: @escaping () -> ())
     
-    func scheduleNormalNotification(date: Date, title: String, message: String)
-    
-    func unscheduleAllNotifications(completion: (() -> Void)?, ofTypes types: NotificationType?...)
-    
-    func clearAndScheduleAllDefaultNotifications()
+    func clearAndScheduleWeeklyNotifications()
+    func clearAndScheduleGoalNotifications()
 }

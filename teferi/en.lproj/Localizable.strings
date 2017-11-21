@@ -89,6 +89,8 @@
 "GoalOverAchieved4" = "Daily Goal - Done & then some.";
 "GoalOverAchieved5" = "Daily Goal - Neutralized.";
 
+"ResultsNotificationMessage" = "Results are in for %@.\nCheck it out";
+
 "Transport" = "Transport";
 "Movement" = "Movement";
 

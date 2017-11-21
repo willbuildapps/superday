@@ -8,7 +8,7 @@ class DefaultNotificationService : NotificationService
     private let timeService : TimeService
     private let loggingService : LoggingService
     private let settingsService : SettingsService
-    private let timeSlotService : TimeSlotService
+    private let goalService: GoalService
     
     private let notificationCenter = UNUserNotificationCenter.current()
     
@@ -16,12 +16,12 @@ class DefaultNotificationService : NotificationService
     init(timeService: TimeService,
          loggingService: LoggingService,
          settingsService: SettingsService,
-         timeSlotService: TimeSlotService)
+         goalService: GoalService)
     {
         self.timeService = timeService
         self.loggingService = loggingService
         self.settingsService = settingsService
-        self.timeSlotService = timeSlotService
+        self.goalService = goalService
     }
     
     //MARK: Public Methods
@@ -35,24 +35,24 @@ class DefaultNotificationService : NotificationService
                                                 })
     }
     
-    func scheduleNormalNotification(date: Date, title: String, message: String)
+    func clearAndScheduleWeeklyNotifications()
     {
-        scheduleNotification(date: date, title: title, message: message, ofType: .normal)
-    }
-    
-    func clearAndScheduleAllDefaultNotifications()
-    {
-        unscheduleAllNotifications(completion: { [unowned self] in
+        unscheduleAllNotifications(ofTypes: [.repeatWeekly]) { [unowned self] in
             self.scheduleVotingNotifications()
             self.scheduleWeeklyRatingNotifications()
-        }, ofTypes: .repeatWeekly)
+        }
     }
     
-    func unscheduleAllNotifications(completion: (() -> Void)?, ofTypes types: NotificationType?...)
+    func clearAndScheduleGoalNotifications()
     {
-        let givenTypes = types.flatMap { $0 }
-        
-        if givenTypes.isEmpty
+        unscheduleAllNotifications(ofTypes: [.goal], completion: scheduleGoalNotifications)
+    }
+    
+    //MARK: Private Methods
+    
+    private func unscheduleAllNotifications(ofTypes notificationTypes: [NotificationType], completion: (() -> Void)?)
+    {
+        if notificationTypes.isEmpty
         {
             notificationCenter.removeAllDeliveredNotifications()
             notificationCenter.removeAllPendingNotificationRequests()
@@ -65,7 +65,7 @@ class DefaultNotificationService : NotificationService
             let notificationIdentifiers = notifications
                 .map({ $0.request.identifier })
                 .filter({ (notificationIdentifier) -> Bool in
-                    return givenTypes.filter({ notificationIdentifier.contains($0.rawValue) }).count > 0
+                    return notificationTypes.filter({ notificationIdentifier.contains($0.rawValue) }).count > 0
                 })
             
             self.notificationCenter.removeDeliveredNotifications(withIdentifiers: notificationIdentifiers)
@@ -75,7 +75,7 @@ class DefaultNotificationService : NotificationService
                 let requestIdentifiers = requests
                     .map({ $0.identifier })
                     .filter({ (requestIdentifier) -> Bool in
-                        return givenTypes.filter({ requestIdentifier.contains($0.rawValue) }).count > 0
+                        return notificationTypes.filter({ requestIdentifier.contains($0.rawValue) }).count > 0
                     })
                 
                 self.notificationCenter.removePendingNotificationRequests(withIdentifiers: requestIdentifiers)
@@ -84,8 +84,6 @@ class DefaultNotificationService : NotificationService
             }
         }
     }
-    
-    //MARK: Private Methods
     
     private func scheduleVotingNotifications()
     {
@@ -120,7 +118,7 @@ class DefaultNotificationService : NotificationService
         var trigger : UNNotificationTrigger! = nil
         
         switch type {
-        case .normal:
+        case .goal:
             let fireTime = date.timeIntervalSinceNow
             trigger = UNTimeIntervalNotificationTrigger(timeInterval: fireTime, repeats: false)
         case .repeatWeekly:
@@ -139,6 +137,23 @@ class DefaultNotificationService : NotificationService
                 self.loggingService.log(withLogLevel: .warning, message: "Tried to schedule notifications, but could't. Got error: \(error)")
             }
         }
+    }
+    
+    private func scheduleGoalNotifications()
+    {
+        guard let goal = goalService.getGoals(sinceDaysAgo: 1).first,
+            goal.date.ignoreTimeComponents() == timeService.now.ignoreTimeComponents()
+            else { return }
+        
+        let tomorrowAt11 = timeService.now.tomorrow.setHour(11)
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM dd"
+        let todayDateString = dateFormatter.string(from: timeService.now)
+        
+
+        let message = L10n.resultsNotificationMessage(todayDateString)
+        scheduleNotification(date: tomorrowAt11, title: "", message: message, ofType: .goal)
     }
     
     private func notificationContent(title: String, message: String) -> UNMutableNotificationContent

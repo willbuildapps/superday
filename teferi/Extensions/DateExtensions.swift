@@ -137,6 +137,16 @@ extension Date
         return min(differenceIfPreviousDay, differenceIfSameDay, differenceIfNextDay)
     }
     
+    func setHour(_ hour: Int, minute: Int = 0, second: Int = 0) -> Date
+    {
+        let calendar = Calendar.current
+        var components = calendar.dateComponents(Set<Calendar.Component>([.year, .month, .day, .hour, .minute, .second]), from: self)
+        components.hour = hour
+        components.minute = minute
+        components.second = second
+        return calendar.date(from: components)!
+    }
+    
     static func create(weekday: Int, hour: Int, minute: Int, second: Int) -> Date
     {
         var components = DateComponents()

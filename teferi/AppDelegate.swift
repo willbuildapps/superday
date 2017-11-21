@@ -69,7 +69,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         notificationService = DefaultNotificationService(timeService: timeService,
                                                             loggingService: loggingService,
                                                             settingsService: settingsService,
-                                                            timeSlotService: timeSlotService)
+                                                            goalService: goalService)
         
         let trackEventServicePersistency = TrackEventPersistencyService(loggingService: loggingService,
                                                                         locationPersistencyService: locationPersistencyService)
@@ -137,7 +137,6 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         let startedOn = isInBackground ? "background" : "foreground"
         let message = "Application started on \(startedOn). App Version: \(versionNumber) Build: \(buildNumber)"
 
-
         loggingService.log(withLogLevel: .info, message: message)
     }
     
@@ -173,11 +172,13 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     {
         appLifecycleService.publish(.movedToBackground)
         locationService.startLocationTracking()
+        
+        notificationService.clearAndScheduleGoalNotifications()
     }
 
     func applicationDidBecomeActive(_ application: UIApplication)
     {
-        notificationService.clearAndScheduleAllDefaultNotifications()
+        notificationService.clearAndScheduleWeeklyNotifications()
 
         initializeWindowIfNeeded()
         
