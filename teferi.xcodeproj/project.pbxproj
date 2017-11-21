@@ -27,7 +27,6 @@
 		2421F8C51D9BB4C600AF8857 /* SwiftyBeaverLoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2421F8C41D9BB4C600AF8857 /* SwiftyBeaverLoggingService.swift */; };
 		24224B081E28E37700AD7575 /* TimelineItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24224B071E28E37700AD7575 /* TimelineItem.swift */; };
 		242FE7D61DE7689A00EAEEE3 /* AutoResizingLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 242FE7D51DE7689A00EAEEE3 /* AutoResizingLayerView.swift */; };
-		243E37AE1DC8FABC0074032D /* DefaultNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243E37AD1DC8FABC0074032D /* DefaultNotificationService.swift */; };
 		24526A751D92D98800DA3FA0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24526A741D92D98800DA3FA0 /* Constants.swift */; };
 		24526A771D92D99F00DA3FA0 /* MetricsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24526A761D92D99F00DA3FA0 /* MetricsService.swift */; };
 		24526A7C1D92D9BB00DA3FA0 /* CustomEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24526A7A1D92D9BB00DA3FA0 /* CustomEvent.swift */; };
@@ -120,6 +119,10 @@
 		86499C439951BA9133439EF2 /* Pods_teferiTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43617E462FAF7C2B30BED3B4 /* Pods_teferiTests.framework */; };
 		8C028DA81EF8296500CABCE9 /* SmartGuesser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C028DA71EF8296500CABCE9 /* SmartGuesser.swift */; };
 		8C030D931EB32A9700938A61 /* CategoryWheel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0A632B1E548FE800D56433 /* CategoryWheel.swift */; };
+		8C0361691FB31CB40022594F /* TimeslotDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0361681FB31CB40022594F /* TimeslotDetailViewController.swift */; };
+		8C03616C1FB359490022594F /* HandleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C03616B1FB359490022594F /* HandleView.swift */; };
+		8C03616E1FB35D990022594F /* SlotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C03616D1FB35D990022594F /* SlotView.swift */; };
+		8C0361711FB367930022594F /* EditedSlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0361701FB367930022594F /* EditedSlot.swift */; };
 		8C08DBCF1FBDAD7900B0F642 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C08DBCE1FBDAD7900B0F642 /* Alert.swift */; };
 		8C08DBD11FBDB44300B0F642 /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C08DBD01FBDB44300B0F642 /* UIImageExtensions.swift */; };
 		8C08DBD31FBDEE1B00B0F642 /* AddGoalAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C08DBD21FBDEE1B00B0F642 /* AddGoalAlert.swift */; };
@@ -137,6 +140,9 @@
 		8C1729051EF02D9A002ABDDA /* DailySummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1728FA1EF02D9A002ABDDA /* DailySummaryTableViewCell.swift */; };
 		8C1729081EF02DB5002ABDDA /* DailySummary.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C1729061EF02DB5002ABDDA /* DailySummary.storyboard */; };
 		8C17290A1EF119E5002ABDDA /* PagerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1729091EF119E5002ABDDA /* PagerPresenter.swift */; };
+		8C1923A71FB305EA004EB05F /* EditTimesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1923A61FB305EA004EB05F /* EditTimesPresenter.swift */; };
+		8C1923A91FB305F6004EB05F /* EditTimesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1923A81FB305F6004EB05F /* EditTimesViewModel.swift */; };
+		8C1923AB1FB30605004EB05F /* EditTimesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1923AA1FB30605004EB05F /* EditTimesViewController.swift */; };
 		8C1EA3051F17EA6F003C3EEB /* TimelineDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1EA3041F17EA6F003C3EEB /* TimelineDataSource.swift */; };
 		8C20ABA91F0A115200C9EE33 /* OnboardingPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C20ABA81F0A115200C9EE33 /* OnboardingPageViewModel.swift */; };
 		8C20ABAC1F0A231100C9EE33 /* CalendarViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C20ABAB1F0A231100C9EE33 /* CalendarViewModelTests.swift */; };
@@ -168,6 +174,7 @@
 		8C7CCB4F1E9D1D1F00315BF7 /* AddTimeSlotButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7CCB4E1E9D1D1F00315BF7 /* AddTimeSlotButton.swift */; };
 		8C7CDCA41EC45E320079F48D /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7CDCA31EC45E320079F48D /* CoreDataStack.swift */; };
 		8C7E110A1E9B6E79009AAF49 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8C7E11091E9B6E79009AAF49 /* Settings.bundle */; };
+		8C89849C1FBA068E007EA8D3 /* DefaultNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C89849B1FBA068E007EA8D3 /* DefaultNotificationService.swift */; };
 		8C8E8CBC1F7A46E3006944BF /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8E8CBB1F7A46E3006944BF /* DateExtensions.swift */; };
 		8C8E8CBE1F7A561D006944BF /* CleanerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8E8CBD1F7A561D006944BF /* CleanerTests.swift */; };
 		8C9C25671ED3397E00B10187 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9C25661ED3397E00B10187 /* NavigationController.swift */; };
@@ -204,9 +211,8 @@
 		8CF8C0951EDED72000EA2C77 /* WeeklySummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF8C0941EDED72000EA2C77 /* WeeklySummaryViewController.swift */; };
 		8CF8C0991EDED99300EA2C77 /* WeeklySummary.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CF8C0981EDED99300EA2C77 /* WeeklySummary.storyboard */; };
 		8CF8C09D1EDEFEE900EA2C77 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF8C09C1EDEFEE900EA2C77 /* ChartView.swift */; };
-		AC086A041F8B99750003AAB4 /* EditTimeslotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC086A031F8B99750003AAB4 /* EditTimeslotViewController.swift */; };
-		AC086A061F8B99920003AAB4 /* EditTimeslotViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC086A051F8B99920003AAB4 /* EditTimeslotViewModel.swift */; };
-		AC086A081F8B99A90003AAB4 /* EditTimeslotPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC086A071F8B99A90003AAB4 /* EditTimeslotPresenter.swift */; };
+		AC086A061F8B99920003AAB4 /* TimeslotDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC086A051F8B99920003AAB4 /* TimeslotDetailViewModel.swift */; };
+		AC086A081F8B99A90003AAB4 /* TimeslotDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC086A071F8B99A90003AAB4 /* TimeslotDetailPresenter.swift */; };
 		AC086A0B1F8CDA8E0003AAB4 /* ShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC086A0A1F8CDA8E0003AAB4 /* ShadowView.swift */; };
 		AC086A121F8E508A0003AAB4 /* SimpleDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC086A101F8E508A0003AAB4 /* SimpleDetailCell.swift */; };
 		AC086A131F8E508A0003AAB4 /* SimpleDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC086A111F8E508A0003AAB4 /* SimpleDetailCell.xib */; };
@@ -356,7 +362,6 @@
 		2421F8C41D9BB4C600AF8857 /* SwiftyBeaverLoggingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyBeaverLoggingService.swift; sourceTree = "<group>"; };
 		24224B071E28E37700AD7575 /* TimelineItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineItem.swift; sourceTree = "<group>"; };
 		242FE7D51DE7689A00EAEEE3 /* AutoResizingLayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoResizingLayerView.swift; sourceTree = "<group>"; };
-		243E37AD1DC8FABC0074032D /* DefaultNotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultNotificationService.swift; sourceTree = "<group>"; };
 		24526A741D92D98800DA3FA0 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		24526A761D92D99F00DA3FA0 /* MetricsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetricsService.swift; sourceTree = "<group>"; };
 		24526A7A1D92D9BB00DA3FA0 /* CustomEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomEvent.swift; sourceTree = "<group>"; };
@@ -456,6 +461,10 @@
 		7E57ECE81E30DF370094251E /* LocationExtensionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationExtensionsTests.swift; sourceTree = "<group>"; };
 		7E57ECEB1E30EC000094251E /* LocationExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationExtensions.swift; sourceTree = "<group>"; };
 		8C028DA71EF8296500CABCE9 /* SmartGuesser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmartGuesser.swift; sourceTree = "<group>"; };
+		8C0361681FB31CB40022594F /* TimeslotDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeslotDetailViewController.swift; sourceTree = "<group>"; };
+		8C03616B1FB359490022594F /* HandleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandleView.swift; sourceTree = "<group>"; };
+		8C03616D1FB35D990022594F /* SlotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlotView.swift; sourceTree = "<group>"; };
+		8C0361701FB367930022594F /* EditedSlot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditedSlot.swift; sourceTree = "<group>"; };
 		8C08DBCE1FBDAD7900B0F642 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		8C08DBD01FBDB44300B0F642 /* UIImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
 		8C08DBD21FBDEE1B00B0F642 /* AddGoalAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalAlert.swift; sourceTree = "<group>"; };
@@ -475,6 +484,9 @@
 		8C1728FA1EF02D9A002ABDDA /* DailySummaryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DailySummaryTableViewCell.swift; sourceTree = "<group>"; };
 		8C1729071EF02DB5002ABDDA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/DailySummary.storyboard; sourceTree = "<group>"; };
 		8C1729091EF119E5002ABDDA /* PagerPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagerPresenter.swift; sourceTree = "<group>"; };
+		8C1923A61FB305EA004EB05F /* EditTimesPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTimesPresenter.swift; sourceTree = "<group>"; };
+		8C1923A81FB305F6004EB05F /* EditTimesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTimesViewModel.swift; sourceTree = "<group>"; };
+		8C1923AA1FB30605004EB05F /* EditTimesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTimesViewController.swift; sourceTree = "<group>"; };
 		8C1EA3041F17EA6F003C3EEB /* TimelineDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimelineDataSource.swift; path = Datasource/TimelineDataSource.swift; sourceTree = "<group>"; };
 		8C20ABA81F0A115200C9EE33 /* OnboardingPageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewModel.swift; sourceTree = "<group>"; };
 		8C20ABAB1F0A231100C9EE33 /* CalendarViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewModelTests.swift; sourceTree = "<group>"; };
@@ -506,6 +518,7 @@
 		8C7CCB4E1E9D1D1F00315BF7 /* AddTimeSlotButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTimeSlotButton.swift; sourceTree = "<group>"; };
 		8C7CDCA31EC45E320079F48D /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		8C7E11091E9B6E79009AAF49 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		8C89849B1FBA068E007EA8D3 /* DefaultNotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultNotificationService.swift; sourceTree = "<group>"; };
 		8C8E8CBB1F7A46E3006944BF /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
 		8C8E8CBD1F7A561D006944BF /* CleanerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleanerTests.swift; sourceTree = "<group>"; };
 		8C9C25661ED3397E00B10187 /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationController.swift; path = Navigation/NavigationController.swift; sourceTree = "<group>"; };
@@ -540,9 +553,8 @@
 		8CF8C0981EDED99300EA2C77 /* WeeklySummary.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = WeeklySummary.storyboard; sourceTree = "<group>"; };
 		8CF8C09C1EDEFEE900EA2C77 /* ChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChartView.swift; path = "teferi/UI/Modules/Weekly Summary/Views/ChartView.swift"; sourceTree = SOURCE_ROOT; };
 		924EEB50371CD17ACC6BCFF9 /* Pods-teferiTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-teferiTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-teferiTests/Pods-teferiTests.release.xcconfig"; sourceTree = "<group>"; };
-		AC086A031F8B99750003AAB4 /* EditTimeslotViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTimeslotViewController.swift; sourceTree = "<group>"; };
-		AC086A051F8B99920003AAB4 /* EditTimeslotViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTimeslotViewModel.swift; sourceTree = "<group>"; };
-		AC086A071F8B99A90003AAB4 /* EditTimeslotPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTimeslotPresenter.swift; sourceTree = "<group>"; };
+		AC086A051F8B99920003AAB4 /* TimeslotDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeslotDetailViewModel.swift; sourceTree = "<group>"; };
+		AC086A071F8B99A90003AAB4 /* TimeslotDetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeslotDetailPresenter.swift; sourceTree = "<group>"; };
 		AC086A0A1F8CDA8E0003AAB4 /* ShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowView.swift; sourceTree = "<group>"; };
 		AC086A101F8E508A0003AAB4 /* SimpleDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleDetailCell.swift; sourceTree = "<group>"; };
 		AC086A111F8E508A0003AAB4 /* SimpleDetailCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SimpleDetailCell.xib; sourceTree = "<group>"; };
@@ -929,8 +941,8 @@
 		24EB96601DE705850040C211 /* Interaction */ = {
 			isa = PBXGroup;
 			children = (
+				8C89849B1FBA068E007EA8D3 /* DefaultNotificationService.swift */,
 				2FB611411DE77846007C5646 /* MailFeedbackService.swift */,
-				243E37AD1DC8FABC0074032D /* DefaultNotificationService.swift */,
 			);
 			path = Interaction;
 			sourceTree = "<group>";
@@ -1055,6 +1067,23 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		8C03616A1FB3592E0022594F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8C03616B1FB359490022594F /* HandleView.swift */,
+				8C03616D1FB35D990022594F /* SlotView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8C03616F1FB367810022594F /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				8C0361701FB367930022594F /* EditedSlot.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		8C0B32AD1FBAE33100FFF991 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -1087,6 +1116,18 @@
 				8C1728FA1EF02D9A002ABDDA /* DailySummaryTableViewCell.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		8C1923A51FB305CE004EB05F /* EditTimes */ = {
+			isa = PBXGroup;
+			children = (
+				8C03616F1FB367810022594F /* ViewModels */,
+				8C03616A1FB3592E0022594F /* Views */,
+				8C1923A61FB305EA004EB05F /* EditTimesPresenter.swift */,
+				8C1923A81FB305F6004EB05F /* EditTimesViewModel.swift */,
+				8C1923AA1FB30605004EB05F /* EditTimesViewController.swift */,
+			);
+			path = EditTimes;
 			sourceTree = "<group>";
 		};
 		8C20ABAA1F0A1E6F00C9EE33 /* Views */ = {
@@ -1182,7 +1223,6 @@
 		8CA461371EC9A2D700587399 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				ACC11D5F1F90DDB50025809C /* TimeIntervalHelper.swift */,
 				8C2C44AF1ECD8772008131D7 /* ViewModels */,
 				8CA4613F1EC9A37D00587399 /* Datasources */,
 				8C6416FF1EAE022F00B893D7 /* PresentationControllers */,
@@ -1258,7 +1298,9 @@
 		8CA4613C1EC9A31B00587399 /* Timeline */ = {
 			isa = PBXGroup;
 			children = (
-				AC086A021F8B94D70003AAB4 /* Edit */,
+				ACC11D5F1F90DDB50025809C /* TimeIntervalHelper.swift */,
+				8C1923A51FB305CE004EB05F /* EditTimes */,
+				AC086A021F8B94D70003AAB4 /* TimeSlotDetail */,
 				8CEEF5AA1F175DB4007C36DA /* Datasource */,
 				8CA461411EC9A3CE00587399 /* Views */,
 				24564F711D832A4F00D9A8AE /* PagerViewController.swift */,
@@ -1396,16 +1438,16 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
-		AC086A021F8B94D70003AAB4 /* Edit */ = {
+		AC086A021F8B94D70003AAB4 /* TimeSlotDetail */ = {
 			isa = PBXGroup;
 			children = (
 				ACCF03491F8FD8D200F3DCFF /* Helper */,
 				AC086A091F8CDA6D0003AAB4 /* Views */,
-				AC086A031F8B99750003AAB4 /* EditTimeslotViewController.swift */,
-				AC086A051F8B99920003AAB4 /* EditTimeslotViewModel.swift */,
-				AC086A071F8B99A90003AAB4 /* EditTimeslotPresenter.swift */,
+				AC086A051F8B99920003AAB4 /* TimeslotDetailViewModel.swift */,
+				8C0361681FB31CB40022594F /* TimeslotDetailViewController.swift */,
+				AC086A071F8B99A90003AAB4 /* TimeslotDetailPresenter.swift */,
 			);
-			path = Edit;
+			path = TimeSlotDetail;
 			sourceTree = "<group>";
 		};
 		AC086A091F8CDA6D0003AAB4 /* Views */ = {
@@ -1917,12 +1959,13 @@
 				AC4A55E01FA72B0500A62107 /* GoalModelAdapter.swift in Sources */,
 				AC6C129A1F4E01DE0045B341 /* StarsView.swift in Sources */,
 				24564F721D832A4F00D9A8AE /* PagerViewController.swift in Sources */,
-				AC086A061F8B99920003AAB4 /* EditTimeslotViewModel.swift in Sources */,
+				AC086A061F8B99920003AAB4 /* TimeslotDetailViewModel.swift in Sources */,
 				24C72AA61D906BDA00DABAC3 /* LogLevel.swift in Sources */,
 				BE7FAFCA1E7319AD00A62AC9 /* LocationModelAdapter.swift in Sources */,
 				8C5B88751EBCCDA00096AE5B /* CategoryExtensions.swift in Sources */,
 				AC69F0A21F4C3FD000EF2CC9 /* RatingViewController.swift in Sources */,
 				8C71A5331F33779B00E8258C /* TimelineItem+TimelineCell.swift in Sources */,
+				8C03616E1FB35D990022594F /* SlotView.swift in Sources */,
 				8C1729051EF02D9A002ABDDA /* DailySummaryTableViewCell.swift in Sources */,
 				8CDEFACF1FBB3483001E2A75 /* CustomCollectionView.swift in Sources */,
 				24EB96751DE7080F0040C211 /* EditStateService.swift in Sources */,
@@ -1948,6 +1991,7 @@
 				246531701DA7B4150066DFE0 /* NotificationService.swift in Sources */,
 				24B03B5D1D9E4DA300452D16 /* DefaultSettingsService.swift in Sources */,
 				24564F511D8320FC00D9A8AE /* MainViewController.swift in Sources */,
+				8C0361691FB31CB40022594F /* TimeslotDetailViewController.swift in Sources */,
 				24EB96731DE7080F0040C211 /* DefaultTimeSlotService.swift in Sources */,
 				AC4A55ED1FA7433B00A62107 /* GoalViewModel.swift in Sources */,
 				24526A751D92D98800DA3FA0 /* Constants.swift in Sources */,
@@ -1963,6 +2007,7 @@
 				AC449C311E92BC8C00847957 /* PermissionViewModelProtocol.swift in Sources */,
 				8C460E8D1EE7EE3F0002D70B /* WeeklySummaryCategoryTableViewCell.swift in Sources */,
 				24D213AF1DB8CB8300E429CA /* DefaultAppLifecycleService.swift in Sources */,
+				8C1923AB1FB30605004EB05F /* EditTimesViewController.swift in Sources */,
 				51DDF7181DB4DBC200F9B672 /* OnboardingPage.swift in Sources */,
 				2421F8C51D9BB4C600AF8857 /* SwiftyBeaverLoggingService.swift in Sources */,
 				24EB96831DE709790040C211 /* DelayedSequence.swift in Sources */,
@@ -2002,7 +2047,6 @@
 				BE7FAFC61E72F96F00A62AC9 /* TrackEvent.swift in Sources */,
 				24DE23EE1E1BB3180089B49E /* CalendarDailyActivityView.swift in Sources */,
 				AC4A55E41FA7302600A62107 /* GoalService.swift in Sources */,
-				AC086A041F8B99750003AAB4 /* EditTimeslotViewController.swift in Sources */,
 				8C1728FF1EF02D9A002ABDDA /* SummaryPageViewController.swift in Sources */,
 				8C38A8791F711623001883F7 /* LoadingView.swift in Sources */,
 				24526A7D1D92D9BB00DA3FA0 /* Location.swift in Sources */,
@@ -2017,6 +2061,7 @@
 				2FB611421DE77846007C5646 /* MailFeedbackService.swift in Sources */,
 				AC6C12981F4C7EAB0045B341 /* ReviewTableViewCell.swift in Sources */,
 				24564F5A1D83259100D9A8AE /* DefaultLocationService.swift in Sources */,
+				8C03616C1FB359490022594F /* HandleView.swift in Sources */,
 				AC69F0A61F4C401A00EF2CC9 /* RatingPresenter.swift in Sources */,
 				AC4A55E91FA7430F00A62107 /* GoalPresenter.swift in Sources */,
 				8C6417051EAE0CDA00B893D7 /* FromBottomTransition.swift in Sources */,
@@ -2053,6 +2098,7 @@
 				8C7CCB4D1E9D150A00315BF7 /* MaterialButton.swift in Sources */,
 				8C26A1751ECAE67800EFE509 /* IntroViewModel.swift in Sources */,
 				BEDE5B3C1E4A3F3C0082FFC3 /* PermissionViewController.swift in Sources */,
+				8C0361711FB367930022594F /* EditedSlot.swift in Sources */,
 				240AC7181D748C8800F21F4F /* AppDelegate.swift in Sources */,
 				8C1729031EF02D9A002ABDDA /* SummaryViewModel.swift in Sources */,
 				24526A7C1D92D9BB00DA3FA0 /* CustomEvent.swift in Sources */,
@@ -2065,6 +2111,7 @@
 				24B03B591D9E4C3E00452D16 /* PagerViewModel.swift in Sources */,
 				242FE7D61DE7689A00EAEEE3 /* AutoResizingLayerView.swift in Sources */,
 				AF99E5911FBD8DDF00809379 /* SettingsViewController.swift in Sources */,
+				8C1923A71FB305EA004EB05F /* EditTimesPresenter.swift in Sources */,
 				24EB96771DE7080F0040C211 /* MotionService.swift in Sources */,
 				8C4C5B5D1ECEEC34003239BE /* CalendarPresenter.swift in Sources */,
 				AF99E5901FBD8DDF00809379 /* SettingsPresenter.swift in Sources */,
@@ -2086,9 +2133,10 @@
 				8CF8C0931EDED70100EA2C77 /* WeeklySummaryViewModel.swift in Sources */,
 				8C1729011EF02D9A002ABDDA /* SummaryPresenter.swift in Sources */,
 				24D213AB1DB8CA4600E429CA /* AppLifecycleService.swift in Sources */,
-				243E37AE1DC8FABC0074032D /* DefaultNotificationService.swift in Sources */,
+				8C1923A91FB305F6004EB05F /* EditTimesViewModel.swift in Sources */,
 				240AC7201D748C8800F21F4F /* teferi.xcdatamodeld in Sources */,
 				24DE23FD1E1BB38C0089B49E /* SelectedDateService.swift in Sources */,
+				8C89849C1FBA068E007EA8D3 /* DefaultNotificationService.swift in Sources */,
 				8C24A2271FBD8FD700C01FE8 /* ScrollShadow.swift in Sources */,
 				24EB967F1DE708570040C211 /* Predicate.swift in Sources */,
 				8CF8C0951EDED72000EA2C77 /* WeeklySummaryViewController.swift in Sources */,
@@ -2096,7 +2144,7 @@
 				BE55CED11E7AC994006B851E /* TemporaryTimeSlot.swift in Sources */,
 				BEA024341E41137D0061FE53 /* Category.swift in Sources */,
 				7E3C06991E30B7CA00859747 /* Strings.swift in Sources */,
-				AC086A081F8B99A90003AAB4 /* EditTimeslotPresenter.swift in Sources */,
+				AC086A081F8B99A90003AAB4 /* TimeslotDetailPresenter.swift in Sources */,
 				8C6417071EAF415200B893D7 /* CategoryButton.swift in Sources */,
 				AC4A55E61FA7317C00A62107 /* DefaultGoalService.swift in Sources */,
 				BE0A5B751EE0297600200939 /* TimeSlotServiceExtensions.swift in Sources */,

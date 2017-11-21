@@ -167,15 +167,23 @@ class MockLocator : ViewModelLocator
                                timeService: timeService)
     }
     
-    func getEditTimeslotViewModel(for startDate: Date, timelineItemsObservable: Observable<[TimelineItem]>, isShowingSubSlot: Bool) -> EditTimeslotViewModel
+    func getTimeslotDetailViewModel(for startDate: Date, timelineItemsObservable: Observable<[TimelineItem]>, isShowingSubSlot: Bool) -> TimeslotDetailViewModel
     {
-        return EditTimeslotViewModel(startDate: startDate,
+        return TimeslotDetailViewModel(startDate: startDate,
                                      isShowingSubSlot: isShowingSubSlot,
                                      timelineItemsObservable: timelineItemsObservable,
                                      timeSlotService: timeSlotService,
                                      metricsService: metricsService,
                                      smartGuessService: smartGuessService,
                                      timeService: timeService)
+    }
+    
+    func getEditTimesViewModel(for slotAtDate: Date, editingStart: Bool) -> EditTimesViewModel
+    {
+        return EditTimesViewModel(slotAtDate: slotAtDate,
+                                  editingStart: editingStart,
+                                  timeService: timeService,
+                                  timeSlotService: timeSlotService)
     }
     
     func getGoalViewModel() -> GoalViewModel

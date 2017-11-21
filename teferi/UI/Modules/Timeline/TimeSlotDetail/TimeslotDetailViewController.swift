@@ -22,11 +22,11 @@ enum SectionType: Int
     }
 }
 
-class EditTimeslotViewController: UIViewController
+class TimeslotDetailViewController: UIViewController
 {
     // MARK: Private Properties
-    fileprivate var viewModel : EditTimeslotViewModel!
-    fileprivate var presenter : EditTimeslotPresenter!
+    fileprivate var viewModel : TimeslotDetailViewModel!
+    fileprivate var presenter : TimeslotDetailPresenter!
     fileprivate let disposeBag = DisposeBag()
     @IBOutlet private weak var blurView : UIVisualEffectView!
     @IBOutlet private weak var shadowView : ShadowView!
@@ -54,7 +54,7 @@ class EditTimeslotViewController: UIViewController
     fileprivate var isMultiSlotItem : Bool {return timelineItem.timeSlots.count > 1 }
     
     // MARK: - Init
-    func inject(presenter: EditTimeslotPresenter, viewModel: EditTimeslotViewModel)
+    func inject(presenter: TimeslotDetailPresenter, viewModel: TimeslotDetailViewModel)
     {
         self.presenter = presenter
         self.viewModel = viewModel
@@ -130,7 +130,7 @@ class EditTimeslotViewController: UIViewController
     }
 }
 
-extension EditTimeslotViewController : UITableViewDelegate
+extension TimeslotDetailViewController : UITableViewDelegate
 {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
@@ -154,13 +154,26 @@ extension EditTimeslotViewController : UITableViewDelegate
                 break
             }
             
+        case .time:
+            
+            guard let timeRowType = SectionType.TimeRowType.init(rawValue: indexPath.row) else { break }
+            guard timelineItem.timeSlots.count == 1, let timeSlot = timelineItem.timeSlots.first else { break }
+            switch timeRowType {
+            case .start:
+                guard timeSlot.startTime.ignoreDateComponents() != timeSlot.startTime.ignoreTimeComponents().ignoreDateComponents() else { return }
+                presenter.showEditStartTime(timeSlot: timeSlot)
+            case .end:
+                guard let endTime = timeSlot.endTime, endTime.ignoreDateComponents() != endTime.ignoreTimeComponents().ignoreDateComponents() else { return }
+                presenter.showEditEndTime(timeSlot: timeSlot)
+            }
+            
         default:
             break
         }
     }
 }
 
-extension EditTimeslotViewController : UITableViewDataSource
+extension TimeslotDetailViewController : UITableViewDataSource
 {
     
     func numberOfSections(in tableView: UITableView) -> Int

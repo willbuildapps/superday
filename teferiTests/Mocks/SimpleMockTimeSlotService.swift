@@ -55,6 +55,11 @@ class SimpleMockTimeSlotService : TimeSlotService
         
     }
     
+    func updateTimes(firstSlot: TimeSlot, secondSlot: TimeSlot)
+    {
+        
+    }
+    
     func getLast() -> TimeSlot?
     {
         return timeSlotsToReturn?.last

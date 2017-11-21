@@ -19,14 +19,36 @@ func calculatedLineHeight(for duration: TimeInterval) -> CGFloat
 
 func formatedElapsedTimeText(for duration: TimeInterval) -> String
 {
-    let hourMask = "%02d h %02d min"
-    let minuteMask = "%02d min"
+    let hourMask = "%01d h %01d min"
+    let minuteMask = "%01d min"
 
     let components = elapsedTimeComponents(for: duration)
     
     return components.hour! > 0 ?
         String(format: hourMask, components.hour!, components.minute!) :
         String(format: minuteMask, components.minute!)
+}
+
+func formatedElapsedTimeLongText(for duration: TimeInterval) -> String
+{
+    let components = elapsedTimeComponents(for: duration)
+    guard let hours = components.hour, let minutes = components.minute else { return "0 hours" }
+    
+    if hours > 0 {
+        if minutes > 0 {
+            return String(format: "%.1f hours", (Double(hours) + Double(minutes) / 60))
+        }
+        
+        if hours == 1 {
+            return "1 hour"
+        }
+        return String(format: "%01d hours", hours)
+    }
+    
+    if minutes == 1 {
+        return "1 minute"
+    }
+    return String(format: "%01d minutes", minutes)
 }
 
 func elapsedTimeComponents(for duration: TimeInterval) -> DateComponents

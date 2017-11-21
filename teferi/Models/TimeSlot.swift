@@ -61,6 +61,18 @@ extension TimeSlot
             categoryWasSmartGuessed: false,
             activity: self.activity)
     }
+    
+    func withStartTime(_ startTime: Date, endTime: Date) -> TimeSlot
+    {
+        return TimeSlot(
+            startTime: startTime,
+            endTime: endTime,
+            category: self.category,
+            location: self.location,
+            categoryWasSetByUser: self.categoryWasSetByUser,
+            categoryWasSmartGuessed: self.categoryWasSmartGuessed,
+            activity: self.activity)
+    }
 }
 
 extension TimeSlot

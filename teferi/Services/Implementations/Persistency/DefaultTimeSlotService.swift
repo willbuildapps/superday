@@ -144,6 +144,71 @@ class DefaultTimeSlotService : TimeSlotService
         }
     }
     
+    func updateTimes(firstSlot: TimeSlot, secondSlot: TimeSlot)
+    {
+        guard let secondSlotEnd = secondSlot.endTime,
+            let secondDuration = secondSlot.duration else { return }
+        
+        //We use secondSlot start just in case there's a gap due to not very precise UI (we delete every TS < 60 secs)
+        let firstSlotEnd = secondSlot.startTime
+        let firstDuration = firstSlotEnd.timeIntervalSince(firstSlot.startTime)
+        
+        var updated = [TimeSlot]()
+        
+        let firstPredicate = Predicate(parameter: "startTime", equals: firstSlot.startTime as AnyObject)
+        let secondPredicate = Predicate(parameter: "endTime", equals: secondSlotEnd as AnyObject)
+        
+        let firstFunction = { (timeSlot: TimeSlot) -> (TimeSlot) in
+            return timeSlot.withEndDate(secondSlot.startTime)
+        }
+        
+        let secondFunction = { (timeSlot: TimeSlot) -> (TimeSlot) in
+            return timeSlot.withStartTime(firstSlotEnd, endTime: secondSlotEnd)
+        }
+        
+        switch (firstDuration, secondDuration) {
+        case (60..., 60...):
+            
+            if let firstUpdated = updateSlotTime(withPredicate: firstPredicate, updateFunction: firstFunction) {
+                updated.append(firstUpdated)
+            }
+            if let secondUpdated = updateSlotTime(withPredicate: secondPredicate, updateFunction: secondFunction) {
+                updated.append(secondUpdated)
+            }
+            
+        case (..<60, 60...):
+            
+            persistencyService.delete(withPredicate: firstPredicate)
+
+            if let updatedTimeslot = updateSlotTime(withPredicate: secondPredicate, updateFunction: secondFunction) {
+                updated.append(updatedTimeslot)
+            }
+            
+        case (60..., ..<60):
+            
+            persistencyService.delete(withPredicate: secondPredicate)
+            
+            if let updatedTimeslot = updateSlotTime(withPredicate: firstPredicate, updateFunction: firstFunction) {
+                updated.append(updatedTimeslot)
+            }
+            
+        default:
+            break
+        }
+
+        timeSlotsUpdatedSubject.on(.next(updated))
+    }
+    
+    private func updateSlotTime(withPredicate predicate: Predicate, updateFunction: @escaping (TimeSlot) -> (TimeSlot)) -> TimeSlot?
+    {
+        guard let updatedSlot = persistencyService.singleUpdate(withPredicate: predicate, updateFunction: updateFunction) else {
+            loggingService.log(withLogLevel: .warning, message: "Error updating TimeSlot's time")
+            return nil
+        }
+        
+        return updatedSlot
+    }
+    
     func getLast() -> TimeSlot?
     {
         return persistencyService.getLast()

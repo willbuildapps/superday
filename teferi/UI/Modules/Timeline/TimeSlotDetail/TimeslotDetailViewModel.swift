@@ -1,7 +1,7 @@
 import Foundation
 import RxSwift
 
-class EditTimeslotViewModel
+class TimeslotDetailViewModel
 {
     var timelineItemObservable: Observable<TimelineItem?>
     {

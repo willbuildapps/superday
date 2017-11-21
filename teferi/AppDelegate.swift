@@ -50,7 +50,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         let timeSlotPersistencyService = CoreDataPersistencyService(loggingService: loggingService, modelAdapter: TimeSlotModelAdapter(), managedObjectContext: coreDataStack.managedObjectContext)
         let locationPersistencyService = CoreDataPersistencyService(loggingService: loggingService, modelAdapter: LocationModelAdapter(), managedObjectContext: coreDataStack.managedObjectContext)
         let goalPersistencyService = CoreDataPersistencyService(loggingService: loggingService, modelAdapter: GoalModelAdapter(), managedObjectContext: coreDataStack.managedObjectContext)
-        
+                
         timeSlotService = DefaultTimeSlotService(timeService: timeService,
                                                  loggingService: loggingService,
                                                  locationService: locationService,

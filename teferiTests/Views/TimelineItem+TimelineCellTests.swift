@@ -110,7 +110,7 @@ class TimelineItem_TimelineCellTests: XCTestCase
         let startTime = Date()
         let duration: TimeInterval = 5000
         
-        let hourMask = "%02d h %02d min"
+        let hourMask = "%01d h %01d min"
         let minutes = (Int(duration) / 60) % 60
         let hours = (Int(duration) / 3600)
         let expectedText = String(format: hourMask, hours, minutes)
