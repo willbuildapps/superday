@@ -6,6 +6,7 @@ class NewGoalViewModel
     private let timeService: TimeService
     private let goalService: GoalService
     private let categoryProvider: CategoryProvider
+    private let goalToBeEdited: Goal?
     
     var durationSelectedVariable = Variable<Double?>(nil)
     var categorySelectedVariable = Variable<Category?>(nil)
@@ -22,17 +23,35 @@ class NewGoalViewModel
             .map(GoalTime.init)
     }()
     
-    init(timeService: TimeService,
+    private(set) var initialCategory: Category?
+    private(set) var initialTime: GoalTime?
+    private(set) var buttonTitle: String
+    
+    init(goalToBeEdited: Goal?,
+         timeService: TimeService,
          goalService: GoalService,
          categoryProvider: CategoryProvider)
     {
+        self.goalToBeEdited = goalToBeEdited
         self.timeService = timeService
         self.goalService = goalService
         self.categoryProvider = categoryProvider
+        
+        if let goalToBeEdited = goalToBeEdited {
+            initialCategory = goalToBeEdited.category
+            initialTime = GoalTime(goalTime: goalToBeEdited.targetTime)
+            buttonTitle = "Done"
+        } else {
+            buttonTitle = "Set a goal"
+        }
     }
     
-    func createNewGoal()
+    func saveGoal()
     {
-        goalService.addGoal(forDate: timeService.now, category: categorySelectedVariable.value!, targetTime: durationSelectedVariable.value!)
+        if let goalToBeEdited = goalToBeEdited {
+            goalService.update(goal: goalToBeEdited, withCategory: categorySelectedVariable.value!, withTargetTime: durationSelectedVariable.value!)
+        } else {
+            goalService.addGoal(forDate: timeService.now, category: categorySelectedVariable.value!, targetTime: durationSelectedVariable.value!)
+        }
     }
 }

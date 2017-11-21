@@ -2,6 +2,7 @@ import UIKit
 
 protocol CustomCollectionViewDatasource
 {
+    var initialIndex: Int { get }
     func numberOfItems(for collectionView: UICollectionView) -> Int
     func cell(at row: Int, for collectionView: UICollectionView) -> UICollectionViewCell
 }
@@ -60,15 +61,18 @@ class CustomCollectionView: UICollectionView
     
     private func firstLayoutIfNeeded()
     {
-        guard !didLayout else { return }
+        guard !didLayout, let customDatasource = customDatasource  else { return }
         
         didLayout = true
+        
+        let layout = collectionViewLayout as! UICollectionViewFlowLayout
+        let cellWidth = layout.itemSize.width + layout.minimumInteritemSpacing
+        let initialOffset = CGFloat(customDatasource.initialIndex) * cellWidth
+        
         if loops {
-            let layout = collectionViewLayout as! UICollectionViewFlowLayout
-            let cellWidth = layout.itemSize.width + layout.minimumInteritemSpacing
-            contentOffset = CGPoint(x: -contentInset.left + cellWidth * CGFloat(numberOfLoops/2 * totalNumberOfItems), y: 0)
+            contentOffset = CGPoint(x: -contentInset.left + cellWidth * CGFloat(numberOfLoops/2 * totalNumberOfItems) + initialOffset, y: 0)
         } else {
-            contentOffset = CGPoint(x: -contentInset.left, y: 0)
+            contentOffset = CGPoint(x: -contentInset.left + initialOffset, y: 0)
         }
     }
 }

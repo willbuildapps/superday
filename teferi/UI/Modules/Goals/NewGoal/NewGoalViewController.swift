@@ -52,6 +52,7 @@ class NewGoalViewController: UIViewController
         timesCollectionView.customDatasource = CustomCollectionViewArrayDatasource<GoalTimeCell, GoalTime>(
             items: viewModel.goalTimes,
             cellIdentifier: "goalTimeCell",
+            initialValue: viewModel.initialTime,
             configureCell: { _, goalTime, cell in
                 cell.goalTime = goalTime
                 return cell
@@ -60,10 +61,13 @@ class NewGoalViewController: UIViewController
         categoriesCollectionView.customDatasource = CustomCollectionViewArrayDatasource<GoalCategoryCell, Category>(
             items: viewModel.categories,
             cellIdentifier: "goalCategoryCell",
+            initialValue: viewModel.initialCategory,
             configureCell: { _, category, cell in
                 cell.category = category
                 return cell
             })
+        
+        newGoalButton.setTitle(viewModel.buttonTitle, for: .normal)
 
         createBindings()
     }
@@ -78,7 +82,7 @@ class NewGoalViewController: UIViewController
         
         newGoalButton.rx.tap
             .subscribe(onNext: { [unowned self] _ in
-                self.viewModel.createNewGoal()
+                self.viewModel.saveGoal()
                 self.presenter.dismiss()
             })
             .addDisposableTo(disposeBag)

@@ -36,6 +36,19 @@ class GoalPresenter : NSObject
         
         swipeInteractionController.wireToViewController(viewController: vc)
     }
+    
+    func showEditGoal(withGoal goal: Goal)
+    {
+        let topAndBottomPadding = (UIScreen.main.bounds.height - 431) / 2
+        padding = ContainerPadding(left: 16, top: topAndBottomPadding, right: 16, bottom: topAndBottomPadding)
+        
+        let vc = NewGoalPresenter.create(with: viewModelLocator, goalToBeEdited: goal)
+        vc.modalPresentationStyle = .custom
+        vc.transitioningDelegate = self
+        viewController.present(vc, animated: true, completion: nil)
+        
+        swipeInteractionController.wireToViewController(viewController: vc)
+    }
 }
 
 extension GoalPresenter : UIViewControllerTransitioningDelegate

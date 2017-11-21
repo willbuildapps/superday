@@ -10,10 +10,10 @@ class NewGoalPresenter
         self.viewModelLocator = viewModelLocator
     }
     
-    static func create(with viewModelLocator: ViewModelLocator) -> NewGoalViewController
+    static func create(with viewModelLocator: ViewModelLocator, goalToBeEdited: Goal? = nil) -> NewGoalViewController
     {
         let presenter = NewGoalPresenter(viewModelLocator: viewModelLocator)
-        let viewModel = viewModelLocator.getNewGoalViewModel()
+        let viewModel = viewModelLocator.getNewGoalViewModel(goalToBeEdited: goalToBeEdited)
         
         let viewController = StoryboardScene.Goal.instantiateNewGoal()
         viewController.inject(presenter: presenter, viewModel: viewModel)

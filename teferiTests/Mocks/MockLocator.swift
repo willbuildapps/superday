@@ -187,9 +187,10 @@ class MockLocator : ViewModelLocator
                              appLifecycleService: appLifecycleService)
     }
     
-    func getNewGoalViewModel() -> NewGoalViewModel
+    func getNewGoalViewModel(goalToBeEdited: Goal?) -> NewGoalViewModel
     {
-        return NewGoalViewModel(timeService: timeService,
+        return NewGoalViewModel(goalToBeEdited: goalToBeEdited,
+                                timeService: timeService,
                                 goalService: goalService,
                                 categoryProvider: DefaultCategoryProvider(timeSlotService:  timeSlotService))
     }

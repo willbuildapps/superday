@@ -21,12 +21,17 @@ class GoalViewController: UIViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
-
+        
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 78
         tableView.register(UINib.init(nibName: "GoalCell", bundle: Bundle.main), forCellReuseIdentifier: GoalCell.cellIdentifier)
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 0, right: 0)
 
+        tableView.tableHeaderView = header
+        header.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+        }
+        
         let footerView = UIView(frame: .zero)
         footerView.backgroundColor = .clear
         tableView.tableFooterView = footerView
@@ -34,11 +39,25 @@ class GoalViewController: UIViewController
         tableView.addTopShadow()
         
         dataSource.configureCell = constructCell
-
+        
         createBindings()
     }
 
     // MARK: Private Methods
+    private func barButtonItem(forGoal goal: Goal?) -> UIBarButtonItem?
+    {
+        guard let goal = goal else { return nil }
+        
+        let buttonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: nil, action: nil)
+        buttonItem.rx.tap
+            .subscribe(onNext: { [unowned self] in
+                self.presenter.showEditGoal(withGoal: goal)
+            })
+            .addDisposableTo(self.disposeBag)
+        
+        return buttonItem
+    }
+    
     private func createBindings()
     {
         viewModel.goalsObservable
@@ -46,14 +65,17 @@ class GoalViewController: UIViewController
             .bindTo(tableView.rx.items(dataSource: dataSource))
             .addDisposableTo(disposeBag)
 
-        viewModel.goalsObservable
-            .subscribe(onNext: { [unowned self] (goals) in
-                self.tableView.tableHeaderView = self.header
-                self.header.snp.makeConstraints { make in
-                    make.width.equalToSuperview()
-                }
-                self.header.configure(withGoal: self.viewModel.isCurrentGoal(goals.first) ? goals.first : nil,
-                                      message: self.viewModel.message(forGoal: goals.first))
+        viewModel.todaysGoal
+            .map(barButtonItem)
+            .subscribe(onNext: {
+                self.navigationItem.rightBarButtonItem = $0
+            })
+            .addDisposableTo(disposeBag)
+        
+        viewModel.todaysGoal
+            .subscribe(onNext: { goal in
+                self.header.configure(withGoal: goal,
+                                      message: self.viewModel.message(forGoal: goal))
             })
             .addDisposableTo(disposeBag)
         

@@ -4,7 +4,11 @@ import RxSwift
 class GoalViewModel
 {
     //MARK: Public Properties
-    var goalsObservable : Observable<[Goal]> { return self.goals.asObservable() }
+    var goalsObservable: Observable<[Goal]> { return self.goals.asObservable() }
+    var todaysGoal: Observable<Goal?> {
+        return self.goals.asObservable()
+            .map(toTodaysGoal)
+    }
     
     //MARK: Private Properties
     private let disposeBag = DisposeBag()
@@ -35,7 +39,7 @@ class GoalViewModel
         let newGoalForThisDate = goalService.goalCreatedObservable
             .mapTo(())
         
-        let updatedGoalsForThisDate = goalService.goalsUpdatedObservable
+        let updatedGoalForThisDate = goalService.goalUpdatedObservable
             .mapTo(())
         
         let newTimeSlotForThisDate = timeSlotService
@@ -52,7 +56,7 @@ class GoalViewModel
             .mapTo(())
         
         let refreshObservable =
-            Observable.of(newGoalForThisDate, updatedGoalsForThisDate, movedToForeground, newTimeSlotForThisDate, updatedTimeSlotsForThisDate)
+            Observable.of(newGoalForThisDate, updatedGoalForThisDate, movedToForeground, newTimeSlotForThisDate, updatedTimeSlotsForThisDate)
                 .merge()
                 .startWith(())
         
@@ -78,6 +82,16 @@ class GoalViewModel
     }
     
     //MARK: Private Methods
+    
+    private func toTodaysGoal(goals:[Goal]) -> Goal?
+    {
+        guard let firstGoal = goals.first else { return nil }
+        if firstGoal.date.ignoreTimeComponents() == self.timeService.now.ignoreTimeComponents() {
+            return firstGoal
+        }
+        
+        return nil
+    }
     
     /// Adds placeholder goals to the given goals array to fill the dates that did not have any goal.
     /// The placeholder goals have the date of the days that do not have any goal and a category of .unknown

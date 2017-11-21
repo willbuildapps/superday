@@ -6,10 +6,10 @@ class MockGoalService : GoalService
 {
     private let timeService : TimeService
     private let goalCreatedSubject = PublishSubject<Goal>()
-    private let goalssUpdatedSubject = PublishSubject<[Goal]>()
+    private let goalUpdatedSubject = PublishSubject<Goal>()
     
     var goalCreatedObservable: Observable<Goal>
-    var goalsUpdatedObservable: Observable<[Goal]>
+    var goalUpdatedObservable: Observable<Goal>
     
     var goals = [Goal]()
     
@@ -18,7 +18,7 @@ class MockGoalService : GoalService
         self.timeService = timeService
         
         goalCreatedObservable = goalCreatedSubject.asObservable()
-        goalsUpdatedObservable = goalssUpdatedSubject.asObservable()
+        goalUpdatedObservable = goalUpdatedSubject.asObservable()
     }
     
     func addGoal(forDate date: Date, category: teferi.Category, targetTime: Seconds) -> Goal?
@@ -34,17 +34,13 @@ class MockGoalService : GoalService
         })
     }
     
-    func update(goals: [Goal], withCategory category: teferi.Category?, withTargetTime targetTime: Seconds?)
+    func update(goal: Goal, withCategory category: teferi.Category?, withTargetTime targetTime: Seconds?)
     {
-        self.goals = self.goals.map({ (goal) in
-            var goalToReturn = goal
-            goals.forEach({ (innerGoal) in
-                if innerGoal == goalToReturn
-                {
-                    goalToReturn = goalToReturn.with(category: category, targetTime: targetTime)
-                }
-            })
-            return goalToReturn
+        self.goals = self.goals.map({ existingGoal in
+            if existingGoal == goal {
+                return goal.with(category: category, targetTime: targetTime)
+            }
+            return existingGoal
         })
     }
 }

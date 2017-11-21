@@ -60,7 +60,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
                                          timeSlotService: timeSlotService,
                                          loggingService: loggingService,
                                          persistencyService: goalPersistencyService)
-        
+
         smartGuessService = DefaultSmartGuessService(timeService: timeService,
                                                      loggingService: loggingService,
                                                      settingsService: settingsService,
@@ -75,8 +75,8 @@ class AppDelegate : UIResponder, UIApplicationDelegate
                                                                         locationPersistencyService: locationPersistencyService)
         
         trackEventService = DefaultTrackEventService(loggingService: loggingService,
-                                                          persistencyService: trackEventServicePersistency,
-                                                          withEventSources: locationService)
+                                                     persistencyService: trackEventServicePersistency,
+                                                     withEventSources: locationService)
     }
     
     //MARK: UIApplicationDelegate lifecycle

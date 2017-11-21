@@ -5,7 +5,7 @@ class DefaultGoalService : GoalService
 {
     // MARK: Public Properties
     let goalCreatedObservable : Observable<Goal>
-    let goalsUpdatedObservable : Observable<[Goal]>
+    let goalUpdatedObservable : Observable<Goal>
     
     // MARK: Private Properties
     private let timeService : TimeService
@@ -14,7 +14,7 @@ class DefaultGoalService : GoalService
     private let persistencyService : BasePersistencyService<Goal>
     
     private let goalCreatedSubject = PublishSubject<Goal>()
-    private let goalsUpdatedSubject = PublishSubject<[Goal]>()
+    private let goalUpdatedSubject = PublishSubject<Goal>()
     
     init(timeService : TimeService,
          timeSlotService : TimeSlotService,
@@ -27,7 +27,7 @@ class DefaultGoalService : GoalService
         self.persistencyService = persistencyService
         
         goalCreatedObservable = goalCreatedSubject.asObservable()
-        goalsUpdatedObservable = goalsUpdatedSubject.asObservable()
+        goalUpdatedObservable = goalUpdatedSubject.asObservable()
     }
     
     func addGoal(forDate date: Date, category: Category, targetTime: Seconds) -> Goal?
@@ -49,33 +49,31 @@ class DefaultGoalService : GoalService
         return goals.map(withCompletedTimes)
     }
     
-    func update(goals: [Goal], withCategory category: Category?, withTargetTime targetTime: Seconds?)
+    func update(goal: Goal, withCategory category: Category?, withTargetTime targetTime: Seconds?)
     {
-        let predicate = Predicate(parameter: "date", in: goals.map({ $0.date }) as [AnyObject])
+        let predicate = Predicate(parameter: "date", equals: goal.date as AnyObject)
         let editFunction = { (goal: Goal) -> (Goal) in
             return goal.with(category: category, targetTime: targetTime)
         }
         
-        if let updatedGoals = persistencyService.batchUpdate(withPredicate: predicate, updateFunction: editFunction)
+        if let updatedGoal = persistencyService.singleUpdate(withPredicate: predicate, updateFunction: editFunction)
         {
-            goalsUpdatedSubject.on(.next(updatedGoals))
+            goalUpdatedSubject.on(.next(updatedGoal))
         }
         else
         {
-            goals.forEach({ (goal) in
-                if let category = category, let targetTime = targetTime
-                {
-                    loggingService.log(withLogLevel: .warning, message: "Error updating category or value of Goal created on \(goal.date). Category from \(goal.category) to \(category) or targetTime from \(goal.targetTime) to \(targetTime)")
-                }
-                else if let category = category
-                {
-                    loggingService.log(withLogLevel: .warning, message: "Error updating category of Goal created on \(goal.date). Category from \(goal.category) to \(category)")
-                }
-                else if let targetTime = targetTime
-                {
-                    loggingService.log(withLogLevel: .warning, message: "Error updating value of Goal created on \(goal.date). Value from from \(goal.targetTime) to \(targetTime)")
-                }
-            })
+            if let category = category, let targetTime = targetTime
+            {
+                loggingService.log(withLogLevel: .warning, message: "Error updating category or value of Goal created on \(goal.date). Category from \(goal.category) to \(category) or targetTime from \(goal.targetTime) to \(targetTime)")
+            }
+            else if let category = category
+            {
+                loggingService.log(withLogLevel: .warning, message: "Error updating category of Goal created on \(goal.date). Category from \(goal.category) to \(category)")
+            }
+            else if let targetTime = targetTime
+            {
+                loggingService.log(withLogLevel: .warning, message: "Error updating value of Goal created on \(goal.date). Value from from \(goal.targetTime) to \(targetTime)")
+            }
         }
     }
     
