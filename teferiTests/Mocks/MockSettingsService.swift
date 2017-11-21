@@ -4,6 +4,8 @@ import RxSwift
 
 class MockSettingsService : SettingsService
 {
+    var lastShownGoalSuggestion: Date?
+    
     //MARK: Properties
     var nextSmartGuessId = 0
     var installDate : Date? = Date()
@@ -115,4 +117,9 @@ class MockSettingsService : SettingsService
         lastShownAddGoalAlert = date
     }
 
+    func setLastShownGoalSuggestion(_ date: Date)
+    {
+        lastShownGoalSuggestion = date
+    }
+    
 }

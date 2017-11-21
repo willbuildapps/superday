@@ -84,6 +84,16 @@ class GoalViewController: UIViewController
                 self.presenter.showNewGoalUI()
             })
             .addDisposableTo(self.disposeBag)
+        
+        viewModel.suggestionObservable
+            .subscribe(onNext: { [unowned self] suggestion in
+                guard let suggestion = suggestion else {
+                    GoalSuggestionAlert.hide()
+                    return                    
+                }
+                GoalSuggestionAlert(inView: self.view, text: suggestion).show()
+            })
+            .addDisposableTo(self.disposeBag)
     }
 
     private func constructCell(dataSource: TableViewSectionedDataSource<GoalSection>,

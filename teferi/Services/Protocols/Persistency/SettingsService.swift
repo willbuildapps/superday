@@ -35,6 +35,8 @@ protocol SettingsService
     
     var lastShownAddGoalAlert : Date? { get }
 
+    var lastShownGoalSuggestion : Date? { get }
+
     var versionNumber: String { get }
     
     var buildNumber: String { get }
@@ -67,4 +69,6 @@ protocol SettingsService
     func setLastUsedGoalAchivedMessageAndDate(_ data: [Date: String])
     
     func setLastShownAddGoalAlert(_ date: Date)
+
+    func setLastShownGoalSuggestion(_ date: Date)
 }

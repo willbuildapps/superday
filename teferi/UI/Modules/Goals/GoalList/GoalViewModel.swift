@@ -10,6 +10,28 @@ class GoalViewModel
             .map(toTodaysGoal)
     }
     
+    var suggestionObservable: Observable<String?>
+    {
+        let movedToForeground = appLifecycleService
+            .movedToForegroundObservable
+            .mapTo(())
+        
+        let updatedTimeSlotsForYesterday = timeSlotService.timeSlotsUpdatedObservable
+            .mapTo(belongsToYesterday)
+            .mapTo(())
+        
+        return Observable.of(movedToForeground, updatedTimeSlotsForYesterday)
+            .merge()
+            .filter(suggestionForTodayNotShown)
+            .map(yesterdaysGoal)
+            .filterNil()
+            .map(toFailedGoalSuggestion)
+            .do(onNext: { [unowned self] suggestion in
+                guard let _ = suggestion else { return }
+                self.settingsService.setLastShownGoalSuggestion(self.timeService.now)
+            })
+    }
+
     //MARK: Private Properties
     private let disposeBag = DisposeBag()
     private var goals : Variable<[Goal]> = Variable([])
@@ -35,7 +57,6 @@ class GoalViewModel
         self.appLifecycleService = appLifecycleService
         self.goalAchievedMessageProvider = GoalAchievedMessageProvider(timeService: self.timeService, settingsService: self.settingsService)
         
-        
         let newGoalForThisDate = goalService.goalCreatedObservable
             .mapTo(())
         
@@ -44,7 +65,7 @@ class GoalViewModel
         
         let newTimeSlotForThisDate = timeSlotService
             .timeSlotCreatedObservable
-            .filter(timeSlotBelongsToThisDate)
+            .filter(timeSlotMatchesDate(date: timeService.now))
             .mapTo(())
         
         let updatedTimeSlotsForThisDate = timeSlotService.timeSlotsUpdatedObservable
@@ -65,7 +86,6 @@ class GoalViewModel
             .map(withMissingDateGoals)
             .bindTo(goals)
             .addDisposableTo(disposeBag)
-        
     }
     
     func isCurrentGoal(_ goal: Goal?) -> Bool
@@ -129,13 +149,58 @@ class GoalViewModel
         return goalService.getGoals(sinceDaysAgo: 15)
     }
     
-    private func timeSlotBelongsToThisDate(_ timeSlot: TimeSlot) -> Bool
+    private func yesterdaysGoal() -> Goal?
     {
-        return timeSlot.startTime.ignoreTimeComponents() == timeService.now.ignoreTimeComponents()
+        return goalService.getGoals(sinceDaysAgo: 1)
+            .filter{ [unowned self] in $0.date.ignoreTimeComponents() == self.timeService.now.yesterday.ignoreTimeComponents() }
+            .first
+    }
+    
+    private func timeSlotMatchesDate(date: Date) -> (TimeSlot) -> Bool
+    {
+        return { timeSlot in
+            return timeSlot.startTime.ignoreTimeComponents() == date.ignoreTimeComponents()
+        }
     }
     
     private func belongsToThisDate(_ timeSlots: [TimeSlot]) -> [TimeSlot]
     {
-        return timeSlots.filter(timeSlotBelongsToThisDate(_:))
+        return timeSlots.filter(timeSlotMatchesDate(date:timeService.now))
+    }
+    
+    private func belongsToYesterday(_ timeSlots: [TimeSlot]) -> [TimeSlot]
+    {
+        return timeSlots.filter(timeSlotMatchesDate(date: timeService.now.yesterday))
+    }
+    
+    private func suggestionForTodayNotShown() -> Bool
+    {
+        guard let lastSuggestionShownDate = settingsService.lastShownGoalSuggestion else { return true }
+        return lastSuggestionShownDate.ignoreTimeComponents() != timeService.now.ignoreTimeComponents()
+    }
+    
+    private func toFailedGoalSuggestion(goal: Goal) -> String?
+    {
+        if goal.percentageCompleted > 1 { return nil }
+        
+        if goal.targetTime >= 2 * 60 * 60 {
+            let halfTime = formatedElapsedTimeLongText(for: goal.targetTime / 2)
+            return arc4random_uniform(2) == 0 ? L10n.goalSuggestion1(halfTime) :  L10n.goalSuggestion2(halfTime)
+        }
+        
+        let yesterday = timeService.now.yesterday
+        let earlyMatchingTimeSlots = timeSlotService.getTimeSlots(forDay: yesterday)
+            .filter { timeSlot in
+                return timeSlot.startTime.ignoreDateComponents() < Date.createTime(hour: 9, minute: 30)
+            }
+            .filter { timeSlot in
+                return timeSlot.category == Category.commute || timeSlot.category == Category.fitness || timeSlot.category == goal.category
+        }
+        
+        if earlyMatchingTimeSlots.count > 0 {
+            return nil
+        }
+        
+        return arc4random_uniform(2) == 1 ? L10n.goalSuggestion3 :  L10n.goalSuggestion4
     }
 }

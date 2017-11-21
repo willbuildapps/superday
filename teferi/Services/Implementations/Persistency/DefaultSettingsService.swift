@@ -110,6 +110,11 @@ class DefaultSettingsService : SettingsService
         return get(forKey: lastShownGoalAlertKey)
     }
     
+    var lastShownGoalSuggestion: Date?
+    {
+        return get(forKey: lastShownGoalSuggestionKey)
+    }
+
     var versionNumber: String {
         return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
     }
@@ -118,7 +123,6 @@ class DefaultSettingsService : SettingsService
         return Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
     }
 
-    
     //MARK: Private Properties
     
     private let timeService : TimeService
@@ -141,6 +145,7 @@ class DefaultSettingsService : SettingsService
     private let shouldAskForNotificationPermissionKey = "shouldAskForNotificationPermission"
     private let lastUsedGoalAchivedMessageAndDateKey = "lastUsedGoalAchivedMessageAndDate"
     private let lastShownGoalAlertKey = "lastShownGoalAlert"
+    private let lastShownGoalSuggestionKey = "lastShownGoalSuggestion"
     
     //MARK: Initialiazers
     init (timeService : TimeService)
@@ -242,6 +247,11 @@ class DefaultSettingsService : SettingsService
     func setLastShownAddGoalAlert(_ date: Date)
     {
         set(date, forKey: lastShownGoalAlertKey)
+    }
+    
+    func setLastShownGoalSuggestion(_ date: Date)
+    {
+        set(date, forKey: lastShownGoalSuggestionKey)
     }
     
     // MARK: Private Methods

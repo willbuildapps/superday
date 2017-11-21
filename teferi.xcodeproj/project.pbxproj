@@ -192,6 +192,7 @@
 		8CA987351F7A2B5F003AB4B9 /* EventAnnotator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA987341F7A2B5F003AB4B9 /* EventAnnotator.swift */; };
 		8CA987371F7A2DD4003AB4B9 /* TimelineProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA987361F7A2DD4003AB4B9 /* TimelineProcessor.swift */; };
 		8CA987391F7A2F95003AB4B9 /* Cleaner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA987381F7A2F95003AB4B9 /* Cleaner.swift */; };
+		8CB140A61FC456C000FC9904 /* GoalSuggestionAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB140A51FC456C000FC9904 /* GoalSuggestionAlert.swift */; };
 		8CB9EF9B1E8BB589003D1FFC /* LineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB9EF9A1E8BB589003D1FFC /* LineView.swift */; };
 		8CBE30A21ECC5385007C8F6F /* PermissionPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBE30A11ECC5385007C8F6F /* PermissionPresenter.swift */; };
 		8CCEBEC21F79053400A4D560 /* AnnotatedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCEBEC11F79053400A4D560 /* AnnotatedEvent.swift */; };
@@ -533,6 +534,7 @@
 		8CA987341F7A2B5F003AB4B9 /* EventAnnotator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAnnotator.swift; sourceTree = "<group>"; };
 		8CA987361F7A2DD4003AB4B9 /* TimelineProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineProcessor.swift; sourceTree = "<group>"; };
 		8CA987381F7A2F95003AB4B9 /* Cleaner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cleaner.swift; sourceTree = "<group>"; };
+		8CB140A51FC456C000FC9904 /* GoalSuggestionAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSuggestionAlert.swift; sourceTree = "<group>"; };
 		8CB9EF9A1E8BB589003D1FFC /* LineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineView.swift; sourceTree = "<group>"; };
 		8CBE30A11ECC5385007C8F6F /* PermissionPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionPresenter.swift; sourceTree = "<group>"; };
 		8CCEBEC11F79053400A4D560 /* AnnotatedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotatedEvent.swift; sourceTree = "<group>"; };
@@ -1494,6 +1496,7 @@
 				AC4A55F21FA743A000A62107 /* GoalCell.xib */,
 				ACEA23AE1FA8D2880068C149 /* GoalHeader.swift */,
 				ACEA23B01FA8D2AC0068C149 /* GoalHeader.xib */,
+				8CB140A51FC456C000FC9904 /* GoalSuggestionAlert.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2095,6 +2098,7 @@
 				8C9C25671ED3397E00B10187 /* NavigationController.swift in Sources */,
 				24DE23FA1E1BB3450089B49E /* ObservableExtensions.swift in Sources */,
 				ACEA23BE1FAC6FC90068C149 /* NewGoalViewController.swift in Sources */,
+				8CB140A61FC456C000FC9904 /* GoalSuggestionAlert.swift in Sources */,
 				8C7CCB4D1E9D150A00315BF7 /* MaterialButton.swift in Sources */,
 				8C26A1751ECAE67800EFE509 /* IntroViewModel.swift in Sources */,
 				BEDE5B3C1E4A3F3C0082FFC3 /* PermissionViewController.swift in Sources */,

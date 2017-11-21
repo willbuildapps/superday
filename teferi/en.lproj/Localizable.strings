@@ -94,6 +94,11 @@
 "GoalOverAchieved4" = "Daily Goal - Done & then some.";
 "GoalOverAchieved5" = "Daily Goal - Neutralized.";
 
+"GoalSuggestion1" = "Remember, small steps will take you there. Maybe try with %@ instead for a start.";
+"GoalSuggestion2" = "That was a nice try, but to get the ball rolling, maybe try doing for %@ instead.";
+"GoalSuggestion3" = "Hey there sleepyhead - how about we try doing some goals earlier in the day?";
+"GoalSuggestion4" = "Get things done early in the morning. Remember - Early 🐦 gets 💩 done!";
+
 "ResultsNotificationMessage" = "Results are in for %@.\nCheck it out";
 
 "Transport" = "Transport";

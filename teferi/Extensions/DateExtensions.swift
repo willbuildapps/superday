@@ -160,4 +160,16 @@ extension Date
         let calendar = Calendar(identifier: .gregorian)
         return calendar.date(from: components)!
     }
+    
+    static func createTime(hour: Int, minute: Int, second: Int = 0) -> Date
+    {
+        var components = DateComponents()
+        components.hour = hour
+        components.minute = minute
+        components.second = second
+        components.timeZone = .current
+        
+        let calendar = Calendar(identifier: .gregorian)
+        return calendar.date(from: components)!.ignoreDateComponents()
+    }
 }
