@@ -200,6 +200,7 @@ class MockLocator : ViewModelLocator
         return NewGoalViewModel(goalToBeEdited: goalToBeEdited,
                                 timeService: timeService,
                                 goalService: goalService,
+                                notificationService: notificationService,
                                 categoryProvider: DefaultCategoryProvider(timeSlotService:  timeSlotService))
     }
     

@@ -15,6 +15,11 @@ class MockNotificationService : NotificationService
         completed()
     }
     
+    func scheduleNormalNotification(date: Date, message: String)
+    {
+    
+    }
+    
     func clearAndScheduleWeeklyNotifications()
     {
         unscheduleAllNotifications(completion: { [unowned self] in

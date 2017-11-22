@@ -274,6 +274,7 @@ class DefaultViewModelLocator : ViewModelLocator
         return NewGoalViewModel(goalToBeEdited: goal,
                                 timeService: timeService,
                                 goalService: goalService,
+                                notificationService: notificationService,
                                 categoryProvider: DefaultCategoryProvider(timeSlotService:  timeSlotService))
     }
     

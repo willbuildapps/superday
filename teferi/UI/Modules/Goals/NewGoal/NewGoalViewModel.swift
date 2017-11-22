@@ -5,6 +5,7 @@ class NewGoalViewModel
 {
     private let timeService: TimeService
     private let goalService: GoalService
+    private let notificationService: NotificationService
     private let categoryProvider: CategoryProvider
     private let goalToBeEdited: Goal?
     
@@ -30,11 +31,13 @@ class NewGoalViewModel
     init(goalToBeEdited: Goal?,
          timeService: TimeService,
          goalService: GoalService,
+         notificationService: NotificationService,
          categoryProvider: CategoryProvider)
     {
         self.goalToBeEdited = goalToBeEdited
         self.timeService = timeService
         self.goalService = goalService
+        self.notificationService = notificationService
         self.categoryProvider = categoryProvider
         
         if let goalToBeEdited = goalToBeEdited {
@@ -52,6 +55,34 @@ class NewGoalViewModel
             goalService.update(goal: goalToBeEdited, withCategory: categorySelectedVariable.value!, withTargetTime: durationSelectedVariable.value!)
         } else {
             goalService.addGoal(forDate: timeService.now, category: categorySelectedVariable.value!, targetTime: durationSelectedVariable.value!)
+        }
+        
+        if let reminderText = categorySelectedVariable.value?.notificationReminderText, timeService.now.hour < 20 {
+            notificationService.scheduleNormalNotification(date: timeService.now.addingTimeInterval(60 * 60 * 3), message: reminderText)
+        }
+    }
+}
+
+fileprivate extension Category
+{
+    var notificationReminderText: String? {
+        switch self {
+        case .family:
+            return [L10n.familyGoalReminder1, L10n.familyGoalReminder2].randomItem
+        case .fitness:
+            return [L10n.fitnessGoalReminder1, L10n.fitnessGoalReminder2].randomItem
+        case .food:
+            return L10n.foodGoalReminder
+        case .leisure:
+            return L10n.leisureGoalReminder
+        case .commute:
+            return [L10n.commuteGoalReminder1, L10n.commuteGoalReminder2].randomItem
+        case .work:
+            return [L10n.workGoalReminder1, L10n.workGoalReminder2].randomItem
+        case .shopping:
+            return L10n.shoppingGoalReminder
+        default:
+            return nil
         }
     }
 }

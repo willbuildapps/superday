@@ -35,6 +35,11 @@ class DefaultNotificationService : NotificationService
                                                 })
     }
     
+    func scheduleNormalNotification(date: Date, message: String)
+    {
+        scheduleNotification(date: date, title: "", message: message, ofType: .normal)
+    }
+    
     func clearAndScheduleWeeklyNotifications()
     {
         unscheduleAllNotifications(ofTypes: [.repeatWeekly]) { [unowned self] in
@@ -118,7 +123,7 @@ class DefaultNotificationService : NotificationService
         var trigger : UNNotificationTrigger! = nil
         
         switch type {
-        case .goal:
+        case .goal, .normal:
             let fireTime = date.timeIntervalSinceNow
             trigger = UNTimeIntervalNotificationTrigger(timeInterval: fireTime, repeats: false)
         case .repeatWeekly:
