@@ -25,12 +25,12 @@ class DefaultNotificationService : NotificationService
     }
     
     //MARK: Public Methods
-    func requestNotificationPermission(completed: @escaping () -> ())
+    func requestNotificationPermission(completed: @escaping (_ authorized: Bool) -> ())
     {
         notificationCenter.requestAuthorization(options: [.alert, .sound, .badge],
                                                 completionHandler: { (granted, error) in
                                                     DispatchQueue.main.async {
-                                                        completed()
+                                                        completed(granted)
                                                     }
                                                 })
     }

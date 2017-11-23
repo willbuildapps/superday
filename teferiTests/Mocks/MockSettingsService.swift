@@ -24,7 +24,8 @@ class MockSettingsService : SettingsService
     var motionPermissionGranted: Observable<Bool> = Observable<Bool>.empty()
     
     var hasLocationPermission = true
-    var hasNotificationPermission = true
+    var hasNotificationPermission: Observable<Bool> = Observable.just(true)
+    var userRejectedNotificationPermission = false
     var shouldAskForNotificationPermission = false
     var hasCoreMotionPermission = true
     var isFirstTimeAppRuns = false
@@ -79,7 +80,7 @@ class MockSettingsService : SettingsService
     
     func setUserRejectedNotificationPermission()
     {
-        hasNotificationPermission = true
+        hasNotificationPermission = Observable.just(false)
     }
     
     func setShouldAskForNotificationPermission()

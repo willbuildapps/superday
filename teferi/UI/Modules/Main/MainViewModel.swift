@@ -19,17 +19,13 @@ class MainViewModel : RxViewModel
             self.didBecomeActive,
             self.motionService.motionAuthorizationGranted.mapTo(()))
             .merge()
-            .map { [unowned self] () -> PermissionRequestType? in
-                if self.shouldShowLocationPermissionRequest() {
-                    return PermissionRequestType.location
-                } else if self.shouldShowMotionPermissionRequest() {
-                    return PermissionRequestType.motion
-                } else if self.shouldShowNotificationPermissionRequest() {
-                    return PermissionRequestType.notification
-                }
-                return nil
+            .flatMap { [unowned self] () -> Observable<PermissionRequestType> in
+                let locationPermissionRequest = self.shouldShowLocationPermissionRequest().filter({$0}).mapTo(PermissionRequestType.location)
+                let motionPermissionRequest = self.shouldShowMotionPermissionRequest().filter({$0}).mapTo(PermissionRequestType.motion)
+                let notificationPermissionRequest = self.shouldShowNotificationPermissionRequest().filter({$0}).mapTo(PermissionRequestType.notification)
+                
+                return Observable.of(locationPermissionRequest, motionPermissionRequest, notificationPermissionRequest).concat().take(1)
             }
-            .filterNil()
     }
     
     var welcomeMessageHiddenObservable : Observable<Bool>
@@ -235,21 +231,24 @@ class MainViewModel : RxViewModel
     
     //MARK: Private Methods
     
-    private func shouldShowLocationPermissionRequest() -> Bool
+    private func shouldShowLocationPermissionRequest() -> Observable<Bool>
     {
-        return !settingsService.hasLocationPermission
+        return Observable.just(!settingsService.hasLocationPermission)
     }
     
-    private func shouldShowMotionPermissionRequest() -> Bool
+    private func shouldShowMotionPermissionRequest() -> Observable<Bool>
     {
-        return !settingsService.hasCoreMotionPermission
+        return Observable.just(!settingsService.hasCoreMotionPermission)
     }
     
-    private func shouldShowNotificationPermissionRequest() -> Bool
+    private func shouldShowNotificationPermissionRequest() -> Observable<Bool>
     {
-        return
+        guard !settingsService.userRejectedNotificationPermission &&
             settingsService.shouldAskForNotificationPermission &&
-            timeService.now.timeIntervalSince(settingsService.installDate!) >= 24 * 60 * 60 &&
-            !settingsService.hasNotificationPermission
+            timeService.now.timeIntervalSince(settingsService.installDate!) >= 24 * 60 * 60 else {
+                return Observable.just(false)
+        }
+        
+        return settingsService.hasNotificationPermission.map({ !$0 })
     }
 }

@@ -18,8 +18,9 @@ protocol SettingsService
     
     var hasCoreMotionPermission : Bool { get }
     
-    var hasNotificationPermission : Bool { get }
+    var hasNotificationPermission : Observable<Bool> { get }
     var shouldAskForNotificationPermission : Bool { get }
+    var userRejectedNotificationPermission: Bool { get }
     
     var userEverGaveLocationPermission : Bool { get }
     

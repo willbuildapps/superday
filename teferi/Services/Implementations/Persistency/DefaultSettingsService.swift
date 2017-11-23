@@ -2,6 +2,7 @@ import CoreData
 import UIKit
 import CoreLocation
 import RxSwift
+import UserNotifications
 
 class DefaultSettingsService : SettingsService
 {
@@ -58,16 +59,29 @@ class DefaultSettingsService : SettingsService
         return getBool(forKey: hasCoreMotionPermissionKey)
     }
     
-    var hasNotificationPermission : Bool
+    var hasNotificationPermission : Observable<Bool>
     {
-        guard !getBool(forKey: userRejectedNotificationPermissionKey) else { return true }
-        let notificationSettings = UIApplication.shared.currentUserNotificationSettings
-        return notificationSettings?.types.contains([.alert, .badge]) ?? false
+        return Observable<Bool>.create { observer in
+
+            let notificationCenter = UNUserNotificationCenter.current()
+            notificationCenter.getNotificationSettings { settings in
+                let authorized = settings.authorizationStatus == UNAuthorizationStatus.authorized
+                observer.onNext(authorized)
+                observer.onCompleted()
+            }
+
+            return Disposables.create { }
+        }
     }
     
     var shouldAskForNotificationPermission : Bool
     {
         return getBool(forKey: shouldAskForNotificationPermissionKey)
+    }
+    
+    var userRejectedNotificationPermission: Bool
+    {
+        return getBool(forKey: userRejectedNotificationPermissionKey)
     }
     
     var userEverGaveLocationPermission: Bool

@@ -10,9 +10,9 @@ class MockNotificationService : NotificationService
     
     var subscriptions : [(teferi.Category) -> ()] = []
     
-    func requestNotificationPermission(completed: @escaping () -> ())
+    func requestNotificationPermission(completed: @escaping (Bool) -> ())
     {
-        completed()
+        completed(true)
     }
     
     func scheduleNormalNotification(date: Date, message: String)
