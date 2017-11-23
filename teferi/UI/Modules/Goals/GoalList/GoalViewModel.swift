@@ -9,6 +9,11 @@ class GoalViewModel
         return self.goals.asObservable()
             .map(toTodaysGoal)
     }
+    var lastGoal: Observable<Goal?> {
+        return self.goals.asObservable()
+            .map(removePlaceHolders)
+            .map({ $0.first })
+    }
     
     var suggestionObservable: Observable<String?>
     {
@@ -41,7 +46,7 @@ class GoalViewModel
     private let timeSlotService : TimeSlotService
     private let goalService : GoalService
     private let appLifecycleService : AppLifecycleService
-    private let goalAchievedMessageProvider: GoalAchievedMessageProvider
+    private let goalHeaderMessageProvider: GoalMessageProvider
     
     //MARK: Initializers
     init(timeService: TimeService,
@@ -55,7 +60,7 @@ class GoalViewModel
         self.timeSlotService = timeSlotService
         self.goalService = goalService
         self.appLifecycleService = appLifecycleService
-        self.goalAchievedMessageProvider = GoalAchievedMessageProvider(timeService: self.timeService, settingsService: self.settingsService)
+        self.goalHeaderMessageProvider = GoalMessageProvider(timeService: self.timeService, settingsService: self.settingsService)
         
         let newGoalForThisDate = goalService.goalCreatedObservable
             .mapTo(())
@@ -94,23 +99,27 @@ class GoalViewModel
         return goal.date.ignoreTimeComponents() == timeService.now.ignoreTimeComponents()
     }
     
-    func message(forGoal goal: Goal?) -> String?
+    func messageAndCategoryVisibility(forGoal goal: Goal?) -> (message: String?, categoryVisible: Bool, newGoalButtonVisible: Bool)
     {
-        guard let goal = goal else { return nil }
-        
-        return goalAchievedMessageProvider.message(forGoal: goal)
+        return goalHeaderMessageProvider.message(forGoal: goal)
     }
     
     //MARK: Private Methods
     
-    private func toTodaysGoal(goals:[Goal]) -> Goal?
+    private func toTodaysGoal(goals: [Goal]) -> Goal?
     {
         guard let firstGoal = goals.first else { return nil }
+        
         if firstGoal.date.ignoreTimeComponents() == self.timeService.now.ignoreTimeComponents() {
             return firstGoal
         }
         
         return nil
+    }
+    
+    private func removePlaceHolders(goals: [Goal]) -> [Goal]
+    {
+        return goals.filter({ $0.category != .unknown })
     }
     
     /// Adds placeholder goals to the given goals array to fill the dates that did not have any goal.

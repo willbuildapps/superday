@@ -9,44 +9,36 @@ class GoalHeader: UIView
     @IBOutlet private weak var separatorView: UIView!
     @IBOutlet private weak var bottomConstraint: NSLayoutConstraint!
     
-    func configure(withGoal goal: Goal?, message: String?)
+    func configure(withViewModel viewModel: GoalViewModel, andGoal goal: Goal?)
     {
-        if let goal = goal
+        let messageAndVisibilityFlags = viewModel.messageAndCategoryVisibility(forGoal: goal)
+        
+        textLabel.text = messageAndVisibilityFlags.message
+        
+        if messageAndVisibilityFlags.newGoalButtonVisible
         {
-            if let message = message
-            {
-                textLabel.text = message
-                
-                categoryBackground.backgroundColor = .clear
-                categoryImageView.image = nil
-            }
-            else
-            {
-                let elapsedTimeText = formatedElapsedTimeLongText(for: goal.targetTime)
-                textLabel.text = "Today I want to\nspend \(elapsedTimeText) on"
-                textLabel.sizeToFit()
-                
-                categoryBackground.backgroundColor = goal.category.color
-                categoryImageView.image = goal.category.icon.image
-            }
+            separatorView.isHidden = false
+            newGoalButton.isHidden = false
             
+            bottomConstraint.constant = 70
+        }
+        else
+        {
             separatorView.isHidden = true
             newGoalButton.isHidden = true
             
             bottomConstraint.constant = 0
         }
+        
+        if let goal = goal, messageAndVisibilityFlags.categoryVisible
+        {
+            categoryBackground.backgroundColor = goal.category.color
+            categoryImageView.image = goal.category.icon.image
+        }
         else
         {
-            textLabel.text = "What do you want to\nachieve today?"
-            textLabel.sizeToFit()
-            
             categoryBackground.backgroundColor = .clear
             categoryImageView.image = nil
-            
-            separatorView.isHidden = false
-            newGoalButton.isHidden = false
-            
-            bottomConstraint.constant = 70
         }
         
         updateConstraintsIfNeeded()

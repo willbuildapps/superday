@@ -30,7 +30,7 @@ class NewGoalViewController: UIViewController
         titleLabel.text = L10n.newGoalTitle
         topDescriptionLabel.text = L10n.newGoalTopDescription
         middleDescriptionLabel.text = L10n.newGoalMiddleDescription
-        newGoalButton.setTitle(L10n.newGoalActionButtonTitle, for: .normal)
+        newGoalButton.setTitle(viewModel.buttonTitle, for: .normal)
 
         let timeGradientOverlay = PickerGradientOverlay()
         view.addSubview(timeGradientOverlay)
@@ -66,8 +66,6 @@ class NewGoalViewController: UIViewController
                 cell.category = category
                 return cell
             })
-        
-        newGoalButton.setTitle(viewModel.buttonTitle, for: .normal)
 
         createBindings()
     }

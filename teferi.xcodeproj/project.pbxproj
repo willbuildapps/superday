@@ -256,7 +256,7 @@
 		AC8BE49F1F2A011900351C2F /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8BE49E1F2A011900351C2F /* WelcomeView.swift */; };
 		AC9718451F4734570027E761 /* TimelineProcessorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9718441F4734570027E761 /* TimelineProcessorTests.swift */; };
 		AC99B1E91FB34F4800CF56AC /* TabBarPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC99B1E81FB34F4800CF56AC /* TabBarPresenter.swift */; };
-		AC99B1EC1FB3678D00CF56AC /* GoalAchievedMessageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC99B1EB1FB3678D00CF56AC /* GoalAchievedMessageProvider.swift */; };
+		AC99B1EC1FB3678D00CF56AC /* GoalMessageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC99B1EB1FB3678D00CF56AC /* GoalMessageProvider.swift */; };
 		ACC11D601F90DDB50025809C /* TimeIntervalHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC11D5F1F90DDB50025809C /* TimeIntervalHelper.swift */; };
 		ACCAFD251E8BDF490097F037 /* NotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCAFD241E8BDF490097F037 /* NotificationType.swift */; };
 		ACCB63391F950D1200B1A40D /* NotificationPermissionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCB63381F950D1200B1A40D /* NotificationPermissionViewModel.swift */; };
@@ -603,7 +603,7 @@
 		AC8BE49E1F2A011900351C2F /* WelcomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		AC9718441F4734570027E761 /* TimelineProcessorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineProcessorTests.swift; sourceTree = "<group>"; };
 		AC99B1E81FB34F4800CF56AC /* TabBarPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarPresenter.swift; sourceTree = "<group>"; };
-		AC99B1EB1FB3678D00CF56AC /* GoalAchievedMessageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalAchievedMessageProvider.swift; sourceTree = "<group>"; };
+		AC99B1EB1FB3678D00CF56AC /* GoalMessageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalMessageProvider.swift; sourceTree = "<group>"; };
 		ACC11D5F1F90DDB50025809C /* TimeIntervalHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalHelper.swift; sourceTree = "<group>"; };
 		ACCAFD241E8BDF490097F037 /* NotificationType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationType.swift; sourceTree = "<group>"; };
 		ACCB63381F950D1200B1A40D /* NotificationPermissionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPermissionViewModel.swift; sourceTree = "<group>"; };
@@ -1550,7 +1550,7 @@
 		AC99B1EA1FB3674600CF56AC /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-				AC99B1EB1FB3678D00CF56AC /* GoalAchievedMessageProvider.swift */,
+				AC99B1EB1FB3678D00CF56AC /* GoalMessageProvider.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -2134,7 +2134,7 @@
 				AC7374921F71220A00AF9C96 /* CMAccessForExistingUsersViewModel.swift in Sources */,
 				8C26A1781ECAEAD800EFE509 /* MainPresenter.swift in Sources */,
 				2482CAFD1DB12F9F00E892C1 /* OnboardingPage3.swift in Sources */,
-				AC99B1EC1FB3678D00CF56AC /* GoalAchievedMessageProvider.swift in Sources */,
+				AC99B1EC1FB3678D00CF56AC /* GoalMessageProvider.swift in Sources */,
 				8C26A1731ECAE66C00EFE509 /* IntroViewController.swift in Sources */,
 				AF99E5891FBBB0D300809379 /* UIBarButtonExtensions.swift in Sources */,
 				BEA024321E4106980061FE53 /* Colors.swift in Sources */,

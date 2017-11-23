@@ -72,10 +72,9 @@ class GoalViewController: UIViewController
             })
             .addDisposableTo(disposeBag)
         
-        viewModel.todaysGoal
+        viewModel.lastGoal
             .subscribe(onNext: { goal in
-                self.header.configure(withGoal: goal,
-                                      message: self.viewModel.message(forGoal: goal))
+                self.header.configure(withViewModel: self.viewModel, andGoal: goal)
             })
             .addDisposableTo(disposeBag)
         

@@ -43,9 +43,9 @@ class NewGoalViewModel
         if let goalToBeEdited = goalToBeEdited {
             initialCategory = goalToBeEdited.category
             initialTime = GoalTime(goalTime: goalToBeEdited.targetTime)
-            buttonTitle = "Done"
+            buttonTitle = L10n.newGoalActionButtonTitleDone
         } else {
-            buttonTitle = "Set a goal"
+            buttonTitle = L10n.newGoalActionButtonTitleSetAGoal
         }
     }
     

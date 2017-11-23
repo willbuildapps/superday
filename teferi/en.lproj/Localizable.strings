@@ -61,7 +61,8 @@
 "NewGoalTitle" = "What do you want to\nachieve today?";
 "NewGoalTopDescription" = "I WANT TO SPEND";
 "NewGoalMiddleDescription" = "ON";
-"NewGoalActionButtonTitle" = "Set a goal";
+"NewGoalActionButtonTitleSetAGoal" = "Set a goal";
+"NewGoalActionButtonTitleDone" = "Done";
 "minutes" = "minutes";
 "hour" = "hour";
 "hours" = "hours";
@@ -100,6 +101,23 @@
 "GoalSuggestion4" = "Get things done early in the morning. Remember - Early 🐦 gets 💩 done!";
 
 "ResultsNotificationMessage" = "Results are in for %@.\nCheck it out";
+
+"GoalHeaderDefaultMessage" = "What do you want to\nachieve today?";
+"GoalHeaderTodayIWantToSpendHours" = "Today i want to\nspend %@ hours on";
+"GoalHeaderTodayIWantToSpendMinutes" = "Today i want to\nspend %@ minutes on";
+
+"GoalFailed10PercentOrLess1" = "Ahh, so close - don’t give up now!";
+"GoalFailed10PercentOrLess2" = "Seems you missed your goal. Not to worry, happens to the best of us.";
+"GoalFailed10PercentOrLess3" = "Oh no, missed it by this 👌 much! Keep trying, you’re almost there!";
+
+"GoalFailed10PercentOrMore1" = "You missed your goal by %d%. Don’t worry, we’ll get him next time!";
+"GoalFailed10PercentOrMore2" = "You finished %d% of your goal - nice! How about we make it 100% today?";
+
+"GoalFailed0Percent1" = "Knock, knock! Who’s there? Your unfinished goal from yesterday.";
+"GoalFailed0Percent2" = "This goal says it’s yours and that you forgot about him.";
+"GoalFailed0Percent3" = "You know goals come back to haunt you?";
+"GoalFailed0Percent4" = "Nothing to see here, move along.";
+"GoalFailed0Percent5" = "Is it just us or didn't you track your goal at all yesterday?";
 
 "FamilyGoalReminder1" = "Spent some quality time with your Family already? Don’t forget your goal for today!";
 "FamilyGoalReminder2" = "Always nice to squeeze some extra family time when possible. And also to check your goal status!";
