@@ -30,7 +30,6 @@ class NavigationViewModelTests : XCTestCase
         timeService.mockDate = getDate(withDay: 13)
         
         viewModel = NavigationViewModel(timeService: timeService,
-                                             feedbackService: feedbackService,
                                              selectedDateService: selectedDateService,
                                              appLifecycleService: appLifecycleService)
         

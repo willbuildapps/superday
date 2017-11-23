@@ -144,6 +144,7 @@
 		8C1923A91FB305F6004EB05F /* EditTimesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1923A81FB305F6004EB05F /* EditTimesViewModel.swift */; };
 		8C1923AB1FB30605004EB05F /* EditTimesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1923AA1FB30605004EB05F /* EditTimesViewController.swift */; };
 		8C1EA3051F17EA6F003C3EEB /* TimelineDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1EA3041F17EA6F003C3EEB /* TimelineDataSource.swift */; };
+		8C2085B21FC570880027F5BE /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2085B11FC570880027F5BE /* SettingsTableViewController.swift */; };
 		8C20ABA91F0A115200C9EE33 /* OnboardingPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C20ABA81F0A115200C9EE33 /* OnboardingPageViewModel.swift */; };
 		8C20ABAC1F0A231100C9EE33 /* CalendarViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C20ABAB1F0A231100C9EE33 /* CalendarViewModelTests.swift */; };
 		8C20ABAE1F0A338300C9EE33 /* TestableObserverExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C20ABAD1F0A338300C9EE33 /* TestableObserverExtensions.swift */; };
@@ -489,6 +490,7 @@
 		8C1923A81FB305F6004EB05F /* EditTimesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTimesViewModel.swift; sourceTree = "<group>"; };
 		8C1923AA1FB30605004EB05F /* EditTimesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTimesViewController.swift; sourceTree = "<group>"; };
 		8C1EA3041F17EA6F003C3EEB /* TimelineDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimelineDataSource.swift; path = Datasource/TimelineDataSource.swift; sourceTree = "<group>"; };
+		8C2085B11FC570880027F5BE /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		8C20ABA81F0A115200C9EE33 /* OnboardingPageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewModel.swift; sourceTree = "<group>"; };
 		8C20ABAB1F0A231100C9EE33 /* CalendarViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewModelTests.swift; sourceTree = "<group>"; };
 		8C20ABAD1F0A338300C9EE33 /* TestableObserverExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestableObserverExtensions.swift; sourceTree = "<group>"; };
@@ -1132,6 +1134,14 @@
 			path = EditTimes;
 			sourceTree = "<group>";
 		};
+		8C2085B01FC570760027F5BE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8C2085B11FC570880027F5BE /* SettingsTableViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		8C20ABAA1F0A1E6F00C9EE33 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -1593,6 +1603,7 @@
 		AF99E58C1FBD8DBB00809379 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				8C2085B01FC570760027F5BE /* Views */,
 				AF99E58D1FBD8DDF00809379 /* SettingsPresenter.swift */,
 				AF99E58E1FBD8DDF00809379 /* SettingsViewController.swift */,
 				AF99E58F1FBD8DDF00809379 /* SettingsViewModel.swift */,
@@ -2034,6 +2045,7 @@
 				AC8BE49F1F2A011900351C2F /* WelcomeView.swift in Sources */,
 				513535D61DA2756C00A365A9 /* OnboardingViewController.swift in Sources */,
 				AC3901F41E5665CF008063C7 /* CategoryButtonsHandler.swift in Sources */,
+				8C2085B21FC570880027F5BE /* SettingsTableViewController.swift in Sources */,
 				8C26A1711ECAE65A00EFE509 /* IntroPresenter.swift in Sources */,
 				AC7374941F71222100AF9C96 /* CMAccessForExistingUsersPresenter.swift in Sources */,
 				AC086A121F8E508A0003AAB4 /* SimpleDetailCell.swift in Sources */,

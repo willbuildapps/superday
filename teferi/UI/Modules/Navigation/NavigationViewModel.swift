@@ -8,7 +8,6 @@ class NavigationViewModel
     private let yesterdayBarTitle = L10n.yesterdayBarTitle
     
     private let timeService: TimeService
-    private let feedbackService: FeedbackService
     private let selectedDateService : SelectedDateService
     private let appLifecycleService: AppLifecycleService
     
@@ -16,12 +15,10 @@ class NavigationViewModel
     
     // MARK: Initializers
     init(timeService : TimeService,
-         feedbackService: FeedbackService,
          selectedDateService: SelectedDateService,
          appLifecycleService: AppLifecycleService)
     {
         self.timeService = timeService
-        self.feedbackService = feedbackService
         self.selectedDateService = selectedDateService
         self.appLifecycleService = appLifecycleService
         
@@ -58,6 +55,4 @@ class NavigationViewModel
         
         return dayOfMonthFormatter.string(from: currentDate)
     }
-    
-    func composeFeedback() { feedbackService.composeFeedback() }
 }

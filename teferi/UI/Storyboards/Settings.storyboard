@@ -1,22 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13526" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="u4z-h5-7ty">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Dnj-u1-NoA">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Settings View Controller-->
-        <scene sceneID="Y0Q-DI-Me0">
+        <scene sceneID="qIh-CI-7vt">
             <objects>
-                <tableViewController id="u4z-h5-7ty" customClass="SettingsViewController" customModule="teferi" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="o9l-ju-vMd">
+                <viewController id="Dnj-u1-NoA" customClass="SettingsViewController" customModule="teferi" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Wpr-CX-PcZ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Irx-vd-16o">
+                                <rect key="frame" x="0.0" y="614" width="375" height="53"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version 1.5.1 (833)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hgK-29-bkO">
+                                        <rect key="frame" x="116" y="16" width="142" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="hgK-29-bkO" firstAttribute="centerX" secondItem="Irx-vd-16o" secondAttribute="centerX" id="NOz-im-lNr"/>
+                                    <constraint firstItem="hgK-29-bkO" firstAttribute="top" secondItem="Irx-vd-16o" secondAttribute="top" constant="16" id="QKZ-f3-UeU"/>
+                                    <constraint firstAttribute="bottom" secondItem="hgK-29-bkO" secondAttribute="bottom" constant="16" id="saA-IG-U6E"/>
+                                </constraints>
+                            </view>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Acl-st-kPU">
+                                <rect key="frame" x="0.0" y="36" width="375" height="578"/>
+                                <connections>
+                                    <segue destination="Gd4-n0-vvC" kind="embed" identifier="embededTableView" id="rPl-tY-MMw"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Acl-st-kPU" firstAttribute="top" secondItem="tKv-FI-a8k" secondAttribute="top" constant="16" id="EA7-Rt-hk5"/>
+                            <constraint firstItem="Irx-vd-16o" firstAttribute="top" secondItem="Acl-st-kPU" secondAttribute="bottom" id="UvF-ww-kb0"/>
+                            <constraint firstItem="tKv-FI-a8k" firstAttribute="trailing" secondItem="Acl-st-kPU" secondAttribute="trailing" id="aRw-QB-si7"/>
+                            <constraint firstItem="Acl-st-kPU" firstAttribute="leading" secondItem="tKv-FI-a8k" secondAttribute="leading" id="f33-lB-kZ6"/>
+                            <constraint firstItem="Irx-vd-16o" firstAttribute="leading" secondItem="tKv-FI-a8k" secondAttribute="leading" id="pGS-oD-BuL"/>
+                            <constraint firstItem="tKv-FI-a8k" firstAttribute="bottom" secondItem="Irx-vd-16o" secondAttribute="bottom" id="pOe-r7-aE8"/>
+                            <constraint firstItem="tKv-FI-a8k" firstAttribute="trailing" secondItem="Irx-vd-16o" secondAttribute="trailing" id="tF8-bs-Xco"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="tKv-FI-a8k"/>
+                    </view>
+                    <connections>
+                        <outlet property="versionLabel" destination="hgK-29-bkO" id="uZU-gq-XHZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mZB-06-kfi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="829.5" y="-43.5"/>
+        </scene>
+        <!--Settings Table View Controller-->
+        <scene sceneID="GnG-Bb-66d">
+            <objects>
+                <tableViewController id="Gd4-n0-vvC" customClass="SettingsTableViewController" customModule="teferi" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" id="ab8-Y4-y9r">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="578"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <sections>
                             <tableViewSection id="dHm-Ma-Faf">
                                 <cells>
@@ -82,23 +135,23 @@
                             </tableViewSection>
                         </sections>
                         <connections>
-                            <outlet property="dataSource" destination="u4z-h5-7ty" id="NJJ-dA-ljd"/>
-                            <outlet property="delegate" destination="u4z-h5-7ty" id="s6M-s2-NGP"/>
+                            <outlet property="dataSource" destination="Gd4-n0-vvC" id="rfG-R7-hxA"/>
+                            <outlet property="delegate" destination="Gd4-n0-vvC" id="pFF-ee-fOT"/>
                         </connections>
                     </tableView>
                     <connections>
-                        <outlet property="helpCell" destination="WBv-UH-ncU" id="Y6S-CJ-AeE"/>
-                        <outlet property="helpLabel" destination="AYa-as-E7p" id="F8G-4J-bJH"/>
-                        <outlet property="rateSuperdayConvincingMessage" destination="Lbd-dD-TAj" id="7uB-ON-4A8"/>
-                        <outlet property="rateSuperdayLabel" destination="80u-Xy-DhQ" id="KN2-hr-1re"/>
-                        <outlet property="ratingCell" destination="r9y-3Y-nWN" id="jJM-Wt-H4U"/>
-                        <outlet property="submitFeedbackCell" destination="zbn-DP-pFR" id="hzv-iM-Nee"/>
-                        <outlet property="submitFeedbackLabel" destination="2i0-WC-RvN" id="5uV-pi-hqU"/>
+                        <outlet property="helpCell" destination="WBv-UH-ncU" id="CdQ-Hk-Y0j"/>
+                        <outlet property="helpLabel" destination="AYa-as-E7p" id="Oq6-Hv-ZAY"/>
+                        <outlet property="rateSuperdayConvincingMessage" destination="Lbd-dD-TAj" id="AvJ-dp-ABX"/>
+                        <outlet property="rateSuperdayLabel" destination="80u-Xy-DhQ" id="BGa-Y6-Czm"/>
+                        <outlet property="ratingCell" destination="r9y-3Y-nWN" id="HD9-dK-GR0"/>
+                        <outlet property="submitFeedbackCell" destination="zbn-DP-pFR" id="J6e-Lk-OMo"/>
+                        <outlet property="submitFeedbackLabel" destination="2i0-WC-RvN" id="s2m-fS-tNR"/>
                     </connections>
                 </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="S4k-wa-F9M" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lG1-YC-Zrr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="104.8" y="-41.829085457271368"/>
+            <point key="canvasLocation" x="1572" y="-44"/>
         </scene>
     </scenes>
 </document>

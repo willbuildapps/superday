@@ -14,7 +14,7 @@ class SettingsViewModel
     
     var fullAppVersion: String
     {
-        return "\(self.settingsService.versionNumber) (\(self.settingsService.buildNumber))"
+        return "Version \(self.settingsService.versionNumber) (\(self.settingsService.buildNumber))"
     }
     
     func composeFeedback()

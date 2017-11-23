@@ -36,7 +36,7 @@ protocol ViewModelLocator
     func getGoalViewModel() -> GoalViewModel
     func getNewGoalViewModel(goalToBeEdited: Goal?) -> NewGoalViewModel
     
-    func getSettingsViewModel() -> SettingsViewModel
+    func getSettingsViewModel(forViewController viewController: UIViewController) -> SettingsViewModel
 }
 
 class DefaultViewModelLocator : ViewModelLocator
@@ -92,10 +92,7 @@ class DefaultViewModelLocator : ViewModelLocator
     
     func getNavigationViewModel(forViewController viewController: UIViewController) -> NavigationViewModel
     {
-        let feedbackService = (self.feedbackService as! MailFeedbackService).with(viewController: viewController)
-
         return NavigationViewModel(timeService: self.timeService,
-                                       feedbackService: feedbackService,
                                        selectedDateService: self.selectedDateService,
                                        appLifecycleService: self.appLifecycleService)
     }
@@ -278,8 +275,9 @@ class DefaultViewModelLocator : ViewModelLocator
                                 categoryProvider: DefaultCategoryProvider(timeSlotService:  timeSlotService))
     }
     
-    func getSettingsViewModel() -> SettingsViewModel
+    func getSettingsViewModel(forViewController viewController: UIViewController) -> SettingsViewModel
     {
+        let feedbackService = (self.feedbackService as! MailFeedbackService).with(viewController: viewController)
         return SettingsViewModel(settingsService: settingsService, feedbackService: feedbackService)
     }
 }

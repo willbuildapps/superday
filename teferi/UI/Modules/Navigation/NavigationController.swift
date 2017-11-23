@@ -9,7 +9,6 @@ class NavigationController: UINavigationController
     private var viewModel : NavigationViewModel!
     private var presenter : NavigationPresenter!
     
-    private var feedbackButton : UIButton!
     private var logoImageView : UIImageView!
     private var titleLabel : UILabel!
     
@@ -27,14 +26,6 @@ class NavigationController: UINavigationController
     {
         super.viewDidLoad()
 
-        feedbackButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-        feedbackButton.setBackgroundImage(Image(asset: Asset.icFeedback), for: .normal)
-        feedbackButton.rx.tap
-            .subscribe(onNext: { [unowned self] in
-                self.viewModel.composeFeedback()
-            })
-            .addDisposableTo(disposeBag)
-        
         logoImageView = UIImageView(image: Image(asset: Asset.icSuperday))
         
         titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 120, height: 60))
@@ -76,11 +67,6 @@ class NavigationController: UINavigationController
     
     private func setupNavigationBar(for viewController: UIViewController)
     {
-        viewController.navigationItem.rightBarButtonItems = [
-            .createFixedSpace(of: 2),
-            UIBarButtonItem(customView: feedbackButton)
-        ]
-        
         viewController.navigationItem.leftBarButtonItems = [
             .createFixedSpace(of: 17),
             UIBarButtonItem(customView: logoImageView),

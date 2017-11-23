@@ -17,15 +17,20 @@ class SettingsPresenter
         let presenter = SettingsPresenter(viewModelLocator: viewModelLocator)
         
         let viewController = StoryboardScene.Settings.initialViewController()
-        viewController.inject(presenter: presenter, viewModel: viewModelLocator.getSettingsViewModel())
+        viewController.inject(presenter: presenter, viewModel: viewModelLocator.getSettingsViewModel(forViewController: viewController))
 
         presenter.viewController = viewController
         
         return viewController
     }
     
-    func openHelp()
+    func showHelp()
     {
         UIApplication.shared.open(Constants.helpURL, options: [:], completionHandler: nil)
+    }
+    
+    func requestReview()
+    {
+        SKStoreReviewController.requestReview()
     }
 }

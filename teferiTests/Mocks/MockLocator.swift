@@ -30,10 +30,7 @@ class MockLocator : ViewModelLocator
 
     func getNavigationViewModel(forViewController viewController: UIViewController) -> NavigationViewModel
     {
-        let feedbackService = (self.feedbackService as! MailFeedbackService).with(viewController: viewController)
-        
         return NavigationViewModel(timeService: timeService,
-                                       feedbackService: feedbackService,
                                        selectedDateService: selectedDateService,
                                        appLifecycleService: appLifecycleService)
     }
@@ -204,7 +201,7 @@ class MockLocator : ViewModelLocator
                                 categoryProvider: DefaultCategoryProvider(timeSlotService:  timeSlotService))
     }
     
-    func getSettingsViewModel() -> SettingsViewModel
+    func getSettingsViewModel(forViewController viewController: UIViewController) -> SettingsViewModel
     {
         return SettingsViewModel(settingsService: settingsService,
                                  feedbackService: feedbackService)
