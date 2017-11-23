@@ -198,7 +198,13 @@ class MockLocator : ViewModelLocator
                                 timeService: timeService,
                                 goalService: goalService,
                                 notificationService: notificationService,
+                                settingsService: settingsService,
                                 categoryProvider: DefaultCategoryProvider(timeSlotService:  timeSlotService))
+    }
+    
+    func getEnableNotificationsViewModel() -> EnableNotificationsViewModel
+    {
+        return EnableNotificationsViewModel(settingsService: settingsService, notificationService: notificationService)
     }
     
     func getSettingsViewModel(forViewController viewController: UIViewController) -> SettingsViewModel

@@ -60,7 +60,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
                                          timeSlotService: timeSlotService,
                                          loggingService: loggingService,
                                          persistencyService: goalPersistencyService)
-
+                
         smartGuessService = DefaultSmartGuessService(timeService: timeService,
                                                      loggingService: loggingService,
                                                      settingsService: settingsService,

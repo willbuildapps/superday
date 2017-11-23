@@ -6,6 +6,7 @@ class NewGoalViewModel
     private let timeService: TimeService
     private let goalService: GoalService
     private let notificationService: NotificationService
+    private let settingsService: SettingsService
     private let categoryProvider: CategoryProvider
     private let goalToBeEdited: Goal?
     
@@ -28,16 +29,20 @@ class NewGoalViewModel
     private(set) var initialTime: GoalTime?
     private(set) var buttonTitle: String
     
+    private let disposeBag = DisposeBag()
+    
     init(goalToBeEdited: Goal?,
          timeService: TimeService,
          goalService: GoalService,
          notificationService: NotificationService,
+         settingsService: SettingsService,
          categoryProvider: CategoryProvider)
     {
         self.goalToBeEdited = goalToBeEdited
         self.timeService = timeService
         self.goalService = goalService
         self.notificationService = notificationService
+        self.settingsService = settingsService
         self.categoryProvider = categoryProvider
         
         if let goalToBeEdited = goalToBeEdited {
@@ -49,12 +54,18 @@ class NewGoalViewModel
         }
     }
     
-    func saveGoal()
+    func saveGoal(completion: @escaping (_ shouldShowNotificationPermission: Bool) -> ())
     {
         if let goalToBeEdited = goalToBeEdited {
             goalService.update(goal: goalToBeEdited, withCategory: categorySelectedVariable.value!, withTargetTime: durationSelectedVariable.value!)
+            completion(false)
         } else {
             goalService.addGoal(forDate: timeService.now, category: categorySelectedVariable.value!, targetTime: durationSelectedVariable.value!)
+            settingsService.hasNotificationPermission
+                .subscribe(onNext: { hasPermission in
+                    completion(!hasPermission)
+                })
+                .addDisposableTo(disposeBag)
         }
         
         if let reminderText = categorySelectedVariable.value?.notificationReminderText, timeService.now.hour < 20 {

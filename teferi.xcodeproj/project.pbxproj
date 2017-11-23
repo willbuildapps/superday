@@ -156,6 +156,9 @@
 		8C26A1781ECAEAD800EFE509 /* MainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C26A1771ECAEAD800EFE509 /* MainPresenter.swift */; };
 		8C26A17A1ECAED7300EFE509 /* FadeTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C26A1791ECAED7300EFE509 /* FadeTransition.swift */; };
 		8C2C44B11ECD878C008131D7 /* RxViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2C44B01ECD878C008131D7 /* RxViewModel.swift */; };
+		8C2D92251FC5BEAD00D0B12F /* EnableNotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2D92241FC5BEAD00D0B12F /* EnableNotificationsViewController.swift */; };
+		8C2D92271FC5BEBB00D0B12F /* EnableNotificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2D92261FC5BEBB00D0B12F /* EnableNotificationsViewModel.swift */; };
+		8C2D92291FC5BEC500D0B12F /* EnableNotificationsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2D92281FC5BEC500D0B12F /* EnableNotificationsPresenter.swift */; };
 		8C2EAFBD1FBC805E00811823 /* CustomCollectionViewArrayDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2EAFBC1FBC805E00811823 /* CustomCollectionViewArrayDatasource.swift */; };
 		8C37F4C71F7E4514008B75E8 /* MotionPermissionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C37F4C61F7E4514008B75E8 /* MotionPermissionViewModel.swift */; };
 		8C38A8791F711623001883F7 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C38A8781F711623001883F7 /* LoadingView.swift */; };
@@ -502,6 +505,9 @@
 		8C26A1771ECAEAD800EFE509 /* MainPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainPresenter.swift; sourceTree = "<group>"; };
 		8C26A1791ECAED7300EFE509 /* FadeTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FadeTransition.swift; sourceTree = "<group>"; };
 		8C2C44B01ECD878C008131D7 /* RxViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RxViewModel.swift; path = ViewModels/RxViewModel.swift; sourceTree = "<group>"; };
+		8C2D92241FC5BEAD00D0B12F /* EnableNotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnableNotificationsViewController.swift; sourceTree = "<group>"; };
+		8C2D92261FC5BEBB00D0B12F /* EnableNotificationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnableNotificationsViewModel.swift; sourceTree = "<group>"; };
+		8C2D92281FC5BEC500D0B12F /* EnableNotificationsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnableNotificationsPresenter.swift; sourceTree = "<group>"; };
 		8C2EAFBC1FBC805E00811823 /* CustomCollectionViewArrayDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewArrayDatasource.swift; sourceTree = "<group>"; };
 		8C37F4C61F7E4514008B75E8 /* MotionPermissionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionPermissionViewModel.swift; sourceTree = "<group>"; };
 		8C38A8781F711623001883F7 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
@@ -1177,6 +1183,17 @@
 			name = ViewModels;
 			sourceTree = "<group>";
 		};
+		8C2D92231FC5BC5200D0B12F /* EnableNotifications */ = {
+			isa = PBXGroup;
+			children = (
+				8C2D92241FC5BEAD00D0B12F /* EnableNotificationsViewController.swift */,
+				8C2D92261FC5BEBB00D0B12F /* EnableNotificationsViewModel.swift */,
+				8C2D92281FC5BEC500D0B12F /* EnableNotificationsPresenter.swift */,
+			);
+			name = EnableNotifications;
+			path = NotificationsAlert;
+			sourceTree = "<group>";
+		};
 		8C6416FF1EAE022F00B893D7 /* PresentationControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1493,6 +1510,7 @@
 		AC4A55E71FA742CA00A62107 /* Goals */ = {
 			isa = PBXGroup;
 			children = (
+				8C2D92231FC5BC5200D0B12F /* EnableNotifications */,
 				ACEA23BC1FAC6EBC0068C149 /* NewGoal */,
 				ACEA23BB1FAC6EA80068C149 /* GoalList */,
 			);
@@ -1977,6 +1995,7 @@
 				24C72AA61D906BDA00DABAC3 /* LogLevel.swift in Sources */,
 				BE7FAFCA1E7319AD00A62AC9 /* LocationModelAdapter.swift in Sources */,
 				8C5B88751EBCCDA00096AE5B /* CategoryExtensions.swift in Sources */,
+				8C2D92291FC5BEC500D0B12F /* EnableNotificationsPresenter.swift in Sources */,
 				AC69F0A21F4C3FD000EF2CC9 /* RatingViewController.swift in Sources */,
 				8C71A5331F33779B00E8258C /* TimelineItem+TimelineCell.swift in Sources */,
 				8C03616E1FB35D990022594F /* SlotView.swift in Sources */,
@@ -2066,6 +2085,7 @@
 				8C38A8791F711623001883F7 /* LoadingView.swift in Sources */,
 				24526A7D1D92D9BB00DA3FA0 /* Location.swift in Sources */,
 				ACEA23C01FAC6FF10068C149 /* NewGoalViewModel.swift in Sources */,
+				8C2D92271FC5BEBB00D0B12F /* EnableNotificationsViewModel.swift in Sources */,
 				8C20ABA91F0A115200C9EE33 /* OnboardingPageViewModel.swift in Sources */,
 				AC1E70F11E3F4C490090D474 /* KNN.swift in Sources */,
 				8C2C44B11ECD878C008131D7 /* RxViewModel.swift in Sources */,
@@ -2160,6 +2180,7 @@
 				BE55CED11E7AC994006B851E /* TemporaryTimeSlot.swift in Sources */,
 				BEA024341E41137D0061FE53 /* Category.swift in Sources */,
 				7E3C06991E30B7CA00859747 /* Strings.swift in Sources */,
+				8C2D92251FC5BEAD00D0B12F /* EnableNotificationsViewController.swift in Sources */,
 				AC086A081F8B99A90003AAB4 /* TimeslotDetailPresenter.swift in Sources */,
 				8C6417071EAF415200B893D7 /* CategoryButton.swift in Sources */,
 				AC4A55E61FA7317C00A62107 /* DefaultGoalService.swift in Sources */,

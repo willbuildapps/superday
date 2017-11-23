@@ -89,7 +89,6 @@ class NotificationPermissionViewModel : PermissionViewModel
     
     func secondaryAction()
     {
-        settingsService.setUserRejectedNotificationPermission()
     }
     
     // MARK: Private Methods

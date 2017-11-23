@@ -229,7 +229,82 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L0u-qe-DOa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="828" y="47.226386806596707"/>
+            <point key="canvasLocation" x="826" y="47"/>
+        </scene>
+        <!--Enable Notifications View Controller-->
+        <scene sceneID="cER-oz-HwT">
+            <objects>
+                <viewController storyboardIdentifier="enableNotifications" id="Ok6-Qw-2iS" customClass="EnableNotificationsViewController" customModule="teferi" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="cxv-4f-EGF">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="278"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9LB-IX-3Y6">
+                                <rect key="frame" x="16" y="210" width="343" height="48"/>
+                                <color key="backgroundColor" red="0.15686274510000001" green="0.78823529410000004" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="YCY-BF-Jgf"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Enable notifications">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="24"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ruj-7F-5PM">
+                                <rect key="frame" x="335" y="0.0" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="ODL-fh-ysy"/>
+                                    <constraint firstAttribute="width" secondItem="Ruj-7F-5PM" secondAttribute="height" multiplier="1:1" id="veY-PA-8AJ"/>
+                                </constraints>
+                                <state key="normal" image="icClose"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Awesome, goal set!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nws-Fl-Gn4">
+                                <rect key="frame" x="16" y="24" width="343" height="29"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
+                                <color key="textColor" red="0.015823349359999999" green="0.01565081254" blue="0.023654792460000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="One more thing before you go - Superday would" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fka-yT-jDx">
+                                <rect key="frame" x="16" y="65" width="343" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Nws-Fl-Gn4" firstAttribute="top" secondItem="d6u-IN-bsf" secondAttribute="top" constant="24" id="Gsj-Q4-rWA"/>
+                            <constraint firstItem="fka-yT-jDx" firstAttribute="top" secondItem="Nws-Fl-Gn4" secondAttribute="bottom" constant="12" id="IAT-ng-CBq"/>
+                            <constraint firstItem="9LB-IX-3Y6" firstAttribute="leading" secondItem="d6u-IN-bsf" secondAttribute="leading" constant="16" id="ICe-VL-irY"/>
+                            <constraint firstItem="Ruj-7F-5PM" firstAttribute="width" secondItem="Ruj-7F-5PM" secondAttribute="height" multiplier="1:1" id="JVZ-xl-AKx"/>
+                            <constraint firstItem="d6u-IN-bsf" firstAttribute="trailing" secondItem="Nws-Fl-Gn4" secondAttribute="trailing" constant="16" id="Kpp-Ei-ZYK"/>
+                            <constraint firstItem="Nws-Fl-Gn4" firstAttribute="leading" secondItem="d6u-IN-bsf" secondAttribute="leading" constant="16" id="N0R-Uu-EPl"/>
+                            <constraint firstItem="d6u-IN-bsf" firstAttribute="trailing" secondItem="Ruj-7F-5PM" secondAttribute="trailing" id="QcO-CI-JtC"/>
+                            <constraint firstItem="fka-yT-jDx" firstAttribute="leading" secondItem="d6u-IN-bsf" secondAttribute="leading" constant="16" id="XAQ-u8-76x"/>
+                            <constraint firstItem="d6u-IN-bsf" firstAttribute="trailing" secondItem="9LB-IX-3Y6" secondAttribute="trailing" constant="16" id="ZR2-11-EXH"/>
+                            <constraint firstItem="d6u-IN-bsf" firstAttribute="trailing" secondItem="fka-yT-jDx" secondAttribute="trailing" constant="16" id="fOv-Qv-8Wz"/>
+                            <constraint firstItem="d6u-IN-bsf" firstAttribute="bottom" secondItem="9LB-IX-3Y6" secondAttribute="bottom" constant="20" id="rd8-r8-txN"/>
+                            <constraint firstItem="Ruj-7F-5PM" firstAttribute="top" secondItem="d6u-IN-bsf" secondAttribute="top" id="zMN-3x-qe9"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="d6u-IN-bsf"/>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="375" height="278"/>
+                    <connections>
+                        <outlet property="button" destination="9LB-IX-3Y6" id="nHF-ys-uRj"/>
+                        <outlet property="closeButton" destination="Ruj-7F-5PM" id="Zmg-CG-KWA"/>
+                        <outlet property="textLabel" destination="fka-yT-jDx" id="4Uj-Ae-IM2"/>
+                        <outlet property="titleLabel" destination="Nws-Fl-Gn4" id="neV-WB-ZyF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Bic-KC-lUG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1470" y="-22"/>
         </scene>
     </scenes>
     <resources>

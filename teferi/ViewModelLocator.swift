@@ -35,6 +35,7 @@ protocol ViewModelLocator
     
     func getGoalViewModel() -> GoalViewModel
     func getNewGoalViewModel(goalToBeEdited: Goal?) -> NewGoalViewModel
+    func getEnableNotificationsViewModel() -> EnableNotificationsViewModel
     
     func getSettingsViewModel(forViewController viewController: UIViewController) -> SettingsViewModel
 }
@@ -272,7 +273,13 @@ class DefaultViewModelLocator : ViewModelLocator
                                 timeService: timeService,
                                 goalService: goalService,
                                 notificationService: notificationService,
+                                settingsService: settingsService,
                                 categoryProvider: DefaultCategoryProvider(timeSlotService:  timeSlotService))
+    }
+    
+    func getEnableNotificationsViewModel() -> EnableNotificationsViewModel
+    {
+        return EnableNotificationsViewModel(settingsService: settingsService, notificationService: notificationService)
     }
     
     func getSettingsViewModel(forViewController viewController: UIViewController) -> SettingsViewModel

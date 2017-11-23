@@ -79,11 +79,15 @@ class NewGoalViewController: UIViewController
             .addDisposableTo(disposeBag)
         
         newGoalButton.rx.tap
-            .subscribe(onNext: { [unowned self] _ in
-                self.viewModel.saveGoal()
-                self.presenter.dismiss()
-            })
+            .subscribe(onNext: saveGoal)
             .addDisposableTo(disposeBag)
+    }
+    
+    private func saveGoal()
+    {
+        self.viewModel.saveGoal(completion: {
+            self.presenter.dismiss(showEnableNotifications: $0)
+        })
     }
 }
 
