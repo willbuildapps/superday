@@ -38,7 +38,7 @@ class TimeslotDetailViewController: UIViewController
         didSet
         {
             guard let tableView = self.tableView else { return }
-
+            
             tableView.reloadSections([SectionType.singleSlot.rawValue, SectionType.multipleSlots.rawValue, SectionType.time.rawValue, SectionType.map.rawValue], animationStyle: .fade)
             tableView.reloadRows(at: [IndexPath(row: SectionType.CategorySelectionRowType.categoryDetail.rawValue, section: SectionType.categorySelection.rawValue)], with: .fade)
         }

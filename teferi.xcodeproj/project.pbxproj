@@ -167,6 +167,8 @@
 		8C460E851EE705200002D70B /* ButtonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C460E841EE705200002D70B /* ButtonCollectionViewCell.swift */; };
 		8C460E8B1EE718F40002D70B /* CenterAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C460E8A1EE718F40002D70B /* CenterAlignedCollectionViewFlowLayout.swift */; };
 		8C460E8D1EE7EE3F0002D70B /* WeeklySummaryCategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C460E8C1EE7EE3F0002D70B /* WeeklySummaryCategoryTableViewCell.swift */; };
+		8C4A96B41FC871C9005E6E76 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C4A96B31FC871C9005E6E76 /* GameKit.framework */; };
+		8C4A96B61FC871CC005E6E76 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C4A96B51FC871CC005E6E76 /* StoreKit.framework */; };
 		8C4C5B5D1ECEEC34003239BE /* CalendarPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4C5B5C1ECEEC34003239BE /* CalendarPresenter.swift */; };
 		8C5B88751EBCCDA00096AE5B /* CategoryExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5B88741EBCCDA00096AE5B /* CategoryExtensions.swift */; };
 		8C6417011EAE02B700B893D7 /* ModalPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C6417001EAE02B700B893D7 /* ModalPresentationController.swift */; };
@@ -516,6 +518,8 @@
 		8C460E841EE705200002D70B /* ButtonCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonCollectionViewCell.swift; path = "teferi/UI/Modules/Weekly Summary/Views/ButtonCollectionViewCell.swift"; sourceTree = SOURCE_ROOT; };
 		8C460E8A1EE718F40002D70B /* CenterAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CenterAlignedCollectionViewFlowLayout.swift; path = "teferi/UI/Modules/Weekly Summary/Views/CenterAlignedCollectionViewFlowLayout.swift"; sourceTree = SOURCE_ROOT; };
 		8C460E8C1EE7EE3F0002D70B /* WeeklySummaryCategoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeeklySummaryCategoryTableViewCell.swift; path = "teferi/UI/Modules/Weekly Summary/Views/WeeklySummaryCategoryTableViewCell.swift"; sourceTree = SOURCE_ROOT; };
+		8C4A96B31FC871C9005E6E76 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		8C4A96B51FC871CC005E6E76 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		8C4C5B5C1ECEEC34003239BE /* CalendarPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarPresenter.swift; sourceTree = "<group>"; };
 		8C5B88741EBCCDA00096AE5B /* CategoryExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryExtensions.swift; sourceTree = "<group>"; };
 		8C6417001EAE02B700B893D7 /* ModalPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalPresentationController.swift; sourceTree = "<group>"; };
@@ -667,7 +671,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C4A96B61FC871CC005E6E76 /* StoreKit.framework in Frameworks */,
 				8584336EB8DEB2CEBEFB3918 /* Pods_teferi.framework in Frameworks */,
+				8C4A96B41FC871C9005E6E76 /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1653,6 +1659,8 @@
 		ED14C2EC617C158AAE12C910 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8C4A96B51FC871CC005E6E76 /* StoreKit.framework */,
+				8C4A96B31FC871C9005E6E76 /* GameKit.framework */,
 				B0E298043A2BB331608A8FD2 /* Pods_teferi.framework */,
 				43617E462FAF7C2B30BED3B4 /* Pods_teferiTests.framework */,
 				51BED8F61DD26FA800455EF6 /* UserNotifications.framework */,
@@ -1731,8 +1739,14 @@
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
+							com.apple.GameCenter = {
+								enabled = 1;
+							};
 							com.apple.HealthKit = {
 								enabled = 0;
+							};
+							com.apple.InAppPurchase = {
+								enabled = 1;
 							};
 						};
 					};
@@ -1740,7 +1754,7 @@
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = B227VTMZ94;
 						LastSwiftMigration = 0800;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						TestTargetID = 240AC7131D748C8800F21F4F;
 					};
 				};
@@ -2418,7 +2432,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconDev;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Toggl OU (B227VTMZ94)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: RICARDO SANCHEZ SOTRES (V9RF84YG5R)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 37;
@@ -2430,7 +2444,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -DDEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.toggl.superday.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6ab204ba-0fb7-49ed-89b5-67e86f62faaa";
+				PROVISIONING_PROFILE = "cfc8e697-502a-4db3-8c4d-cae41759df84";
 				PROVISIONING_PROFILE_SPECIFIER = "Superday Development";
 				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "";
@@ -2456,7 +2470,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.toggl.superday;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "78174097-895b-44dd-91ce-44dc056d3a54";
+				PROVISIONING_PROFILE = "1cd22f05-736e-49d3-be86-ab18861cfbfe";
 				PROVISIONING_PROFILE_SPECIFIER = Superday_AppStore;
 				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "";
@@ -2471,7 +2485,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = B227VTMZ94;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = teferiTests/Info.plist;
@@ -2491,8 +2505,8 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = B227VTMZ94;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = teferiTests/Info.plist;
@@ -2555,7 +2569,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconAdhoc;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Toggl OU (B227VTMZ94)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 37;
@@ -2566,7 +2580,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.toggl.superday.adhoc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c085077f-8eb4-4e1c-bfe0-a97a10c864ce";
+				PROVISIONING_PROFILE = "a7e946b5-1e09-4acc-8f94-7c08c16132b7";
 				PROVISIONING_PROFILE_SPECIFIER = Superday_AdHoc;
 				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "";
@@ -2580,8 +2594,8 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = B227VTMZ94;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = teferiTests/Info.plist;
