@@ -6,6 +6,7 @@ class TimeslotDetailPresenter: NSObject
     private weak var viewController : TimeslotDetailViewController!
     private let viewModelLocator : ViewModelLocator
     fileprivate var padding : ContainerPadding?
+    fileprivate var hasShadow : Bool = false
     fileprivate let swipeInteractionController = SwipeInteractionController()
     
     init(viewModelLocator: ViewModelLocator)
@@ -27,6 +28,8 @@ class TimeslotDetailPresenter: NSObject
     
     func showEditSubTimeSlot(with startDate: Date, timelineItemsObservable: Observable<[TimelineItem]>)
     {
+        hasShadow = false
+        
         let vc = TimeslotDetailPresenter.create(with: viewModelLocator, startDate: startDate, timelineItemsObservable: timelineItemsObservable, isShowingSubSlot: true)
         vc.modalPresentationStyle = .custom
         vc.transitioningDelegate = self
@@ -52,6 +55,7 @@ class TimeslotDetailPresenter: NSObject
     
     private func showEditTime(timeSlot: TimeSlot, isStart:Bool)
     {
+        hasShadow = true
         padding = ContainerPadding(left: 16, top: 48, right: 16, bottom: 16)
         
         let vc = EditTimesPresenter.create(with: viewModelLocator, slotStartTime: timeSlot.startTime, editingStart: isStart)
@@ -67,7 +71,7 @@ extension TimeslotDetailPresenter : UIViewControllerTransitioningDelegate
 {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController?
     {
-        return ModalPresentationController(presentedViewController: presented, presenting: presenting, containerPadding: padding, hasDimmingView: false, hasShadow: false)
+        return ModalPresentationController(presentedViewController: presented, presenting: presenting, containerPadding: padding, hasDimmingView: false, hasShadow: hasShadow)
     }
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning?
