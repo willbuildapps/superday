@@ -38,32 +38,22 @@ class TimeslotDetailPresenter: NSObject
         swipeInteractionController.wireToViewController(viewController: vc)
     }
     
-    func showEditStartTime(timeSlot: TimeSlot)
+    func showEditBreakTime(firstTimeSlot: TimeSlot, secondTimeSlot: TimeSlot, editingStartTime: Bool)
     {
-        showEditTime(timeSlot: timeSlot, isStart: true)
-    }
-    
-    func showEditEndTime(timeSlot: TimeSlot)
-    {
-        showEditTime(timeSlot: timeSlot, isStart: false)
+        hasShadow = true
+        padding = ContainerPadding(left: 16, top: 48, right: 16, bottom: 16)
+        
+        let vc = EditTimesPresenter.create(with: viewModelLocator, firstTimeSlot: firstTimeSlot, secondTimeSlot: secondTimeSlot, editingStartTime: editingStartTime)
+        vc.modalPresentationStyle = .custom
+        vc.transitioningDelegate = self
+        viewController.present(vc, animated: true, completion: nil)
+        
+        swipeInteractionController.wireToViewController(viewController: vc)
     }
     
     func dismiss()
     {
         viewController.dismiss(animated: true)
-    }
-    
-    private func showEditTime(timeSlot: TimeSlot, isStart:Bool)
-    {
-        hasShadow = true
-        padding = ContainerPadding(left: 16, top: 48, right: 16, bottom: 16)
-        
-        let vc = EditTimesPresenter.create(with: viewModelLocator, slotStartTime: timeSlot.startTime, editingStart: isStart)
-        vc.modalPresentationStyle = .custom
-        vc.transitioningDelegate = self
-        viewController.present(vc, animated: true, completion: nil)
-
-        swipeInteractionController.wireToViewController(viewController: vc)
     }
 }
 

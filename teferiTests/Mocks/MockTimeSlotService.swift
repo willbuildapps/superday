@@ -156,7 +156,7 @@ class MockTimeSlotService : TimeSlotService
         timeSlotsUpdatedSubject.on(.next(updatedTimeSlots))
     }
     
-    func updateTimes(firstSlot: TimeSlot, secondSlot: TimeSlot)
+    func updateTimes(firstSlot: TimeSlot, secondSlot: TimeSlot, newBreakTime: Date)
     {
         fatalError("Missing tests")
     }

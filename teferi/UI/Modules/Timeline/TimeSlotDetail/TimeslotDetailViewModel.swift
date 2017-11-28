@@ -51,6 +51,24 @@ class TimeslotDetailViewModel
         updateTimeSlot(timelineItem.timeSlots, withCategory: category)
     }
     
+    func timeSlot(before timeSlot: TimeSlot) -> TimeSlot?
+    {
+        guard timeSlot.startTime.ignoreDateComponents() != timeSlot.startTime.ignoreTimeComponents().ignoreDateComponents() else { return nil }
+        
+        let slots = timeSlotService.getTimeSlots(forDay: timeSlot.startTime.ignoreTimeComponents())
+        let slotIndex = slots.map{ $0.startTime }.index(of: timeSlot.startTime) ?? 0
+        return slots.safeGetElement(at: slotIndex - 1)
+    }
+    
+    func timeSlot(after timeSlot: TimeSlot) -> TimeSlot?
+    {
+        guard let endTime = timeSlot.endTime, endTime.ignoreDateComponents() != endTime.ignoreTimeComponents().ignoreDateComponents() else { return nil }
+        
+        let slots = timeSlotService.getTimeSlots(forDay: timeSlot.startTime.ignoreTimeComponents())
+        let slotIndex = slots.map{ $0.startTime }.index(of: timeSlot.startTime) ?? 0
+        return slots.safeGetElement(at: slotIndex + 1)
+    }
+    
     // MARK: - Private methods
     private func updateTimeSlot(_ timeSlots: [TimeSlot], withCategory category: Category)
     {
