@@ -144,26 +144,22 @@ class DefaultTimeSlotService : TimeSlotService
         }
     }
     
-    func updateTimes(firstSlot: TimeSlot, secondSlot: TimeSlot)
+    func updateTimes(firstSlot: TimeSlot, secondSlot: TimeSlot, newBreakTime: Date)
     {
-        guard let secondSlotEnd = secondSlot.endTime,
-            let secondDuration = secondSlot.duration else { return }
-        
-        //We use secondSlot start just in case there's a gap due to not very precise UI (we delete every TS < 60 secs)
-        let firstSlotEnd = secondSlot.startTime
-        let firstDuration = firstSlotEnd.timeIntervalSince(firstSlot.startTime)
+        let firstDuration = newBreakTime.timeIntervalSince(firstSlot.startTime)
+        let secondDuration = secondSlot.endTime?.timeIntervalSince(newBreakTime) ?? timeService.now.timeIntervalSince(newBreakTime)
         
         var updated = [TimeSlot]()
         
         let firstPredicate = Predicate(parameter: "startTime", equals: firstSlot.startTime as AnyObject)
-        let secondPredicate = Predicate(parameter: "endTime", equals: secondSlotEnd as AnyObject)
+        let secondPredicate = Predicate(parameter: "startTime", equals: secondSlot.startTime as AnyObject)
         
         let firstFunction = { (timeSlot: TimeSlot) -> (TimeSlot) in
-            return timeSlot.withEndDate(secondSlot.startTime)
+            return timeSlot.withEndDate(newBreakTime)
         }
         
         let secondFunction = { (timeSlot: TimeSlot) -> (TimeSlot) in
-            return timeSlot.withStartTime(firstSlotEnd, endTime: secondSlotEnd)
+            return timeSlot.withStartTime(newBreakTime)
         }
         
         switch (firstDuration, secondDuration) {

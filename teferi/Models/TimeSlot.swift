@@ -62,11 +62,11 @@ extension TimeSlot
             activity: self.activity)
     }
     
-    func withStartTime(_ startTime: Date, endTime: Date) -> TimeSlot
+    func withStartTime(_ startTime: Date, endTime: Date? = nil) -> TimeSlot
     {
         return TimeSlot(
             startTime: startTime,
-            endTime: endTime,
+            endTime: endTime ?? self.endTime,
             category: self.category,
             location: self.location,
             categoryWasSetByUser: self.categoryWasSetByUser,

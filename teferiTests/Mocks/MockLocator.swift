@@ -175,10 +175,11 @@ class MockLocator : ViewModelLocator
                                      timeService: timeService)
     }
     
-    func getEditTimesViewModel(for slotAtDate: Date, editingStart: Bool) -> EditTimesViewModel
+    func getEditTimesViewModel(for firstTimeSlot: TimeSlot, secondTimeSlot: TimeSlot, editingStartTime: Bool) -> EditTimesViewModel
     {
-        return EditTimesViewModel(slotAtDate: slotAtDate,
-                                  editingStart: editingStart,
+        return EditTimesViewModel(initialTopSlot: firstTimeSlot,
+                                  initialBottomSlot: secondTimeSlot,
+                                  editingStartTime: editingStartTime,
                                   timeService: timeService,
                                   timeSlotService: timeSlotService)
     }

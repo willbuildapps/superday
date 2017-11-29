@@ -31,6 +31,6 @@ class SettingsPresenter
     
     func requestReview()
     {
-        SKStoreReviewController.requestReview()
+        UIApplication.shared.open(Constants.appStoreURL, options: [:], completionHandler: nil)
     }
 }

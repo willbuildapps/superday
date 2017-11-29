@@ -55,7 +55,7 @@ class SimpleMockTimeSlotService : TimeSlotService
         
     }
     
-    func updateTimes(firstSlot: TimeSlot, secondSlot: TimeSlot)
+    func updateTimes(firstSlot: TimeSlot, secondSlot: TimeSlot, newBreakTime: Date)
     {
         
     }

@@ -23,9 +23,17 @@ class SlotView: UIView
             durationLabel.text = formatedElapsedTimeText(for: duration)
             
             if duration < 60 {
-                UIView.animate(withDuration: 0.3, animations: setDeletionState(true))
-            } else if oldValue < 60 {
-                UIView.animate(withDuration: 0.3, animations: setDeletionState(false))
+                toBeDeleted = true
+            } else {
+                toBeDeleted = false
+            }
+        }
+    }
+    
+    private var toBeDeleted: Bool  = false {
+        didSet {
+            if oldValue != toBeDeleted {
+                UIView.animate(withDuration: 0.3, animations: setDeletionState(toBeDeleted))
             }
         }
     }
@@ -98,16 +106,19 @@ class SlotView: UIView
             make.leading.equalTo(lineView.snp.trailing).offset(-20)
         }
         
+        toBeDeleted = false
+        deleteIconView.alpha = 0
+        
         self.setNeedsLayout()
     }
 
-    private func setDeletionState(_ toBeDeleted: Bool) -> () -> ()
+    private func setDeletionState(_ wantsDeletion: Bool) -> () -> ()
     {
         return {
-            self.redOverlay.alpha = toBeDeleted ? 0.8 : 0
-            self.deleteIconView.alpha = toBeDeleted ? 1 : 0
+            self.redOverlay.alpha = wantsDeletion ? 0.8 : 0
+            self.deleteIconView.alpha = wantsDeletion ? 1 : 0
             self.deleteIconView.snp.updateConstraints { make in
-               make.leading.equalTo(self.lineView.snp.trailing).offset(toBeDeleted ? 4 : -20)
+               make.leading.equalTo(self.lineView.snp.trailing).offset(wantsDeletion ? 4 : -20)
             }
             self.layoutIfNeeded()
         }

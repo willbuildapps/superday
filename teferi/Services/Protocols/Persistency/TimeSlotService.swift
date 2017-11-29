@@ -34,7 +34,7 @@ protocol TimeSlotService
      */
     func update(timeSlots: [TimeSlot], withCategory category: Category)
     
-    func updateTimes(firstSlot: TimeSlot, secondSlot: TimeSlot)
+    func updateTimes(firstSlot: TimeSlot, secondSlot: TimeSlot, newBreakTime: Date)
     
     /**
      Gets last registered TimeSlot.

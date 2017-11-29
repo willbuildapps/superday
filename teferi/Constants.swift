@@ -36,4 +36,5 @@ class Constants
     
     //MARK: Miscellaneous
     static let helpURL: URL = URL(string: "https://support.toggl.com/superday")!
+    static let appStoreURL: URL = URL(string: "itms-apps://itunes.apple.com/app/id1169609181")!
 }

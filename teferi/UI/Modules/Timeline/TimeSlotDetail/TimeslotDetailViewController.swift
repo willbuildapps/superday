@@ -38,7 +38,7 @@ class TimeslotDetailViewController: UIViewController
         didSet
         {
             guard let tableView = self.tableView else { return }
-
+            
             tableView.reloadSections([SectionType.singleSlot.rawValue, SectionType.multipleSlots.rawValue, SectionType.time.rawValue, SectionType.map.rawValue], animationStyle: .fade)
             tableView.reloadRows(at: [IndexPath(row: SectionType.CategorySelectionRowType.categoryDetail.rawValue, section: SectionType.categorySelection.rawValue)], with: .fade)
         }
@@ -160,11 +160,11 @@ extension TimeslotDetailViewController : UITableViewDelegate
             guard timelineItem.timeSlots.count == 1, let timeSlot = timelineItem.timeSlots.first else { break }
             switch timeRowType {
             case .start:
-                guard timeSlot.startTime.ignoreDateComponents() != timeSlot.startTime.ignoreTimeComponents().ignoreDateComponents() else { return }
-                presenter.showEditStartTime(timeSlot: timeSlot)
+                guard let timeSlotBefore = viewModel.timeSlot(before: timeSlot) else { return }
+                presenter.showEditBreakTime(firstTimeSlot: timeSlotBefore, secondTimeSlot: timeSlot, editingStartTime: true)
             case .end:
-                guard let endTime = timeSlot.endTime, endTime.ignoreDateComponents() != endTime.ignoreTimeComponents().ignoreDateComponents() else { return }
-                presenter.showEditEndTime(timeSlot: timeSlot)
+                guard let timeSlotAfter = viewModel.timeSlot(after: timeSlot) else { return }
+                presenter.showEditBreakTime(firstTimeSlot: timeSlot, secondTimeSlot: timeSlotAfter, editingStartTime: false)
             }
             
         default:

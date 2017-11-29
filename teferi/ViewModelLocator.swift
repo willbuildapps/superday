@@ -31,7 +31,7 @@ protocol ViewModelLocator
     func getRatingViewModel(start startDate: Date, end endDate: Date) -> RatingViewModel
     
     func getTimeslotDetailViewModel(for startDate: Date, timelineItemsObservable: Observable<[TimelineItem]>, isShowingSubSlot: Bool) -> TimeslotDetailViewModel
-    func getEditTimesViewModel(for slotAtDate: Date, editingStart:Bool) -> EditTimesViewModel
+    func getEditTimesViewModel(for firstTimeSlot: TimeSlot, secondTimeSlot: TimeSlot, editingStartTime: Bool) -> EditTimesViewModel
     
     func getGoalViewModel() -> GoalViewModel
     func getNewGoalViewModel(goalToBeEdited: Goal?) -> NewGoalViewModel
@@ -249,11 +249,12 @@ class DefaultViewModelLocator : ViewModelLocator
                                      timeService: timeService)
     }
     
-    func getEditTimesViewModel(for slotAtDate: Date, editingStart: Bool) -> EditTimesViewModel
+    func getEditTimesViewModel(for firstTimeSlot: TimeSlot, secondTimeSlot: TimeSlot, editingStartTime: Bool) -> EditTimesViewModel
     {
         return EditTimesViewModel(
-            slotAtDate: slotAtDate,
-            editingStart: editingStart,
+            initialTopSlot: firstTimeSlot,
+            initialBottomSlot: secondTimeSlot,
+            editingStartTime: editingStartTime,
             timeService: timeService,
             timeSlotService: timeSlotService)
     }

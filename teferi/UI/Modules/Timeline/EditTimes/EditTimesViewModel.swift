@@ -19,70 +19,65 @@ class EditTimesViewModel: RxViewModel
     private let timeService: TimeService
     private let timeSlotService: TimeSlotService
     
-    private let topSlot: Variable<TimeSlot?>
-    private let bottomSlot: Variable<TimeSlot?>
+    private let topSlot: Variable<TimeSlot>
+    private let bottomSlot: Variable<TimeSlot>
     
-    init(slotAtDate: Date, editingStart: Bool, timeService: TimeService, timeSlotService: TimeSlotService)
+    private let initialTopSlot: TimeSlot
+    private let initialBottomSlot: TimeSlot
+    
+    init(initialTopSlot: TimeSlot, initialBottomSlot: TimeSlot, editingStartTime: Bool, timeService: TimeService, timeSlotService: TimeSlotService)
     {
+        self.initialTopSlot = initialTopSlot
+        self.initialBottomSlot = initialBottomSlot
+
         self.timeService = timeService
         self.timeSlotService = timeSlotService
         
-        let slots = timeSlotService.getTimeSlots(forDay: slotAtDate.ignoreTimeComponents())
-        let slotIndex = slots.map{ $0.startTime }.index(of: slotAtDate) ?? 0
-        
-        var slot1: TimeSlot?
-        var slot2: TimeSlot?
-        if editingStart {
-            slot1 = slots.safeGetElement(at: slotIndex - 1)
-            slot2 = slots.safeGetElement(at: slotIndex)
-        } else {
-            slot1 = slots.safeGetElement(at: slotIndex)
-            slot2 = slots.safeGetElement(at: slotIndex + 1)
-        }
-        
-        topSlot = Variable<TimeSlot?>(slot1)
-        bottomSlot = Variable<TimeSlot?>(slot2)
+        topSlot = Variable<TimeSlot>(initialTopSlot)
+        bottomSlot = Variable<TimeSlot>(initialBottomSlot)
         
         super.init()
         
-        if let duration1 = slot1?.duration, let duration2 = slot2?.duration {
-            initialSlotRatio = CGFloat(duration1 / (duration1 + duration2))
-        }
+        let duration1 = slotDuration(initialTopSlot)
+        let duration2 = slotDuration(initialBottomSlot)
         
-        selectedSlotCategory = slots[slotIndex].category
+        initialSlotRatio = CGFloat(duration1 / (duration1 + duration2))
+        
+        selectedSlotCategory = editingStartTime ? initialBottomSlot.category : initialTopSlot.category
     }
     
     func updateTimes(topPercentage: Double)
     {
-        guard let topSlotValue = topSlot.value, let bottomSlotValue = bottomSlot.value else { return }
-        
-        let totalDuration = (topSlotValue.duration ?? 0) + (bottomSlotValue.duration ?? 0)
+        let totalDuration = slotDuration(topSlot.value) + slotDuration(bottomSlot.value)
         let topDuration = totalDuration * topPercentage
         let bottomDuration = totalDuration - topDuration
         
-        topSlot.value = topSlotValue.withStartTime(topSlotValue.startTime,
-                                                   endTime: topSlotValue.startTime.addingTimeInterval(topDuration))
+        topSlot.value = topSlot.value.withStartTime(topSlot.value.startTime,
+                                                    endTime: topSlot.value.startTime.addingTimeInterval(topDuration))
         
-        bottomSlot.value = bottomSlotValue.withStartTime(topSlotValue.endTime!,
-                                                         endTime: topSlotValue.endTime!.addingTimeInterval(bottomDuration))
+        let secondSlotEnd = bottomSlot.value.endTime != nil ? topSlot.value.endTime?.addingTimeInterval(bottomDuration) : nil
+        bottomSlot.value = bottomSlot.value.withStartTime(topSlot.value.endTime!,
+                                                          endTime: secondSlotEnd)
     }
     
     func saveTimes()
     {
-        guard let topSlot = topSlot.value, let bottomSlot = bottomSlot.value else { return }
-        timeSlotService.updateTimes(firstSlot: topSlot, secondSlot: bottomSlot)
+        timeSlotService.updateTimes(firstSlot: initialTopSlot, secondSlot: initialBottomSlot, newBreakTime: bottomSlot.value.startTime)
     }
     
-    private func toEditedSlot(slot: TimeSlot?) -> EditedSlot?
+    private func toEditedSlot(slot: TimeSlot) -> EditedSlot
     {
-        guard let slot = slot else { return nil }
-        
         let formatter = DateFormatter()
         formatter.timeStyle = .short
         
         return EditedSlot(
             category: slot.category,
             startTime: formatter.string(from: slot.startTime),
-            duration: (slot.duration ?? 0))
+            duration: slotDuration(slot))
+    }
+    
+    private func slotDuration(_ timeSlot: TimeSlot) -> TimeInterval
+    {
+        return timeSlot.duration ?? timeService.now.timeIntervalSince(timeSlot.startTime)
     }
 }
