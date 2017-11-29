@@ -8,7 +8,8 @@ class EventsParser
         TimelineProcessingPass.filterPass(types: [.still, .run, .cycling], minDuration: 60 * 3),
         TimelineProcessingPass.mergePass(types: nil, maxDuration: 60 * 60),
         TimelineProcessingPass.filterPass(types: [.walk], minDuration: 60 * 3),
-        TimelineProcessingPass.mergePass(types: [.run, .cycling, .auto], maxDuration: 60 * 60 * 3)
+        TimelineProcessingPass.mergePass(types: [.run, .cycling, .auto], maxDuration: 60 * 60 * 3),
+        TimelineProcessingPass.filterPass(types: nil, minDuration: 60 * 5),
     ]
     
     func parse(events: [AnnotatedEvent]) -> [AnnotatedEvent]

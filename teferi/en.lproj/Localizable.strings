@@ -39,6 +39,11 @@
 "RatingMessage" = "Did Superday track your time accurately this week?";
 "RatingThankYou" = "Thank you for your feedback! 🎉";
 
+"SettingsSubmitFeedback" = "Submit Feedback";
+"SettingsRateUs" = "Rate Superday";
+"SettingsRateUsConvincingMessage" = "Thanks! 🙌";
+"SettingsHelp" = "Help";
+
 "CMExistingUsersAccessTitle" = "We’re gonna tune up Superday!";
 "CMExistingUsersAccessDescription" = "Visually everything remains the same but under the hood we will use Motion Data instead of Health App to provide better tracking results.\n\nTo help us make Superday even better, please allow it to access your Motion Data.";
 "CMExistingUsersAccessFinePrint" = "* Health App access won't be needed anymore";
@@ -52,6 +57,81 @@
 "NotificationsPermissionsDescription" = "Superday would like to send you\nnotifications once in a while.\nWe promise, we won't annoy\nyou too much. 🤓";
 "NotificationsPermissionsEnableButtonTitle" = "Enable notifications";
 "NotificationsPermissionsSecondaryButtonTitle" = "No, thanks";
+
+"NewGoalTitle" = "What do you want to\nachieve today?";
+"NewGoalTopDescription" = "I WANT TO SPEND";
+"NewGoalMiddleDescription" = "ON";
+"NewGoalActionButtonTitleSetAGoal" = "Set a goal";
+"NewGoalActionButtonTitleDone" = "Done";
+"minutes" = "minutes";
+"hour" = "hour";
+"hours" = "hours";
+
+"FirstGoalAchievedMessage" = "You did it! 🏆\nFirst goal achieved.";
+
+"GoalAchievedPart1Message1" = "Daily goal achieved 🏆";
+"GoalAchievedPart1Message2" = "Daily goal achieved 🎉";
+"GoalAchievedPart1Message3" = "Goal achieved 🏆";
+"GoalAchievedPart1Message4" = "Goal achieved 🎉";
+
+"GoalAchievedPart2Before5pmMessage1" = "Enjoy your day";
+"GoalAchievedPart2Before5pmMessage2" = "You're all all done for today!";
+"GoalAchievedPart2Before5pmMessage3" = "You absolutely nailed it, good job!";
+"GoalAchievedPart2Before5pmMessage4" = "Another goal bites the dust - nice work!";
+"GoalAchievedPart2Before5pmMessage5" = "Keep doing what you’re doing 🙌";
+"GoalAchievedPart2Before5pmMessage6" = "Nice going there!";
+
+"GoalAchievedPart2After5pmMessage1" = "Enjoy your evening.";
+"GoalAchievedPart2After5pmMessage2" = "Enjoy your night.";
+"GoalAchievedPart2After5pmMessage3" = "You're all done for today!";
+"GoalAchievedPart2After5pmMessage4" = "You absolutely nailed it, good job!";
+"GoalAchievedPart2After5pmMessage5" = "Another goal bites the dust - nice work!";
+"GoalAchievedPart2After5pmMessage6" = "Keep doing what you’re doing 🙌";
+"GoalAchievedPart2After5pmMessage7" = "Nice going there!";
+
+"GoalOverAchieved1" = "Daily Goal - Smashed to pieces.";
+"GoalOverAchieved2" = "Damn, you’re not kidding around.";
+"GoalOverAchieved3" = "Daily goal achieved 🏆\nLook at you all organized and productive.";
+"GoalOverAchieved4" = "Daily Goal - Done & then some.";
+"GoalOverAchieved5" = "Daily Goal - Neutralized.";
+
+"GoalSuggestion1" = "Remember, small steps will take you there. Maybe try with %@ instead for a start.";
+"GoalSuggestion2" = "That was a nice try, but to get the ball rolling, maybe try doing for %@ instead.";
+"GoalSuggestion3" = "Hey there sleepyhead - how about we try doing some goals earlier in the day?";
+"GoalSuggestion4" = "Get things done early in the morning. Remember - Early 🐦 gets 💩 done!";
+
+"ResultsNotificationMessage" = "Results are in for %@.\nCheck it out";
+
+"GoalHeaderDefaultMessage" = "What do you want to\nachieve today?";
+"GoalHeaderTodayIWantToSpendHours" = "Today I want to\nspend %@ hours on";
+"GoalHeaderTodayIWantToSpendMinutes" = "Today I want to\nspend %@ minutes on";
+
+"GoalFailed10PercentOrLess1" = "Ahh, so close - don’t give up now!";
+"GoalFailed10PercentOrLess2" = "Seems you missed your goal. Not to worry, happens to the best of us.";
+"GoalFailed10PercentOrLess3" = "Oh no, missed it by this 👌 much! Keep trying, you’re almost there!";
+
+"GoalFailed10PercentOrMore1" = "You missed your goal by %d%. Don’t worry, we’ll get him next time!";
+"GoalFailed10PercentOrMore2" = "You finished %d% of your goal - nice! How about we make it 100% today?";
+
+"GoalFailed0Percent1" = "Knock, knock! Who’s there? Your unfinished goal from yesterday.";
+"GoalFailed0Percent2" = "This goal says it’s yours and that you forgot about him.";
+"GoalFailed0Percent3" = "You know goals come back to haunt you?";
+"GoalFailed0Percent4" = "Nothing to see here, move along.";
+"GoalFailed0Percent5" = "Is it just us or didn't you track your goal at all yesterday?";
+
+"FamilyGoalReminder1" = "Spent some quality time with your Family already? Don’t forget your goal for today!";
+"FamilyGoalReminder2" = "Always nice to squeeze some extra family time when possible. And also to check your goal status!";
+"FitnessGoalReminder1" = "You like to move it, move it? We like to track it, track it.";
+"FitnessGoalReminder2" = "Time to move on. Or generally move a bit. Check your daily goal.";
+"FoodGoalReminder" = "Mmmmmm, I think I’m up for some pizza. You? Remember to check your goal!";
+"LeisureGoalReminder" =  "Finally, leisure time! What’s it gonna be – Netflix or games? Or both 😈?";
+"CommuteGoalReminder1" = "You like to move it, move it? We like to track it, track it.";
+"CommuteGoalReminder2" = "Time to move on. Or generally move a bit. Check your daily goal.";
+"WorkGoalReminder1" = "Remember to do some work, work, work, work, work. And also check your goal, goal, goal, goal, goal!";
+"WorkGoalReminder2" = "Heigh-ho, heigh-ho, remember to do your work goal. See your progress.";
+"ShoppingGoalReminder" = "Hide yo’ kids, hide yo’ credit cards. Just kidding, got some some shopping done today?";
+
+"EnableNotificationsMessage" = "One more thing before you go - Superday would like to send you notifications to make sure you're on track. We promise we won't annoy you too much. 🤓";
 
 "Transport" = "Transport";
 "Movement" = "Movement";

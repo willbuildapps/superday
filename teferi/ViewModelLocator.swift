@@ -30,7 +30,14 @@ protocol ViewModelLocator
     
     func getRatingViewModel(start startDate: Date, end endDate: Date) -> RatingViewModel
     
-    func getEditTimeslotViewModel(for startDate: Date, timelineItemsObservable: Observable<[TimelineItem]>, isShowingSubSlot: Bool) -> EditTimeslotViewModel
+    func getTimeslotDetailViewModel(for startDate: Date, timelineItemsObservable: Observable<[TimelineItem]>, isShowingSubSlot: Bool) -> TimeslotDetailViewModel
+    func getEditTimesViewModel(for firstTimeSlot: TimeSlot, secondTimeSlot: TimeSlot, editingStartTime: Bool) -> EditTimesViewModel
+    
+    func getGoalViewModel() -> GoalViewModel
+    func getNewGoalViewModel(goalToBeEdited: Goal?) -> NewGoalViewModel
+    func getEnableNotificationsViewModel() -> EnableNotificationsViewModel
+    
+    func getSettingsViewModel(forViewController viewController: UIViewController) -> SettingsViewModel
 }
 
 class DefaultViewModelLocator : ViewModelLocator
@@ -49,6 +56,7 @@ class DefaultViewModelLocator : ViewModelLocator
     private let notificationService : NotificationService
     private let motionService: MotionService
     private let trackEventService: TrackEventService
+    private let goalService: GoalService
     
     init(timeService: TimeService,
          metricsService: MetricsService,
@@ -63,7 +71,8 @@ class DefaultViewModelLocator : ViewModelLocator
          loggingService: LoggingService,
          notificationService: NotificationService,
          motionService: MotionService,
-         trackEventService: TrackEventService)
+         trackEventService: TrackEventService,
+         goalService: GoalService)
     {
         self.timeService = timeService
         self.metricsService = metricsService
@@ -79,14 +88,12 @@ class DefaultViewModelLocator : ViewModelLocator
         self.notificationService = notificationService
         self.motionService = motionService
         self.trackEventService = trackEventService
+        self.goalService = goalService
     }
     
     func getNavigationViewModel(forViewController viewController: UIViewController) -> NavigationViewModel
     {
-        let feedbackService = (self.feedbackService as! MailFeedbackService).with(viewController: viewController)
-
         return NavigationViewModel(timeService: self.timeService,
-                                       feedbackService: feedbackService,
                                        selectedDateService: self.selectedDateService,
                                        appLifecycleService: self.appLifecycleService)
     }
@@ -120,7 +127,8 @@ class DefaultViewModelLocator : ViewModelLocator
                                       appLifecycleService: self.appLifecycleService,
                                       locationService: self.locationService,
                                       trackEventService: self.trackEventService,
-                                      motionService: self.motionService)
+                                      motionService: self.motionService,
+                                      goalService: self.goalService)
 
         return viewModel
     }
@@ -230,14 +238,54 @@ class DefaultViewModelLocator : ViewModelLocator
                                timeService: timeService)
     }
     
-    func getEditTimeslotViewModel(for startDate: Date, timelineItemsObservable: Observable<[TimelineItem]>, isShowingSubSlot: Bool = false) -> EditTimeslotViewModel
+    func getTimeslotDetailViewModel(for startDate: Date, timelineItemsObservable: Observable<[TimelineItem]>, isShowingSubSlot: Bool = false) -> TimeslotDetailViewModel
     {
-        return EditTimeslotViewModel(startDate: startDate,
+        return TimeslotDetailViewModel(startDate: startDate,
                                      isShowingSubSlot: isShowingSubSlot,
                                      timelineItemsObservable: timelineItemsObservable,
                                      timeSlotService: timeSlotService,
                                      metricsService: metricsService,
                                      smartGuessService: smartGuessService,
                                      timeService: timeService)
+    }
+    
+    func getEditTimesViewModel(for firstTimeSlot: TimeSlot, secondTimeSlot: TimeSlot, editingStartTime: Bool) -> EditTimesViewModel
+    {
+        return EditTimesViewModel(
+            initialTopSlot: firstTimeSlot,
+            initialBottomSlot: secondTimeSlot,
+            editingStartTime: editingStartTime,
+            timeService: timeService,
+            timeSlotService: timeSlotService)
+    }
+    
+    func getGoalViewModel() -> GoalViewModel
+    {
+        return GoalViewModel(timeService: timeService,
+                             settingsService: settingsService,
+                             timeSlotService: timeSlotService,
+                             goalService: goalService,
+                             appLifecycleService: appLifecycleService)
+    }
+    
+    func getNewGoalViewModel(goalToBeEdited goal: Goal?) -> NewGoalViewModel
+    {
+        return NewGoalViewModel(goalToBeEdited: goal,
+                                timeService: timeService,
+                                goalService: goalService,
+                                notificationService: notificationService,
+                                settingsService: settingsService,
+                                categoryProvider: DefaultCategoryProvider(timeSlotService:  timeSlotService))
+    }
+    
+    func getEnableNotificationsViewModel() -> EnableNotificationsViewModel
+    {
+        return EnableNotificationsViewModel(settingsService: settingsService, notificationService: notificationService)
+    }
+    
+    func getSettingsViewModel(forViewController viewController: UIViewController) -> SettingsViewModel
+    {
+        let feedbackService = (self.feedbackService as! MailFeedbackService).with(viewController: viewController)
+        return SettingsViewModel(settingsService: settingsService, feedbackService: feedbackService)
     }
 }

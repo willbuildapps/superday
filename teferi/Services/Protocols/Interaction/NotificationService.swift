@@ -3,11 +3,9 @@ import UserNotificationsUI
 
 protocol NotificationService
 {
-    func requestNotificationPermission(completed: @escaping () -> ())
+    func requestNotificationPermission(completed: @escaping (_ authorized: Bool) -> ())
     
-    func scheduleNormalNotification(date: Date, title: String, message: String)
-    
-    func unscheduleAllNotifications(completion: (() -> Void)?, ofTypes types: NotificationType?...)
-    
-    func clearAndScheduleAllDefaultNotifications()
+    func scheduleNormalNotification(date: Date, message: String)
+    func clearAndScheduleWeeklyNotifications()
+    func clearAndScheduleGoalNotifications()
 }

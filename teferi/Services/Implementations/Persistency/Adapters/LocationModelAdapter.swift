@@ -17,7 +17,8 @@ class LocationModelAdapter : CoreDataModelAdapter<Location>
     {
         super.init()
         
-        sortDescriptors = [ NSSortDescriptor(key: timestampKey, ascending: false) ]
+        sortDescriptorsForList = [ NSSortDescriptor(key: timestampKey, ascending: false) ]
+        sortDescriptorsForLast = sortDescriptorsForList
     }
     
     //MARK: Public Methods

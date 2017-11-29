@@ -4,6 +4,8 @@ import RxSwift
 
 class MockSettingsService : SettingsService
 {
+    var lastShownGoalSuggestion: Date?
+    
     //MARK: Properties
     var nextSmartGuessId = 0
     var installDate : Date? = Date()
@@ -14,11 +16,16 @@ class MockSettingsService : SettingsService
     var userEverGaveMotionPermission: Bool = false
     var didShowWelcomeMessage : Bool = true
     var lastShownWeeklyRating : Date? = Date()
+    var lastUsedGoalAchivedMessageAndDate: [Date : String]?
+    var lastShownAddGoalAlert : Date? = Date()
+    var versionNumber: String = ""
+    var buildNumber: String = ""
 
     var motionPermissionGranted: Observable<Bool> = Observable<Bool>.empty()
     
     var hasLocationPermission = true
-    var hasNotificationPermission = true
+    var hasNotificationPermission: Observable<Bool> = Observable.just(true)
+    var userRejectedNotificationPermission = false
     var shouldAskForNotificationPermission = false
     var hasCoreMotionPermission = true
     var isFirstTimeAppRuns = false
@@ -73,7 +80,7 @@ class MockSettingsService : SettingsService
     
     func setUserRejectedNotificationPermission()
     {
-        hasNotificationPermission = true
+        hasNotificationPermission = Observable.just(false)
     }
     
     func setShouldAskForNotificationPermission()
@@ -100,4 +107,20 @@ class MockSettingsService : SettingsService
     {
         lastShownWeeklyRating = date
     }
+    
+    func setLastUsedGoalAchivedMessageAndDate(_ data: [Date : String])
+    {
+        lastUsedGoalAchivedMessageAndDate = data
+    }
+
+    func setLastShownAddGoalAlert(_ date: Date)
+    {
+        lastShownAddGoalAlert = date
+    }
+
+    func setLastShownGoalSuggestion(_ date: Date)
+    {
+        lastShownGoalSuggestion = date
+    }
+    
 }

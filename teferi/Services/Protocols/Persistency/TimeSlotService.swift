@@ -18,6 +18,7 @@ protocol TimeSlotService
      - Returns: The found TimeSlots for the day or an empty array if there are none.
      */
     func getTimeSlots(forDay day: Date) -> [TimeSlot]
+    func getTimeSlots(forDay day: Date, category: Category?) -> [TimeSlot]
     
     func getTimeSlots(sinceDaysAgo days: Int) -> [TimeSlot]
     
@@ -32,6 +33,8 @@ protocol TimeSlotService
      - Parameter setByUser: Indicates if the user initiated the action that changed the TimeSlot.
      */
     func update(timeSlots: [TimeSlot], withCategory category: Category)
+    
+    func updateTimes(firstSlot: TimeSlot, secondSlot: TimeSlot, newBreakTime: Date)
     
     /**
      Gets last registered TimeSlot.

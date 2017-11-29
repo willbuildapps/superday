@@ -7,7 +7,6 @@ class TimelineViewModel
     //MARK: Public Properties
     let date : Date
     var timelineItemsObservable : Observable<[TimelineItem]> { return self.timelineItems.asObservable() }
-    let lastSlotUpdateObservable : Observable<Void>
 
     //MARK: Private Properties
     private var isCurrentDay : Bool
@@ -21,7 +20,6 @@ class TimelineViewModel
     private let settingsService : SettingsService
     private let metricsService : MetricsService
     
-    private var activities : Variable<[Activity]> = Variable([])
     private(set) var timelineItems : Variable<[TimelineItem]> = Variable([])
     
     var dailyVotingNotificationObservable : Observable<Date>
@@ -55,7 +53,7 @@ class TimelineViewModel
         
         isCurrentDay = timeService.now.ignoreTimeComponents() == date
         
-        self.lastSlotUpdateObservable = !isCurrentDay ? Observable.empty() : Observable<Int>.timer(1, period: 10, scheduler: MainScheduler.instance).mapTo(())
+        let timelineObservable = !isCurrentDay ? Observable.empty() : Observable<Int>.timer(1, period: 10, scheduler: MainScheduler.instance).mapTo(())
         
         let newTimeSlotForThisDate = !isCurrentDay ? Observable.empty() : timeSlotService
             .timeSlotCreatedObservable
@@ -71,7 +69,7 @@ class TimelineViewModel
             .mapTo(())
         
         let refreshObservable =
-            Observable.of(newTimeSlotForThisDate, updatedTimeSlotsForThisDate, movedToForeground)//, timeObservable.mapTo(()))
+            Observable.of(newTimeSlotForThisDate, updatedTimeSlotsForThisDate, movedToForeground, timelineObservable.mapTo(()))
                       .merge()
                       .startWith(()) // This is a hack I can't remove due to something funky with the view controllery lifecycle. We should fix this in the refactor
                 

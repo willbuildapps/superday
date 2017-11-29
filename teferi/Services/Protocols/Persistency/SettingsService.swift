@@ -18,8 +18,9 @@ protocol SettingsService
     
     var hasCoreMotionPermission : Bool { get }
     
-    var hasNotificationPermission : Bool { get }
+    var hasNotificationPermission : Observable<Bool> { get }
     var shouldAskForNotificationPermission : Bool { get }
+    var userRejectedNotificationPermission: Bool { get }
     
     var userEverGaveLocationPermission : Bool { get }
     
@@ -30,6 +31,16 @@ protocol SettingsService
     var lastShownWeeklyRating : Date? { get }
     
     var motionPermissionGranted: Observable<Bool> { get }
+    
+    var lastUsedGoalAchivedMessageAndDate: [Date: String]? { get }
+    
+    var lastShownAddGoalAlert : Date? { get }
+
+    var lastShownGoalSuggestion : Date? { get }
+
+    var versionNumber: String { get }
+    
+    var buildNumber: String { get }
     
     //MARK: Methods
     func setIsFirstTimeAppRuns()
@@ -55,4 +66,10 @@ protocol SettingsService
     func lastSevenDaysOfVotingHistory() -> [Date]
     
     func setLastShownWeeklyRating(_ date: Date)
+    
+    func setLastUsedGoalAchivedMessageAndDate(_ data: [Date: String])
+    
+    func setLastShownAddGoalAlert(_ date: Date)
+
+    func setLastShownGoalSuggestion(_ date: Date)
 }

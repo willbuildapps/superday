@@ -8,7 +8,6 @@ class NavigationViewModel
     private let yesterdayBarTitle = L10n.yesterdayBarTitle
     
     private let timeService: TimeService
-    private let feedbackService: FeedbackService
     private let selectedDateService : SelectedDateService
     private let appLifecycleService: AppLifecycleService
     
@@ -16,12 +15,10 @@ class NavigationViewModel
     
     // MARK: Initializers
     init(timeService : TimeService,
-         feedbackService: FeedbackService,
          selectedDateService: SelectedDateService,
          appLifecycleService: AppLifecycleService)
     {
         self.timeService = timeService
-        self.feedbackService = feedbackService
         self.selectedDateService = selectedDateService
         self.appLifecycleService = appLifecycleService
         
@@ -31,16 +28,6 @@ class NavigationViewModel
     }
     
     // MARK: Properties
-    var calendarDay : Observable<String>
-    {
-        return self.appLifecycleService.movedToForegroundObservable
-            .startWith(())
-            .map { [unowned self] in
-                let currentDay = Calendar.current.component(.day, from: self.timeService.now)
-                return String(format: "%02d", currentDay)
-        }
-    }
-    
     var title : Observable<String>
     {
         return Observable.combineLatest(
@@ -68,6 +55,4 @@ class NavigationViewModel
         
         return dayOfMonthFormatter.string(from: currentDate)
     }
-    
-    func composeFeedback() { feedbackService.composeFeedback() }
 }

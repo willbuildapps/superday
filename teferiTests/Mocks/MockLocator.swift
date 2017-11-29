@@ -19,19 +19,18 @@ class MockLocator : ViewModelLocator
     var notificationService  = MockNotificationService()
     var motionService = MockMotionService()
     var trackEventService = MockTrackEventService()
+    var goalService : MockGoalService
     
     init()
     {
         timeSlotService = MockTimeSlotService(timeService: timeService,
                                                    locationService: locationService)
+        goalService = MockGoalService(timeService: timeService)
     }
 
     func getNavigationViewModel(forViewController viewController: UIViewController) -> NavigationViewModel
     {
-        let feedbackService = (self.feedbackService as! MailFeedbackService).with(viewController: viewController)
-        
         return NavigationViewModel(timeService: timeService,
-                                       feedbackService: feedbackService,
                                        selectedDateService: selectedDateService,
                                        appLifecycleService: appLifecycleService)
     }
@@ -64,7 +63,8 @@ class MockLocator : ViewModelLocator
                              appLifecycleService: appLifecycleService,
                              locationService: locationService,
                              trackEventService: trackEventService,
-                             motionService: motionService)
+                             motionService: motionService,
+                             goalService: goalService)
     }
     
     func getPagerViewModel() -> PagerViewModel
@@ -164,14 +164,53 @@ class MockLocator : ViewModelLocator
                                timeService: timeService)
     }
     
-    func getEditTimeslotViewModel(for startDate: Date, timelineItemsObservable: Observable<[TimelineItem]>, isShowingSubSlot: Bool) -> EditTimeslotViewModel
+    func getTimeslotDetailViewModel(for startDate: Date, timelineItemsObservable: Observable<[TimelineItem]>, isShowingSubSlot: Bool) -> TimeslotDetailViewModel
     {
-        return EditTimeslotViewModel(startDate: startDate,
+        return TimeslotDetailViewModel(startDate: startDate,
                                      isShowingSubSlot: isShowingSubSlot,
                                      timelineItemsObservable: timelineItemsObservable,
                                      timeSlotService: timeSlotService,
                                      metricsService: metricsService,
                                      smartGuessService: smartGuessService,
                                      timeService: timeService)
+    }
+    
+    func getEditTimesViewModel(for firstTimeSlot: TimeSlot, secondTimeSlot: TimeSlot, editingStartTime: Bool) -> EditTimesViewModel
+    {
+        return EditTimesViewModel(initialTopSlot: firstTimeSlot,
+                                  initialBottomSlot: secondTimeSlot,
+                                  editingStartTime: editingStartTime,
+                                  timeService: timeService,
+                                  timeSlotService: timeSlotService)
+    }
+    
+    func getGoalViewModel() -> GoalViewModel
+    {
+        return GoalViewModel(timeService: timeService,
+                             settingsService: settingsService,
+                             timeSlotService: timeSlotService,
+                             goalService: goalService,
+                             appLifecycleService: appLifecycleService)
+    }
+    
+    func getNewGoalViewModel(goalToBeEdited: Goal?) -> NewGoalViewModel
+    {
+        return NewGoalViewModel(goalToBeEdited: goalToBeEdited,
+                                timeService: timeService,
+                                goalService: goalService,
+                                notificationService: notificationService,
+                                settingsService: settingsService,
+                                categoryProvider: DefaultCategoryProvider(timeSlotService:  timeSlotService))
+    }
+    
+    func getEnableNotificationsViewModel() -> EnableNotificationsViewModel
+    {
+        return EnableNotificationsViewModel(settingsService: settingsService, notificationService: notificationService)
+    }
+    
+    func getSettingsViewModel(forViewController viewController: UIViewController) -> SettingsViewModel
+    {
+        return SettingsViewModel(settingsService: settingsService,
+                                 feedbackService: feedbackService)
     }
 }

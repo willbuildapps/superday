@@ -34,7 +34,6 @@ func == (lhs: TimelineItem, rhs: TimelineItem) -> Bool
         && lhs.containsMultiple == rhs.containsMultiple
 }
 
-
 class TimelineDataSource: RxTableViewSectionedAnimatedDataSource<TimelineSection>
 {
     override init()
@@ -46,6 +45,5 @@ class TimelineDataSource: RxTableViewSectionedAnimatedDataSource<TimelineSection
             reloadAnimation: .fade,
             deleteAnimation: .fade
         )
-        
     }
 }

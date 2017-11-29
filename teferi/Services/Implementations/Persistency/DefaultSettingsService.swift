@@ -2,6 +2,7 @@ import CoreData
 import UIKit
 import CoreLocation
 import RxSwift
+import UserNotifications
 
 class DefaultSettingsService : SettingsService
 {
@@ -58,16 +59,29 @@ class DefaultSettingsService : SettingsService
         return getBool(forKey: hasCoreMotionPermissionKey)
     }
     
-    var hasNotificationPermission : Bool
+    var hasNotificationPermission : Observable<Bool>
     {
-        guard !getBool(forKey: userRejectedNotificationPermissionKey) else { return true }
-        let notificationSettings = UIApplication.shared.currentUserNotificationSettings
-        return notificationSettings?.types.contains([.alert, .badge]) ?? false
+        return Observable<Bool>.create { observer in
+
+            let notificationCenter = UNUserNotificationCenter.current()
+            notificationCenter.getNotificationSettings { settings in
+                let authorized = settings.authorizationStatus == UNAuthorizationStatus.authorized
+                observer.onNext(authorized)
+                observer.onCompleted()
+            }
+
+            return Disposables.create { }
+        }
     }
     
     var shouldAskForNotificationPermission : Bool
     {
         return getBool(forKey: shouldAskForNotificationPermissionKey)
+    }
+    
+    var userRejectedNotificationPermission: Bool
+    {
+        return getBool(forKey: userRejectedNotificationPermissionKey)
     }
     
     var userEverGaveLocationPermission: Bool
@@ -96,6 +110,33 @@ class DefaultSettingsService : SettingsService
             .filterNil()
     }
     
+    var lastUsedGoalAchivedMessageAndDate: [Date: String]?
+    {
+        if let archive = UserDefaults.standard.value(forKey: lastUsedGoalAchivedMessageAndDateKey) as? NSData
+        {
+            return NSKeyedUnarchiver.unarchiveObject(with: archive as Data) as! [Date: String]
+        }
+        
+        return nil
+    }
+    
+    var lastShownAddGoalAlert: Date? {
+        return get(forKey: lastShownGoalAlertKey)
+    }
+    
+    var lastShownGoalSuggestion: Date?
+    {
+        return get(forKey: lastShownGoalSuggestionKey)
+    }
+
+    var versionNumber: String {
+        return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
+    }
+    
+    var buildNumber: String {
+        return Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
+    }
+
     //MARK: Private Properties
     
     private let timeService : TimeService
@@ -116,6 +157,9 @@ class DefaultSettingsService : SettingsService
     private let hasCoreMotionPermissionKey = "hasCoreMotionPermission"
     private let lastTimelineGenerationDateKey = "lastTimelineGenerationDate"
     private let shouldAskForNotificationPermissionKey = "shouldAskForNotificationPermission"
+    private let lastUsedGoalAchivedMessageAndDateKey = "lastUsedGoalAchivedMessageAndDate"
+    private let lastShownGoalAlertKey = "lastShownGoalAlert"
+    private let lastShownGoalSuggestionKey = "lastShownGoalSuggestion"
     
     //MARK: Initialiazers
     init (timeService : TimeService)
@@ -209,6 +253,21 @@ class DefaultSettingsService : SettingsService
         set(date, forKey: lastShownWeeklyRatingKey)
     }
     
+    func setLastUsedGoalAchivedMessageAndDate(_ data: [Date: String])
+    {
+        UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: data), forKey: lastUsedGoalAchivedMessageAndDateKey)
+    }
+    
+    func setLastShownAddGoalAlert(_ date: Date)
+    {
+        set(date, forKey: lastShownGoalAlertKey)
+    }
+    
+    func setLastShownGoalSuggestion(_ date: Date)
+    {
+        set(date, forKey: lastShownGoalSuggestionKey)
+    }
+    
     // MARK: Private Methods
     private func get<T>(forKey key: String) -> T?
     {
@@ -235,5 +294,4 @@ class DefaultSettingsService : SettingsService
     {
         UserDefaults.standard.set(value, forKey: key)
     }
-    
 }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -32,7 +32,7 @@
                                 </connections>
                             </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1QJ-v9-Pue" customClass="WelcomeView" customModule="teferi" customModuleProvider="target">
-                                <rect key="frame" x="94.5" y="280" width="187" height="50"/>
+                                <rect key="frame" x="94" y="280" width="187" height="50"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I30-ze-lOs">
                                         <rect key="frame" x="0.0" y="0.0" width="187" height="21"/>
@@ -100,12 +100,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Quv-N5-Xzi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1108" y="269"/>
+            <point key="canvasLocation" x="991" y="297"/>
         </scene>
-        <!--Edit Timeslot View Controller-->
+        <!--Timeslot Detail View Controller-->
         <scene sceneID="NnK-yv-5I5">
             <objects>
-                <viewController storyboardIdentifier="EditTimeslot" id="GeG-os-2Ae" customClass="EditTimeslotViewController" customModule="teferi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EditTimeslot" id="GeG-os-2Ae" customClass="TimeslotDetailViewController" customModule="teferi" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="4PE-bo-qNf"/>
                         <viewControllerLayoutGuide type="bottom" id="t6p-P3-OiP"/>
@@ -205,7 +205,83 @@
                     </tableViewCellContentView>
                 </tableViewCell>
             </objects>
-            <point key="canvasLocation" x="1910" y="243"/>
+            <point key="canvasLocation" x="1820" y="298"/>
+        </scene>
+        <!--Edit Times View Controller-->
+        <scene sceneID="G8c-2g-MZq">
+            <objects>
+                <viewController storyboardIdentifier="EditTimes" id="GHd-ZP-vtu" customClass="EditTimesViewController" customModule="teferi" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="4Gk-PA-X8t"/>
+                        <viewControllerLayoutGuide type="bottom" id="pca-y5-bmJ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Fx8-JZ-NYZ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mIE-Za-efd">
+                                <rect key="frame" x="335" y="20" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="9WS-GF-FmY"/>
+                                    <constraint firstAttribute="width" secondItem="mIE-Za-efd" secondAttribute="height" multiplier="1:1" id="tNP-iy-TWL"/>
+                                </constraints>
+                                <state key="normal" image="icClose"/>
+                                <connections>
+                                    <action selector="closeButtonTapped:" destination="GHd-ZP-vtu" eventType="touchUpInside" id="e6Y-wN-xHi"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Edit start time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="grE-L5-HnZ">
+                                <rect key="frame" x="140" y="31.5" width="95.5" height="17"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="04m-lc-af0" customClass="SlotView" customModule="teferi" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="60" width="375" height="250"/>
+                                <color key="backgroundColor" red="0.0" green="0.78823529410000004" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SFl-hn-BSc" customClass="SlotView" customModule="teferi" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="350" width="375" height="301"/>
+                                <color key="backgroundColor" red="0.21176470589999999" green="0.5568627451" blue="0.87450980389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q1u-pa-Txy" customClass="HandleView" customModule="teferi" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="310" width="375" height="40"/>
+                                <color key="backgroundColor" red="1" green="0.82619162079999997" blue="0.21269310089999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="PhA-zp-b7u"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="grE-L5-HnZ" firstAttribute="centerY" secondItem="mIE-Za-efd" secondAttribute="centerY" id="1sq-Qk-1rP"/>
+                            <constraint firstItem="Q1u-pa-Txy" firstAttribute="leading" secondItem="Fx8-JZ-NYZ" secondAttribute="leading" id="8R7-CZ-lKs"/>
+                            <constraint firstItem="Q1u-pa-Txy" firstAttribute="top" secondItem="04m-lc-af0" secondAttribute="top" constant="250" id="8XB-Kb-5vs"/>
+                            <constraint firstItem="mIE-Za-efd" firstAttribute="width" secondItem="mIE-Za-efd" secondAttribute="height" multiplier="1:1" id="Eiu-rX-m3J"/>
+                            <constraint firstItem="mIE-Za-efd" firstAttribute="top" secondItem="4Gk-PA-X8t" secondAttribute="bottom" id="GDK-hl-1CN"/>
+                            <constraint firstAttribute="trailing" secondItem="mIE-Za-efd" secondAttribute="trailing" id="Iyc-Td-42u"/>
+                            <constraint firstItem="04m-lc-af0" firstAttribute="leading" secondItem="Fx8-JZ-NYZ" secondAttribute="leading" id="JZt-Dx-3FB"/>
+                            <constraint firstAttribute="trailing" secondItem="SFl-hn-BSc" secondAttribute="trailing" id="N14-F1-Bgt"/>
+                            <constraint firstAttribute="trailing" secondItem="Q1u-pa-Txy" secondAttribute="trailing" id="Vxx-j0-cmZ"/>
+                            <constraint firstItem="grE-L5-HnZ" firstAttribute="centerX" secondItem="Fx8-JZ-NYZ" secondAttribute="centerX" id="WNJ-GO-gBd"/>
+                            <constraint firstItem="SFl-hn-BSc" firstAttribute="top" secondItem="Q1u-pa-Txy" secondAttribute="bottom" id="ZXE-Ix-Fd9"/>
+                            <constraint firstItem="04m-lc-af0" firstAttribute="top" secondItem="4Gk-PA-X8t" secondAttribute="bottom" constant="40" id="aY9-nr-jpC"/>
+                            <constraint firstItem="Q1u-pa-Txy" firstAttribute="top" secondItem="04m-lc-af0" secondAttribute="bottom" id="f5n-WX-zw1"/>
+                            <constraint firstItem="SFl-hn-BSc" firstAttribute="leading" secondItem="Fx8-JZ-NYZ" secondAttribute="leading" id="jXZ-cd-o6w"/>
+                            <constraint firstItem="pca-y5-bmJ" firstAttribute="top" secondItem="SFl-hn-BSc" secondAttribute="bottom" constant="16" id="oe4-p8-ULM"/>
+                            <constraint firstAttribute="trailing" secondItem="04m-lc-af0" secondAttribute="trailing" id="yPM-fq-MsX"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="bottomSlot" destination="SFl-hn-BSc" id="jmm-MC-t8c"/>
+                        <outlet property="handle" destination="Q1u-pa-Txy" id="sAY-Ms-A5E"/>
+                        <outlet property="topConstraint" destination="8XB-Kb-5vs" id="FmB-ba-K9x"/>
+                        <outlet property="topSlot" destination="04m-lc-af0" id="qMU-yJ-voD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WZM-B2-08o" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2624.8000000000002" y="295.50224887556226"/>
         </scene>
         <!--Access For Existing Users View Controller-->
         <scene sceneID="ouz-aJ-rbM">

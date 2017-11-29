@@ -34,6 +34,12 @@ class SimpleMockTimeSlotService : TimeSlotService
         return timeSlotsToReturn ?? []
     }
     
+    func getTimeSlots(forDay day: Date, category: teferi.Category?) -> [TimeSlot]
+    {
+        dateAsked = day
+        return timeSlotsToReturn ?? []
+    }
+    
     func getTimeSlots(sinceDaysAgo days: Int) -> [TimeSlot]
     {
         return timeSlotsToReturn ?? []
@@ -45,6 +51,11 @@ class SimpleMockTimeSlotService : TimeSlotService
     }
 
     func update(timeSlots: [TimeSlot], withCategory category: teferi.Category)
+    {
+        
+    }
+    
+    func updateTimes(firstSlot: TimeSlot, secondSlot: TimeSlot, newBreakTime: Date)
     {
         
     }

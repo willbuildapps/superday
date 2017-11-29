@@ -32,11 +32,9 @@ class IntroPresenter : NSObject
     
     func showMainScreen()
     {
-        let nav = NavigationPresenter.create(with: viewModelLocator)
-        nav.transitioningDelegate = self
-
-        viewController.present(nav, animated: true)
-        
+        let tabBarController = TabBarPresenter.create(with: viewModelLocator)
+        tabBarController.transitioningDelegate = self
+        viewController.present(tabBarController, animated: true)
     }
 }
 
@@ -46,5 +44,4 @@ extension IntroPresenter : UIViewControllerTransitioningDelegate
     {
         return FadeTransition()
     }
-    
 }

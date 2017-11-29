@@ -78,11 +78,28 @@ class DefaultTimeSlotService : TimeSlotService
     
     func getTimeSlots(forDay day: Date) -> [TimeSlot]
     {
+        return getTimeSlots(forDay: day, category: nil)
+    }
+    
+    func getTimeSlots(forDay day: Date, category: Category?) -> [TimeSlot]
+    {
         let startTime = day.ignoreTimeComponents() as NSDate
         let endTime = day.tomorrow.ignoreTimeComponents().addingTimeInterval(-1) as NSDate
-        let predicate = Predicate(parameter: "startTime", rangesFromDate: startTime, toDate: endTime)
         
-        let timeSlots = persistencyService.get(withPredicate: predicate)
+        var timeSlots = [TimeSlot]()
+        
+        if let category = category
+        {
+            let predicates = [Predicate(parameter: "startTime", rangesFromDate: startTime, toDate: endTime),
+                              Predicate(parameter: "category", equals: category.rawValue as AnyObject)]
+            timeSlots = persistencyService.get(withANDPredicates: predicates)
+        }
+        else
+        {
+            let predicate = Predicate(parameter: "startTime", rangesFromDate: startTime, toDate: endTime)
+            timeSlots = persistencyService.get(withPredicate: predicate)
+        }
+        
         return timeSlots
     }
     
@@ -125,6 +142,67 @@ class DefaultTimeSlotService : TimeSlotService
                 loggingService.log(withLogLevel: .warning, message: "Error updating category of TimeSlot created on \(timeSlot.startTime) from \(timeSlot.category) to \(category)")
             })
         }
+    }
+    
+    func updateTimes(firstSlot: TimeSlot, secondSlot: TimeSlot, newBreakTime: Date)
+    {
+        let firstDuration = newBreakTime.timeIntervalSince(firstSlot.startTime)
+        let secondDuration = secondSlot.endTime?.timeIntervalSince(newBreakTime) ?? timeService.now.timeIntervalSince(newBreakTime)
+        
+        var updated = [TimeSlot]()
+        
+        let firstPredicate = Predicate(parameter: "startTime", equals: firstSlot.startTime as AnyObject)
+        let secondPredicate = Predicate(parameter: "startTime", equals: secondSlot.startTime as AnyObject)
+        
+        let firstFunction = { (timeSlot: TimeSlot) -> (TimeSlot) in
+            return timeSlot.withEndDate(newBreakTime)
+        }
+        
+        let secondFunction = { (timeSlot: TimeSlot) -> (TimeSlot) in
+            return timeSlot.withStartTime(newBreakTime)
+        }
+        
+        switch (firstDuration, secondDuration) {
+        case (60..., 60...):
+            
+            if let firstUpdated = updateSlotTime(withPredicate: firstPredicate, updateFunction: firstFunction) {
+                updated.append(firstUpdated)
+            }
+            if let secondUpdated = updateSlotTime(withPredicate: secondPredicate, updateFunction: secondFunction) {
+                updated.append(secondUpdated)
+            }
+            
+        case (..<60, 60...):
+            
+            persistencyService.delete(withPredicate: firstPredicate)
+
+            if let updatedTimeslot = updateSlotTime(withPredicate: secondPredicate, updateFunction: secondFunction) {
+                updated.append(updatedTimeslot)
+            }
+            
+        case (60..., ..<60):
+            
+            persistencyService.delete(withPredicate: secondPredicate)
+            
+            if let updatedTimeslot = updateSlotTime(withPredicate: firstPredicate, updateFunction: firstFunction) {
+                updated.append(updatedTimeslot)
+            }
+            
+        default:
+            break
+        }
+
+        timeSlotsUpdatedSubject.on(.next(updated))
+    }
+    
+    private func updateSlotTime(withPredicate predicate: Predicate, updateFunction: @escaping (TimeSlot) -> (TimeSlot)) -> TimeSlot?
+    {
+        guard let updatedSlot = persistencyService.singleUpdate(withPredicate: predicate, updateFunction: updateFunction) else {
+            loggingService.log(withLogLevel: .warning, message: "Error updating TimeSlot's time")
+            return nil
+        }
+        
+        return updatedSlot
     }
     
     func getLast() -> TimeSlot?

@@ -10,22 +10,27 @@ class MockNotificationService : NotificationService
     
     var subscriptions : [(teferi.Category) -> ()] = []
     
-    func requestNotificationPermission(completed: @escaping () -> ())
+    func requestNotificationPermission(completed: @escaping (Bool) -> ())
     {
-        completed()
+        completed(true)
     }
     
-    func scheduleNormalNotification(date: Date, title: String, message: String)
+    func scheduleNormalNotification(date: Date, message: String)
     {
-        scheduleNotification(date: date, title: title, message: message, ofType: .normal)
+    
     }
     
-    func clearAndScheduleAllDefaultNotifications()
+    func clearAndScheduleWeeklyNotifications()
     {
         unscheduleAllNotifications(completion: { [unowned self] in
             self.scheduleVotingNotifications()
             self.scheduleWeeklyRatingNotifications()
         }, ofTypes: .repeatWeekly)
+    }
+    
+    func clearAndScheduleGoalNotifications()
+    {
+        
     }
     
     private func scheduleVotingNotifications()
@@ -47,7 +52,7 @@ class MockNotificationService : NotificationService
         scheduledNotifications += 1
     }
     
-    func unscheduleAllNotifications(completion: (() -> Void)?, ofTypes types: NotificationType?...)
+    private func unscheduleAllNotifications(completion: (() -> Void)?, ofTypes types: NotificationType?...)
     {
         cancellations += 1
         scheduledNotifications = 0

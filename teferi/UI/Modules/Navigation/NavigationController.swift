@@ -9,9 +9,6 @@ class NavigationController: UINavigationController
     private var viewModel : NavigationViewModel!
     private var presenter : NavigationPresenter!
     
-    private var calendarButton : UIButton!
-    private var summaryButton : UIButton!
-    private var feedbackButton : UIButton!
     private var logoImageView : UIImageView!
     private var titleLabel : UILabel!
     
@@ -28,32 +25,7 @@ class NavigationController: UINavigationController
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
-        calendarButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-        calendarButton.titleLabel?.font = UIFont.systemFont(ofSize: 11)
-        calendarButton.setBackgroundImage(Image(asset: Asset.icCalendar), for: .normal)
-        calendarButton.rx.tap
-            .subscribe(onNext: { [unowned self] in
-                self.presenter.toggleCalendar()
-            })
-            .addDisposableTo(disposeBag)
-        
-        summaryButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-        summaryButton.setBackgroundImage(Image(asset: Asset.icChart), for: .normal)
-        summaryButton.rx.tap
-            .subscribe(onNext: { [unowned self] in
-                self.presenter.showWeeklySummary()
-            })
-            .addDisposableTo(disposeBag)
-        
-        feedbackButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-        feedbackButton.setBackgroundImage(Image(asset: Asset.icFeedback), for: .normal)
-        feedbackButton.rx.tap
-            .subscribe(onNext: { [unowned self] in
-                self.viewModel.composeFeedback()
-            })
-            .addDisposableTo(disposeBag)
-        
+
         logoImageView = UIImageView(image: Image(asset: Asset.icSuperday))
         
         titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 120, height: 60))
@@ -81,10 +53,6 @@ class NavigationController: UINavigationController
     
     private func bindViewModel()
     {
-        viewModel.calendarDay
-            .bindTo(calendarButton.rx.title(for: .normal))
-            .addDisposableTo(disposeBag)
-        
         viewModel.title
             .bindTo(titleLabel.rx.text)
             .addDisposableTo(disposeBag)
@@ -94,31 +62,15 @@ class NavigationController: UINavigationController
     {
         super.pushViewController(viewController, animated: animated)
         
-        setupNavigationBar(viewController: viewController)
+        setupNavigationBar(for: viewController)
     }
     
-    private func setupNavigationBar(viewController: UIViewController)
+    private func setupNavigationBar(for viewController: UIViewController)
     {
-        let calendarBarButtonItem = UIBarButtonItem(customView: calendarButton)
-        let summaryBarButtonItem = UIBarButtonItem(customView: summaryButton)
-        let feedbackBarButtonItem = UIBarButtonItem(customView: feedbackButton)
-        
-        viewController.navigationItem.rightBarButtonItems = [
-            calendarBarButtonItem,
-            summaryBarButtonItem,
-            feedbackBarButtonItem
-        ]
-        
-        let logoMargin = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-        logoMargin.width = 17
-        
-        let bigSpacing = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-        bigSpacing.width = 18
-        
         viewController.navigationItem.leftBarButtonItems = [
-            logoMargin,
+            .createFixedSpace(of: 17),
             UIBarButtonItem(customView: logoImageView),
-            bigSpacing,
+            .createFixedSpace(of: 18),
             UIBarButtonItem(customView: titleLabel)
         ]
     }

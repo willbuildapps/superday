@@ -28,6 +28,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     private let notificationService : NotificationService
     private let motionService: MotionService
     private let selectedDateService : DefaultSelectedDateService
+    private let goalService : GoalService
     
     private let coreDataStack : CoreDataStack
     
@@ -48,38 +49,34 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         coreDataStack = CoreDataStack(loggingService: loggingService)
         let timeSlotPersistencyService = CoreDataPersistencyService(loggingService: loggingService, modelAdapter: TimeSlotModelAdapter(), managedObjectContext: coreDataStack.managedObjectContext)
         let locationPersistencyService = CoreDataPersistencyService(loggingService: loggingService, modelAdapter: LocationModelAdapter(), managedObjectContext: coreDataStack.managedObjectContext)
-        
+        let goalPersistencyService = CoreDataPersistencyService(loggingService: loggingService, modelAdapter: GoalModelAdapter(), managedObjectContext: coreDataStack.managedObjectContext)
+                
         timeSlotService = DefaultTimeSlotService(timeService: timeService,
                                                  loggingService: loggingService,
                                                  locationService: locationService,
                                                  persistencyService: timeSlotPersistencyService)
         
+        goalService = DefaultGoalService(timeService: timeService,
+                                         timeSlotService: timeSlotService,
+                                         loggingService: loggingService,
+                                         persistencyService: goalPersistencyService)
+                
         smartGuessService = DefaultSmartGuessService(timeService: timeService,
                                                      loggingService: loggingService,
                                                      settingsService: settingsService,
                                                      timeSlotService: timeSlotService)
         
-        if #available(iOS 10.0, *)
-        {
-            notificationService = PostiOSTenNotificationService(timeService: timeService,
-                                                                     loggingService: loggingService,
-                                                                     settingsService: settingsService,
-                                                                     timeSlotService: timeSlotService)
-        }
-        else
-        {
-            notificationService = PreiOSTenNotificationService(loggingService: loggingService,
-                                                               settingsService: settingsService,
-                                                               timeService: timeService,
-                                                               notificationAuthorizedSubject.asObservable())
-        }
+        notificationService = DefaultNotificationService(timeService: timeService,
+                                                            loggingService: loggingService,
+                                                            settingsService: settingsService,
+                                                            goalService: goalService)
         
         let trackEventServicePersistency = TrackEventPersistencyService(loggingService: loggingService,
                                                                         locationPersistencyService: locationPersistencyService)
         
         trackEventService = DefaultTrackEventService(loggingService: loggingService,
-                                                          persistencyService: trackEventServicePersistency,
-                                                          withEventSources: locationService)
+                                                     persistencyService: trackEventServicePersistency,
+                                                     withEventSources: locationService)
     }
     
     //MARK: UIApplicationDelegate lifecycle
@@ -103,14 +100,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         
         logAppStartup(isInBackground)
         
-        if #available(iOS 10.0, *) {
-            UNUserNotificationCenter.current().delegate = self
-        } else {
-            if let notification = launchOptions?[UIApplicationLaunchOptionsKey.localNotification] as? UILocalNotification {
-                dailyVotingNotificationDate = dailyVotingDate(notification)
-            }
-        }
-        
+        UNUserNotificationCenter.current().delegate = self
         
         //Faster startup when the app wakes up for location updates
         if isInBackground
@@ -147,7 +137,6 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         let startedOn = isInBackground ? "background" : "foreground"
         let message = "Application started on \(startedOn). App Version: \(versionNumber) Build: \(buildNumber)"
 
-
         loggingService.log(withLogLevel: .info, message: message)
     }
     
@@ -172,7 +161,8 @@ class AppDelegate : UIResponder, UIApplicationDelegate
                                                        loggingService: loggingService,
                                                        notificationService: notificationService,
                                                        motionService: motionService,
-                                                       trackEventService: trackEventService)
+                                                       trackEventService: trackEventService,
+                                                       goalService: goalService)
         
         window!.rootViewController = IntroPresenter.create(with: viewModelLocator)
         window!.makeKeyAndVisible()
@@ -182,11 +172,13 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     {
         appLifecycleService.publish(.movedToBackground)
         locationService.startLocationTracking()
+        
+        notificationService.clearAndScheduleGoalNotifications()
     }
 
     func applicationDidBecomeActive(_ application: UIApplication)
     {
-        notificationService.clearAndScheduleAllDefaultNotifications()
+        notificationService.clearAndScheduleWeeklyNotifications()
 
         initializeWindowIfNeeded()
         
@@ -194,34 +186,11 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         dailyVotingNotificationDate = nil
     }
     
-    func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings)
-    {
-        notificationAuthorizedSubject.on(.next(()))
-    }
-    
     func applicationWillTerminate(_ application: UIApplication)
     {
         coreDataStack.saveContext()
     }
     
-    func application(_ application: UIApplication, didReceive notification: UILocalNotification)
-    {
-        dailyVotingNotificationDate = dailyVotingDate(notification)
-    }
-    
-    private func dailyVotingDate(_ notification: UILocalNotification) -> Date?
-    {
-        guard
-            let type = notification.userInfo?["notificationType"] as? String,
-            type == NotificationType.repeatWeekly.rawValue,
-            let fireDate = notification.fireDate,
-            fireDate.dayOfWeek != 6
-        else { return nil }
-        
-        return fireDate
-    }
-    
-    @available(iOS 10.0, *)
     fileprivate func dailyVotingDate(_ notification: UNNotification) -> Date?
     {
         guard
@@ -234,12 +203,10 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     }
 }
 
-@available(iOS 10.0, *)
 extension AppDelegate:UNUserNotificationCenterDelegate
 {
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void)
     {
-        
         dailyVotingNotificationDate = dailyVotingDate(response.notification)
         completionHandler()
     }

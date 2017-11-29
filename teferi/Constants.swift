@@ -27,11 +27,14 @@ class Constants
     ///Duration of the fade in/out edit animation
     static let editAnimationDuration = 0.09
     
-    //Mark: Location Service Constants
+    //MARK: Location Service Constants
     static let maxGPSTime:Double = 5.0
     static let gpsAccuracy:Double = 50.0 //meters
     static let significantLocationChangeAccuracy:Double = 2000.0 //meters
     static let significantDistanceThreshold:Double = 100.0
     static let commuteDetectionLimit = TimeInterval(25 * 60)
-
+    
+    //MARK: Miscellaneous
+    static let helpURL: URL = URL(string: "https://support.toggl.com/superday")!
+    static let appStoreURL: URL = URL(string: "itms-apps://itunes.apple.com/app/id1169609181")!
 }

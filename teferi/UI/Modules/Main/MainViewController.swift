@@ -17,6 +17,8 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
     private let disposeBag = DisposeBag()
     
     private var addButton : AddTimeSlotView!
+    private var calendarButton : UIButton!
+    
     @IBOutlet private weak var welcomeMessageView: WelcomeView!
     
     func inject(presenter:MainPresenter, viewModel: MainViewModel)
@@ -30,6 +32,10 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
     {
         super.viewDidLoad()
         
+        self.edgesForExtendedLayout = UIRectEdge()
+        self.extendedLayoutIncludesOpaqueBars = false
+        self.automaticallyAdjustsScrollViewInsets = false
+        
         pagerViewController = presenter.setupPagerViewController(vc: self.childViewControllers.firstOfType())
         
         //Add button
@@ -38,17 +44,16 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
         view.addSubview(addButton)
         addButton.constrainEdges(to: view)
         
-        //Add fade overlay at bottom of timeline
-        let bottomFadeOverlay = fadeOverlay(startColor: UIColor.white,
-                                                 endColor: UIColor.white.withAlphaComponent(0.0))
+        calendarButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+        calendarButton.titleLabel?.font = UIFont.systemFont(ofSize: 11)
+        calendarButton.setBackgroundImage(Image(asset: Asset.icCalendar), for: .normal)
+        calendarButton.rx.tap
+            .subscribe(onNext: { [unowned self] in
+                self.presenter.toggleCalendar()
+            })
+            .addDisposableTo(disposeBag)
         
-        let fadeView = AutoResizingLayerView(layer: bottomFadeOverlay)
-        fadeView.isUserInteractionEnabled = false
-        view.insertSubview(fadeView, belowSubview: addButton)
-        fadeView.snp.makeConstraints { make in
-            make.bottom.left.right.equalTo(view)
-            make.height.equalTo(100)
-        }
+        setupNavigationBar()
         
         createBindings()
     }
@@ -104,6 +109,26 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
         viewModel.generating
             .bindTo(LoadingView.generating.rx.isActive)
             .addDisposableTo(disposeBag)
+        
+        viewModel.calendarDay
+            .bindTo(calendarButton.rx.title(for: .normal))
+            .addDisposableTo(disposeBag)
+        
+        viewModel.showAddGoalAlert
+            .subscribe(onNext: { [unowned self] show in
+                if show {
+                    AddGoalAlert(inView: self.view, tapClosure: self.addGoalAlertTap).show()
+                } else {
+                    AddGoalAlert.hide()
+                }
+            })
+            .addDisposableTo(disposeBag)
+    }
+    
+    private func addGoalAlertTap()
+    {
+        viewModel.markAddGoalAlertShown()
+        presenter.showNewGoalUI()
     }
     
     private func onBecomeActive()
@@ -128,14 +153,17 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
         addButton.close()
         addButton.isUserInteractionEnabled = isToday
     }
-    
-    private func fadeOverlay(startColor: UIColor, endColor: UIColor) -> CAGradientLayer
+
+    private func setupNavigationBar()
     {
-        let fadeOverlay = CAGradientLayer()
-        fadeOverlay.colors = [startColor.cgColor, endColor.cgColor]
-        fadeOverlay.locations = [0.1]
-        fadeOverlay.startPoint = CGPoint(x: 0.0, y: 1.0)
-        fadeOverlay.endPoint = CGPoint(x: 0.0, y: 0.0)
-        return fadeOverlay
+        let buttonItems = [
+            .createFixedSpace(of: 8),
+            UIBarButtonItem(customView: calendarButton)
+        ]
+        
+        var rightItems = navigationItem.rightBarButtonItems ?? []
+        rightItems.insert(contentsOf: buttonItems, at: 0)
+        
+        navigationItem.rightBarButtonItems = rightItems
     }
 }

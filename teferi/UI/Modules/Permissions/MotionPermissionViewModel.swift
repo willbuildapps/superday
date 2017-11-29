@@ -81,7 +81,7 @@ class MotionPermissionViewModel : PermissionViewModel
         settingsService.setCoreMotionPermission(userGavePermission: true)
 
         let url = URL(string: UIApplicationOpenSettingsURLString)!
-        UIApplication.shared.openURL(url)
+        UIApplication.shared.open(url, options:[:])
     }
     
     func permissionGiven() {}

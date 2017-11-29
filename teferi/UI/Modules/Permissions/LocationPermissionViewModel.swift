@@ -82,7 +82,7 @@ class LocationPermissionViewModel : PermissionViewModel
     func getUserPermission()
     {
         let url = URL(string: UIApplicationOpenSettingsURLString)!
-        UIApplication.shared.openURL(url)
+        UIApplication.shared.open(url, options: [:])
     }
     
     func permissionGiven()

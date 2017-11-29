@@ -1,4 +1,5 @@
 import RxSwift
+import RxTest
 import XCTest
 import Nimble
 @testable import teferi
@@ -21,6 +22,12 @@ class MainViewModelTests : XCTestCase
     private var selectedDateService : MockSelectedDateService!
     private var trackEventService: MockTrackEventService!
     private var motionService: MockMotionService!
+    private var goalService: MockGoalService!
+    
+    private var scheduler = TestScheduler(initialClock:0)
+    private var dateLabelObserver: TestableObserver<String>!
+    private var disposeBag = DisposeBag()
+    
     
     override func setUp()
     {
@@ -38,6 +45,7 @@ class MainViewModelTests : XCTestCase
                                                    locationService: locationService)
         trackEventService = MockTrackEventService()
         motionService = MockMotionService()
+        goalService = MockGoalService(timeService: timeService)
         
         viewModel = MainViewModel(loggingService: loggingService,
                                   timeService: timeService,
@@ -50,7 +58,15 @@ class MainViewModelTests : XCTestCase
                                   appLifecycleService: appLifecycleService,
                                   locationService: locationService,
                                   trackEventService: trackEventService,
-                                  motionService: motionService)
+                                  motionService: motionService,
+                                  goalService: goalService)
+        
+        timeService.mockDate = getDate(withDay: 13)
+        dateLabelObserver = scheduler.createObserver(String.self)
+        
+        viewModel.calendarDay
+            .subscribe(dateLabelObserver)
+            .addDisposableTo(disposeBag)
         
     }
     
@@ -59,6 +75,37 @@ class MainViewModelTests : XCTestCase
         disposable?.dispose()
     }
     
+    //MARK: Calendar Button Tests
+    func testTheCalendarDayAlwaysReturnsTheCurrentDate()
+    {
+        let dateText = dateLabelObserver.events.last!.value.element!
+        
+        expect(dateText).to(equal("13"))
+    }
+    
+    func testTheCalendarDayAlwaysHasTwoPositions()
+    {
+        appLifecycleService.publish(.movedToBackground)
+        timeService.mockDate = getDate(withDay: 1)
+        appLifecycleService.publish(.movedToForeground(withDailyVotingNotificationDate: nil))
+        
+        let dateText = dateLabelObserver.events.last!.value.element!
+        
+        expect(dateText).to(equal("01"))
+    }
+    
+    func testDateLabelChangesIfDateChangesWhileOnBackground()
+    {
+        appLifecycleService.publish(.movedToBackground)
+        timeService.mockDate = getDate(withDay: 14)
+        appLifecycleService.publish(.movedToForeground(withDailyVotingNotificationDate: nil))
+        
+        let dateText = dateLabelObserver.events.last!.value.element!
+        
+        expect(dateText).to(equal("14"))
+    }
+    
+    //MARK: Slots
     func testTheAddNewSlotsMethodAddsANewSlot()
     {
         var didAdd = false
@@ -105,5 +152,15 @@ class MainViewModelTests : XCTestCase
                                                 category: category,
                                                 categoryWasSetByUser: false,
                                                 tryUsingLatestLocation: false)!
+    }
+    
+    private func getDate(withDay day: Int) -> Date
+    {
+        var dateComponents = DateComponents()
+        dateComponents.year = Date().year
+        dateComponents.month = 1
+        dateComponents.day = day
+        
+        return Calendar.current.date(from: dateComponents)!
     }
 }

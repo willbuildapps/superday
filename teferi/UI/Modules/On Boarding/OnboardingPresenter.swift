@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 class OnboardingPresenter
 {
@@ -27,9 +28,8 @@ class OnboardingPresenter
     //MARK: Public Methods
     func showMain()
     {
-        let nav = NavigationPresenter.create(with: viewModelLocator)
-        nav.modalTransitionStyle = .crossDissolve
-        viewController.present(nav, animated: true)
+        let tabBarController = TabBarPresenter.create(with: viewModelLocator)
+        viewController.present(tabBarController, animated: true)
     }
     
 }

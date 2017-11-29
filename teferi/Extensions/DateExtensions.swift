@@ -105,6 +105,11 @@ extension Date
         return components.day!
     }
     
+    func isSameDay(asDate date: Date) -> Bool
+    {
+        return differenceInDays(toDate: date) == 0
+    }
+    
     func convert(calendarUnits: NSCalendar.Unit, sameAs date: Date) -> Date
     {
         let currentUnits : NSCalendar.Unit = [ .year, .month, .day, .hour, .minute, .second, .nanosecond]
@@ -132,6 +137,16 @@ extension Date
         return min(differenceIfPreviousDay, differenceIfSameDay, differenceIfNextDay)
     }
     
+    func setHour(_ hour: Int, minute: Int = 0, second: Int = 0) -> Date
+    {
+        let calendar = Calendar.current
+        var components = calendar.dateComponents(Set<Calendar.Component>([.year, .month, .day, .hour, .minute, .second]), from: self)
+        components.hour = hour
+        components.minute = minute
+        components.second = second
+        return calendar.date(from: components)!
+    }
+    
     static func create(weekday: Int, hour: Int, minute: Int, second: Int) -> Date
     {
         var components = DateComponents()
@@ -144,5 +159,17 @@ extension Date
         
         let calendar = Calendar(identifier: .gregorian)
         return calendar.date(from: components)!
+    }
+    
+    static func createTime(hour: Int, minute: Int, second: Int = 0) -> Date
+    {
+        var components = DateComponents()
+        components.hour = hour
+        components.minute = minute
+        components.second = second
+        components.timeZone = .current
+        
+        let calendar = Calendar(identifier: .gregorian)
+        return calendar.date(from: components)!.ignoreDateComponents()
     }
 }
