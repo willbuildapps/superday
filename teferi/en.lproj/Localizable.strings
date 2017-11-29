@@ -103,8 +103,8 @@
 "ResultsNotificationMessage" = "Results are in for %@.\nCheck it out";
 
 "GoalHeaderDefaultMessage" = "What do you want to\nachieve today?";
-"GoalHeaderTodayIWantToSpendHours" = "Today i want to\nspend %@ hours on";
-"GoalHeaderTodayIWantToSpendMinutes" = "Today i want to\nspend %@ minutes on";
+"GoalHeaderTodayIWantToSpendHours" = "Today I want to\nspend %@ hours on";
+"GoalHeaderTodayIWantToSpendMinutes" = "Today I want to\nspend %@ minutes on";
 
 "GoalFailed10PercentOrLess1" = "Ahh, so close - don’t give up now!";
 "GoalFailed10PercentOrLess2" = "Seems you missed your goal. Not to worry, happens to the best of us.";
