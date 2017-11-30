@@ -45,11 +45,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Not to sound like your mother or anything, but Superday needs to know where you are.</string>
+	<string>We need to access your location to generate your daily timeline.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Not to sound like your mother or anything, but Superday needs to know where you are.</string>
+	<string>We need to access your location to generate your daily timeline.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Not to sound like your mother or anything, but Superday needs to know where you are.</string>
+	<string>We need to access your location to generate your daily timeline.</string>
 	<key>NSMotionUsageDescription</key>
 	<string>We use this data to magically guess &amp; track your activities</string>
 	<key>UIBackgroundModes</key>
