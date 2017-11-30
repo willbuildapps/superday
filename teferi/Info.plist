@@ -45,11 +45,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>We need to access your location to generate your daily timeline</string>
+	<string>We need to access your location to generate your daily timeline.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>We need to access your location to generate your daily timeline</string>
+	<string>We need to access your location to generate your daily timeline.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need to access your location to generate your daily timeline</string>
+	<string>We need to access your location to generate your daily timeline.</string>
 	<key>NSMotionUsageDescription</key>
 	<string>We use this data to magically guess &amp; track your activities</string>
 	<key>UIBackgroundModes</key>
