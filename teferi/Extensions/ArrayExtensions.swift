@@ -118,9 +118,21 @@ extension Array where Element == Annotation
             let minLatitude = minLatitude,
             let maxLongitude = maxLongitude,
             let minLongitude = minLongitude
-            else { return CLLocationCoordinate2D(latitude: 40.6401, longitude: 22.9444) }
+            else { return CLLocationCoordinate2D(latitude: 0, longitude: 0) }
         
         return CLLocationCoordinate2D(latitude: (maxLatitude + minLatitude) / 2, longitude: (maxLongitude + minLongitude) / 2)
+    }
+    
+    var maxSpanDelta : CLLocationDegrees
+    {
+        guard
+            let maxLatitude = maxLatitude,
+            let minLatitude = minLatitude,
+            let maxLongitude = maxLongitude,
+            let minLongitude = minLongitude
+            else { return 0.0 }
+
+        return Swift.max(abs(maxLatitude - minLatitude), abs(maxLongitude - minLongitude))
     }
     
     var maxLatitude : Double?
