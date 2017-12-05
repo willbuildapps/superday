@@ -8,6 +8,7 @@ class MapCell: UITableViewCell
     @IBOutlet private weak var mapView: MKMapView!
     fileprivate let annotationViewIdentifier = "point"
     private var dataSource : [Annotation]!
+    private let defaultSpanDelta = 0.01
     
     override func awakeFromNib()
     {
@@ -29,8 +30,9 @@ class MapCell: UITableViewCell
     {
         let centre = dataSource.centerCoordinate
         
-        let span = MKCoordinateSpan(latitudeDelta: 0.01,
-                                    longitudeDelta: 0.01)
+        let spanDelta = max(defaultSpanDelta, dataSource.maxSpanDelta)
+        let span = MKCoordinateSpan(latitudeDelta: spanDelta,
+                                    longitudeDelta: spanDelta)
         
         let region = MKCoordinateRegion(center: centre, span: span)
         mapView.setRegion(region, animated: false)
