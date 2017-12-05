@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.7.0</string>
+	<string>1.7.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
@@ -47,11 +47,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Not to sound like your mother or anything, but Superday needs to know where you are.</string>
+	<string>We need to access your location to generate your daily timeline.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Not to sound like your mother or anything, but Superday needs to know where you are.</string>
+	<string>We need to access your location to generate your daily timeline.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Not to sound like your mother or anything, but Superday needs to know where you are.</string>
+	<string>We need to access your location to generate your daily timeline.</string>
 	<key>NSMotionUsageDescription</key>
 	<string>We use this data to magically guess &amp; track your activities</string>
 	<key>UIBackgroundModes</key>
