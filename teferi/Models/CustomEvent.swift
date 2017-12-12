@@ -9,6 +9,8 @@ enum CustomEvent
     case timeSlotNotSmartGuessed(date: Date, category: Category, duration: Double?)
     case timelineVote(date: Date, voteDate: Date, vote: Bool)
     case timelineWeeklyReview(date: Date, rating: Int)
+    case goalCreation(date: Date, category: Category, duration: Double)
+    case goalEditing(date: Date, fromCategory: Category, toCategory: Category, fromDuration: Double, toDuration: Double)
     
     var name : String
     {
@@ -27,6 +29,10 @@ enum CustomEvent
             return "Timeline Vote"
         case .timelineWeeklyReview(_):
             return "Timeline weekly review"
+        case .goalCreation(_):
+            return "Goal_Creation"
+        case .goalEditing(_):
+            return "Goal_Editing"
         }
     }
     
@@ -84,6 +90,27 @@ enum CustomEvent
             attributesToReturn["weekOfYearRatedString"] = String(date.weekOfYear)
             attributesToReturn["rating"] = rating
             attributesToReturn["ratingString"] = String(rating)
+            
+        case .goalCreation(let date, let category, let duration):
+            
+            attributesToReturn["localHour"] = date.hour
+            attributesToReturn["localHourString"] = String(date.hour)
+            attributesToReturn["dayOfWeek"] = date.dayOfWeek
+            attributesToReturn["dayOfWeekString"] = String(date.dayOfWeek)
+            attributesToReturn["category"] = category.rawValue
+            attributesToReturn["duration"] = duration
+            
+        case .goalEditing(let date, let fromCategory, let toCategory, let fromDuration, let toDuration):
+            
+            attributesToReturn["localHour"] = date.hour
+            attributesToReturn["localHourString"] = String(date.hour)
+            attributesToReturn["dayOfWeek"] = date.dayOfWeek
+            attributesToReturn["dayOfWeekString"] = String(date.dayOfWeek)
+            attributesToReturn["fromCategory"] = fromCategory.rawValue
+            attributesToReturn["toCategory"] = toCategory.rawValue
+            attributesToReturn["fromDuration"] = fromDuration
+            attributesToReturn["toDuration"] = toDuration
+            
         }
         
         return attributesToReturn

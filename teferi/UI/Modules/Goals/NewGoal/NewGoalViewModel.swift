@@ -8,6 +8,7 @@ class NewGoalViewModel
     private let notificationService: NotificationService
     private let settingsService: SettingsService
     private let categoryProvider: CategoryProvider
+    private let metricsService: MetricsService
     private let goalToBeEdited: Goal?
     
     var durationSelectedVariable = Variable<Double?>(nil)
@@ -36,7 +37,8 @@ class NewGoalViewModel
          goalService: GoalService,
          notificationService: NotificationService,
          settingsService: SettingsService,
-         categoryProvider: CategoryProvider)
+         categoryProvider: CategoryProvider,
+         metricsService: MetricsService)
     {
         self.goalToBeEdited = goalToBeEdited
         self.timeService = timeService
@@ -44,6 +46,7 @@ class NewGoalViewModel
         self.notificationService = notificationService
         self.settingsService = settingsService
         self.categoryProvider = categoryProvider
+        self.metricsService = metricsService
         
         if let goalToBeEdited = goalToBeEdited {
             initialCategory = goalToBeEdited.category
@@ -57,9 +60,11 @@ class NewGoalViewModel
     func saveGoal(completion: @escaping (_ shouldShowNotificationPermission: Bool) -> ())
     {
         if let goalToBeEdited = goalToBeEdited {
+            metricsService.log(event: .goalEditing(date: timeService.now, fromCategory: goalToBeEdited.category, toCategory: categorySelectedVariable.value!, fromDuration: goalToBeEdited.targetTime, toDuration: durationSelectedVariable.value!))
             goalService.update(goal: goalToBeEdited, withCategory: categorySelectedVariable.value!, withTargetTime: durationSelectedVariable.value!)
             completion(false)
         } else {
+            metricsService.log(event: .goalCreation(date: timeService.now, category: categorySelectedVariable.value!, duration: durationSelectedVariable.value!))
             goalService.addGoal(forDate: timeService.now, category: categorySelectedVariable.value!, targetTime: durationSelectedVariable.value!)
             settingsService.hasNotificationPermission
                 .subscribe(onNext: { hasPermission in

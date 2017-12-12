@@ -275,7 +275,8 @@ class DefaultViewModelLocator : ViewModelLocator
                                 goalService: goalService,
                                 notificationService: notificationService,
                                 settingsService: settingsService,
-                                categoryProvider: DefaultCategoryProvider(timeSlotService:  timeSlotService))
+                                categoryProvider: DefaultCategoryProvider(timeSlotService:  timeSlotService),
+                                metricsService: metricsService)
     }
     
     func getEnableNotificationsViewModel() -> EnableNotificationsViewModel
