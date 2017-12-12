@@ -18,19 +18,19 @@ enum CustomEvent
     {
         switch self {
         case .timeSlotManualCreation(_):
-            return "Manual TimeSlot Creation"
+            return "Manual_TimeSlot_Creation"
         case .timeSlotEditing(_):
-            return "TimeSlot Editing"
+            return "TimeSlot_Editing"
         case .timeSlotCreated(_):
-            return "TimeSlot Created"
+            return "TimeSlot_Created"
         case .timeSlotSmartGuessed(_):
-            return "TimeSlot SmartGuessed"
+            return "TimeSlot_SmartGuessed"
         case .timeSlotNotSmartGuessed(_):
-            return "TimeSlot Not SmartGuessed"
+            return "TimeSlot_Not_SmartGuessed"
         case .timelineVote(_):
-            return "Timeline Vote"
+            return "Timeline_Vote"
         case .timelineWeeklyReview(_):
-            return "Timeline weekly review"
+            return "Timeline_weekly_review"
         case .goalAchieved(_):
             return "Goal_Achieved"
         case .goalFailed(_):
@@ -48,7 +48,7 @@ enum CustomEvent
         
         switch self {
         case .timeSlotManualCreation(let date, let category):
-
+            
             attributesToReturn["localHour"] = date.hour
             attributesToReturn["localHourString"] = String(date.hour)
             attributesToReturn["dayOfWeek"] = date.dayOfWeek

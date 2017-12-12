@@ -36,7 +36,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     override init()
     {
         timeService = DefaultTimeService()
-        metricsService = FabricMetricsService()
+        metricsService = FirebaseMetricsService()
         settingsService = DefaultSettingsService(timeService: timeService)
         loggingService = SwiftyBeaverLoggingService()
         appLifecycleService = DefaultAppLifecycleService()

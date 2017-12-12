@@ -1,4 +1,5 @@
 import SwiftyBeaver
+import Fabric
 import Crashlytics
 
 /// Implementation of LoggingService that depends on the SwiftyBeaver library
@@ -10,6 +11,10 @@ class SwiftyBeaverLoggingService : LoggingService
     //MARK: Initializers
     init()
     {
+        #if !DEBUG
+            Fabric.with([Crashlytics.self])
+        #endif
+        
         let file = FileDestination()
         file.format = "$Dyyyy-MM-dd HH:mm:ss.fff:$d $L => $M"
         swiftBeaver.addDestination(file)
@@ -48,6 +53,4 @@ class SwiftyBeaverLoggingService : LoggingService
         let error = NSError(domain: logLevel.errorDomain(with: message), code: 0, userInfo: nil)
         Crashlytics.sharedInstance().recordError(error)
     }
-    
-
 }

@@ -15,10 +15,13 @@ target 'teferi' do
     pod 'SwiftGen', '4.1.0'
     pod 'SwiftLint', '0.16.1'
     pod 'RxDataSources', '~> 1.0'
+    pod 'Firebase/Core'
+    
   target 'teferiTests' do
     inherit! :search_paths
     pod 'Nimble', '~> 7.0.1'
     pod 'RxTest', '~> 3.0.0'
+    pod 'Firebase'
   end
 
   post_install do |installer|

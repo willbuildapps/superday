@@ -48,7 +48,6 @@
 		24564F721D832A4F00D9A8AE /* PagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24564F711D832A4F00D9A8AE /* PagerViewController.swift */; };
 		24564F771D837FBE00D9A8AE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 24564F751D837FBE00D9A8AE /* Localizable.strings */; };
 		246531701DA7B4150066DFE0 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2465316F1DA7B4150066DFE0 /* NotificationService.swift */; };
-		246531741DA7DDF10066DFE0 /* FabricMetricsServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 246531731DA7DDF10066DFE0 /* FabricMetricsServices.swift */; };
 		247E27591DC3B41400A38A2D /* PagerViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247E27581DC3B41400A38A2D /* PagerViewControllerTests.swift */; };
 		247F05F81D87322600451BAD /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247F05F71D87322600451BAD /* LocationService.swift */; };
 		247F05FA1D87325600451BAD /* PersistencyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247F05F91D87325600451BAD /* PersistencyService.swift */; };
@@ -249,6 +248,8 @@
 		AC4F8EE61F8E6FEF004E2DA0 /* CategorySelectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC4F8EE41F8E6FEF004E2DA0 /* CategorySelectionCell.xib */; };
 		AC4F8EE91F8FB55F004E2DA0 /* MapCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4F8EE71F8FB55F004E2DA0 /* MapCell.swift */; };
 		AC4F8EEA1F8FB55F004E2DA0 /* MapCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC4F8EE81F8FB55F004E2DA0 /* MapCell.xib */; };
+		AC65B8B61FD94B4500ADA144 /* GoogleService-Info-AdHoc.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC65B8B51FD94B4500ADA144 /* GoogleService-Info-AdHoc.plist */; };
+		AC65B8B81FD94BD800ADA144 /* GoogleService-Info-AppStore.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC65B8B71FD94BD800ADA144 /* GoogleService-Info-AppStore.plist */; };
 		AC69F0A21F4C3FD000EF2CC9 /* RatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC69F0A11F4C3FD000EF2CC9 /* RatingViewController.swift */; };
 		AC69F0A61F4C401A00EF2CC9 /* RatingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC69F0A51F4C401A00EF2CC9 /* RatingPresenter.swift */; };
 		AC69F0A81F4C407100EF2CC9 /* RatingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC69F0A71F4C407100EF2CC9 /* RatingViewModel.swift */; };
@@ -265,6 +266,7 @@
 		ACC11D601F90DDB50025809C /* TimeIntervalHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC11D5F1F90DDB50025809C /* TimeIntervalHelper.swift */; };
 		ACCAFD251E8BDF490097F037 /* NotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCAFD241E8BDF490097F037 /* NotificationType.swift */; };
 		ACCB63391F950D1200B1A40D /* NotificationPermissionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCB63381F950D1200B1A40D /* NotificationPermissionViewModel.swift */; };
+		ACCD05061FD857DC008C4F2B /* FirebaseMetricsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD05051FD857DC008C4F2B /* FirebaseMetricsService.swift */; };
 		ACCF034B1F8FD8F000F3DCFF /* Annotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCF034A1F8FD8F000F3DCFF /* Annotation.swift */; };
 		ACCF034E1F90A12C00F3DCFF /* MultiSlotHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCF034C1F90A12C00F3DCFF /* MultiSlotHeaderCell.swift */; };
 		ACCF034F1F90A12C00F3DCFF /* MultiSlotHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACCF034D1F90A12C00F3DCFF /* MultiSlotHeaderCell.xib */; };
@@ -391,7 +393,6 @@
 		24564F711D832A4F00D9A8AE /* PagerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagerViewController.swift; sourceTree = "<group>"; };
 		24564F761D837FBE00D9A8AE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2465316F1DA7B4150066DFE0 /* NotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
-		246531731DA7DDF10066DFE0 /* FabricMetricsServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FabricMetricsServices.swift; sourceTree = "<group>"; };
 		247E27581DC3B41400A38A2D /* PagerViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagerViewControllerTests.swift; sourceTree = "<group>"; };
 		247F05F71D87322600451BAD /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		247F05F91D87325600451BAD /* PersistencyService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistencyService.swift; sourceTree = "<group>"; };
@@ -601,6 +602,8 @@
 		AC4F8EE41F8E6FEF004E2DA0 /* CategorySelectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategorySelectionCell.xib; sourceTree = "<group>"; };
 		AC4F8EE71F8FB55F004E2DA0 /* MapCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCell.swift; sourceTree = "<group>"; };
 		AC4F8EE81F8FB55F004E2DA0 /* MapCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapCell.xib; sourceTree = "<group>"; };
+		AC65B8B51FD94B4500ADA144 /* GoogleService-Info-AdHoc.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-AdHoc.plist"; sourceTree = "<group>"; };
+		AC65B8B71FD94BD800ADA144 /* GoogleService-Info-AppStore.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-AppStore.plist"; sourceTree = "<group>"; };
 		AC69F0A11F4C3FD000EF2CC9 /* RatingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RatingViewController.swift; path = Rating/RatingViewController.swift; sourceTree = "<group>"; };
 		AC69F0A51F4C401A00EF2CC9 /* RatingPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RatingPresenter.swift; path = Rating/RatingPresenter.swift; sourceTree = "<group>"; };
 		AC69F0A71F4C407100EF2CC9 /* RatingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RatingViewModel.swift; path = Rating/RatingViewModel.swift; sourceTree = "<group>"; };
@@ -617,6 +620,7 @@
 		ACC11D5F1F90DDB50025809C /* TimeIntervalHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalHelper.swift; sourceTree = "<group>"; };
 		ACCAFD241E8BDF490097F037 /* NotificationType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationType.swift; sourceTree = "<group>"; };
 		ACCB63381F950D1200B1A40D /* NotificationPermissionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPermissionViewModel.swift; sourceTree = "<group>"; };
+		ACCD05051FD857DC008C4F2B /* FirebaseMetricsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseMetricsService.swift; sourceTree = "<group>"; };
 		ACCF034A1F8FD8F000F3DCFF /* Annotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Annotation.swift; sourceTree = "<group>"; };
 		ACCF034C1F90A12C00F3DCFF /* MultiSlotHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSlotHeaderCell.swift; sourceTree = "<group>"; };
 		ACCF034D1F90A12C00F3DCFF /* MultiSlotHeaderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MultiSlotHeaderCell.xib; sourceTree = "<group>"; };
@@ -738,6 +742,8 @@
 				240AC7211D748C8800F21F4F /* Assets.xcassets */,
 				24526A741D92D98800DA3FA0 /* Constants.swift */,
 				240AC7261D748C8800F21F4F /* Info.plist */,
+				AC65B8B51FD94B4500ADA144 /* GoogleService-Info-AdHoc.plist */,
+				AC65B8B71FD94BD800ADA144 /* GoogleService-Info-AppStore.plist */,
 				24564F751D837FBE00D9A8AE /* Localizable.strings */,
 				8C7E11091E9B6E79009AAF49 /* Settings.bundle */,
 				BEC84F301E708D4B0096275C /* Style.swift */,
@@ -1010,7 +1016,7 @@
 		24EB96651DE707810040C211 /* Monitoring */ = {
 			isa = PBXGroup;
 			children = (
-				246531731DA7DDF10066DFE0 /* FabricMetricsServices.swift */,
+				ACCD05051FD857DC008C4F2B /* FirebaseMetricsService.swift */,
 				2421F8C41D9BB4C600AF8857 /* SwiftyBeaverLoggingService.swift */,
 			);
 			path = Monitoring;
@@ -1785,6 +1791,7 @@
 			files = (
 				24564F571D83254E00D9A8AE /* TimelineCell.xib in Resources */,
 				24564F771D837FBE00D9A8AE /* Localizable.strings in Resources */,
+				AC65B8B61FD94B4500ADA144 /* GoogleService-Info-AdHoc.plist in Resources */,
 				AC086A131F8E508A0003AAB4 /* SimpleDetailCell.xib in Resources */,
 				8C9EF43F1F823C18002AE07C /* ShortTimelineCell.xib in Resources */,
 				ACEA23B81FAB05880068C149 /* Goal.storyboard in Resources */,
@@ -1795,6 +1802,7 @@
 				AC4F8EEA1F8FB55F004E2DA0 /* MapCell.xib in Resources */,
 				24B03B671DA3866400452D16 /* AddTimeSlotView.xib in Resources */,
 				2407A98F1D9D54DB00066889 /* LaunchScreen.storyboard in Resources */,
+				AC65B8B81FD94BD800ADA144 /* GoogleService-Info-AppStore.plist in Resources */,
 				240AC71D1D748C8800F21F4F /* Main.storyboard in Resources */,
 				2420A8681DB56B6800C0478C /* EmptyStateView.xib in Resources */,
 				513535D31DA26E3B00A365A9 /* Onboarding.storyboard in Resources */,
@@ -2000,7 +2008,6 @@
 				24564F651D83265900D9A8AE /* DateExtensions.swift in Sources */,
 				2407A98C1D9D534B00066889 /* TimerExtensions.swift in Sources */,
 				8C1728FC1EF02D9A002ABDDA /* DailySummaryViewController.swift in Sources */,
-				246531741DA7DDF10066DFE0 /* FabricMetricsServices.swift in Sources */,
 				24564F561D83254E00D9A8AE /* TimelineCell.swift in Sources */,
 				AC4A55E01FA72B0500A62107 /* GoalModelAdapter.swift in Sources */,
 				AC6C129A1F4E01DE0045B341 /* StarsView.swift in Sources */,
@@ -2153,6 +2160,7 @@
 				8C1729031EF02D9A002ABDDA /* SummaryViewModel.swift in Sources */,
 				24526A7C1D92D9BB00DA3FA0 /* CustomEvent.swift in Sources */,
 				24DE23F61E1BB33B0089B49E /* DateChange.swift in Sources */,
+				ACCD05061FD857DC008C4F2B /* FirebaseMetricsService.swift in Sources */,
 				24DE24021E1BB3A40089B49E /* DefaultTimeService.swift in Sources */,
 				8CCEBEC61F79091E00A4D560 /* TimelineProcessingPass.swift in Sources */,
 				AC34445E1E697D1100B1D53B /* KNNDecisionType.swift in Sources */,
@@ -2465,9 +2473,17 @@
 				CURRENT_PROJECT_VERSION = 37;
 				DEVELOPMENT_TEAM = B227VTMZ94;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"$(inherited)",
+					"PB_FIELD_32BIT=1",
+					"PB_NO_PACKED_STRUCTS=1",
+				);
 				INFOPLIST_FILE = teferi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -DAPPSTORE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.toggl.superday;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "1cd22f05-736e-49d3-be86-ab18861cfbfe";
@@ -2575,9 +2591,17 @@
 				CURRENT_PROJECT_VERSION = 37;
 				DEVELOPMENT_TEAM = B227VTMZ94;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"$(inherited)",
+					"PB_FIELD_32BIT=1",
+					"PB_NO_PACKED_STRUCTS=1",
+				);
 				INFOPLIST_FILE = teferi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -DADHOC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.toggl.superday.adhoc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "a7e946b5-1e09-4acc-8f94-7c08c16132b7";
