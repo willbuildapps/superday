@@ -2580,7 +2580,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.toggl.superday.adhoc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a7e946b5-1e09-4acc-8f94-7c08c16132b7";
+				PROVISIONING_PROFILE = "3f9c9a96-72fc-416e-9737-e90b960fba11";
 				PROVISIONING_PROFILE_SPECIFIER = Superday_AdHoc;
 				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "";
