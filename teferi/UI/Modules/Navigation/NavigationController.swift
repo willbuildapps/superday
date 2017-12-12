@@ -68,7 +68,6 @@ class NavigationController: UINavigationController
     private func setupNavigationBar(for viewController: UIViewController)
     {
         viewController.navigationItem.leftBarButtonItems = [
-            .createFixedSpace(of: 17),
             UIBarButtonItem(customView: logoImageView),
             .createFixedSpace(of: 18),
             UIBarButtonItem(customView: titleLabel)
