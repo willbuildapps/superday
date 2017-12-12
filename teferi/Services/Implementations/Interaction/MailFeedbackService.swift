@@ -1,6 +1,7 @@
 import Foundation
 import UIKit
 import MessageUI
+import CoreMotion
 
 class MailFeedbackService: NSObject, FeedbackService, MFMailComposeViewControllerDelegate
 {
@@ -15,6 +16,30 @@ class MailFeedbackService: NSObject, FeedbackService, MFMailComposeViewControlle
         }
         
         return logURL
+    }
+    
+    var dbURL : URL?
+    {
+        let fileManager = FileManager.default
+        var dbURL : URL?
+        if let docDir = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+        {
+            dbURL = docDir.appendingPathComponent("SingleViewCoreData.sqlite")
+        }
+        
+        return dbURL
+    }
+    
+    var cmURL : URL?
+    {
+        let fileManager = FileManager.default
+        var cmURL : URL?
+        if let cacheDir = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first
+        {
+            cmURL = cacheDir.appendingPathComponent("cm.txt")
+        }
+        
+        return cmURL
     }
     
     //MARK: Private Properties
@@ -66,6 +91,19 @@ class MailFeedbackService: NSObject, FeedbackService, MFMailComposeViewControlle
         {
             composeVC.addAttachmentData(data, mimeType: "text/xml", fileName: "supertoday.log")
         }
+        
+        //Attach DB
+        if let dbURL = dbURL, let data = try? Data(contentsOf: dbURL)
+        {
+            composeVC.addAttachmentData(data, mimeType: "text/xml", fileName: "db.sqlite")
+        }
+        
+        //Attach CM
+        if let cmURL = cmURL, let data = try? Data(contentsOf: cmURL)
+        {
+            composeVC.addAttachmentData(data, mimeType: "text/xml", fileName: "cm.txt")
+        }
+        
         
         parentViewController.present(composeVC, animated: true)
     }

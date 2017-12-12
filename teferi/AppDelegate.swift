@@ -111,8 +111,36 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         }
         
         initializeWindowIfNeeded()
+        createCMFile()
         
         return true
+    }
+    
+    private func createCMFile()
+    {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+        motionService.getActivities(since: Date().add(days: -8), until: Date())
+            .map { activities -> String in
+                activities
+                    .filter{ $0.type != .other }
+                    .map {
+                        print("\(formatter.string(from: $0.start)): \($0.type)")
+                        return "\(formatter.string(from: $0.start)): \($0.type)"
+                    }
+                    .joined(separator: "\n")
+            }
+            .subscribe(onNext: { string in
+                let fileManager = FileManager.default
+                var cmURL : URL?
+                if let cacheDir = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first
+                {
+                    cmURL = cacheDir.appendingPathComponent("cm.txt")
+                }
+                try! string.write(to: cmURL!, atomically: true, encoding: String.Encoding.utf8)
+            })
+            .addDisposableTo(disposeBag)
     }
 
     private func setVersionInSettings()
