@@ -34,6 +34,13 @@ class MockGoalService : GoalService
         })
     }
     
+    func getGoals(sinceDate date: Date) -> [Goal]
+    {
+        return goals.filter({ (goal) -> Bool in
+            return goal.date > date
+        })
+    }
+    
     func update(goal: Goal, withCategory category: teferi.Category?, withTargetTime targetTime: Seconds?)
     {
         self.goals = self.goals.map({ existingGoal in
@@ -43,4 +50,6 @@ class MockGoalService : GoalService
             return existingGoal
         })
     }
+    
+    func logFinishedGoals() {}
 }

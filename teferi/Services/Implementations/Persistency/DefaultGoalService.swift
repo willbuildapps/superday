@@ -11,6 +11,8 @@ class DefaultGoalService : GoalService
     private let timeService : TimeService
     private let timeSlotService : TimeSlotService
     private let loggingService : LoggingService
+    private let metricsService : MetricsService
+    private let settingsService : SettingsService
     private let persistencyService : BasePersistencyService<Goal>
     
     private let goalCreatedSubject = PublishSubject<Goal>()
@@ -19,11 +21,15 @@ class DefaultGoalService : GoalService
     init(timeService : TimeService,
          timeSlotService : TimeSlotService,
          loggingService: LoggingService,
+         metricsService : MetricsService,
+         settingsService : SettingsService,
          persistencyService: BasePersistencyService<Goal>)
     {
         self.timeService = timeService
         self.timeSlotService = timeSlotService
         self.loggingService = loggingService
+        self.metricsService = metricsService
+        self.settingsService = settingsService
         self.persistencyService = persistencyService
         
         goalCreatedObservable = goalCreatedSubject.asObservable()
@@ -47,6 +53,12 @@ class DefaultGoalService : GoalService
         let goals = persistencyService.get(withPredicate: predicate)
         
         return goals.map(withCompletedTimes)
+    }
+    
+    func getGoals(sinceDate date: Date) -> [Goal]
+    {
+        let today = timeService.now.ignoreTimeComponents()
+        return getGoals(sinceDaysAgo: date.differenceInDays(toDate: today))
     }
     
     func update(goal: Goal, withCategory category: Category?, withTargetTime targetTime: Seconds?)
@@ -102,5 +114,31 @@ class DefaultGoalService : GoalService
         goalCreatedSubject.on(.next(goal))
         
         return goal
+    }
+    
+    func logFinishedGoals()
+    {
+        var goals = [Goal]()
+        if let date = settingsService.lastGoalLoggingDate
+        {
+            goals = getGoals(sinceDate: date)
+        }
+        else if let installDate = settingsService.installDate
+        {
+            goals = getGoals(sinceDate: installDate)
+        }
+        
+        goals.forEach { (goal) in
+            if goal.percentageCompleted < 1.0
+            {
+                metricsService.log(event: .goalFailed(goal: goal))
+            }
+            else
+            {
+                metricsService.log(event: .goalAchieved(goal: goal))
+            }
+        }
+        
+        settingsService.setLastGoalLoggingDate(timeService.now)
     }
 }

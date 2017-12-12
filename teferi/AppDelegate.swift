@@ -59,6 +59,8 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         goalService = DefaultGoalService(timeService: timeService,
                                          timeSlotService: timeSlotService,
                                          loggingService: loggingService,
+                                         metricsService: metricsService,
+                                         settingsService: settingsService,
                                          persistencyService: goalPersistencyService)
                 
         smartGuessService = DefaultSmartGuessService(timeService: timeService,
@@ -84,6 +86,8 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     {
         setVersionInSettings()
         setAppearance()
+        
+        goalService.logFinishedGoals()
         
         if settingsService.isFirstTimeAppRuns
         {

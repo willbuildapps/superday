@@ -20,6 +20,7 @@ class MockSettingsService : SettingsService
     var lastShownAddGoalAlert : Date? = Date()
     var versionNumber: String = ""
     var buildNumber: String = ""
+    var lastGoalLoggingDate: Date? = nil
 
     var motionPermissionGranted: Observable<Bool> = Observable<Bool>.empty()
     
@@ -30,6 +31,7 @@ class MockSettingsService : SettingsService
     var hasCoreMotionPermission = true
     var isFirstTimeAppRuns = false
     var isPostCoreMotionUser = true
+    
         
     //MARK: Methods
     func setIsFirstTimeAppRuns()
@@ -121,6 +123,11 @@ class MockSettingsService : SettingsService
     func setLastShownGoalSuggestion(_ date: Date)
     {
         lastShownGoalSuggestion = date
+    }
+    
+    func setLastGoalLoggingDate(_ date: Date)
+    {
+        lastGoalLoggingDate = date
     }
     
 }

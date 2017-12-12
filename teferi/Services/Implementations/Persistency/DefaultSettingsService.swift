@@ -136,6 +136,11 @@ class DefaultSettingsService : SettingsService
     var buildNumber: String {
         return Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
     }
+    
+    var lastGoalLoggingDate: Date?
+    {
+        return get(forKey: lastGoalLoggingDateKey)
+    }
 
     //MARK: Private Properties
     
@@ -160,6 +165,7 @@ class DefaultSettingsService : SettingsService
     private let lastUsedGoalAchivedMessageAndDateKey = "lastUsedGoalAchivedMessageAndDate"
     private let lastShownGoalAlertKey = "lastShownGoalAlert"
     private let lastShownGoalSuggestionKey = "lastShownGoalSuggestion"
+    private let lastGoalLoggingDateKey = "lastGoalLoggingDate"
     
     //MARK: Initialiazers
     init (timeService : TimeService)
@@ -266,6 +272,11 @@ class DefaultSettingsService : SettingsService
     func setLastShownGoalSuggestion(_ date: Date)
     {
         set(date, forKey: lastShownGoalSuggestionKey)
+    }
+    
+    func setLastGoalLoggingDate(_ date: Date)
+    {
+        set(date, forKey: lastGoalLoggingDateKey)
     }
     
     // MARK: Private Methods

@@ -42,6 +42,8 @@ protocol SettingsService
     
     var buildNumber: String { get }
     
+    var lastGoalLoggingDate: Date? { get }
+    
     //MARK: Methods
     func setIsFirstTimeAppRuns()
     
@@ -72,4 +74,6 @@ protocol SettingsService
     func setLastShownAddGoalAlert(_ date: Date)
 
     func setLastShownGoalSuggestion(_ date: Date)
+    
+    func setLastGoalLoggingDate(_ date: Date)
 }
