@@ -57,11 +57,11 @@ class TimelineViewModel
         
         let newTimeSlotForThisDate = !isCurrentDay ? Observable.empty() : timeSlotService
             .timeSlotCreatedObservable
-            .filter(timeSlotBelongsToThisDate)
+            .filter(belogsToDate)
             .mapTo(())
         
         let updatedTimeSlotsForThisDate = timeSlotService.timeSlotsUpdatedObservable
-            .mapTo(belongsToThisDate)
+            .map(timeSlotsBelogToDate)
             .mapTo(())
         
         let movedToForeground = appLifecycleService
@@ -110,6 +110,16 @@ class TimelineViewModel
     
     
     //MARK: Private Methods
+    private func belogsToDate(timeSlot: TimeSlot) -> Bool
+    {
+        return timeSlot.belongs(toDate: date)
+    }
+    
+    private func timeSlotsBelogToDate(timeSlots: [TimeSlot]) -> [TimeSlot]
+    {
+        return timeSlots.belonging(toDate: date)
+    }
+    
     private func canShowVotingView(forDate date: Date) -> Bool
     {
         guard
@@ -131,23 +141,7 @@ class TimelineViewModel
     
     private func toTimelineItems(fromTimeSlots timeSlots: [TimeSlot]) -> [TimelineItem]
     {
-        let timelineItems = timeSlots
-            .splitBy { $0.category }
-            .reduce([TimelineItem](), { acc, groupedTimeSlots in
-                return acc + [
-                    TimelineItem(
-                        timeSlots: groupedTimeSlots,
-                        category: groupedTimeSlots.first!.category,
-                        duration: groupedTimeSlots.map(calculateDuration).reduce(0, +),
-                        shouldDisplayCategoryName: true,
-                        isLastInPastDay: false,
-                        isRunning: false)
-                ]
-            })
-        
-        // Add isLastInPastDay or isRunning to last timeslot of timeline
-        guard let last = timelineItems.last else { return [] }
-        return Array(timelineItems.dropLast()) + [last.withLastTimeSlotFlag(isCurrentDay: isCurrentDay)]
+        return timeSlots.toTimelineItems(timeSlotService: timeSlotService, isCurrentDay: isCurrentDay)
     }
     
     private func expandedTimelineItems(fromTimeSlots timeSlots: [TimeSlot]) -> [TimelineItem]
@@ -170,16 +164,6 @@ class TimelineViewModel
             withTimeSlots: [timeSlot],
             category: timeSlot.category,
             duration: calculateDuration(ofTimeSlot: timeSlot))
-    }
-    
-    private func timeSlotBelongsToThisDate(_ timeSlot: TimeSlot) -> Bool
-    {
-        return timeSlot.startTime.ignoreTimeComponents() == date
-    }
-    
-    private func belongsToThisDate(_ timeSlots: [TimeSlot]) -> [TimeSlot]
-    {
-        return timeSlots.filter(timeSlotBelongsToThisDate(_:))
     }
     
     private func isLastInPastDay(_ index: Int, count: Int) -> Bool

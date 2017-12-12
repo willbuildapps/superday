@@ -140,8 +140,7 @@ extension TimeslotDetailViewController : UITableViewDelegate
             
             if indexPath.row > 0
             {
-                presenter.showEditSubTimeSlot(with: timelineItem.timeSlots[indexPath.row - 1].startTime,
-                                              timelineItemsObservable: viewModel.timelineItemsObservable)
+                presenter.showEditSubTimeSlot(with: timelineItem.timeSlots[indexPath.row - 1].startTime, updateStartDateSubject: viewModel.updateStartDateSubject)
             }
             
         case .categorySelection:
@@ -161,10 +160,10 @@ extension TimeslotDetailViewController : UITableViewDelegate
             switch timeRowType {
             case .start:
                 guard let timeSlotBefore = viewModel.timeSlot(before: timeSlot) else { return }
-                presenter.showEditBreakTime(firstTimeSlot: timeSlotBefore, secondTimeSlot: timeSlot, editingStartTime: true)
+                presenter.showEditBreakTime(firstTimeSlot: timeSlotBefore, secondTimeSlot: timeSlot, editingStartTime: true, updateStartDateSubject: viewModel.updateStartDateSubject)
             case .end:
                 guard let timeSlotAfter = viewModel.timeSlot(after: timeSlot) else { return }
-                presenter.showEditBreakTime(firstTimeSlot: timeSlot, secondTimeSlot: timeSlotAfter, editingStartTime: false)
+                presenter.showEditBreakTime(firstTimeSlot: timeSlot, secondTimeSlot: timeSlotAfter, editingStartTime: false, updateStartDateSubject: viewModel.updateStartDateSubject)
             }
             
         default:

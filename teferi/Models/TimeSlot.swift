@@ -82,4 +82,9 @@ extension TimeSlot
         guard let endTime = endTime else { return nil }
         return endTime.timeIntervalSince(startTime)
     }
+    
+    func belongs(toDate date: Date) -> Bool
+    {
+        return startTime.ignoreTimeComponents() == date
+    }
 }

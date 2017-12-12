@@ -109,6 +109,35 @@ extension Array where Element : Hashable
     }
 }
 
+extension Array where Element == TimeSlot
+{
+    func belonging(toDate date: Date) -> [Element]
+    {
+        return filter({ $0.belongs(toDate: date) })
+    }
+    
+    func toTimelineItems(timeSlotService: TimeSlotService, isCurrentDay: Bool) -> [TimelineItem]
+    {
+        let timelineItems = self
+            .splitBy { $0.category }
+            .reduce([TimelineItem](), { acc, groupedTimeSlots in
+                return acc + [
+                    TimelineItem(
+                        timeSlots: groupedTimeSlots,
+                        category: groupedTimeSlots.first!.category,
+                        duration: groupedTimeSlots.map({ timeSlotService.calculateDuration(ofTimeSlot: $0) }).reduce(0, +),
+                        shouldDisplayCategoryName: true,
+                        isLastInPastDay: false,
+                        isRunning: false)
+                ]
+            })
+        
+        // Add isLastInPastDay or isRunning to last timeslot of timeline
+        guard let last = timelineItems.last else { return [] }
+        return timelineItems.dropLast() + [last.withLastTimeSlotFlag(isCurrentDay: isCurrentDay)]
+    }
+}
+
 extension Array where Element == Annotation
 {
     var centerCoordinate : CLLocationCoordinate2D

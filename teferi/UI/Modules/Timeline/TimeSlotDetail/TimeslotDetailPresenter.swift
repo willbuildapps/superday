@@ -14,10 +14,10 @@ class TimeslotDetailPresenter: NSObject
         self.viewModelLocator = viewModelLocator
     }
     
-    static func create(with viewModelLocator: ViewModelLocator, startDate: Date, timelineItemsObservable: Observable<[TimelineItem]>, isShowingSubSlot: Bool = false) -> TimeslotDetailViewController
+    static func create(with viewModelLocator: ViewModelLocator, startDate: Date, isShowingSubSlot: Bool = false, updateStartDateSubject: PublishSubject<Date> = PublishSubject<Date>()) -> TimeslotDetailViewController
     {
         let presenter = TimeslotDetailPresenter(viewModelLocator: viewModelLocator)
-        let viewModel = viewModelLocator.getTimeslotDetailViewModel(for: startDate, timelineItemsObservable: timelineItemsObservable, isShowingSubSlot: isShowingSubSlot)
+        let viewModel = viewModelLocator.getTimeslotDetailViewModel(for: startDate, isShowingSubSlot: isShowingSubSlot, updateStartDateSubject: updateStartDateSubject)
         
         let viewController = StoryboardScene.Main.instantiateEditTimeslot()
         viewController.inject(presenter: presenter, viewModel: viewModel)
@@ -26,11 +26,11 @@ class TimeslotDetailPresenter: NSObject
         return viewController
     }
     
-    func showEditSubTimeSlot(with startDate: Date, timelineItemsObservable: Observable<[TimelineItem]>)
+    func showEditSubTimeSlot(with startDate: Date, updateStartDateSubject: PublishSubject<Date>)
     {
         hasShadow = false
         
-        let vc = TimeslotDetailPresenter.create(with: viewModelLocator, startDate: startDate, timelineItemsObservable: timelineItemsObservable, isShowingSubSlot: true)
+        let vc = TimeslotDetailPresenter.create(with: viewModelLocator, startDate: startDate, isShowingSubSlot: true, updateStartDateSubject: updateStartDateSubject)
         vc.modalPresentationStyle = .custom
         vc.transitioningDelegate = self
         viewController.present(vc, animated: true, completion: nil)
@@ -38,12 +38,16 @@ class TimeslotDetailPresenter: NSObject
         swipeInteractionController.wireToViewController(viewController: vc)
     }
     
-    func showEditBreakTime(firstTimeSlot: TimeSlot, secondTimeSlot: TimeSlot, editingStartTime: Bool)
+    func showEditBreakTime(firstTimeSlot: TimeSlot, secondTimeSlot: TimeSlot, editingStartTime: Bool, updateStartDateSubject: PublishSubject<Date>)
     {
         hasShadow = true
         padding = ContainerPadding(left: 16, top: 48, right: 16, bottom: 16)
         
-        let vc = EditTimesPresenter.create(with: viewModelLocator, firstTimeSlot: firstTimeSlot, secondTimeSlot: secondTimeSlot, editingStartTime: editingStartTime)
+        let vc = EditTimesPresenter.create(with: viewModelLocator,
+                                           firstTimeSlot: firstTimeSlot,
+                                           secondTimeSlot: secondTimeSlot,
+                                           editingStartTime: editingStartTime,
+                                           updateStartDateSubject: updateStartDateSubject)
         vc.modalPresentationStyle = .custom
         vc.transitioningDelegate = self
         viewController.present(vc, animated: true, completion: nil)

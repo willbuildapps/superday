@@ -164,24 +164,27 @@ class MockLocator : ViewModelLocator
                                timeService: timeService)
     }
     
-    func getTimeslotDetailViewModel(for startDate: Date, timelineItemsObservable: Observable<[TimelineItem]>, isShowingSubSlot: Bool) -> TimeslotDetailViewModel
+    func getTimeslotDetailViewModel(for startDate: Date, isShowingSubSlot: Bool, updateStartDateSubject: PublishSubject<Date>) -> TimeslotDetailViewModel
     {
         return TimeslotDetailViewModel(startDate: startDate,
-                                     isShowingSubSlot: isShowingSubSlot,
-                                     timelineItemsObservable: timelineItemsObservable,
-                                     timeSlotService: timeSlotService,
-                                     metricsService: metricsService,
-                                     smartGuessService: smartGuessService,
-                                     timeService: timeService)
+                                       isShowingSubSlot: isShowingSubSlot,
+                                       updateStartDateSubject: updateStartDateSubject,
+                                       timeSlotService: timeSlotService,
+                                       metricsService: metricsService,
+                                       smartGuessService: smartGuessService,
+                                       timeService: timeService,
+                                       appLifecycleService: appLifecycleService)
     }
     
-    func getEditTimesViewModel(for firstTimeSlot: TimeSlot, secondTimeSlot: TimeSlot, editingStartTime: Bool) -> EditTimesViewModel
+    func getEditTimesViewModel(for firstTimeSlot: TimeSlot, secondTimeSlot: TimeSlot, editingStartTime: Bool, updateStartDateSubject: PublishSubject<Date>) -> EditTimesViewModel
     {
         return EditTimesViewModel(initialTopSlot: firstTimeSlot,
                                   initialBottomSlot: secondTimeSlot,
                                   editingStartTime: editingStartTime,
                                   timeService: timeService,
-                                  timeSlotService: timeSlotService)
+                                  timeSlotService: timeSlotService,
+                                  updateStartDateSubject: updateStartDateSubject)
+        
     }
     
     func getGoalViewModel() -> GoalViewModel

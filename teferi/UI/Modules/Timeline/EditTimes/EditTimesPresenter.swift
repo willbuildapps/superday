@@ -1,4 +1,5 @@
 import Foundation
+import RxSwift
 
 class EditTimesPresenter
 {
@@ -10,10 +11,10 @@ class EditTimesPresenter
         self.viewModelLocator = viewModelLocator
     }
     
-    static func create(with viewModelLocator: ViewModelLocator, firstTimeSlot: TimeSlot, secondTimeSlot: TimeSlot, editingStartTime: Bool) -> EditTimesViewController
+    static func create(with viewModelLocator: ViewModelLocator, firstTimeSlot: TimeSlot, secondTimeSlot: TimeSlot, editingStartTime: Bool, updateStartDateSubject: PublishSubject<Date>) -> EditTimesViewController
     {
         let presenter = EditTimesPresenter(viewModelLocator: viewModelLocator)
-        let viewModel = viewModelLocator.getEditTimesViewModel(for: firstTimeSlot, secondTimeSlot: secondTimeSlot, editingStartTime: editingStartTime)
+        let viewModel = viewModelLocator.getEditTimesViewModel(for: firstTimeSlot, secondTimeSlot: secondTimeSlot, editingStartTime: editingStartTime, updateStartDateSubject: updateStartDateSubject)
         
         let viewController = StoryboardScene.Main.instantiateEditTimes()
         viewController.inject(presenter: presenter, viewModel: viewModel)

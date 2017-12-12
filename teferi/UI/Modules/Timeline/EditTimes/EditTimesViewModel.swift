@@ -25,13 +25,25 @@ class EditTimesViewModel: RxViewModel
     private let initialTopSlot: TimeSlot
     private let initialBottomSlot: TimeSlot
     
-    init(initialTopSlot: TimeSlot, initialBottomSlot: TimeSlot, editingStartTime: Bool, timeService: TimeService, timeSlotService: TimeSlotService)
+    private let editingStartTime: Bool
+    
+    private let updateStartDateSubject: PublishSubject<Date>
+    
+    init(initialTopSlot: TimeSlot,
+         initialBottomSlot: TimeSlot,
+         editingStartTime: Bool,
+         timeService: TimeService,
+         timeSlotService: TimeSlotService,
+         updateStartDateSubject: PublishSubject<Date>)
     {
         self.initialTopSlot = initialTopSlot
         self.initialBottomSlot = initialBottomSlot
 
         self.timeService = timeService
         self.timeSlotService = timeSlotService
+        
+        self.editingStartTime = editingStartTime
+        self.updateStartDateSubject = updateStartDateSubject
         
         topSlot = Variable<TimeSlot>(initialTopSlot)
         bottomSlot = Variable<TimeSlot>(initialBottomSlot)
@@ -62,6 +74,11 @@ class EditTimesViewModel: RxViewModel
     
     func saveTimes()
     {
+        if editingStartTime
+        {
+            updateStartDateSubject.on(.next(bottomSlot.value.startTime))
+        }
+        
         timeSlotService.updateTimes(firstSlot: initialTopSlot, secondSlot: initialBottomSlot, newBreakTime: bottomSlot.value.startTime)
     }
     

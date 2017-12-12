@@ -26,7 +26,7 @@ class TimelinePresenter : NSObject
     
     func showEditTimeSlot(with startDate: Date, timelineItemsObservable: Observable<[TimelineItem]>)
     {        
-        let vc = TimeslotDetailPresenter.create(with: viewModelLocator, startDate: startDate, timelineItemsObservable: timelineItemsObservable)
+        let vc = TimeslotDetailPresenter.create(with: viewModelLocator, startDate: startDate)
         vc.modalPresentationStyle = .custom
         vc.transitioningDelegate = self
         viewController.present(vc, animated: true, completion: nil)
