@@ -34,16 +34,25 @@ class MainViewModel : RxViewModel
             return Observable.just(true)
         }
         
-        return Observable.of(
-            self.didBecomeActive.skip(1),
-            self.beganEditingObservable.mapTo(()),
-            self.timeSlotService.timeSlotCreatedObservable.mapTo(()).skip(1))
-            .merge()
-            .mapTo(true)
-            .startWith(false)
-            .do(onNext: { _ in
-                self.settingsService.setWelcomeMessageShown()
-            })
+        if
+            timeService.now.ignoreTimeComponents() == settingsService.installDate?.ignoreTimeComponents(),
+            let _ = timeSlotService.getLast()
+        {
+            return Observable.of(
+                self.didBecomeActive.skip(1),
+                self.beganEditingObservable.mapTo(()),
+                self.timeSlotService.timeSlotCreatedObservable.mapTo(()).skip(1))
+                .merge()
+                .mapTo(true)
+                .startWith(false)
+                .do(onNext: { _ in
+                    self.settingsService.setWelcomeMessageShown()
+                })
+        }
+        else
+        {
+            return Observable.just(true)
+        }
     }
     
     var moveToForegroundObservable : Observable<Void>
