@@ -140,7 +140,7 @@ extension TimeslotDetailViewController : UITableViewDelegate
             
             if indexPath.row > 0
             {
-                presenter.showEditSubTimeSlot(with: timelineItem.timeSlots[indexPath.row - 1].startTime, updateStartDateSubject: viewModel.updateStartDateSubject)
+                presenter.showEditSubTimeSlot(with: timelineItem.timeSlots[indexPath.row - 1].startTime, updateStartDateSubject: indexPath.row > 1 ? nil : viewModel.updateStartDateSubject)
             }
             
         case .categorySelection:

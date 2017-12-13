@@ -164,7 +164,7 @@ class MockLocator : ViewModelLocator
                                timeService: timeService)
     }
     
-    func getTimeslotDetailViewModel(for startDate: Date, isShowingSubSlot: Bool, updateStartDateSubject: PublishSubject<Date>) -> TimeslotDetailViewModel
+    func getTimeslotDetailViewModel(for startDate: Date, isShowingSubSlot: Bool, updateStartDateSubject: PublishSubject<Date>?) -> TimeslotDetailViewModel
     {
         return TimeslotDetailViewModel(startDate: startDate,
                                        isShowingSubSlot: isShowingSubSlot,

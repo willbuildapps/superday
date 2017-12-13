@@ -29,7 +29,7 @@ class TimeslotDetailViewModel
     // MARK: - Init
     init(startDate: Date,
          isShowingSubSlot: Bool = false,
-         updateStartDateSubject: PublishSubject<Date>,
+         updateStartDateSubject: PublishSubject<Date>?,
          timeSlotService: TimeSlotService,
          metricsService: MetricsService,
          smartGuessService: SmartGuessService,
@@ -38,14 +38,14 @@ class TimeslotDetailViewModel
     {
         self.startDate = startDate
         self.isShowingSubSlot = isShowingSubSlot
-        self.updateStartDateSubject = updateStartDateSubject
+        self.updateStartDateSubject = updateStartDateSubject ?? PublishSubject<Date>()
         self.timeSlotService = timeSlotService
         self.metricsService = metricsService
         self.smartGuessService = smartGuessService
         self.timeService = timeService
         self.categoryProvider = DefaultCategoryProvider(timeSlotService: timeSlotService)
         
-        updateStartDateSubject.asObservable().subscribe(onNext: { [unowned self] (date) in
+        self.updateStartDateSubject.asObservable().subscribe(onNext: { [unowned self] (date) in
             self.startDate = date
         }).addDisposableTo(disposeBag)
         

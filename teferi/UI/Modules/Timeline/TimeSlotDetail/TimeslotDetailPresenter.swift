@@ -14,7 +14,7 @@ class TimeslotDetailPresenter: NSObject
         self.viewModelLocator = viewModelLocator
     }
     
-    static func create(with viewModelLocator: ViewModelLocator, startDate: Date, isShowingSubSlot: Bool = false, updateStartDateSubject: PublishSubject<Date> = PublishSubject<Date>()) -> TimeslotDetailViewController
+    static func create(with viewModelLocator: ViewModelLocator, startDate: Date, isShowingSubSlot: Bool = false, updateStartDateSubject: PublishSubject<Date>? = nil) -> TimeslotDetailViewController
     {
         let presenter = TimeslotDetailPresenter(viewModelLocator: viewModelLocator)
         let viewModel = viewModelLocator.getTimeslotDetailViewModel(for: startDate, isShowingSubSlot: isShowingSubSlot, updateStartDateSubject: updateStartDateSubject)
@@ -26,7 +26,7 @@ class TimeslotDetailPresenter: NSObject
         return viewController
     }
     
-    func showEditSubTimeSlot(with startDate: Date, updateStartDateSubject: PublishSubject<Date>)
+    func showEditSubTimeSlot(with startDate: Date, updateStartDateSubject: PublishSubject<Date>?)
     {
         hasShadow = false
         

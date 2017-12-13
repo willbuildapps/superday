@@ -30,7 +30,7 @@ protocol ViewModelLocator
     
     func getRatingViewModel(start startDate: Date, end endDate: Date) -> RatingViewModel
     
-    func getTimeslotDetailViewModel(for startDate: Date, isShowingSubSlot: Bool, updateStartDateSubject: PublishSubject<Date>) -> TimeslotDetailViewModel
+    func getTimeslotDetailViewModel(for startDate: Date, isShowingSubSlot: Bool, updateStartDateSubject: PublishSubject<Date>?) -> TimeslotDetailViewModel
     func getEditTimesViewModel(for firstTimeSlot: TimeSlot, secondTimeSlot: TimeSlot, editingStartTime: Bool, updateStartDateSubject: PublishSubject<Date>) -> EditTimesViewModel
     
     func getGoalViewModel() -> GoalViewModel
@@ -238,7 +238,7 @@ class DefaultViewModelLocator : ViewModelLocator
                                timeService: timeService)
     }
     
-    func getTimeslotDetailViewModel(for startDate: Date, isShowingSubSlot: Bool = false, updateStartDateSubject: PublishSubject<Date>) -> TimeslotDetailViewModel
+    func getTimeslotDetailViewModel(for startDate: Date, isShowingSubSlot: Bool = false, updateStartDateSubject: PublishSubject<Date>?) -> TimeslotDetailViewModel
     {
         return TimeslotDetailViewModel(startDate: startDate,
                                      isShowingSubSlot: isShowingSubSlot,
