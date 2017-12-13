@@ -147,7 +147,7 @@ class TimeslotDetailViewModel
                     break
                 }
             }
-
+            
             guard timeSlotToShow != nil else { return nil }
             
             return TimelineItem(withTimeSlots: [timeSlotToShow],

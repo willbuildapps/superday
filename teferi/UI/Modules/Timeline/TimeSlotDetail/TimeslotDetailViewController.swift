@@ -98,7 +98,7 @@ class TimeslotDetailViewController: UIViewController
     func createBindings()
     {
         viewModel.timelineItemObservable
-            .subscribe(onNext: { (item) in
+            .subscribe(onNext: { [unowned self] (item) in
                 guard let item = item
                 else
                 {
