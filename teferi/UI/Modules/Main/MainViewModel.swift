@@ -238,7 +238,22 @@ class MainViewModel : RxViewModel
         settingsService.setLastShownAddGoalAlert(timeService.now)
     }
     
+    func updateTimelineItem(_ timelineItem: TimelineItem, withCategory category: Category)
+    {
+        updateTimeSlot(timelineItem.timeSlots, withCategory: category)
+        
+        editStateService.notifyEditingEnded()
+    }
+    
     //MARK: Private Methods
+    
+    private func updateTimeSlot(_ timeSlots: [TimeSlot], withCategory category: Category)
+    {
+        timeSlotService.update(timeSlots: timeSlots, withCategory: category)
+        timeSlots.forEach { (timeSlot) in
+            metricsService.log(event: .timeSlotEditing(date: timeService.now, fromCategory: timeSlot.category, toCategory: category, duration: timeSlot.duration))
+        }
+    }
     
     private func shouldShowLocationPermissionRequest() -> Observable<Bool>
     {

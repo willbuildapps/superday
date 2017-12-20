@@ -97,6 +97,11 @@ class EditTimeSlotView : UIView, TrigonometryHelper, CategoryButtonDelegate
         editEndedSubject.onNext((timelineItem, category))
     }
     
+    func onEditBegan(point: CGPoint, timelineItem: TimelineItem)
+    {
+        onEditBegan(point: point, timelineItem: timelineItem, hideCurrentCategory: true)
+    }
+    
     func onEditBegan(point: CGPoint, timelineItem: TimelineItem, hideCurrentCategory: Bool = true)
     {
         guard point.y != 0 else { return }

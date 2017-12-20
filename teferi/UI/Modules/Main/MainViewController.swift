@@ -16,6 +16,7 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
     
     private let disposeBag = DisposeBag()
     
+    private var editView : EditTimeSlotView!
     private var addButton : AddTimeSlotView!
     private var calendarButton : UIButton!
     
@@ -37,6 +38,11 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
         self.automaticallyAdjustsScrollViewInsets = false
         
         pagerViewController = presenter.setupPagerViewController(vc: self.childViewControllers.firstOfType())
+        
+        //Edit View
+        editView = EditTimeSlotView(categoryProvider: viewModel.categoryProvider)
+        view.addSubview(editView)
+        editView.constrainEdges(to: view)
         
         //Add button
         addButton = (Bundle.main.loadNibNamed("AddTimeSlotView", owner: self, options: nil)?.first) as? AddTimeSlotView
@@ -79,10 +85,28 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
     
     private func createBindings()
     {
+        editView.dismissAction = { [unowned self] in self.viewModel.notifyEditingEnded() }
+        
+        //Edit state
+        viewModel
+            .isEditingObservable
+            .subscribe(onNext: onEditChanged)
+            .addDisposableTo(disposeBag)
+        
+        viewModel
+            .beganEditingObservable
+            .subscribe(onNext: editView.onEditBegan)
+            .addDisposableTo(disposeBag)
+        
         //Category creation
         addButton
             .categoryObservable
             .subscribe(onNext: viewModel.addNewSlot)
+            .addDisposableTo(disposeBag)
+        
+        editView
+            .editEndedObservable
+            .subscribe(onNext: viewModel.updateTimelineItem)
             .addDisposableTo(disposeBag)
         
         viewModel
@@ -152,6 +176,15 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
         
         addButton.close()
         addButton.isUserInteractionEnabled = isToday
+    }
+    
+    private func onEditChanged(_ isEditing: Bool)
+    {
+        //Close add menu
+        addButton.close()
+        
+        //Grey out views
+        editView.isEditing = isEditing
     }
 
     private func setupNavigationBar()

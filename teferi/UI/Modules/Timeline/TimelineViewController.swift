@@ -223,6 +223,15 @@ class TimelineViewController : UIViewController
         let cell = tableView.dequeueReusableCell(withIdentifier: TimelineCell.cellIdentifier, for: indexPath) as! TimelineCell
         cell.timelineItem = item
         cell.selectionStyle = .none
+        
+        cell.editClickObservable
+            .map{ [unowned self] item in
+                let position = cell.categoryCircle.convert(cell.categoryCircle.center, to: self.view)
+                return (position, item)
+            }
+            .subscribe(onNext: self.viewModel.notifyEditingBegan)
+            .addDisposableTo(cell.disposeBag)
+        
         return cell
     }
     

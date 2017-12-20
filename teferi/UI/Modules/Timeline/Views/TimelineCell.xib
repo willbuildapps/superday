@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -31,6 +31,9 @@
                                     <constraint firstAttribute="width" constant="15" id="DGd-Xq-jHN"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mmw-lD-d0o">
+                                <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.38823529411764707" green="0.83529411764705885" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
                         <accessibility key="accessibilityConfiguration">
@@ -38,9 +41,13 @@
                         </accessibility>
                         <constraints>
                             <constraint firstItem="hvt-Yn-Mch" firstAttribute="centerX" secondItem="LmH-eW-Lnz" secondAttribute="centerX" id="2DG-tw-Gnb"/>
+                            <constraint firstItem="mmw-lD-d0o" firstAttribute="top" secondItem="LmH-eW-Lnz" secondAttribute="top" id="Fsi-fz-AQw"/>
                             <constraint firstAttribute="height" constant="30" id="SEB-FO-rtl"/>
+                            <constraint firstItem="mmw-lD-d0o" firstAttribute="leading" secondItem="LmH-eW-Lnz" secondAttribute="leading" id="Zlb-eM-Qk8"/>
+                            <constraint firstAttribute="trailing" secondItem="mmw-lD-d0o" secondAttribute="trailing" id="bVc-ZO-iu7"/>
                             <constraint firstAttribute="width" constant="30" id="nwZ-uc-Xkw"/>
                             <constraint firstItem="hvt-Yn-Mch" firstAttribute="centerY" secondItem="LmH-eW-Lnz" secondAttribute="centerY" id="pd3-h1-Cfi"/>
+                            <constraint firstAttribute="bottom" secondItem="mmw-lD-d0o" secondAttribute="bottom" id="wj1-I5-dxd"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -140,6 +147,7 @@
             <connections>
                 <outlet property="activityTagView" destination="d2A-yK-iZw" id="r0r-4q-DMq"/>
                 <outlet property="bottomMargin" destination="300-X0-xqj" id="7Ui-Ip-bpT"/>
+                <outlet property="categoryButton" destination="mmw-lD-d0o" id="Xrz-7s-oCG"/>
                 <outlet property="categoryCircle" destination="LmH-eW-Lnz" id="bU3-ir-pO5"/>
                 <outlet property="categoryIcon" destination="hvt-Yn-Mch" id="9hh-cR-WEO"/>
                 <outlet property="contentHolder" destination="MQM-XP-kp0" id="ntG-lI-XhE"/>
@@ -153,7 +161,7 @@
                 <outlet property="tagYAlignConstraint" destination="8eL-k7-B1l" id="qSX-4p-7bL"/>
                 <outlet property="timeSlotDistanceConstraint" destination="GNx-pl-Arl" id="mf8-ey-B02"/>
             </connections>
-            <point key="canvasLocation" x="107" y="-252"/>
+            <point key="canvasLocation" x="106.5" y="-252.5"/>
         </tableViewCell>
     </objects>
     <resources>
