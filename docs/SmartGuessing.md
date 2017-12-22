@@ -98,14 +98,7 @@ These events are only needed until the user opens the app and we can process the
 
 When the user opens the app we get all CoreMotion activity events since the last time he opened it (a week tops). As this data has very heigh granularity we first make a first parsing pass to get rid of unknown motion activity events.
 
-Then we merge this data with the location events data. Which leaves us with a series of motion activity events each of them with a timestamp and a location. This looks like this:
-
-2017-12-21 07:10:22 still at 40.4134539747987,-3.72705138288785
-2017-12-21 07:30:13 still at 40.4134539747987,-3.72705138288785
-2017-12-21 08:00:34 walk  at 40.4134539747987,-3.72705138288785
-2017-12-21 08:45:03 walk  at 40.4140156074618,-3.72467680871441
-
-And so on.
+Then we merge this data with the location events data. Which leaves us with a series of motion activity events each of them with a timestamp and a location.
 
 We parse that date to generate the time slots as described previously. But separately we also merge consecutive events with the same location and category as much as we can to store them in the data base.
 
