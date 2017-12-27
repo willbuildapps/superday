@@ -180,6 +180,10 @@
 		8C7CDCA41EC45E320079F48D /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7CDCA31EC45E320079F48D /* CoreDataStack.swift */; };
 		8C7E110A1E9B6E79009AAF49 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8C7E11091E9B6E79009AAF49 /* Settings.bundle */; };
 		8C89849C1FBA068E007EA8D3 /* DefaultNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C89849B1FBA068E007EA8D3 /* DefaultNotificationService.swift */; };
+		8C8DF4031FF3E8E00007AF57 /* CoreDataPersistency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8DF4021FF3E8E00007AF57 /* CoreDataPersistency.swift */; };
+		8C8DF4071FF3EBBC0007AF57 /* TimeSlotEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8DF4061FF3EBBC0007AF57 /* TimeSlotEntity.swift */; };
+		8C8DF4091FF3EC040007AF57 /* TimeSlotEntity+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8DF4081FF3EC040007AF57 /* TimeSlotEntity+CoreData.swift */; };
+		8C8DF40B1FF3EFCA0007AF57 /* CoreDataCodingProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8DF40A1FF3EFCA0007AF57 /* CoreDataCodingProtocols.swift */; };
 		8C8E8CBC1F7A46E3006944BF /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8E8CBB1F7A46E3006944BF /* DateExtensions.swift */; };
 		8C8E8CBE1F7A561D006944BF /* CleanerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8E8CBD1F7A561D006944BF /* CleanerTests.swift */; };
 		8C9C25671ED3397E00B10187 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9C25661ED3397E00B10187 /* NavigationController.swift */; };
@@ -533,6 +537,10 @@
 		8C7CDCA31EC45E320079F48D /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		8C7E11091E9B6E79009AAF49 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		8C89849B1FBA068E007EA8D3 /* DefaultNotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultNotificationService.swift; sourceTree = "<group>"; };
+		8C8DF4021FF3E8E00007AF57 /* CoreDataPersistency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPersistency.swift; sourceTree = "<group>"; };
+		8C8DF4061FF3EBBC0007AF57 /* TimeSlotEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSlotEntity.swift; sourceTree = "<group>"; };
+		8C8DF4081FF3EC040007AF57 /* TimeSlotEntity+CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeSlotEntity+CoreData.swift"; sourceTree = "<group>"; };
+		8C8DF40A1FF3EFCA0007AF57 /* CoreDataCodingProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataCodingProtocols.swift; sourceTree = "<group>"; };
 		8C8E8CBB1F7A46E3006944BF /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
 		8C8E8CBD1F7A561D006944BF /* CleanerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleanerTests.swift; sourceTree = "<group>"; };
 		8C9C25661ED3397E00B10187 /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationController.swift; path = Navigation/NavigationController.swift; sourceTree = "<group>"; };
@@ -873,6 +881,7 @@
 		24BA51A91D74D79C00042CDF /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				8C8DF4051FF3EB590007AF57 /* DBEntities */,
 				24DE23F31E1BB33B0089B49E /* Activity.swift */,
 				24EB967A1DE708570040C211 /* AppState.swift */,
 				8C5B88741EBCCDA00096AE5B /* CategoryExtensions.swift */,
@@ -951,6 +960,7 @@
 		24EB965F1DE7057D0040C211 /* Implementations */ = {
 			isa = PBXGroup;
 			children = (
+				8C8DF4011FF3E89E0007AF57 /* New Persistency */,
 				24EB96601DE705850040C211 /* Interaction */,
 				24EB96651DE707810040C211 /* Monitoring */,
 				24EB96621DE705AA0040C211 /* Persistency */,
@@ -1230,6 +1240,32 @@
 				8C7CDCA31EC45E320079F48D /* CoreDataStack.swift */,
 			);
 			path = CoreData;
+			sourceTree = "<group>";
+		};
+		8C8DF4011FF3E89E0007AF57 /* New Persistency */ = {
+			isa = PBXGroup;
+			children = (
+				8C8DF4041FF3EB490007AF57 /* ModelExtensions */,
+				8C8DF4021FF3E8E00007AF57 /* CoreDataPersistency.swift */,
+				8C8DF40A1FF3EFCA0007AF57 /* CoreDataCodingProtocols.swift */,
+			);
+			path = "New Persistency";
+			sourceTree = "<group>";
+		};
+		8C8DF4041FF3EB490007AF57 /* ModelExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				8C8DF4081FF3EC040007AF57 /* TimeSlotEntity+CoreData.swift */,
+			);
+			path = ModelExtensions;
+			sourceTree = "<group>";
+		};
+		8C8DF4051FF3EB590007AF57 /* DBEntities */ = {
+			isa = PBXGroup;
+			children = (
+				8C8DF4061FF3EBBC0007AF57 /* TimeSlotEntity.swift */,
+			);
+			path = DBEntities;
 			sourceTree = "<group>";
 		};
 		8C9C25651ED3394E00B10187 /* Navigation */ = {
@@ -2057,6 +2093,7 @@
 				24526A771D92D99F00DA3FA0 /* MetricsService.swift in Sources */,
 				8C1729001EF02D9A002ABDDA /* SummaryPageViewModel.swift in Sources */,
 				BEF8AB211E8413AA00B4F289 /* Persister.swift in Sources */,
+				8C8DF4031FF3E8E00007AF57 /* CoreDataPersistency.swift in Sources */,
 				8C460E851EE705200002D70B /* ButtonCollectionViewCell.swift in Sources */,
 				AC449C311E92BC8C00847957 /* PermissionViewModelProtocol.swift in Sources */,
 				8C460E8D1EE7EE3F0002D70B /* WeeklySummaryCategoryTableViewCell.swift in Sources */,
@@ -2110,6 +2147,7 @@
 				8C20ABA91F0A115200C9EE33 /* OnboardingPageViewModel.swift in Sources */,
 				AC1E70F11E3F4C490090D474 /* KNN.swift in Sources */,
 				8C2C44B11ECD878C008131D7 /* RxViewModel.swift in Sources */,
+				8C8DF4091FF3EC040007AF57 /* TimeSlotEntity+CoreData.swift in Sources */,
 				24116A041D9DACCD00762BD6 /* AnimationHelpers.swift in Sources */,
 				2482CAFC1DB12F9F00E892C1 /* OnboardingPage2.swift in Sources */,
 				24564F521D8320FC00D9A8AE /* TimelineViewController.swift in Sources */,
@@ -2150,6 +2188,7 @@
 				24DE23F01E1BB3260089B49E /* CalendarViewModel.swift in Sources */,
 				8C9C25671ED3397E00B10187 /* NavigationController.swift in Sources */,
 				24DE23FA1E1BB3450089B49E /* ObservableExtensions.swift in Sources */,
+				8C8DF40B1FF3EFCA0007AF57 /* CoreDataCodingProtocols.swift in Sources */,
 				ACEA23BE1FAC6FC90068C149 /* NewGoalViewController.swift in Sources */,
 				8CB140A61FC456C000FC9904 /* GoalSuggestionAlert.swift in Sources */,
 				8C7CCB4D1E9D150A00315BF7 /* MaterialButton.swift in Sources */,
@@ -2173,6 +2212,7 @@
 				24EB96771DE7080F0040C211 /* MotionService.swift in Sources */,
 				8C4C5B5D1ECEEC34003239BE /* CalendarPresenter.swift in Sources */,
 				AF99E5901FBD8DDF00809379 /* SettingsPresenter.swift in Sources */,
+				8C8DF4071FF3EBBC0007AF57 /* TimeSlotEntity.swift in Sources */,
 				AC7374921F71220A00AF9C96 /* CMAccessForExistingUsersViewModel.swift in Sources */,
 				8C26A1781ECAEAD800EFE509 /* MainPresenter.swift in Sources */,
 				2482CAFD1DB12F9F00E892C1 /* OnboardingPage3.swift in Sources */,
