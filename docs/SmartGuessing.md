@@ -1,8 +1,8 @@
 # Smart Guessing System
 
-This document describes how tracking services, persistence and the algorithm work together to provide the smart guessing functionality. The main idea is to automatically gather data from the phone and with it generate a timeline of activities (time slots). The user can then set the correct activity for mislabeled time slots and the app will use **machine learning** algorithms to learn from the user selection and generate a better time line next time.
+This document describes how tracking services, persistence and the algorithm work together to provide the smart guessing functionality. The main idea is to automatically gather data from the phone and with it generate a timeline of categories (time slots). The user can then set the correct category for mislabeled time slots and the app will use **machine learning** algorithms to learn from the user selection and generate a better time line next time.
 
-To start with some labeled activities we'll provide a _standard day_ right of the bat, consisting of labeled activities we know are more common for every user (sleep for sure and maybe food or work too).
+To start with some labeled time slots we'll provide a _standard day_ right of the bat, consisting of labeled time slots we know are more common for every user (sleep for sure and maybe food or work too).
 
 ## Tracking
 
@@ -78,11 +78,9 @@ The result is a category for each time slot but also a probability confidence, w
 
 ## Persistence
 
-![Smart Guessing Schema](smartguessing.png)
+![Smart Guessing Schema](smartguess_schema.png)
 
-In order for smart guessing to work we need to persist some data. Some of it only temporarily with different life spans and some permanently. This section describes what is persisted when and when it should be safe to delete the specific data.
-
-As time events all come one after another, we will not store end times for any of them, this makes handling them much easier, and still if end time is needed for some operations or for display, it's easily calculated on the fly.
+In order for smart guessing to work we need to persist some data. As time events all come one after another, we will not store end times for any of them, this makes handling them much easier, and still if end time is needed for some operations or for display, it's easily calculated on the fly.
 
 ### Location Events
 
@@ -92,21 +90,36 @@ The current implementation of the Location Service needs to be streamlined to se
 
 For every location event we need to store **latitude, longitude and timestamp**. Storing the rest of the information like altitude, accuracy, speed... it's probably a good idea, but we are not making a use of it right now.
 
-These events are only needed until the user opens the app and we can process them, though we might want to keep them a bit longer for testing.
-
 ### Annotated Motion Events
 
 When the user opens the app we get all CoreMotion activity events since the last time he opened it (a week tops). As this data has very heigh granularity we first make a first parsing pass to get rid of unknown motion activity events.
 
-Then we merge this data with the location events data. Which leaves us with a series of motion activity events each of them with a timestamp and a location.
+At this point the work flow splits in two paths. First we get those motion events and merge them as much as we can to store them in the DB. Then with those same un-merged events we merge them with the location events in that timeframe. Which leaves us with a series of motion activity events each of them with a timestamp and a location.
 
-We parse that date to generate the time slots as described previously. But separately we also merge consecutive events with the same location and category as much as we can to store them in the data base.
+We parse that date to generate the time slots as described previously.
 
 ### Time slots
 
-For the actual representation of time slots in the app, a lot of information can be inferred from the motion events stored in the data base, so for time slots we only need to store: start time, category and whether the category was set by user or smart guessed.
+For the actual representation of time slots in the app, a lot of information can be inferred from the motion and location events stored in the data base, so for time slots we only need to store: start time, category and whether the time slot was edited (category or start time).
 
 Again we don't store end times as it makes many operations easier. We also won't be breaking slots at midnight in the DB, as that would break the smart guessing algorithm. We can, however, add and modify all that data when retrieving them from DB to use in the app.
+
+### DataTypes
+
+These are the needed data types, then ones called `[Whatever]Entity` are meant to be DB representations of the data and will be transformed to other types when fetched.
+
+**Location**: latitude, longitude, altitude, accuracy
+**LocationEventEntity**: timestamp, location
+**MotionEvent**: startTime, endTime, motionType
+**MotionEventEntity**: timestamp, motionType
+**AnnotatedEvent**: startTime, endTime, location, motionType
+**TempTimeSlot**: startTime, endTime, [AnnotatedEvent]
+**TimeSlot**: startTime, endTime, category, [AnnotatedEvent]
+**TimeSlotEntity**: timestamp, category, edited
+
+### DB optimization
+
+With this design for the DB we will be storing all locations, all core motion events and all time slots. It probably makes sense to purge old data storing a summary of locations and motion events in the time slot table itself. We leave this possibility open for a future implementation.
 
 ## Machine Learning Algorithm
 
