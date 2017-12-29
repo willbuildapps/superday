@@ -72,7 +72,9 @@ The result is a category for each time slot but also a probability confidence, w
 
 ## User feedback & Privacy
 
-[Section about user's privacy and feedback]
+Until now the user is sending his log file with the feedback email, this includes location information. I propose making this opt-in and informing the user about it. This way we can also select some fields from the DB together with the logs, to make that information more useful.
+
+It might be interesting letting the user know his location won't leave the device unless he intentionally share's it with us for debugging. And even so we could offset it randomly (only when sharing it) so it would be completely private.
 
 # Technical details
 
@@ -123,8 +125,13 @@ With this design for the DB we will be storing all locations, all core motion ev
 
 ## Machine Learning Algorithm
 
-[Section about SVM]
+Information about this classification algorithm can be found every where in Internet. For example [here](https://www.analyticsvidhya.com/blog/2014/10/support-vector-machine-simplified/). While there are many implementations I couldn't find one in Swift that got the results we needed, so we are using [LIBSVM](https://www.csie.ntu.edu.tw/~cjlin/libsvm/), which is a C++ implementation.
+
+We use that code through a Objective-C++ wrapper.
 
 ## Future improvements
 
-[Section on what to improve and how]
+There are many points open for improvement:
+- The way we generate the time slots (without categories) is completely arbitrary, we should think about using some clustering algorithm for this.
+- Although SVM seems to fit our needs, we might consider changing it in the future if we find something better (neural networks, maybe?)
+- The data we collect and use to train the SVM model might not be optimal, we should consider changing it or maybe collection more.
