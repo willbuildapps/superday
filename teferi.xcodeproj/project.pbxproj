@@ -166,7 +166,6 @@
 		8C460E851EE705200002D70B /* ButtonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C460E841EE705200002D70B /* ButtonCollectionViewCell.swift */; };
 		8C460E8B1EE718F40002D70B /* CenterAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C460E8A1EE718F40002D70B /* CenterAlignedCollectionViewFlowLayout.swift */; };
 		8C460E8D1EE7EE3F0002D70B /* WeeklySummaryCategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C460E8C1EE7EE3F0002D70B /* WeeklySummaryCategoryTableViewCell.swift */; };
-		8C4A96B41FC871C9005E6E76 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C4A96B31FC871C9005E6E76 /* GameKit.framework */; };
 		8C4A96B61FC871CC005E6E76 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C4A96B51FC871CC005E6E76 /* StoreKit.framework */; };
 		8C4C5B5D1ECEEC34003239BE /* CalendarPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4C5B5C1ECEEC34003239BE /* CalendarPresenter.swift */; };
 		8C5B88751EBCCDA00096AE5B /* CategoryExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5B88741EBCCDA00096AE5B /* CategoryExtensions.swift */; };
@@ -519,7 +518,6 @@
 		8C460E841EE705200002D70B /* ButtonCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonCollectionViewCell.swift; path = "teferi/UI/Modules/Weekly Summary/Views/ButtonCollectionViewCell.swift"; sourceTree = SOURCE_ROOT; };
 		8C460E8A1EE718F40002D70B /* CenterAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CenterAlignedCollectionViewFlowLayout.swift; path = "teferi/UI/Modules/Weekly Summary/Views/CenterAlignedCollectionViewFlowLayout.swift"; sourceTree = SOURCE_ROOT; };
 		8C460E8C1EE7EE3F0002D70B /* WeeklySummaryCategoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeeklySummaryCategoryTableViewCell.swift; path = "teferi/UI/Modules/Weekly Summary/Views/WeeklySummaryCategoryTableViewCell.swift"; sourceTree = SOURCE_ROOT; };
-		8C4A96B31FC871C9005E6E76 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		8C4A96B51FC871CC005E6E76 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		8C4C5B5C1ECEEC34003239BE /* CalendarPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarPresenter.swift; sourceTree = "<group>"; };
 		8C5B88741EBCCDA00096AE5B /* CategoryExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryExtensions.swift; sourceTree = "<group>"; };
@@ -677,7 +675,6 @@
 			files = (
 				8C4A96B61FC871CC005E6E76 /* StoreKit.framework in Frameworks */,
 				8584336EB8DEB2CEBEFB3918 /* Pods_teferi.framework in Frameworks */,
-				8C4A96B41FC871C9005E6E76 /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1666,7 +1663,6 @@
 			isa = PBXGroup;
 			children = (
 				8C4A96B51FC871CC005E6E76 /* StoreKit.framework */,
-				8C4A96B31FC871C9005E6E76 /* GameKit.framework */,
 				B0E298043A2BB331608A8FD2 /* Pods_teferi.framework */,
 				43617E462FAF7C2B30BED3B4 /* Pods_teferiTests.framework */,
 				51BED8F61DD26FA800455EF6 /* UserNotifications.framework */,
@@ -1746,7 +1742,7 @@
 								enabled = 1;
 							};
 							com.apple.GameCenter = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.HealthKit = {
 								enabled = 0;
