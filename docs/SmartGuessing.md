@@ -39,7 +39,7 @@ Merging the two sources of information we have, we end up with a stream of motio
 2017-12-21 08:45:03 walk  at 40.4140156074618,-3.72467680871441
 ```
 
-With that we generate the user's timeline, which can be thought of as a two step process: First we divide the user's day in time slots with a start and an end timestamp. And then we label each of those times lots with our best guess for a category (family, sleep, work, food...)
+With that we generate the user's timeline, which can be thought of as a two step process: First we divide the user's day in time slots with a start and an end timestamp. And then we label each of those times slots with our best guess for a category (family, sleep, work, food...)
 
 ### Dividing the user's day into time slots
 
