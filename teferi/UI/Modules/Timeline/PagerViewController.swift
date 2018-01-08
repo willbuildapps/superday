@@ -12,7 +12,7 @@ class PagerViewController : UIPageViewController
     private var viewControllersDictionary = [Date : UIViewController]()
     
     fileprivate var headerView : DailySummaryBarView = DailySummaryBarView()
-    
+        
     // MARK: Initializers
     override init(transitionStyle style: UIPageViewControllerTransitionStyle, navigationOrientation: UIPageViewControllerNavigationOrientation, options: [String : Any]?)
     {

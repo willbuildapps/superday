@@ -33,10 +33,6 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
     {
         super.viewDidLoad()
         
-        self.edgesForExtendedLayout = UIRectEdge()
-        self.extendedLayoutIncludesOpaqueBars = false
-        self.automaticallyAdjustsScrollViewInsets = false
-        
         pagerViewController = presenter.setupPagerViewController(vc: self.childViewControllers.firstOfType())
         
         //Edit View
@@ -48,7 +44,10 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
         addButton = (Bundle.main.loadNibNamed("AddTimeSlotView", owner: self, options: nil)?.first) as? AddTimeSlotView
         addButton.categoryProvider = viewModel.categoryProvider
         view.addSubview(addButton)
-        addButton.constrainEdges(to: view)
+        addButton.snp.makeConstraints { make in
+            make.leading.trailing.top.equalToSuperview()
+            make.bottom.equalTo(self.bottomLayoutGuide.snp.top)
+        }
         
         calendarButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         calendarButton.titleLabel?.font = UIFont.systemFont(ofSize: 11)
@@ -63,7 +62,7 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
         
         createBindings()
     }
-    
+
     override func viewDidAppear(_ animated: Bool)
     {
         super.viewDidAppear(animated)
@@ -141,7 +140,7 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
         viewModel.showAddGoalAlert
             .subscribe(onNext: { [unowned self] show in
                 if show {
-                    AddGoalAlert(inView: self.view, tapClosure: self.addGoalAlertTap).show()
+                    AddGoalAlert(inViewController: self, tapClosure: self.addGoalAlertTap).show()
                 } else {
                     AddGoalAlert.hide()
                 }

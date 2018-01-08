@@ -6,10 +6,10 @@ class AddGoalAlert: Alert
 {
     let tapClosure: () -> ()
     
-    init(inView parentView: UIView?, tapClosure: @escaping () -> ())
+    init(inViewController viewController: UIViewController?, tapClosure: @escaping () -> ())
     {
         self.tapClosure = tapClosure
-        super.init(inView: parentView)
+        super.init(inViewController: viewController)
     }
     
     required init?(coder aDecoder: NSCoder)

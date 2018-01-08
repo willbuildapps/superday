@@ -78,7 +78,8 @@ class TimelineViewController : UIViewController
         tableView.showsHorizontalScrollIndicator = false
         tableView.register(UINib.init(nibName: "TimelineCell", bundle: Bundle.main), forCellReuseIdentifier: TimelineCell.cellIdentifier)
         tableView.register(UINib.init(nibName: "ShortTimelineCell", bundle: Bundle.main), forCellReuseIdentifier: ShortTimelineCell.cellIdentifier)
-        tableView.contentInset = UIEdgeInsets(top: 34, left: 0, bottom: 49, right: 0)
+        
+        setTableViewContentInsets()
         
         dataSource.configureCell = constructCell
         
@@ -93,6 +94,8 @@ class TimelineViewController : UIViewController
         {
             showVottingUI()
         }
+        
+        setTableViewContentInsets()
     }
     
     override func viewWillAppear(_ animated: Bool)
@@ -106,6 +109,17 @@ class TimelineViewController : UIViewController
     }
 
     // MARK: Private Methods
+    private func setTableViewContentInsets()
+    {
+        // Magic numbers and direct access to tabBar due to the many layers in the UI: VC-> Container-> Pager-> Timeline.
+        // This should be fixed by using: VC -> CollectionView -> TableView
+        // This way we can just use automaticallyAdjustsScrollViewInsets
+        tableView.contentInset = UIEdgeInsets(
+            top: 34,
+            left: 0,
+            bottom: 49 + (tabBarController?.tabBar.frame.height ?? 0),
+            right: 0)
+    }
     
     private func createBindings()
     {
