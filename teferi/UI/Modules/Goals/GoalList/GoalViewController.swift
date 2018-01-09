@@ -90,7 +90,7 @@ class GoalViewController: UIViewController
                     GoalSuggestionAlert.hide()
                     return                    
                 }
-                GoalSuggestionAlert(inView: self.view, text: suggestion).show()
+                GoalSuggestionAlert(inViewController: self, text: suggestion).show()
             })
             .addDisposableTo(self.disposeBag)
     }

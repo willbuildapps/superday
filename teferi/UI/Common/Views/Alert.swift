@@ -5,7 +5,7 @@ class Alert: UIView
 {
     private static var currentAlert: Alert? = nil
     
-    private let parentView: UIView?
+    private let viewController: UIViewController?
     private let containerView = UIView()
     private let effectBackground = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.extraLight))
     private let shadow: UIImageView = UIImageView(image: UIImage.resizableShadowImage(cornerRadius: 10, shadowBlur: 4))
@@ -15,9 +15,9 @@ class Alert: UIView
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(inView parentView: UIView? = nil)
+    init(inViewController viewController: UIViewController? = nil)
     {
-        self.parentView = parentView
+        self.viewController = viewController
         
         super.init(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         
@@ -97,10 +97,11 @@ class Alert: UIView
     override func didMoveToSuperview()
     {
         super.didMoveToSuperview()
-        guard let _ = superview else { return }
+        guard let _ = superview, let viewController = viewController else { return }
         
         self.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.left.right.equalToSuperview()
+            make.bottom.equalTo(viewController.bottomLayoutGuide.snp.top)
         }
     }
     
@@ -131,10 +132,10 @@ class Alert: UIView
         guard Alert.currentAlert == nil else { return }
         Alert.currentAlert = self
         
-        if parentView == nil {
+        if viewController == nil {
             window.addSubview(self)
         } else {
-            parentView?.addSubview(self)
+            viewController?.view.addSubview(self)
         }
         
         containerView.transform = CGAffineTransform(translationX: 0, y: containerView.frame.height + 20)
