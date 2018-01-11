@@ -6,10 +6,10 @@ class GoalSuggestionAlert: Alert
 {
     private let text: String
     
-    init(inView parentView: UIView?, text: String)
+    init(inViewController viewController: UIViewController?, text: String)
     {
         self.text = text
-        super.init(inView: parentView)
+        super.init(inViewController: viewController)
     }
     
     required init?(coder aDecoder: NSCoder)

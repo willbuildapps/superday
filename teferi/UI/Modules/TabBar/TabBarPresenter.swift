@@ -16,8 +16,6 @@ class TabBarPresenter
         
         let imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
         let tabBarController = UITabBarController()
-        tabBarController.tabBar.backgroundColor = .white
-        tabBarController.tabBar.barTintColor = .white
         tabBarController.tabBar.tintColor = UIColor(r: 81, g: 105, b: 229)
         tabBarController.tabBar.unselectedItemTintColor = UIColor(r: 183, g: 185, b: 187)
         
