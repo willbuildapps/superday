@@ -2,12 +2,6 @@ import Foundation
 import RxSwift
 import CoreData
 
-struct CoreDataResource<A>
-{
-    let request: NSFetchRequest<NSFetchRequestResult>
-    let parser: ([NSManagedObject]) throws -> A
-}
-
 enum PersistencyError: Error
 {
     case noResults
@@ -23,7 +17,7 @@ class CoreDataPersistency
         self.managedObjectContext = managedObjectContext
     }
     
-    func fetch<A>(resource: CoreDataResource<A>) -> Observable<A>
+    func fetch<A>(_ resource: CoreDataResource<A>) -> Observable<A>
     {
         return Observable.create {
             [unowned self] observer in
