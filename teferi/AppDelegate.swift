@@ -31,9 +31,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     private let goalService : GoalService
     
     private let coreDataStack : CoreDataStack
-    
-    private let newPersistency: CoreDataPersistency!
-    
+        
     //MARK: Initializers
     override init()
     {
@@ -81,17 +79,6 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         trackEventService = DefaultTrackEventService(loggingService: loggingService,
                                                      persistencyService: trackEventServicePersistency,
                                                      withEventSources: locationService)
-        
-        let now = Date()
-        newPersistency = CoreDataPersistency(managedObjectContext: coreDataStack.managedObjectContext)
-        newPersistency.fetch(TimeSlotPM.all(fromDate: now.add(days: -7), toDate: now))
-            .subscribe(onNext: { timeSlots in
-                for t in timeSlots {
-                    print(t.startTime)
-                }
-            })
-        
-        
     }
     
     //MARK: UIApplicationDelegate lifecycle
