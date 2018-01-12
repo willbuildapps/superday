@@ -208,6 +208,7 @@
 		8CBA1E332007BCFE00CAFF2A /* TimeSlotPMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBA1E322007BCFE00CAFF2A /* TimeSlotPMTests.swift */; };
 		8CBA1E352007C1D800CAFF2A /* MockCoreDataPersistency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBA1E342007C1D800CAFF2A /* MockCoreDataPersistency.swift */; };
 		8CBA1E372008A27200CAFF2A /* LocationEventPM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBA1E362008A27200CAFF2A /* LocationEventPM.swift */; };
+		8CBA1E392008A3E800CAFF2A /* MotionEventPM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBA1E382008A3E800CAFF2A /* MotionEventPM.swift */; };
 		8CBE30A21ECC5385007C8F6F /* PermissionPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBE30A11ECC5385007C8F6F /* PermissionPresenter.swift */; };
 		8CCEBEC21F79053400A4D560 /* AnnotatedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCEBEC11F79053400A4D560 /* AnnotatedEvent.swift */; };
 		8CCEBEC41F79078A00A4D560 /* EventsParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCEBEC31F79078A00A4D560 /* EventsParser.swift */; };
@@ -567,6 +568,7 @@
 		8CBA1E322007BCFE00CAFF2A /* TimeSlotPMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSlotPMTests.swift; sourceTree = "<group>"; };
 		8CBA1E342007C1D800CAFF2A /* MockCoreDataPersistency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCoreDataPersistency.swift; sourceTree = "<group>"; };
 		8CBA1E362008A27200CAFF2A /* LocationEventPM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEventPM.swift; sourceTree = "<group>"; };
+		8CBA1E382008A3E800CAFF2A /* MotionEventPM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionEventPM.swift; sourceTree = "<group>"; };
 		8CBE30A11ECC5385007C8F6F /* PermissionPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionPresenter.swift; sourceTree = "<group>"; };
 		8CCEBEC11F79053400A4D560 /* AnnotatedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotatedEvent.swift; sourceTree = "<group>"; };
 		8CCEBEC31F79078A00A4D560 /* EventsParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsParser.swift; sourceTree = "<group>"; };
@@ -1268,6 +1270,7 @@
 				8C8DF40A1FF3EFCA0007AF57 /* PersistencyProtocols.swift */,
 				8C8DF4061FF3EBBC0007AF57 /* TimeSlotPM.swift */,
 				8CBA1E362008A27200CAFF2A /* LocationEventPM.swift */,
+				8CBA1E382008A3E800CAFF2A /* MotionEventPM.swift */,
 			);
 			path = PersistencyModels;
 			sourceTree = "<group>";
@@ -2151,6 +2154,7 @@
 				8C26A1711ECAE65A00EFE509 /* IntroPresenter.swift in Sources */,
 				AC7374941F71222100AF9C96 /* CMAccessForExistingUsersPresenter.swift in Sources */,
 				AC086A121F8E508A0003AAB4 /* SimpleDetailCell.swift in Sources */,
+				8CBA1E392008A3E800CAFF2A /* MotionEventPM.swift in Sources */,
 				24224B081E28E37700AD7575 /* TimelineItem.swift in Sources */,
 				8C9C256B1ED348EE00B10187 /* NavigationViewModel.swift in Sources */,
 				24EB96761DE7080F0040C211 /* TimeSlotService.swift in Sources */,
