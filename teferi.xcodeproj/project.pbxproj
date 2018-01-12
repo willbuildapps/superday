@@ -207,6 +207,7 @@
 		8CBA1E2D2007710600CAFF2A /* MockManagedObjectContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBA1E2C2007710600CAFF2A /* MockManagedObjectContext.swift */; };
 		8CBA1E332007BCFE00CAFF2A /* TimeSlotPMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBA1E322007BCFE00CAFF2A /* TimeSlotPMTests.swift */; };
 		8CBA1E352007C1D800CAFF2A /* MockCoreDataPersistency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBA1E342007C1D800CAFF2A /* MockCoreDataPersistency.swift */; };
+		8CBA1E372008A27200CAFF2A /* LocationEventPM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBA1E362008A27200CAFF2A /* LocationEventPM.swift */; };
 		8CBE30A21ECC5385007C8F6F /* PermissionPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBE30A11ECC5385007C8F6F /* PermissionPresenter.swift */; };
 		8CCEBEC21F79053400A4D560 /* AnnotatedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCEBEC11F79053400A4D560 /* AnnotatedEvent.swift */; };
 		8CCEBEC41F79078A00A4D560 /* EventsParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCEBEC31F79078A00A4D560 /* EventsParser.swift */; };
@@ -565,6 +566,7 @@
 		8CBA1E2C2007710600CAFF2A /* MockManagedObjectContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockManagedObjectContext.swift; sourceTree = "<group>"; };
 		8CBA1E322007BCFE00CAFF2A /* TimeSlotPMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSlotPMTests.swift; sourceTree = "<group>"; };
 		8CBA1E342007C1D800CAFF2A /* MockCoreDataPersistency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCoreDataPersistency.swift; sourceTree = "<group>"; };
+		8CBA1E362008A27200CAFF2A /* LocationEventPM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEventPM.swift; sourceTree = "<group>"; };
 		8CBE30A11ECC5385007C8F6F /* PermissionPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionPresenter.swift; sourceTree = "<group>"; };
 		8CCEBEC11F79053400A4D560 /* AnnotatedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotatedEvent.swift; sourceTree = "<group>"; };
 		8CCEBEC31F79078A00A4D560 /* EventsParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsParser.swift; sourceTree = "<group>"; };
@@ -1265,6 +1267,7 @@
 			children = (
 				8C8DF40A1FF3EFCA0007AF57 /* PersistencyProtocols.swift */,
 				8C8DF4061FF3EBBC0007AF57 /* TimeSlotPM.swift */,
+				8CBA1E362008A27200CAFF2A /* LocationEventPM.swift */,
 			);
 			path = PersistencyModels;
 			sourceTree = "<group>";
@@ -2061,6 +2064,7 @@
 				8C08DBD31FBDEE1B00B0F642 /* AddGoalAlert.swift in Sources */,
 				8CF8C0911EDED6DC00EA2C77 /* WeeklySummarPresenter.swift in Sources */,
 				8C7CCB4F1E9D1D1F00315BF7 /* AddTimeSlotButton.swift in Sources */,
+				8CBA1E372008A27200CAFF2A /* LocationEventPM.swift in Sources */,
 				24564F651D83265900D9A8AE /* DateExtensions.swift in Sources */,
 				2407A98C1D9D534B00066889 /* TimerExtensions.swift in Sources */,
 				8C1728FC1EF02D9A002ABDDA /* DailySummaryViewController.swift in Sources */,
