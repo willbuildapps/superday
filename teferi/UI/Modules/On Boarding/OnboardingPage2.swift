@@ -81,10 +81,10 @@ class OnboardingPage2 : OnboardingPage
         Timer.schedule(withDelay: delay)
         {
             let cell = self.timelineCells[self.editIndex]
-            let item = cell.timelineItem!
+            let item = cell.slotTimelineItem!
             self.editView.onEditBegan(
                 point: cell.categoryCircle.convert(cell.categoryCircle.center, to: self.timelineView),
-                timelineItem: item)
+                slotTimelineItem: item)
         }
     }
     

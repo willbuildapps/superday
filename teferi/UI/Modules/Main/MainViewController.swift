@@ -105,7 +105,7 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
         
         editView
             .editEndedObservable
-            .subscribe(onNext: viewModel.updateTimelineItem)
+            .subscribe(onNext: viewModel.updateSlotTimelineItem)
             .addDisposableTo(disposeBag)
         
         viewModel

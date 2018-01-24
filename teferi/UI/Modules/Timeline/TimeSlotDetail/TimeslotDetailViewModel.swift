@@ -3,9 +3,9 @@ import RxSwift
 
 class TimeslotDetailViewModel
 {
-    var timelineItemObservable: Observable<TimelineItem?>
+    var slotTimelineItemObservable: Observable<SlotTimelineItem?>
     {
-        return timelineItemVariable.asObservable()
+        return slotTimelineItemVariable.asObservable()
     }
 
     let categoryProvider : CategoryProvider
@@ -18,7 +18,7 @@ class TimeslotDetailViewModel
     private let smartGuessService: SmartGuessService
     private var startDate: Date
     
-    private let timelineItemVariable = Variable<TimelineItem?>(nil)
+    private let slotTimelineItemVariable = Variable<SlotTimelineItem?>(nil)
     private let disposeBag = DisposeBag()
     
     private var isCurrentDay : Bool
@@ -67,17 +67,16 @@ class TimeslotDetailViewModel
                 .startWith(()) // This is a hack I can't remove due to something funky with the view controllery lifecycle. We should fix this in the refactor
         
         refreshObservable
-            .map(timeSlotsForToday)
-            .map(toTimelineItems)
-            .map(filterSelectedElement)
-            .bindTo(timelineItemVariable)
+            .map(timeSlotToShow)
+            .map(toSlotTimelineItem)
+            .bindTo(slotTimelineItemVariable)
             .addDisposableTo(disposeBag)
     }
     
     // MARK: - Public methods
-    func updateTimelineItem(_ timelineItem: TimelineItem, withCategory category: Category)
+    func updateSlotTimelineItem(_ slotTimelineItem: SlotTimelineItem, withCategory category: Category)
     {
-        updateTimeSlot(timelineItem.timeSlots, withCategory: category)
+        updateTimeSlot(slotTimelineItem.timeSlots, withCategory: category)
     }
     
     func timeSlot(before timeSlot: TimeSlot) -> TimeSlot?
@@ -109,14 +108,17 @@ class TimeslotDetailViewModel
         return timeSlots.belonging(toDate: startDate)
     }
     
-    private func timeSlotsForToday() -> [TimeSlot]
+    private func timeSlotToShow() -> TimeSlot
     {
-        return timeSlotService.getTimeSlots(forDay: startDate)
+        return timeSlotService
+            .getTimeSlots(forDay: startDate)
+            .filter({ $0.startTime == startDate })
+            .first!
     }
     
-    private func toTimelineItems(fromTimeSlots timeSlots: [TimeSlot]) -> [TimelineItem]
+    private func toSlotTimelineItem(fromTimeSlot timeSlot: TimeSlot) -> SlotTimelineItem
     {
-        return timeSlots.toTimelineItems(timeSlotService: timeSlotService, isCurrentDay: isCurrentDay)
+        return SlotTimelineItem.with(timeSlots: [timeSlot], timeSlotService: timeSlotService)
     }
     
     private func updateTimeSlot(_ timeSlots: [TimeSlot], withCategory category: Category)
@@ -124,42 +126,6 @@ class TimeslotDetailViewModel
         timeSlotService.update(timeSlots: timeSlots, withCategory: category)
         timeSlots.forEach { (timeSlot) in
             metricsService.log(event: .timeSlotEditing(date: timeService.now, fromCategory: timeSlot.category, toCategory: category, duration: timeSlot.duration))
-        }
-    }
-    
-    private func filterSelectedElement(timelineItems: [TimelineItem]) -> TimelineItem?
-    {
-        if self.isShowingSubSlot
-        {
-            var timeSlotToShow : TimeSlot!
-            var isRunning = false
-            
-            for timeline in timelineItems
-            {
-                if let timeSlot = timeline.timeSlots.filter({ $0.startTime == startDate }).first
-                {
-                    timeSlotToShow = timeSlot
-                    let index = timeline.timeSlots.index(where: { $0.startTime == startDate })
-                    if index == timeline.timeSlots.endIndex - 1
-                    {
-                        isRunning = timeline.isRunning
-                    }
-                    break
-                }
-            }
-            
-            guard timeSlotToShow != nil else { return nil }
-            
-            return TimelineItem(withTimeSlots: [timeSlotToShow],
-                                category: timeSlotToShow.category,
-                                duration: timeSlotToShow.duration != nil ?
-                                    timeSlotToShow.duration! :
-                                    self.timeService.now.timeIntervalSince(timeSlotToShow.startTime),
-                                isRunning: isRunning)
-        }
-        else
-        {
-            return timelineItems.filter({ $0.startTime == startDate }).first
         }
     }
 }

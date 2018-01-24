@@ -29,7 +29,7 @@ class PagerViewControllerTests : XCTestCase
     
     func testScrollingIsDisabledWhenEnteringEditMode()
     {
-        locator.editStateService.notifyEditingBegan(point: CGPoint(), timelineItem: createEmptyTimelineItem());
+        locator.editStateService.notifyEditingBegan(point: CGPoint(), slotTimelineItem: createEmptyTimelineItem());
         
         let scrollViews =
             pagerViewController
@@ -42,7 +42,7 @@ class PagerViewControllerTests : XCTestCase
     
     func testScrollingIsEnabledWhenExitingEditMode()
     {
-        locator.editStateService.notifyEditingBegan(point: CGPoint(), timelineItem: createEmptyTimelineItem());
+        locator.editStateService.notifyEditingBegan(point: CGPoint(), slotTimelineItem: createEmptyTimelineItem());
         locator.editStateService.notifyEditingEnded();
         
         let scrollViews =
@@ -120,12 +120,12 @@ class PagerViewControllerTests : XCTestCase
         return pagerViewController.pageViewController(pagerViewController, viewControllerAfter: targetViewController) as? TimelineViewController
     }
     
-    private func createEmptyTimelineItem() -> TimelineItem
+    private func createEmptyTimelineItem() -> SlotTimelineItem
     {
         let timeSlot = TimeSlot(withStartTime: Date(),
                         category: .unknown)
         
-        return TimelineItem(
+        return SlotTimelineItem(
             withTimeSlots: [timeSlot],
             category: .unknown,
             duration: 0,

@@ -58,7 +58,7 @@ class OnboardingPage : UIViewController
             .loadNibNamed("TimelineCell", owner: self, options: nil)?
             .first as! TimelineCell
         
-        cell.timelineItem = viewModel.timelineItem(forTimeslot: timeSlot)
+        cell.configure(slotTimelineItem: viewModel.slotTimelineItem(forTimeslot: timeSlot))
         return cell
     }
 

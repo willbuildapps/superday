@@ -40,14 +40,9 @@ class OnboardingPageViewModel: NSObject
         self.locationService = locationService
     }
     
-    func timelineItem(forTimeslot timeslot: TimeSlot) -> TimelineItem
+    func slotTimelineItem(forTimeslot timeslot: TimeSlot) -> SlotTimelineItem
     {
-        let duration = timeSlotService.calculateDuration(ofTimeSlot: timeslot)
-        return TimelineItem(
-            withTimeSlots: [timeslot],
-            category: timeslot.category,
-            duration: duration,
-            shouldDisplayCategoryName: true)
+        return SlotTimelineItem.with(timeSlots: [timeslot], timeSlotService: timeSlotService)
     }
     
     func timeSlot(withCategory category: Category, from: String, to: String) -> TimeSlot

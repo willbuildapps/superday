@@ -7,7 +7,7 @@ class MainViewModel : RxViewModel
     // MARK: Public Properties
     let dateObservable : Observable<Date>
     let isEditingObservable : Observable<Bool>
-    let beganEditingObservable : Observable<(CGPoint, TimelineItem)>
+    let beganEditingObservable : Observable<(CGPoint, SlotTimelineItem)>
     let categoryProvider : CategoryProvider
     
     var currentDate : Date { return self.timeService.now }
@@ -238,9 +238,9 @@ class MainViewModel : RxViewModel
         settingsService.setLastShownAddGoalAlert(timeService.now)
     }
     
-    func updateTimelineItem(_ timelineItem: TimelineItem, withCategory category: Category)
+    func updateSlotTimelineItem(_ slotTimelineItem: SlotTimelineItem, withCategory category: Category)
     {
-        updateTimeSlot(timelineItem.timeSlots, withCategory: category)
+        updateTimeSlot(slotTimelineItem.timeSlots, withCategory: category)
         
         editStateService.notifyEditingEnded()
     }

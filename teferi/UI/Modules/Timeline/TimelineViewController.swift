@@ -77,6 +77,9 @@ class TimelineViewController : UIViewController
         tableView.showsVerticalScrollIndicator = false
         tableView.showsHorizontalScrollIndicator = false
         tableView.register(UINib.init(nibName: "TimelineCell", bundle: Bundle.main), forCellReuseIdentifier: TimelineCell.cellIdentifier)
+        tableView.register(UINib.init(nibName: "ExpandedTimelineCell", bundle: Bundle.main), forCellReuseIdentifier: ExpandedTimelineCell.cellIdentifier)
+        tableView.register(UINib.init(nibName: "CollapseCell", bundle: Bundle.main), forCellReuseIdentifier: CollapseCell.cellIdentifier)
+        tableView.register(UINib.init(nibName: "CategoryCell", bundle: Bundle.main), forCellReuseIdentifier: CategoryCell.cellIdentifier)
         tableView.register(UINib.init(nibName: "ShortTimelineCell", bundle: Bundle.main), forCellReuseIdentifier: ShortTimelineCell.cellIdentifier)
         
         setTableViewContentInsets()
@@ -135,9 +138,7 @@ class TimelineViewController : UIViewController
         
         tableView.rx
             .modelSelected(TimelineItem.self)
-            .subscribe(onNext: { (item) in
-                self.presenter.showEditTimeSlot(with: item.startTime, timelineItemsObservable: self.viewModel.timelineItemsObservable)
-            })
+            .subscribe(onNext: handleTableViewSelection )
             .addDisposableTo(disposeBag)
         
         tableView.rx.willDisplayCell
@@ -153,16 +154,16 @@ class TimelineViewController : UIViewController
         let newOffset = tableView.rx.contentOffset.skip(1).map({ $0.y })
         
         Observable<(CGFloat, CGFloat)>.zip(oldOffset, newOffset)
-        { [unowned self] old, new -> (CGFloat, CGFloat) in
-            // This closure prevents the header to change height when the scroll is bouncing
-            
-            let maxScroll = self.tableView.contentSize.height - self.tableView.frame.height + self.tableView.contentInset.bottom
-            let minScroll = -self.tableView.contentInset.top
-            
-            if new < minScroll || old < minScroll { return (old, old) }
-            if new > maxScroll || old > maxScroll { return (old, old) }
-            
-            return (old, new)
+            { [unowned self] old, new -> (CGFloat, CGFloat) in
+                // This closure prevents the header to change height when the scroll is bouncing
+                
+                let maxScroll = self.tableView.contentSize.height - self.tableView.frame.height + self.tableView.contentInset.bottom
+                let minScroll = -self.tableView.contentInset.top
+                
+                if new < minScroll || old < minScroll { return (old, old) }
+                if new > maxScroll || old > maxScroll { return (old, old) }
+                
+                return (old, new)
             }
             .subscribe(onNext: { [unowned self] (old, new) in
                 let topInset = self.tableView.contentInset.top
@@ -182,6 +183,34 @@ class TimelineViewController : UIViewController
         viewModel.dailyVotingNotificationObservable
             .subscribe(onNext: onNotificationOpen)
             .addDisposableTo(disposeBag)
+    }
+    
+    private func handleTableViewSelection(timelineItem: TimelineItem)
+    {
+        switch timelineItem {
+        case .slot(let item),
+             .commuteSlot(let item):
+            
+            if item.timeSlots.count > 1
+            {
+                viewModel.expandSlots(item: item)
+            }
+            else
+            {
+                presenter.showEditTimeSlot(with: item.startTime)
+            }
+            
+        case .expandedSlot(let item, _):
+            
+            presenter.showEditTimeSlot(with: item.startTime)
+            
+        case .collapseButton(_),
+             .expandedCommuteTitle(_),
+             .expandedTitle(_):
+            
+            break
+            
+        }
     }
     
     private func showVottingUI()
@@ -214,7 +243,7 @@ class TimelineViewController : UIViewController
         tableView.setContentOffset(bottomOffset, animated: true)
     }
 
-    private func handleNewItem(_ items: [TimelineItem])
+    private func handleNewItem(_ items: [SlotTimelineItem])
     {
         let numberOfItems = tableView.numberOfRows(inSection: 0)
         guard numberOfItems > 0, items.count == numberOfItems + 1 else { return }
@@ -224,29 +253,75 @@ class TimelineViewController : UIViewController
         tableView.scrollToRow(at: scrollIndexPath, at: .bottom, animated: true)
     }
     
-    private func constructCell(dataSource: TableViewSectionedDataSource<TimelineSection>, tableView: UITableView, indexPath: IndexPath, item:TimelineItem) -> UITableViewCell
+    private func constructCell(dataSource: TableViewSectionedDataSource<TimelineSection>, tableView: UITableView, indexPath: IndexPath, timelineItem: TimelineItem) -> UITableViewCell
     {
-        if item.category == .commute {
-         
+        switch timelineItem {
+        case .slot(let item):
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: TimelineCell.cellIdentifier, for: indexPath) as! TimelineCell
+            cell.configure(slotTimelineItem: item)
+            cell.selectionStyle = .none
+            
+            cell.editClickObservable
+                .map{ [unowned self] item in
+                    let position = cell.categoryCircle.convert(cell.categoryCircle.center, to: self.view)
+                    return (position, item)
+                }
+                .subscribe(onNext: self.viewModel.notifyEditingBegan)
+                .addDisposableTo(cell.disposeBag)
+            
+            return cell
+            
+        case .commuteSlot(let item):
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: ShortTimelineCell.cellIdentifier, for: indexPath) as! ShortTimelineCell
-            cell.timelineItem = item
+            cell.configure(slotTimelineItem: item)
             cell.selectionStyle = .none
             return cell
+            
+        case .expandedCommuteTitle(let item):
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: ShortTimelineCell.cellIdentifier, for: indexPath) as! ShortTimelineCell
+            cell.configure(slotTimelineItem: item, showStartAndDuration: false)
+            cell.selectionStyle = .none
+            return cell
+        
+        case .expandedTitle(let item):
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: CategoryCell.cellIdentifier, for: indexPath) as! CategoryCell
+            cell.configure(slotTimelineItem: item)
+            cell.selectionStyle = .none
+            
+            cell.editClickObservable
+                .map{ [unowned self] item in
+                    let position = cell.categoryCircle.convert(cell.categoryCircle.center, to: self.view)
+                    return (position, item)
+                }
+                .subscribe(onNext: self.viewModel.notifyEditingBegan)
+                .addDisposableTo(cell.disposeBag)
+            
+            return cell
+            
+        case .expandedSlot(let item, let hasSeparator):
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: ExpandedTimelineCell.cellIdentifier, for: indexPath) as! ExpandedTimelineCell
+            cell.configure(item: item, visibleSeparator: hasSeparator)
+            cell.selectionStyle = .none
+            return cell
+            
+        case .collapseButton(let color):
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: CollapseCell.cellIdentifier, for: indexPath) as! CollapseCell
+            cell.configure(color: color)
+            cell.selectionStyle = .none
+            
+            cell.collapseObservable
+                .subscribe(onNext: viewModel.collapseSlots )
+                .addDisposableTo(cell.disposeBag)
+            
+            return cell
+            
         }
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: TimelineCell.cellIdentifier, for: indexPath) as! TimelineCell
-        cell.timelineItem = item
-        cell.selectionStyle = .none
-        
-        cell.editClickObservable
-            .map{ [unowned self] item in
-                let position = cell.categoryCircle.convert(cell.categoryCircle.center, to: self.view)
-                return (position, item)
-            }
-            .subscribe(onNext: self.viewModel.notifyEditingBegan)
-            .addDisposableTo(cell.disposeBag)
-        
-        return cell
     }
     
     private func buttonPosition(forCellIndex index: Int) -> CGPoint
@@ -258,4 +333,3 @@ class TimelineViewController : UIViewController
         return cell.categoryCircle.convert(cell.categoryCircle.center, to: view)
     }
 }
-

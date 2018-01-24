@@ -26,18 +26,6 @@ class TimeslotDetailPresenter: NSObject
         return viewController
     }
     
-    func showEditSubTimeSlot(with startDate: Date, updateStartDateSubject: PublishSubject<Date>?)
-    {
-        hasShadow = false
-        
-        let vc = TimeslotDetailPresenter.create(with: viewModelLocator, startDate: startDate, isShowingSubSlot: true, updateStartDateSubject: updateStartDateSubject)
-        vc.modalPresentationStyle = .custom
-        vc.transitioningDelegate = self
-        viewController.present(vc, animated: true, completion: nil)
-        
-        swipeInteractionController.wireToViewController(viewController: vc)
-    }
-    
     func showEditBreakTime(firstTimeSlot: TimeSlot, secondTimeSlot: TimeSlot, editingStartTime: Bool, updateStartDateSubject: PublishSubject<Date>)
     {
         hasShadow = true

@@ -8,11 +8,7 @@ class ShortTimelineCell: UITableViewCell
     @IBOutlet weak var durationLabel: UILabel!
     @IBOutlet weak var activityTag: ActivityTagView!
     
-    var timelineItem: TimelineItem? = nil {
-        didSet {
-            configure()
-        }
-    }
+    private(set) var slotTimelineItem: SlotTimelineItem?
     
     override func awakeFromNib()
     {
@@ -21,14 +17,14 @@ class ShortTimelineCell: UITableViewCell
         startLabel.textColor = UIColor.normalGray
     }
     
-    private func configure()
+    func configure(slotTimelineItem: SlotTimelineItem, showStartAndDuration: Bool = true)
     {
-        guard let timelineItem = timelineItem else { return }
+        self.slotTimelineItem = slotTimelineItem
         
-        startLabel.text = timelineItem.slotTimeText
-        durationLabel.text = timelineItem.elapsedTimeText
-        durationLabel.textColor = timelineItem.category.color
+        startLabel.text = showStartAndDuration ? slotTimelineItem.slotTimeText : nil
+        durationLabel.text = showStartAndDuration ? slotTimelineItem.elapsedTimeText : nil
+        durationLabel.textColor = slotTimelineItem.category.color
         
-        activityTag.configure(name: timelineItem.activityTagText ?? L10n.movement, amount: timelineItem.timeSlots.count)
+        activityTag.configure(name: slotTimelineItem.activityTagText ?? L10n.movement, amount: slotTimelineItem.timeSlots.count)
     }
 }
