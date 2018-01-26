@@ -114,6 +114,7 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
             .addDisposableTo(disposeBag)
         
         viewModel.showPermissionControllerObservable
+            .observeOn(MainScheduler.instance)
             .subscribe(onNext: presenter.showPermissionController)
             .addDisposableTo(disposeBag)
         

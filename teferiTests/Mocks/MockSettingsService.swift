@@ -27,6 +27,7 @@ class MockSettingsService : SettingsService
     var hasLocationPermission = true
     var hasNotificationPermission: Observable<Bool> = Observable.just(true)
     var userRejectedNotificationPermission = false
+    var didAlreadyShowRequestForNotificationsInNewGoal = false
     var shouldAskForNotificationPermission = false
     var hasCoreMotionPermission = true
     var isFirstTimeAppRuns = false
@@ -88,6 +89,11 @@ class MockSettingsService : SettingsService
     func setShouldAskForNotificationPermission()
     {
         shouldAskForNotificationPermission = true
+    }
+    
+    func setDidAlreadyShowRequestForNotificationsInNewGoal()
+    {
+        didAlreadyShowRequestForNotificationsInNewGoal = true
     }
     
     func setWelcomeMessageShown()
