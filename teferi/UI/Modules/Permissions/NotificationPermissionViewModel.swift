@@ -81,7 +81,7 @@ class NotificationPermissionViewModel : PermissionViewModel
                 self.settingsService.setUserRejectedNotificationPermission()
             }
             
-            self.hideOverlaySubject.on(.next())
+            self.hideOverlaySubject.on(.next(()))
         }
     }
     
@@ -89,6 +89,7 @@ class NotificationPermissionViewModel : PermissionViewModel
     
     func secondaryAction()
     {
+        settingsService.setUserRejectedNotificationPermission()
     }
     
     // MARK: Private Methods

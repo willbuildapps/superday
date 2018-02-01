@@ -5,7 +5,7 @@ class MockEditStateService : EditStateService
 {
     //MARK: Fields
     private let isEditingSubject = PublishSubject<Bool>()
-    private let beganEditingSubject = PublishSubject<(CGPoint, TimelineItem)>()
+    private let beganEditingSubject = PublishSubject<(CGPoint, SlotTimelineItem)>()
     
     //MARK: Initializers
     init()
@@ -16,12 +16,12 @@ class MockEditStateService : EditStateService
     
     //MARK: EditStateService implementation
     let isEditingObservable : Observable<Bool>
-    let beganEditingObservable : Observable<(CGPoint, TimelineItem)>
+    let beganEditingObservable : Observable<(CGPoint, SlotTimelineItem)>
     
-    func notifyEditingBegan(point: CGPoint, timelineItem: TimelineItem)
+    func notifyEditingBegan(point: CGPoint, slotTimelineItem: SlotTimelineItem)
     {
         isEditingSubject.on(.next(true))
-        beganEditingSubject.on(.next((point, timelineItem)))
+        beganEditingSubject.on(.next((point, slotTimelineItem)))
     }
     
     func notifyEditingEnded()

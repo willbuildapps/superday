@@ -10,6 +10,7 @@ class EnableNotificationsViewModel: RxViewModel
     {
         self.settingsService = settingsService
         self.notificationService = notificationService
+        self.settingsService.setDidAlreadyShowRequestForNotificationsInNewGoal()
     }
     
     func getNotificationPermissions()

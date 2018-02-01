@@ -45,7 +45,7 @@ class OnboardingPage2 : OnboardingPage
         editedCell = createTimelineCell(for: editedTimeSlot)
         editedCell.alpha = 0
         
-        touchCursor = UIImageView(image: UIImage(asset: .icCursor))
+        touchCursor = UIImageView(image: Asset.icCursor.image)
         touchCursor.alpha = 0
     }
     
@@ -81,10 +81,10 @@ class OnboardingPage2 : OnboardingPage
         Timer.schedule(withDelay: delay)
         {
             let cell = self.timelineCells[self.editIndex]
-            let item = cell.timelineItem!
+            let item = cell.slotTimelineItem!
             self.editView.onEditBegan(
                 point: cell.categoryCircle.convert(cell.categoryCircle.center, to: self.timelineView),
-                timelineItem: item)
+                slotTimelineItem: item)
         }
     }
     

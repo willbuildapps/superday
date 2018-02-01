@@ -16,15 +16,18 @@ class TimelineCell : UITableViewCell
     static let cellIdentifier = "timelineCell"
 
     // MARK: Public Properties
-    var timelineItem: TimelineItem? = nil
-    {
-        didSet
-        {
-            configure()
-        }
+    private(set) var disposeBag = DisposeBag()
+    
+    var editClickObservable : Observable<SlotTimelineItem> {
+        return self.categoryButton.rx.tap
+            .mapTo(self.slotTimelineItem)
+            .filterNil()
+            .asObservable()
     }
     
-    var useType: TimelineCellUseType = .timeline
+    private(set) var slotTimelineItem: SlotTimelineItem? = nil
+    
+    private(set) var useType: TimelineCellUseType = .timeline
     {
         didSet
         {
@@ -35,15 +38,6 @@ class TimelineCell : UITableViewCell
                 setNeedsLayout()
             }
         }
-    }
-    
-    private(set) var disposeBag = DisposeBag()
-    
-    var editClickObservable : Observable<TimelineItem> {
-        return self.categoryButton.rx.tap
-            .mapTo(self.timelineItem)
-            .filterNil()
-            .asObservable()
     }
     
     @IBOutlet private(set) weak var categoryCircle: UIView!
@@ -76,17 +70,18 @@ class TimelineCell : UITableViewCell
         disposeBag = DisposeBag()
     }
 
-    func configure()
+    func configure(slotTimelineItem: SlotTimelineItem, useType: TimelineCellUseType = .timeline)
     {
-        guard let timelineItem = timelineItem else { return }
+        self.slotTimelineItem = slotTimelineItem
+        self.useType = useType
         
         //Updates each one of the cell's components
-        layoutLine(withItem: timelineItem)
-        layoutSlotTime(withItem: timelineItem)
-        layoutElapsedTimeLabel(withItem: timelineItem)
-        layoutDescriptionLabel(withItem: timelineItem)
-        layoutCategoryIcon(forCategory: timelineItem.category)
-        setupActivityTag(withTagText: timelineItem.activityTagText)
+        layoutLine(withItem: slotTimelineItem)
+        layoutSlotTime(withItem: slotTimelineItem)
+        layoutElapsedTimeLabel(withItem: slotTimelineItem)
+        layoutDescriptionLabel(withItem: slotTimelineItem)
+        layoutCategoryIcon(forCategory: slotTimelineItem.category)
+        setupActivityTag(withTagText: slotTimelineItem.activityTagText)
     }
     
     func animateIntro()
@@ -121,31 +116,31 @@ class TimelineCell : UITableViewCell
     }
     
     /// Updates the label that displays the description and starting time of the slot
-    private func layoutDescriptionLabel(withItem item: TimelineItem)
+    private func layoutDescriptionLabel(withItem item: SlotTimelineItem)
     {
         slotDescription.text = item.slotDescriptionText
         timeSlotDistanceConstraint.constant = item.slotDescriptionText.isEmpty ? 0 : 6
     }
     
     /// Updates the label that shows the time the TimeSlot was created
-    private func layoutSlotTime(withItem timelineItem: TimelineItem)
+    private func layoutSlotTime(withItem slotTimelineItem: SlotTimelineItem)
     {
 
         slotTime.text = (useType == .editTimeslot) ?
-            timelineItem.slotStartAndStopTimeText :
-            timelineItem.slotTimeText
+            slotTimelineItem.slotStartAndStopTimeText :
+            slotTimelineItem.slotTimeText
 
     }
     
     /// Updates the label that shows how long the slot lasted
-    private func layoutElapsedTimeLabel(withItem item: TimelineItem)
+    private func layoutElapsedTimeLabel(withItem item: SlotTimelineItem)
     {
         elapsedTime.textColor = item.category.color
         elapsedTime.text = item.elapsedTimeText
     }
     
     /// Updates the line that displays shows how long the TimeSlot lasted
-    private func layoutLine(withItem item: TimelineItem)
+    private func layoutLine(withItem item: SlotTimelineItem)
     {
         lineHeight.constant = item.lineHeight
         lineView.color = item.category.color
@@ -160,7 +155,7 @@ class TimelineCell : UITableViewCell
         
         bottomMargin.constant = useType == .timeline ?
             (item.isRunning ? 20 : 0) :
-            (timelineItem?.activityTagText != nil ? 30 : 20)
+            (slotTimelineItem?.activityTagText != nil ? 30 : 20)
                 
         lineView.layoutIfNeeded()
     }

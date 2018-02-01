@@ -22,6 +22,9 @@ class TimelineViewModel
     
     private(set) var timelineItems : Variable<[TimelineItem]> = Variable([])
     
+    private var dateInsideExpandedTimeline: Date? = nil
+    private var manualRefreshSubject = PublishSubject<Void>()
+    
     var dailyVotingNotificationObservable : Observable<Date>
     {
         return self.appLifecycleService.startedOnDailyVotingNotificationDateObservable
@@ -69,27 +72,39 @@ class TimelineViewModel
             .mapTo(())
         
         let refreshObservable =
-            Observable.of(newTimeSlotForThisDate, updatedTimeSlotsForThisDate, movedToForeground, timelineObservable.mapTo(()))
+            Observable.of(newTimeSlotForThisDate, updatedTimeSlotsForThisDate, movedToForeground, manualRefreshSubject.asObservable(), timelineObservable.mapTo(()))
                       .merge()
                       .startWith(()) // This is a hack I can't remove due to something funky with the view controllery lifecycle. We should fix this in the refactor
                 
         refreshObservable
             .map(timeSlotsForToday)
             .map(toTimelineItems)
-            .bindTo(timelineItems)
-            .addDisposableTo(disposeBag)
+            .bind(to: timelineItems)
+            .disposed(by: disposeBag)
 
     }
     
     //MARK: Public methods
     
-    func notifyEditingBegan(point: CGPoint, item: TimelineItem? = nil)
+    func notifyEditingBegan(point: CGPoint, item: SlotTimelineItem? = nil)
     {
-        let timelineItem: TimelineItem = item ?? timelineItems.value.last!
+        guard let slotTimelineItem = item else { return }
         
         editStateService
             .notifyEditingBegan(point: point,
-                                timelineItem: timelineItem)
+                                slotTimelineItem: slotTimelineItem)
+    }
+    
+    func collapseSlots()
+    {
+        dateInsideExpandedTimeline = nil
+        manualRefreshSubject.onNext(())
+    }
+    
+    func expandSlots(item: SlotTimelineItem)
+    {
+        dateInsideExpandedTimeline = item.timeSlots.first?.startTime
+        manualRefreshSubject.onNext(())
     }
     
     func calculateDuration(ofTimeSlot timeSlot: TimeSlot) -> TimeInterval
@@ -141,7 +156,35 @@ class TimelineViewModel
     
     private func toTimelineItems(fromTimeSlots timeSlots: [TimeSlot]) -> [TimelineItem]
     {
-        return timeSlots.toTimelineItems(timeSlotService: timeSlotService, isCurrentDay: isCurrentDay)
+        let timelineItems = timeSlots
+            .splitBy { $0.category }
+            .reduce([TimelineItem](), { acc, groupedTimeSlots in
+     
+                if groupedTimeSlots.count > 1 && areExpanded(groupedTimeSlots)
+                {
+                    return acc + expandedTimelineItems(fromTimeSlots: groupedTimeSlots)
+                }
+                else
+                {
+                    let slotTimelineItem = SlotTimelineItem.with(timeSlots: groupedTimeSlots, timeSlotService: timeSlotService)
+                    
+                    let timelineItem = groupedTimeSlots.first!.category == .commute ?
+                        TimelineItem.commuteSlot(item: slotTimelineItem) :
+                        TimelineItem.slot(item: slotTimelineItem)
+                    
+                    return acc + [ timelineItem ]
+                }
+            })
+        
+        // Add isLastInPastDay or isRunning to last timeslot of timeline
+        if let lastTimelineItem = timelineItems.last, case TimelineItem.slot(let slotTimelineItem) = lastTimelineItem
+        {
+            return Array(timelineItems.dropLast()) + [TimelineItem.slot(item: slotTimelineItem.withLastTimeSlotFlag(isCurrentDay: isCurrentDay))]
+        }
+        else
+        {
+            return timelineItems
+        }
     }
     
     private func expandedTimelineItems(fromTimeSlots timeSlots: [TimeSlot]) -> [TimelineItem]
@@ -149,21 +192,20 @@ class TimelineViewModel
         guard let first = timeSlots.first, let last = timeSlots.last, first.startTime != last.startTime else { return [] }
         let category = first.category
         
-        return timeSlots.map {
-            TimelineItem(
-                withTimeSlots: [$0],
-                category: category,
-                duration: calculateDuration(ofTimeSlot: $0),
-                shouldDisplayCategoryName: $0.startTime == first.startTime)
+        let slotTimelineItem = SlotTimelineItem.with(timeSlots: timeSlots, timeSlotService: timeSlotService)
+        
+        let titleItem = category == .commute ?
+            TimelineItem.expandedCommuteTitle(item: slotTimelineItem) :
+            TimelineItem.expandedTitle(item: slotTimelineItem)
+        
+        let collapseItem = TimelineItem.collapseButton(color: first.category.color)
+        
+        let items = timeSlots.map { slot -> TimelineItem in
+            let slotTimelineItem = SlotTimelineItem.with(timeSlots: [slot], timeSlotService: timeSlotService)
+            return TimelineItem.expandedSlot(item: slotTimelineItem, hasSeparator: slot.startTime != last.startTime)
         }
-    }
-    
-    private func timelineItem(fromTimeSlot timeSlot: TimeSlot) -> TimelineItem
-    {
-        return TimelineItem(
-            withTimeSlots: [timeSlot],
-            category: timeSlot.category,
-            duration: calculateDuration(ofTimeSlot: timeSlot))
+        
+        return [titleItem] + items + [collapseItem]
     }
     
     private func isLastInPastDay(_ index: Int, count: Int) -> Bool
@@ -172,5 +214,12 @@ class TimelineViewModel
         
         let isLastEntry = count - 1 == index
         return isLastEntry
+    }
+    
+    private func areExpanded(_ timeSlots:[TimeSlot]) -> Bool
+    {
+        guard let dateInsideExpandedTimeline = dateInsideExpandedTimeline else { return false }
+        
+        return timeSlots.index(where: { $0.startTime == dateInsideExpandedTimeline }) != nil
     }
 }

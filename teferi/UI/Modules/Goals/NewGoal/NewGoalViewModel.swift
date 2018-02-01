@@ -67,10 +67,10 @@ class NewGoalViewModel
             metricsService.log(event: .goalCreation(date: timeService.now, category: categorySelectedVariable.value!, duration: durationSelectedVariable.value!))
             goalService.addGoal(forDate: timeService.now, category: categorySelectedVariable.value!, targetTime: durationSelectedVariable.value!)
             settingsService.hasNotificationPermission
-                .subscribe(onNext: { hasPermission in
-                    completion(!hasPermission)
+                .subscribe(onNext: { [unowned self] hasPermission in
+                    completion(!hasPermission && !self.settingsService.didAlreadyShowRequestForNotificationsInNewGoal)
                 })
-                .addDisposableTo(disposeBag)
+                .disposed(by: disposeBag)
         }
         
         if let reminderText = categorySelectedVariable.value?.notificationReminderText, timeService.now.hour < 20 {

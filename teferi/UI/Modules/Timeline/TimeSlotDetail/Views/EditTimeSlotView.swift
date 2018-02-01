@@ -4,7 +4,7 @@ import RxSwift
 class EditTimeSlotView : UIView, TrigonometryHelper, CategoryButtonDelegate
 {
     typealias DismissType = (() -> ())
-    typealias TimeSlotEdit = (TimelineItem, Category)
+    typealias TimeSlotEdit = (SlotTimelineItem, Category)
     
     // MARK: Public Properties
     var dismissAction : DismissType?
@@ -41,7 +41,7 @@ class EditTimeSlotView : UIView, TrigonometryHelper, CategoryButtonDelegate
         }
     }
     
-    private var timelineItem : TimelineItem!
+    private var slotTimelineItem : SlotTimelineItem!
     private var selectedItem : Category?
     private let editEndedSubject = PublishSubject<TimeSlotEdit>()
     
@@ -94,26 +94,26 @@ class EditTimeSlotView : UIView, TrigonometryHelper, CategoryButtonDelegate
     func categorySelected(category: Category)
     {
         selectedItem = category
-        editEndedSubject.onNext((timelineItem, category))
+        editEndedSubject.onNext((slotTimelineItem, category))
     }
     
-    func onEditBegan(point: CGPoint, timelineItem: TimelineItem)
+    func onEditBegan(point: CGPoint, slotTimelineItem: SlotTimelineItem)
     {
-        onEditBegan(point: point, timelineItem: timelineItem, hideCurrentCategory: true)
+        onEditBegan(point: point, slotTimelineItem: slotTimelineItem, hideCurrentCategory: true)
     }
     
-    func onEditBegan(point: CGPoint, timelineItem: TimelineItem, hideCurrentCategory: Bool = true)
+    func onEditBegan(point: CGPoint, slotTimelineItem: SlotTimelineItem, hideCurrentCategory: Bool = true)
     {
         guard point.y != 0 else { return }
         layoutIfNeeded()
         
-        self.timelineItem = timelineItem
-        selectedItem = timelineItem.category
+        self.slotTimelineItem = slotTimelineItem
+        selectedItem = slotTimelineItem.category
         
         alpha = 1.0
         
         let items = hideCurrentCategory ?
-            categoryProvider.getAll(but: .unknown, timelineItem.category) :
+            categoryProvider.getAll(but: .unknown, slotTimelineItem.category) :
             categoryProvider.getAll(but: .unknown)
         
         viewHandler?.cleanAll()
@@ -121,7 +121,7 @@ class EditTimeSlotView : UIView, TrigonometryHelper, CategoryButtonDelegate
         
         currentCategoryBackgroundView?.removeFromSuperview()
         currentCategoryBackgroundView = UIView()
-        currentCategoryBackgroundView?.backgroundColor = timelineItem.category.color
+        currentCategoryBackgroundView?.backgroundColor = slotTimelineItem.category.color
         currentCategoryBackgroundView?.layer.cornerRadius = 16
         
         addSubview(currentCategoryBackgroundView!)
@@ -132,8 +132,8 @@ class EditTimeSlotView : UIView, TrigonometryHelper, CategoryButtonDelegate
         }
         
         currentCategoryImageView?.removeFromSuperview()
-        currentCategoryImageView = newImageView(with: UIImage(asset: timelineItem.category.icon), cornerRadius: 16, contentMode: .scaleAspectFit, basedOn: point)
-        currentCategoryImageView?.isHidden = timelineItem.category == .unknown
+        currentCategoryImageView = newImageView(with: UIImage(asset: slotTimelineItem.category.icon), cornerRadius: 16, contentMode: .scaleAspectFit, basedOn: point)
+        currentCategoryImageView?.isHidden = slotTimelineItem.category == .unknown
         
         plusImageView?.removeFromSuperview()
         plusImageView = newImageView(with: UIImage(asset: Category.unknown.icon), cornerRadius: 16, contentMode: .scaleAspectFit, basedOn: point)

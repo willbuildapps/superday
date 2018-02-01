@@ -4,7 +4,6 @@ import RxSwift
 enum SectionType: Int
 {
     case singleSlot
-    case multipleSlots
     case categorySelection
     case time
     case map
@@ -33,13 +32,13 @@ class TimeslotDetailViewController: UIViewController
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var containerView: UIView!
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
-    fileprivate var timelineItem : TimelineItem!
+    fileprivate var slotTimelineItem : SlotTimelineItem!
     {
         didSet
         {
             guard let tableView = self.tableView else { return }
             
-            tableView.reloadSections([SectionType.singleSlot.rawValue, SectionType.multipleSlots.rawValue, SectionType.time.rawValue, SectionType.map.rawValue], animationStyle: .fade)
+            tableView.reloadSections([SectionType.singleSlot.rawValue, SectionType.time.rawValue, SectionType.map.rawValue], animationStyle: .fade)
             tableView.reloadRows(at: [IndexPath(row: SectionType.CategorySelectionRowType.categoryDetail.rawValue, section: SectionType.categorySelection.rawValue)], with: .fade)
         }
     }
@@ -51,7 +50,6 @@ class TimeslotDetailViewController: UIViewController
             tableView.reloadSections([SectionType.categorySelection.rawValue], animationStyle: .fade)
         }
     }
-    fileprivate var isMultiSlotItem : Bool {return timelineItem.timeSlots.count > 1 }
     
     // MARK: - Init
     func inject(presenter: TimeslotDetailPresenter, viewModel: TimeslotDetailViewModel)
@@ -80,8 +78,6 @@ class TimeslotDetailViewController: UIViewController
         tableView.register(UINib.init(nibName: "SimpleDetailCell", bundle: Bundle.main), forCellReuseIdentifier: SimpleDetailCell.cellIdentifier)
         tableView.register(UINib.init(nibName: "CategorySelectionCell", bundle: Bundle.main), forCellReuseIdentifier: CategorySelectionCell.cellIdentifier)
         tableView.register(UINib.init(nibName: "MapCell", bundle: Bundle.main), forCellReuseIdentifier: MapCell.cellIdentifier)
-        tableView.register(UINib.init(nibName: "MultiSlotHeaderCell", bundle: Bundle.main), forCellReuseIdentifier: MultiSlotHeaderCell.cellIdentifier)
-        tableView.register(UINib.init(nibName: "MiniTimeSlotCell", bundle: Bundle.main), forCellReuseIdentifier: MiniTimeSlotCell.cellIdentifier)
         
         let headerView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: tableView.bounds.width, height: 8)))
         headerView.backgroundColor = .clear
@@ -97,7 +93,7 @@ class TimeslotDetailViewController: UIViewController
     
     func createBindings()
     {
-        viewModel.timelineItemObservable
+        viewModel.slotTimelineItemObservable
             .subscribe(onNext: { [unowned self] (item) in
                 guard let item = item
                 else
@@ -118,9 +114,9 @@ class TimeslotDetailViewController: UIViewController
                     return
 
                 }
-                self.timelineItem = item
+                self.slotTimelineItem = item
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Actions
@@ -136,13 +132,6 @@ extension TimeslotDetailViewController : UITableViewDelegate
     {
         guard let sectionType = SectionType(rawValue: indexPath.section) else { return }
         switch sectionType {
-        case .multipleSlots:
-            
-            if indexPath.row > 0
-            {
-                presenter.showEditSubTimeSlot(with: timelineItem.timeSlots[indexPath.row - 1].startTime, updateStartDateSubject: indexPath.row > 1 ? nil : viewModel.updateStartDateSubject)
-            }
-            
         case .categorySelection:
             
             guard let categorySelectionRowType = SectionType.CategorySelectionRowType.init(rawValue: indexPath.row) else { return }
@@ -156,7 +145,7 @@ extension TimeslotDetailViewController : UITableViewDelegate
         case .time:
             
             guard let timeRowType = SectionType.TimeRowType.init(rawValue: indexPath.row) else { break }
-            guard timelineItem.timeSlots.count == 1, let timeSlot = timelineItem.timeSlots.first else { break }
+            guard slotTimelineItem.timeSlots.count == 1, let timeSlot = slotTimelineItem.timeSlots.first else { break }
             switch timeRowType {
             case .start:
                 guard let timeSlotBefore = viewModel.timeSlot(before: timeSlot) else { return }
@@ -185,18 +174,12 @@ extension TimeslotDetailViewController : UITableViewDataSource
         guard let sectionType = SectionType(rawValue: section) else { return 0 }
         
         switch sectionType {
-        case .multipleSlots:
-            return isMultiSlotItem ? timelineItem.timeSlots.count + 1 : 0
         case .singleSlot:
-            return isMultiSlotItem ? 0 : 1
+            return 1
         case .categorySelection:
             return isShowingCategorySelection ? 2 : 1
         case .time:
-            if isMultiSlotItem
-            {
-                return 0
-            }
-            else if timelineItem.isRunning
+            if slotTimelineItem.isRunning
             {
                 return 1
             }
@@ -214,33 +197,10 @@ extension TimeslotDetailViewController : UITableViewDataSource
         guard let sectionType = SectionType(rawValue: indexPath.section) else { return UITableViewCell() }
         
         switch sectionType {
-        case .multipleSlots:
-            
-            if indexPath.row == 0
-            {
-                let cell = tableView.dequeueReusableCell(withIdentifier: MultiSlotHeaderCell.cellIdentifier, for: indexPath) as! MultiSlotHeaderCell
-                cell.configure(timelineItem: timelineItem)
-                setup(cell)
-                removeSeparator(cell)
-                return cell
-            }
-            else
-            {
-                let cell = tableView.dequeueReusableCell(withIdentifier: MiniTimeSlotCell.cellIdentifier, for: indexPath) as! MiniTimeSlotCell
-                cell.configure(with: timelineItem.timeSlots[indexPath.row - 1], alternativeEndTime: viewModel.timeService.now)
-                setup(cell)
-                if indexPath.row != timelineItem.timeSlots.count
-                {
-                    removeSeparator(cell)
-                }
-                return cell
-            }
-            
         case .singleSlot:
             
             let cell = tableView.dequeueReusableCell(withIdentifier: TimelineCell.cellIdentifier, for: indexPath) as! TimelineCell
-            cell.useType = .editTimeslot
-            cell.timelineItem = timelineItem
+            cell.configure(slotTimelineItem: slotTimelineItem, useType: .editTimeslot)
             setup(cell)
             return cell
             
@@ -251,18 +211,18 @@ extension TimeslotDetailViewController : UITableViewDataSource
             switch categorySelectionRowType {
             case .categoryDetail:
                 let cell = tableView.dequeueReusableCell(withIdentifier: SimpleDetailCell.cellIdentifier, for: indexPath) as! SimpleDetailCell
-                cell.show(title: L10n.editTimeSlotCategoryTitle, value: timelineItem.category.description)
+                cell.show(title: L10n.editTimeSlotCategoryTitle, value: slotTimelineItem.category.description)
                 setup(cell)
                 if isShowingCategorySelection { removeSeparator(cell) }
                 return cell
             case .categprySelection:
                 let cell = tableView.dequeueReusableCell(withIdentifier: CategorySelectionCell.cellIdentifier, for: indexPath) as! CategorySelectionCell
-                cell.configure(with: viewModel.categoryProvider, timelineItem: timelineItem)
+                cell.configure(with: viewModel.categoryProvider, slotTimelineItem: slotTimelineItem)
                 
                 cell.editView
                     .editEndedObservable
-                    .subscribe(onNext: viewModel.updateTimelineItem)
-                    .addDisposableTo(disposeBag)
+                    .subscribe(onNext: viewModel.updateSlotTimelineItem)
+                    .disposed(by: disposeBag)
                 
                 setup(cell)
                 return cell
@@ -276,9 +236,9 @@ extension TimeslotDetailViewController : UITableViewDataSource
             
             switch timeRowType {
             case .start:
-                cell.show(title: L10n.editTimeSlotStartTitle, value: timelineItem.startTimeText)
+                cell.show(title: L10n.editTimeSlotStartTitle, value: slotTimelineItem.startTimeText)
             case .end:
-                cell.show(title: L10n.editTimeSlotEndTitle, value: timelineItem.endTimeText)
+                cell.show(title: L10n.editTimeSlotEndTitle, value: slotTimelineItem.endTimeText)
             }
             
             setup(cell)
@@ -287,7 +247,7 @@ extension TimeslotDetailViewController : UITableViewDataSource
         case .map:
             
             let cell = tableView.dequeueReusableCell(withIdentifier: MapCell.cellIdentifier, for: indexPath) as! MapCell
-            cell.configure(with: timelineItem.timeSlots)
+            cell.configure(with: slotTimelineItem.timeSlots)
             setup(cell)
             removeSeparator(cell)
             return cell

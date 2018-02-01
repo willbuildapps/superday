@@ -33,10 +33,6 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
     {
         super.viewDidLoad()
         
-        self.edgesForExtendedLayout = UIRectEdge()
-        self.extendedLayoutIncludesOpaqueBars = false
-        self.automaticallyAdjustsScrollViewInsets = false
-        
         pagerViewController = presenter.setupPagerViewController(vc: self.childViewControllers.firstOfType())
         
         //Edit View
@@ -48,7 +44,10 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
         addButton = (Bundle.main.loadNibNamed("AddTimeSlotView", owner: self, options: nil)?.first) as? AddTimeSlotView
         addButton.categoryProvider = viewModel.categoryProvider
         view.addSubview(addButton)
-        addButton.constrainEdges(to: view)
+        addButton.snp.makeConstraints { make in
+            make.leading.trailing.top.equalToSuperview()
+            make.bottom.equalTo(self.bottomLayoutGuide.snp.top)
+        }
         
         calendarButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         calendarButton.titleLabel?.font = UIFont.systemFont(ofSize: 11)
@@ -57,13 +56,13 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
             .subscribe(onNext: { [unowned self] in
                 self.presenter.toggleCalendar()
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         setupNavigationBar()
         
         createBindings()
     }
-    
+
     override func viewDidAppear(_ animated: Bool)
     {
         super.viewDidAppear(animated)
@@ -91,62 +90,63 @@ class MainViewController : UIViewController, MFMailComposeViewControllerDelegate
         viewModel
             .isEditingObservable
             .subscribe(onNext: onEditChanged)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         viewModel
             .beganEditingObservable
             .subscribe(onNext: editView.onEditBegan)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         //Category creation
         addButton
             .categoryObservable
             .subscribe(onNext: viewModel.addNewSlot)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         editView
             .editEndedObservable
-            .subscribe(onNext: viewModel.updateTimelineItem)
-            .addDisposableTo(disposeBag)
+            .subscribe(onNext: viewModel.updateSlotTimelineItem)
+            .disposed(by: disposeBag)
         
         viewModel
             .dateObservable
             .subscribe(onNext: onDateChanged)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         viewModel.showPermissionControllerObservable
+            .observeOn(MainScheduler.instance)
             .subscribe(onNext: presenter.showPermissionController)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         viewModel.welcomeMessageHiddenObservable
-            .bindTo(welcomeMessageView.rx.isHidden)
-            .addDisposableTo(disposeBag)
+            .bind(to: welcomeMessageView.rx.isHidden)
+            .disposed(by: disposeBag)
         
         viewModel.moveToForegroundObservable
             .subscribe(onNext: onBecomeActive)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         viewModel.locating
-            .bindTo(LoadingView.locating.rx.isActive)
-            .addDisposableTo(disposeBag)
+            .bind(to: LoadingView.locating.rx.isActive)
+            .disposed(by: disposeBag)
         
         viewModel.generating
-            .bindTo(LoadingView.generating.rx.isActive)
-            .addDisposableTo(disposeBag)
+            .bind(to: LoadingView.generating.rx.isActive)
+            .disposed(by: disposeBag)
         
         viewModel.calendarDay
-            .bindTo(calendarButton.rx.title(for: .normal))
-            .addDisposableTo(disposeBag)
+            .bind(to: calendarButton.rx.title(for: .normal))
+            .disposed(by: disposeBag)
         
         viewModel.showAddGoalAlert
             .subscribe(onNext: { [unowned self] show in
                 if show {
-                    AddGoalAlert(inView: self.view, tapClosure: self.addGoalAlertTap).show()
+                    AddGoalAlert(inViewController: self, tapClosure: self.addGoalAlertTap).show()
                 } else {
                     AddGoalAlert.hide()
                 }
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
     }
     
     private func addGoalAlertTap()

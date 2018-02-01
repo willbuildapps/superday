@@ -48,7 +48,7 @@ class TimelineViewModelTests : XCTestCase
         observer = scheduler.createObserver([TimelineItem].self)
         viewModel.timelineItemsObservable
             .subscribe(observer)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
     }
     
     override func tearDown()
@@ -77,7 +77,7 @@ class TimelineViewModelTests : XCTestCase
         addTimeSlot()
         
         let lastEvent = observer.events.last!
-        let lastItem = lastEvent.value.element!.last!
+        let lastItem = lastEvent.value.element!.last!.slotTimelineItem!
 
         expect(lastItem.endTime).to(beNil())
     }
@@ -88,7 +88,7 @@ class TimelineViewModelTests : XCTestCase
         addTimeSlot(minutesAfterNoon: 100, category: .leisure)
 
         let lastEvent = observer.events.last!
-        let firstItem = lastEvent.value.element!.first!
+        let firstItem = lastEvent.value.element!.first!.slotTimelineItem!
         
         expect(firstItem.endTime).toNot(beNil())
     }
@@ -99,7 +99,7 @@ class TimelineViewModelTests : XCTestCase
         addTimeSlot(minutesAfterNoon: 3, category: .unknown)
         
         let lastEvent = observer.events.last!
-        let lastItem = lastEvent.value.element!.last!
+        let lastItem = lastEvent.value.element!.last!.slotTimelineItem!
         
         expect(lastItem.shouldDisplayCategoryName).to(beTrue())
     }
@@ -111,10 +111,10 @@ class TimelineViewModelTests : XCTestCase
         
         timeSlotService.update(timeSlots: [ts], withCategory: .family)
         
-        let timelineItems = observer.events.last!.value.element!
+        let slotTimelineItems = observer.events.last!.value.element!.flatMap({ $0.slotTimelineItem })
         
         expect(self.observer.events.count).to(equal(4)) //3 events plus initial one
-        expect(timelineItems[0].category).to(equal(Category.family))
+        expect(slotTimelineItems[0].category).to(equal(Category.family))
     }
     
     func testViewModelForwardsUpdatesOnCategoriesForDaysBeforeToday()
@@ -137,15 +137,15 @@ class TimelineViewModelTests : XCTestCase
         observer = scheduler.createObserver([TimelineItem].self)
         viewModel.timelineItemsObservable
             .subscribe(observer)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         
         timeSlotService.update(timeSlots: [ts], withCategory: .leisure)
         
-        let timelineItems = observer.events.last!.value.element!
+        let slotTimelineItems = observer.events.last!.value.element!.flatMap({ $0.slotTimelineItem })
         
         expect(self.observer.events.count).to(equal(2)) //initial one plus update one
-        expect(timelineItems[0].category).to(equal(Category.leisure))
+        expect(slotTimelineItems[0].category).to(equal(Category.leisure))
     }
     
     func testViewModelForwardsTimeSlotCreationForToday()
@@ -170,7 +170,7 @@ class TimelineViewModelTests : XCTestCase
         observer = scheduler.createObserver([TimelineItem].self)
         viewModel.timelineItemsObservable
             .subscribe(observer)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         addTimeSlot(minutesAfterNoon: Int(20))
         expect(self.observer.events.count).to(equal(1)) //just initial one
@@ -183,17 +183,17 @@ class TimelineViewModelTests : XCTestCase
         addTimeSlot(minutesAfterNoon: 5, category: .family)
         addTimeSlot(minutesAfterNoon: 8, category: .work)
         
-        let observer:TestableObserver<(CGPoint, TimelineItem)> = scheduler.createObserver((CGPoint, TimelineItem).self)
+        let observer:TestableObserver<(CGPoint, SlotTimelineItem)> = scheduler.createObserver((CGPoint, SlotTimelineItem).self)
         editStateService.beganEditingObservable
             .subscribe(observer)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
-        let itemsObserver: TestableObserver<[TimelineItem]> = scheduler.createObserver([TimelineItem].self)
+        let timelineItemsObserver: TestableObserver<[TimelineItem]> = scheduler.createObserver([TimelineItem].self)
         viewModel.timelineItemsObservable
-            .subscribe(itemsObserver)
-            .addDisposableTo(disposeBag)
+            .subscribe(timelineItemsObserver)
+            .disposed(by: disposeBag)
         
-        let items = itemsObserver.events.last!.value.element!
+        let items = timelineItemsObserver.events.last!.value.element!.flatMap({ $0.slotTimelineItem })
         
         viewModel.notifyEditingBegan(point: .zero, item: items[2])
         expect(observer.events.last!.value.element!.1.startTime).to(equal(Date.noon.addingTimeInterval(TimeInterval(5 * 60))))
@@ -234,5 +234,22 @@ class TimelineViewModelTests : XCTestCase
                                                 category: category,
                                                 categoryWasSetByUser: false,
                                                 tryUsingLatestLocation: false)!
+    }
+}
+
+extension TimelineItem
+{
+    var slotTimelineItem: SlotTimelineItem?
+    {
+        switch self {
+        case .slot(let item),
+             .commuteSlot(let item),
+             .expandedCommuteTitle(let item),
+             .expandedTitle(let item),
+             .expandedSlot(let item, _):
+            return item
+        case .collapseButton(_):
+            return nil
+        }
     }
 }

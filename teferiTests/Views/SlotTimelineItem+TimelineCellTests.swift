@@ -3,7 +3,7 @@ import XCTest
 import Nimble
 @testable import teferi
 
-class TimelineItem_TimelineCellTests: XCTestCase
+class SlotTimelineItem_TimelineCellTests: XCTestCase
 {
     func testTheTimelineCellLineHeightIsHigherForLongerItems()
     {
@@ -12,12 +12,12 @@ class TimelineItem_TimelineCellTests: XCTestCase
         var timeslots = [
             TimeSlot(withStartTime: now, category: .work),
         ]
-        let item1 = TimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 150 * 60)
+        let item1 = SlotTimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 150 * 60)
         
         timeslots = [
             TimeSlot(withStartTime: now, category: .work),
         ]
-        let item2 = TimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 300 * 60)
+        let item2 = SlotTimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 300 * 60)
         
         expect(item1.lineHeight).to(beLessThan(item2.lineHeight))
     }
@@ -29,7 +29,7 @@ class TimelineItem_TimelineCellTests: XCTestCase
         let timeslots = [
             TimeSlot(withStartTime: now, category: .work),
             ]
-        let item = TimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 15)
+        let item = SlotTimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 15)
         
         expect(item.lineHeight).to(equal(16))
     }
@@ -42,13 +42,13 @@ class TimelineItem_TimelineCellTests: XCTestCase
             TimeSlot(withStartTime: now, category: .work),
             TimeSlot(withStartTime: now.addingTimeInterval(15*60), category: .work)
         ]
-        let item1 = TimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 15*60)
+        let item1 = SlotTimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 15*60)
         
         timeslots = [
             TimeSlot(withStartTime: now, category: .work),
             TimeSlot(withStartTime: now.addingTimeInterval(30*60), category: .work)
         ]
-        let item2 = TimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 30*60)
+        let item2 = SlotTimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 30*60)
         
         expect(item1.lineHeight).to(equal(item2.lineHeight))
     }
@@ -64,7 +64,7 @@ class TimelineItem_TimelineCellTests: XCTestCase
         let timeslots = [
             TimeSlot(withStartTime: startTime, category: .work),
         ]
-        let item = TimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 15*60)
+        let item = SlotTimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 15*60)
         
         expect(item.slotTimeText).to(equal(expected))
     }
@@ -83,7 +83,7 @@ class TimelineItem_TimelineCellTests: XCTestCase
         let timeslots = [
             TimeSlot(withStartTime: startTime, category: .work).withEndDate(endTime),
         ]
-        let item = TimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 15*60, isLastInPastDay: true)
+        let item = SlotTimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 15*60, isLastInPastDay: true)
         
         expect(item.slotTimeText).to(equal(expectedText))
     }
@@ -100,7 +100,7 @@ class TimelineItem_TimelineCellTests: XCTestCase
         let timeslots = [
             TimeSlot(withStartTime: startTime, category: .work),
             ]
-        let item = TimelineItem(withTimeSlots: timeslots, category: Category.work, duration: duration)
+        let item = SlotTimelineItem(withTimeSlots: timeslots, category: Category.work, duration: duration)
         
         expect(item.elapsedTimeText).to(equal(expectedText))
     }
@@ -118,7 +118,7 @@ class TimelineItem_TimelineCellTests: XCTestCase
         let timeslots = [
             TimeSlot(withStartTime: startTime, category: .work),
             ]
-        let item = TimelineItem(withTimeSlots: timeslots, category: Category.work, duration: duration)
+        let item = SlotTimelineItem(withTimeSlots: timeslots, category: Category.work, duration: duration)
         
         expect(item.elapsedTimeText).to(equal(expectedText))
     }
@@ -130,7 +130,7 @@ class TimelineItem_TimelineCellTests: XCTestCase
         let timeslots = [
             TimeSlot(withStartTime: startTime, category: .work),
             ]
-        let item = TimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 15*60, shouldDisplayCategoryName: true)
+        let item = SlotTimelineItem(withTimeSlots: timeslots, category: Category.work, duration: 15*60, shouldDisplayCategoryName: true)
         
         expect(item.slotDescriptionText).to(equal(item.category.description))
     }
@@ -142,7 +142,7 @@ class TimelineItem_TimelineCellTests: XCTestCase
         let timeslots = [
             TimeSlot(withStartTime: startTime, category: .unknown),
             ]
-        let item = TimelineItem(withTimeSlots: timeslots, category: Category.unknown, duration: 15*60, shouldDisplayCategoryName: true)
+        let item = SlotTimelineItem(withTimeSlots: timeslots, category: Category.unknown, duration: 15*60, shouldDisplayCategoryName: true)
         
         expect(item.slotDescriptionText).to(equal(""))
     }
@@ -154,7 +154,7 @@ class TimelineItem_TimelineCellTests: XCTestCase
         let timeslots = [
             TimeSlot(withStartTime: startTime, category: .unknown),
             ]
-        let item = TimelineItem(withTimeSlots: timeslots, category: Category.unknown, duration: 15*60, shouldDisplayCategoryName: false)
+        let item = SlotTimelineItem(withTimeSlots: timeslots, category: Category.unknown, duration: 15*60, shouldDisplayCategoryName: false)
         
         expect(item.slotDescriptionText).to(equal(""))
     }

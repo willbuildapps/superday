@@ -1,53 +1,50 @@
 import Foundation
+import RxDataSources
 
-struct TimelineItem
+enum TimelineItem : IdentifiableType, Equatable
 {
-    let timeSlots : [TimeSlot]
-    let category: Category
-    let duration : TimeInterval
-    let shouldDisplayCategoryName : Bool
-    let isLastInPastDay : Bool
-    let isRunning: Bool
+    case slot(item: SlotTimelineItem)
+    case commuteSlot(item: SlotTimelineItem)
+    case expandedCommuteTitle(item: SlotTimelineItem)
+    case expandedTitle(item: SlotTimelineItem)
+    case expandedSlot(item: SlotTimelineItem, hasSeparator: Bool)
+    case collapseButton(color: UIColor)
     
-    var startTime: Date
+    var identity: String
     {
-        return timeSlots.first!.startTime
+        switch self {
+        case .slot(let item),
+             .commuteSlot(let item),
+             .expandedSlot(let item, _):
+            return item.startTime.description
+        case .expandedCommuteTitle(let item):
+            return item.startTime.description + "commuteTitle"
+        case .expandedTitle(let item):
+            return item.startTime.description + "expandedTitle"
+        case .collapseButton(let color):
+            return color.hexString + "expandedCollapse"
+        }
     }
     
-    var endTime: Date?
+    static func == (lhs: TimelineItem, rhs: TimelineItem) -> Bool
     {
-        return timeSlots.last!.endTime
-    }
-    
-    var containsMultiple: Bool
-    {
-        return timeSlots.count > 1
-    }
-}
-
-extension TimelineItem
-{
-    init(withTimeSlots timeSlots: [TimeSlot], category: Category, duration: TimeInterval, shouldDisplayCategoryName: Bool = false, isLastInPastDay: Bool = false, isRunning: Bool = false)
-    {
-        self.timeSlots = timeSlots
-        self.category = category
-        self.duration = duration
-        self.shouldDisplayCategoryName = shouldDisplayCategoryName
-        self.isLastInPastDay = isLastInPastDay
-        self.isRunning = isRunning
-    }
-}
-
-extension TimelineItem
-{
-    func withLastTimeSlotFlag(isCurrentDay: Bool) -> TimelineItem
-    {
-        return TimelineItem(
-            timeSlots: self.timeSlots,
-            category: self.category,
-            duration: self.duration,
-            shouldDisplayCategoryName: self.shouldDisplayCategoryName,
-            isLastInPastDay: !isCurrentDay,
-            isRunning: isCurrentDay)
+        switch (lhs, rhs) {
+        case (.slot(let lhsItem), .slot(let rhsItem)),
+             (.expandedSlot(let lhsItem, _), .expandedSlot(let rhsItem, _)),
+             (.commuteSlot(let lhsItem), .commuteSlot(let rhsItem)):
+            return lhsItem.duration == rhsItem.duration
+                && lhsItem.isRunning == rhsItem.isRunning
+                && lhsItem.elapsedTimeText == rhsItem.elapsedTimeText
+                && lhsItem.category == rhsItem.category
+                && lhsItem.containsMultiple == rhsItem.containsMultiple
+        case (.expandedTitle(let lhsItem), .expandedTitle(let rhsItem)),
+             (.expandedCommuteTitle(let lhsItem), .expandedCommuteTitle(let rhsItem)):
+            return lhsItem.category == rhsItem.category
+                && lhsItem.duration == rhsItem.duration
+        case (.collapseButton(let lhsColor), .collapseButton(let rhsColor)):
+            return lhsColor == rhsColor
+        default:
+            return false
+        }
     }
 }

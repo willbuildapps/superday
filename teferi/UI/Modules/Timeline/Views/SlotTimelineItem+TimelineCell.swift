@@ -1,7 +1,7 @@
 import Foundation
 import CoreGraphics
 
-extension TimelineItem
+extension SlotTimelineItem
 {
     var lineHeight: CGFloat
     {
@@ -28,13 +28,10 @@ extension TimelineItem
     
     var slotTimeText: String
     {
-        let formatter = DateFormatter()
-        formatter.timeStyle = .short
-        
-        let startString = formatter.string(from: startTime)
+        let startString = startTime.formatedShortStyle
         
         if isLastInPastDay, let endTime = endTime {
-            let endString = formatter.string(from: endTime)
+            let endString = endTime.formatedShortStyle
             return startString + " - " + endString
         } else {
             return startString

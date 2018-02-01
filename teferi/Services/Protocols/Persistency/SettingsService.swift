@@ -21,6 +21,7 @@ protocol SettingsService
     var hasNotificationPermission : Observable<Bool> { get }
     var shouldAskForNotificationPermission : Bool { get }
     var userRejectedNotificationPermission: Bool { get }
+    var didAlreadyShowRequestForNotificationsInNewGoal : Bool { get }
     
     var userEverGaveLocationPermission : Bool { get }
     
@@ -61,6 +62,7 @@ protocol SettingsService
     
     func setUserRejectedNotificationPermission()
     func setShouldAskForNotificationPermission()
+    func setDidAlreadyShowRequestForNotificationsInNewGoal()
     
     func setWelcomeMessageShown()
     

@@ -95,6 +95,14 @@ extension Date
     
     var year: Int { return Calendar.current.component(.year, from: self) }
     
+    var formatedShortStyle: String
+    {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        
+        return formatter.string(from: self)
+    }
+    
     func differenceInDays(toDate date: Date) -> Int
     {
         let calendar = Calendar.current

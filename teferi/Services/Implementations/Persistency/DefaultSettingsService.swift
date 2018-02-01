@@ -71,7 +71,7 @@ class DefaultSettingsService : SettingsService
             }
 
             return Disposables.create { }
-        }
+        }.observeOn(CurrentThreadScheduler.instance)
     }
     
     var shouldAskForNotificationPermission : Bool
@@ -82,6 +82,11 @@ class DefaultSettingsService : SettingsService
     var userRejectedNotificationPermission: Bool
     {
         return getBool(forKey: userRejectedNotificationPermissionKey)
+    }
+    
+    var didAlreadyShowRequestForNotificationsInNewGoal : Bool
+    {
+        return getBool(forKey: didAlreadyShowRequestForNotificationsInNewGoalKey)
     }
     
     var userEverGaveLocationPermission: Bool
@@ -114,7 +119,7 @@ class DefaultSettingsService : SettingsService
     {
         if let archive = UserDefaults.standard.value(forKey: lastUsedGoalAchivedMessageAndDateKey) as? NSData
         {
-            return NSKeyedUnarchiver.unarchiveObject(with: archive as Data) as! [Date: String]
+            return NSKeyedUnarchiver.unarchiveObject(with: archive as Data) as? [Date: String]
         }
         
         return nil
@@ -166,6 +171,7 @@ class DefaultSettingsService : SettingsService
     private let lastShownGoalAlertKey = "lastShownGoalAlert"
     private let lastShownGoalSuggestionKey = "lastShownGoalSuggestion"
     private let lastGoalLoggingDateKey = "lastGoalLoggingDate"
+    private let didAlreadyShowRequestForNotificationsInNewGoalKey = "didAlreadyShowRequestForNotificationsInNewGoal"
     
     //MARK: Initialiazers
     init (timeService : TimeService)
@@ -218,6 +224,11 @@ class DefaultSettingsService : SettingsService
     func setUserRejectedNotificationPermission()
     {
         set(true, forKey: userRejectedNotificationPermissionKey)
+    }
+    
+    func setDidAlreadyShowRequestForNotificationsInNewGoal()
+    {
+        set(true, forKey: didAlreadyShowRequestForNotificationsInNewGoalKey)
     }
     
     func setShouldAskForNotificationPermission()

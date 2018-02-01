@@ -89,8 +89,8 @@ class GoalViewModel
         refreshObservable
             .map(getGoals)
             .map(withMissingDateGoals)
-            .bindTo(goals)
-            .addDisposableTo(disposeBag)
+            .bind(to: goals)
+            .disposed(by: disposeBag)
     }
     
     func isCurrentGoal(_ goal: Goal?) -> Bool
@@ -155,7 +155,9 @@ class GoalViewModel
     
     private func getGoals() -> [Goal]
     {
-        return goalService.getGoals(sinceDaysAgo: 15)
+        guard let installDate = settingsService.installDate else { return [] }
+        
+        return goalService.getGoals(sinceDaysAgo: installDate.differenceInDays(toDate: timeService.now))
     }
     
     private func yesterdaysGoal() -> Goal?

@@ -43,11 +43,13 @@ class EventAnnotator
                 locations = [storedLastLocation] + locations
             }
             
-            locations = locations
-                .reduce([]) { (acc, location) -> [Location] in
-                    guard let lastLocation = acc.last else { return [location] }
-                    guard self.isValid(location, previousLocation: lastLocation) else { return locations }
-                    return locations + [location]
+            if locations.count > 1 {
+                // filter out locations not valid (not different enough from previous one)
+                let zipped = zip(locations, locations.dropFirst())
+                    .flatMap { l1, l2 in
+                        self.isValid(l2, previousLocation: l1) ? l2 : nil
+                    }
+                locations = [locations.first!] + zipped
             }
             
             observer.onNext(locations)
