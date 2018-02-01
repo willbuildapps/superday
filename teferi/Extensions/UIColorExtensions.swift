@@ -15,7 +15,7 @@ extension UIColor
     
     convenience init(hexString: String)
     {
-        let hex = hexString.hasPrefix("#") ? hexString.substring(from: hexString.characters.index(hexString.startIndex, offsetBy: 1)) : hexString
+        let hex = hexString.hasPrefix("#") ? String(hexString.dropFirst()) : hexString
         var hexInt : UInt32 = 0
         Scanner(string: hex).scanHexInt32(&hexInt)
         
@@ -31,36 +31,31 @@ extension UIColor
         
         self.getRed(&r, green: &g, blue: &b, alpha: &a)
         
-        let rgb = (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
-        
-        return String(format:"#%06x", rgb)
+        return String(format:"#%02X%02X%02X", Int(r * 0xff), Int(g * 0xff), Int(b * 0xff))
     }
 }
 
 extension UIColor
 {
-    static var familyGreen: UIColor
-    {
-        return UIColor(r: 40, g: 201, b: 128)
-    }
+    static let familyGreen: UIColor = UIColor(r: 40, g: 201, b: 128)
+    static let almostBlack: UIColor =  UIColor(r: 4, g: 4, b: 6)
+    static let normalGray: UIColor = UIColor(r: 144, g: 146, b: 147)
+    static let lightBlue: UIColor = UIColor(hex: 0xE6F8FC)
+    static let lightBlue2: UIColor = UIColor(hex: 0xD1F2F9)
     
-    static var almostBlack: UIColor
-    {
-        return UIColor(r: 4, g: 4, b: 6)
-    }
-    
-    static var normalGray: UIColor
-    {
-        return UIColor(r: 144, g: 146, b: 147)
-    }
-    
-    static var lightBlue: UIColor
-    {
-        return UIColor(hex: 0xE6F8FC)
-    }
-    
-    static var lightBlue2: UIColor
-    {
-        return UIColor(hex: 0xD1F2F9)
-    }
+    // Categories
+    static let commute: UIColor = UIColor(hex: 0x63d5eeff)
+    static let family: UIColor = UIColor(hex: 0x28c980ff)
+    static let fitness: UIColor = UIColor(hex: 0x5896ffff)
+    static let food: UIColor = UIColor(hex: 0xff6453ff)
+    static let friends: UIColor = UIColor(hex: 0x86ddc1ff)
+    static let hobby: UIColor = UIColor(hex: 0x7045ffff)
+    static let household: UIColor = UIColor(hex: 0x9e579dff)
+    static let kids: UIColor = UIColor(hex: 0x00bb9aff)
+    static let leisure: UIColor = UIColor(hex: 0xba5effff)
+    static let school: UIColor = UIColor(hex: 0xfe8d03ff)
+    static let shopping: UIColor = UIColor(hex: 0xdc8fffff)
+    static let sleep: UIColor = UIColor(hex: 0xb4c3e7ff)
+    static let unknown: UIColor = UIColor(hex: 0xcecdcdff)
+    static let work: UIColor = UIColor(hex: 0xffc31bff)
 }
