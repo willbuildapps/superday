@@ -897,7 +897,8 @@
 		24BA51A91D74D79C00042CDF /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				8CE544E52024427300FBC2A1 /* SlotTimelineItem.swift */,
+				8C8DF4041FF3EB490007AF57 /* Persistency */,
+				8CE544E92024604000FBC2A1 /* Display */,
 				BEA024331E41137D0061FE53 /* Category.swift */,
 				24DE23F31E1BB33B0089B49E /* Activity.swift */,
 				24EB967A1DE708570040C211 /* AppState.swift */,
@@ -1261,22 +1262,21 @@
 		8C8DF4011FF3E89E0007AF57 /* New Persistency */ = {
 			isa = PBXGroup;
 			children = (
-				8C8DF4041FF3EB490007AF57 /* PersistencyModels */,
+				8C8DF40A1FF3EFCA0007AF57 /* PersistencyProtocols.swift */,
 				8C8DF4021FF3E8E00007AF57 /* CoreDataPersistency.swift */,
 				8C2F53EB200747F00016AC90 /* CoreDataResource.swift */,
 			);
 			path = "New Persistency";
 			sourceTree = "<group>";
 		};
-		8C8DF4041FF3EB490007AF57 /* PersistencyModels */ = {
+		8C8DF4041FF3EB490007AF57 /* Persistency */ = {
 			isa = PBXGroup;
 			children = (
-				8C8DF40A1FF3EFCA0007AF57 /* PersistencyProtocols.swift */,
 				8C8DF4061FF3EBBC0007AF57 /* TimeSlotPM.swift */,
 				8CBA1E362008A27200CAFF2A /* LocationEventPM.swift */,
 				8CBA1E382008A3E800CAFF2A /* MotionEventPM.swift */,
 			);
-			path = PersistencyModels;
+			path = Persistency;
 			sourceTree = "<group>";
 		};
 		8C9C25651ED3394E00B10187 /* Navigation */ = {
@@ -1514,6 +1514,14 @@
 				8CBA1E342007C1D800CAFF2A /* MockCoreDataPersistency.swift */,
 			);
 			path = Mocks;
+			sourceTree = "<group>";
+		};
+		8CE544E92024604000FBC2A1 /* Display */ = {
+			isa = PBXGroup;
+			children = (
+				8CE544E52024427300FBC2A1 /* SlotTimelineItem.swift */,
+			);
+			path = Display;
 			sourceTree = "<group>";
 		};
 		8CEEF5AA1F175DB4007C36DA /* Datasource */ = {
