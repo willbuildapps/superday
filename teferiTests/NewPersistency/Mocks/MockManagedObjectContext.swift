@@ -5,6 +5,7 @@ class MockManagedObjectContext: NSManagedObjectContext
 {
     var performCalled: Bool = false
     var fetchCalled: Bool = false
+    var arrayToReturn : [Any] = []
     
     init()
     {
@@ -19,21 +20,12 @@ class MockManagedObjectContext: NSManagedObjectContext
     override func perform(_ block: @escaping () -> Void)
     {
         performCalled = true
-        //FIX Enable for Swift 4 super.perform(block)
-    }
-    
-    // FIX: Enable for Swift 4
-    /*
-    override func fetch<T>(_ request: NSFetchRequest<T>) throws -> [T] where T : NSFetchRequestResult
-    {
-        fetchCalled = true
-        return []
+        super.perform(block)
     }
     
     override func fetch(_ request: NSFetchRequest<NSFetchRequestResult>) throws -> [Any]
     {
         fetchCalled = true
-        return []
+        return arrayToReturn
     }
-    */
 }

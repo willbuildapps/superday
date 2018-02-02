@@ -25,7 +25,6 @@
 		2420A86A1DB6271000C0478C /* EditTimeSlotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2420A8691DB6271000C0478C /* EditTimeSlotView.swift */; };
 		2421F8C31D9BACB500AF8857 /* ClosureGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2421F8C21D9BACB500AF8857 /* ClosureGestureRecognizer.swift */; };
 		2421F8C51D9BB4C600AF8857 /* SwiftyBeaverLoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2421F8C41D9BB4C600AF8857 /* SwiftyBeaverLoggingService.swift */; };
-		24224B081E28E37700AD7575 /* SlotTimelineItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24224B071E28E37700AD7575 /* SlotTimelineItem.swift */; };
 		242FE7D61DE7689A00EAEEE3 /* AutoResizingLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 242FE7D51DE7689A00EAEEE3 /* AutoResizingLayerView.swift */; };
 		24526A751D92D98800DA3FA0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24526A741D92D98800DA3FA0 /* Constants.swift */; };
 		24526A771D92D99F00DA3FA0 /* MetricsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24526A761D92D99F00DA3FA0 /* MetricsService.swift */; };
@@ -216,6 +215,7 @@
 		8CDCC5F41ECB156100A3D25D /* OnboardingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDCC5F31ECB156100A3D25D /* OnboardingPresenter.swift */; };
 		8CDCC5F61ECB156F00A3D25D /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDCC5F51ECB156F00A3D25D /* OnboardingViewModel.swift */; };
 		8CDEFACF1FBB3483001E2A75 /* CustomCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDEFACE1FBB3483001E2A75 /* CustomCollectionView.swift */; };
+		8CE544E62024427300FBC2A1 /* SlotTimelineItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE544E52024427300FBC2A1 /* SlotTimelineItem.swift */; };
 		8CE6BDE11E7D4BF5003B852C /* TrackEventExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6BDE01E7D4BF5003B852C /* TrackEventExtensions.swift */; };
 		8CF0255A1EAFA2FF00BF0A42 /* SwipeInteractionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF025591EAFA2FF00BF0A42 /* SwipeInteractionController.swift */; };
 		8CF0CE2B1F67CA5C00FCED99 /* DefaultMotionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF0CE2A1F67CA5C00FCED99 /* DefaultMotionService.swift */; };
@@ -381,7 +381,6 @@
 		2420A8691DB6271000C0478C /* EditTimeSlotView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTimeSlotView.swift; sourceTree = "<group>"; };
 		2421F8C21D9BACB500AF8857 /* ClosureGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClosureGestureRecognizer.swift; sourceTree = "<group>"; };
 		2421F8C41D9BB4C600AF8857 /* SwiftyBeaverLoggingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyBeaverLoggingService.swift; sourceTree = "<group>"; };
-		24224B071E28E37700AD7575 /* SlotTimelineItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlotTimelineItem.swift; sourceTree = "<group>"; };
 		242FE7D51DE7689A00EAEEE3 /* AutoResizingLayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoResizingLayerView.swift; sourceTree = "<group>"; };
 		24526A741D92D98800DA3FA0 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		24526A761D92D99F00DA3FA0 /* MetricsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetricsService.swift; sourceTree = "<group>"; };
@@ -578,6 +577,7 @@
 		8CDCC5F31ECB156100A3D25D /* OnboardingPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingPresenter.swift; sourceTree = "<group>"; };
 		8CDCC5F51ECB156F00A3D25D /* OnboardingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		8CDEFACE1FBB3483001E2A75 /* CustomCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionView.swift; sourceTree = "<group>"; };
+		8CE544E52024427300FBC2A1 /* SlotTimelineItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlotTimelineItem.swift; sourceTree = "<group>"; };
 		8CE6BDE01E7D4BF5003B852C /* TrackEventExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackEventExtensions.swift; sourceTree = "<group>"; };
 		8CF025591EAFA2FF00BF0A42 /* SwipeInteractionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeInteractionController.swift; sourceTree = "<group>"; };
 		8CF0CE2A1F67CA5C00FCED99 /* DefaultMotionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultMotionService.swift; sourceTree = "<group>"; };
@@ -897,6 +897,7 @@
 		24BA51A91D74D79C00042CDF /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				8CE544E52024427300FBC2A1 /* SlotTimelineItem.swift */,
 				BEA024331E41137D0061FE53 /* Category.swift */,
 				24DE23F31E1BB33B0089B49E /* Activity.swift */,
 				24EB967A1DE708570040C211 /* AppState.swift */,
@@ -909,7 +910,6 @@
 				24EB967C1DE708570040C211 /* Predicate.swift */,
 				BE55CED01E7AC994006B851E /* TemporaryTimeSlot.swift */,
 				24564F5D1D8325CC00D9A8AE /* TimeSlot.swift */,
-				24224B071E28E37700AD7575 /* SlotTimelineItem.swift */,
 				BE7FAFC51E72F96F00A62AC9 /* TrackEvent.swift */,
 				8CF0CE2C1F67CB0400FCED99 /* MotionEvent.swift */,
 				8CCEBEC11F79053400A4D560 /* AnnotatedEvent.swift */,
@@ -2195,8 +2195,6 @@
 				AC7374941F71222100AF9C96 /* CMAccessForExistingUsersPresenter.swift in Sources */,
 				AC086A121F8E508A0003AAB4 /* SimpleDetailCell.swift in Sources */,
 				8CBA1E392008A3E800CAFF2A /* MotionEventPM.swift in Sources */,
-				24224B081E28E37700AD7575 /* TimelineItem.swift in Sources */,
-				24224B081E28E37700AD7575 /* SlotTimelineItem.swift in Sources */,
 				8C9C256B1ED348EE00B10187 /* NavigationViewModel.swift in Sources */,
 				24EB96761DE7080F0040C211 /* TimeSlotService.swift in Sources */,
 				AC1085371EEE971700E5F03B /* PieSliceLayer.swift in Sources */,
@@ -2286,6 +2284,7 @@
 				2482CAFD1DB12F9F00E892C1 /* OnboardingPage3.swift in Sources */,
 				AC99B1EC1FB3678D00CF56AC /* GoalMessageProvider.swift in Sources */,
 				8C26A1731ECAE66C00EFE509 /* IntroViewController.swift in Sources */,
+				8CE544E62024427300FBC2A1 /* SlotTimelineItem.swift in Sources */,
 				AF99E5891FBBB0D300809379 /* UIBarButtonExtensions.swift in Sources */,
 				24EB967D1DE708570040C211 /* AppState.swift in Sources */,
 				AC7374901F7121D500AF9C96 /* CMAccessForExistingUsersViewController.swift in Sources */,

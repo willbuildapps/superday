@@ -33,8 +33,7 @@ class CoreDataPersistencyTests: XCTestCase
         expect(self.managedObjectContext.performCalled).to(beTrue())
     }
     
-    // FIX: Enable for Swift 4
-    /*
+
     func testFetchingCallsFetchOnManagedObjectContext()
     {
         expect(self.managedObjectContext.fetchCalled).to(beFalse())
@@ -44,50 +43,27 @@ class CoreDataPersistencyTests: XCTestCase
             parser: { _ in return }
         )
         
-        _ = coreDataPersistency.fetch(resource: mockResource)
+        _ = coreDataPersistency.fetch(mockResource)
             .subscribe()
         
-        expect(self.managedObjectContext.fetchCalled).to(beTrue())
+        expect(self.managedObjectContext.fetchCalled).toEventually(beTrue())
     }
-     
-     func testFetchingReturnsParsedResults()
-     {
-     let mockResource = CoreDataResource<String>(
-     request: NSFetchRequest(entityName: "Mock"),
-     parser: { number in
-     return "\(number)"
-     }
-     )
-     
-     //mockResource.returnedData = [1,2,3,4,5]
-     
-     let testScheduler = TestScheduler(initialClock: 0)
-     let testObserver = testScheduler.createObserver([String].self)
-     
-     _ = coreDataPersistency.fetch(resource: mockResource)
-     .subscribe(testObserver)
-     
-     XCTAssertEqual(testObserver.events, expectedEvents)
-     
-     expect(parserCalled).to(beTrue())
-     }
-     
-     func testFetchingCallsTheResourceParser()
-     {
-     var parserCalled = false
-     
-     let mockResource = CoreDataResource<Void>(
-     request: NSFetchRequest(entityName: "Mock"),
-     parser: { _ in
-     parserCalled = true
-     return
-     }
-     )
-     
-     _ = coreDataPersistency.fetch(mockResource)
-     .subscribe()
-     
-     expect(parserCalled).toEventually(beTrue())
-     }
-    */
+    
+    func testFetchingCallsTheResourceParser()
+    {
+        var parserCalled = false
+        
+        let mockResource = CoreDataResource<Void>(
+            request: NSFetchRequest(entityName: "Mock"),
+            parser: { _ in
+                parserCalled = true
+                return
+        }
+        )
+        
+        _ = coreDataPersistency.fetch(mockResource)
+            .subscribe()
+        
+        expect(parserCalled).toEventually(beTrue())
+    }
 }
