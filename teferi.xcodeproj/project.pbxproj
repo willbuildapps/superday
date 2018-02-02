@@ -752,7 +752,6 @@
 			isa = PBXGroup;
 			children = (
 				AC1E70EF1E3F4C120090D474 /* Algorithm */,
-				8C7CDCA21EC45E1F0079F48D /* CoreData */,
 				24CD8A461D7A13560017C53E /* Extensions */,
 				7E3C06941E30B7AA00859747 /* Generated */,
 				2421F8C11D9BAC4A00AF8857 /* Helpers */,
@@ -1262,6 +1261,7 @@
 		8C8DF4011FF3E89E0007AF57 /* New Persistency */ = {
 			isa = PBXGroup;
 			children = (
+				8C7CDCA21EC45E1F0079F48D /* CoreData */,
 				8C8DF40A1FF3EFCA0007AF57 /* PersistencyProtocols.swift */,
 				8C8DF4021FF3E8E00007AF57 /* CoreDataPersistency.swift */,
 				8C2F53EB200747F00016AC90 /* CoreDataResource.swift */,
