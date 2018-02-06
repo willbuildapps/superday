@@ -10,7 +10,7 @@ enum PersistencyError: Error
 
 class CoreDataPersistency
 {
-    let managedObjectContext: NSManagedObjectContext
+    private let managedObjectContext: NSManagedObjectContext
     
     init(managedObjectContext: NSManagedObjectContext)
     {
