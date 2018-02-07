@@ -31,7 +31,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     private let goalService : GoalService
     
     private let coreDataStack : CoreDataStack
-    
+        
     //MARK: Initializers
     override init()
     {
