@@ -29,10 +29,11 @@ extension Date
      
      - Returns: A new date that is `daysToAdd` ahead of this one.
      */
-    func add(days daysToAdd: Int) -> Date
+    func add(days: Int? = nil, months: Int? = nil) -> Date
     {
         var dayComponent = DateComponents()
-        dayComponent.day = daysToAdd
+        dayComponent.day = days
+        dayComponent.month = months
         
         let calendar = Calendar.current
         let nextDate = (calendar as NSCalendar).date(byAdding: dayComponent, to: self, options: NSCalendar.Options())!

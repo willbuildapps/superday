@@ -74,7 +74,6 @@
 		24D213AF1DB8CB8300E429CA /* DefaultAppLifecycleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D213AE1DB8CB8300E429CA /* DefaultAppLifecycleService.swift */; };
 		24D73F2B1E1FB8B9009FC2DF /* SmartGuessServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D73F2A1E1FB8B9009FC2DF /* SmartGuessServiceTests.swift */; };
 		24DE23EC1E1BB3180089B49E /* CalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DE23E91E1BB3180089B49E /* CalendarCell.swift */; };
-		24DE23ED1E1BB3180089B49E /* CalendarCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 24DE23EA1E1BB3180089B49E /* CalendarCell.xib */; };
 		24DE23EE1E1BB3180089B49E /* CalendarDailyActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DE23EB1E1BB3180089B49E /* CalendarDailyActivityView.swift */; };
 		24DE23F01E1BB3260089B49E /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DE23EF1E1BB3260089B49E /* CalendarViewModel.swift */; };
 		24DE23F21E1BB32F0089B49E /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DE23F11E1BB32F0089B49E /* CalendarViewController.swift */; };
@@ -226,6 +225,8 @@
 		8CF8C0951EDED72000EA2C77 /* WeeklySummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF8C0941EDED72000EA2C77 /* WeeklySummaryViewController.swift */; };
 		8CF8C0991EDED99300EA2C77 /* WeeklySummary.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CF8C0981EDED99300EA2C77 /* WeeklySummary.storyboard */; };
 		8CF8C09D1EDEFEE900EA2C77 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF8C09C1EDEFEE900EA2C77 /* ChartView.swift */; };
+		8CFFAFB8201F7F240047601E /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFFAFB7201F7F240047601E /* CalendarView.swift */; };
+		8CFFAFBA202062800047601E /* HorizontalFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFFAFB9202062800047601E /* HorizontalFlowLayout.swift */; };
 		AC086A061F8B99920003AAB4 /* TimeslotDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC086A051F8B99920003AAB4 /* TimeslotDetailViewModel.swift */; };
 		AC086A081F8B99A90003AAB4 /* TimeslotDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC086A071F8B99A90003AAB4 /* TimeslotDetailPresenter.swift */; };
 		AC086A0B1F8CDA8E0003AAB4 /* ShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC086A0A1F8CDA8E0003AAB4 /* ShadowView.swift */; };
@@ -321,7 +322,7 @@
 		BEA783651E6DB5AF00D44603 /* DefaultCategoryProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA783641E6DB5AF00D44603 /* DefaultCategoryProvider.swift */; };
 		BEC84F311E708D4B0096275C /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC84F301E708D4B0096275C /* Style.swift */; };
 		BEDE5B3C1E4A3F3C0082FFC3 /* PermissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDE5B3B1E4A3F3C0082FFC3 /* PermissionViewController.swift */; };
-		BEE5A3BF1E72F6B200CA717D /* (null) in Sources */ = {isa = PBXBuildFile; };
+		BEE5A3BF1E72F6B200CA717D /* BuildFile in Sources */ = {isa = PBXBuildFile; };
 		BEF8AB211E8413AA00B4F289 /* Persister.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF8AB201E8413AA00B4F289 /* Persister.swift */; };
 /* End PBXBuildFile section */
 
@@ -435,7 +436,6 @@
 		24D213AE1DB8CB8300E429CA /* DefaultAppLifecycleService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultAppLifecycleService.swift; sourceTree = "<group>"; };
 		24D73F2A1E1FB8B9009FC2DF /* SmartGuessServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmartGuessServiceTests.swift; sourceTree = "<group>"; };
 		24DE23E91E1BB3180089B49E /* CalendarCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarCell.swift; sourceTree = "<group>"; };
-		24DE23EA1E1BB3180089B49E /* CalendarCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CalendarCell.xib; sourceTree = "<group>"; };
 		24DE23EB1E1BB3180089B49E /* CalendarDailyActivityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarDailyActivityView.swift; sourceTree = "<group>"; };
 		24DE23EF1E1BB3260089B49E /* CalendarViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
 		24DE23F11E1BB32F0089B49E /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
@@ -588,6 +588,8 @@
 		8CF8C0941EDED72000EA2C77 /* WeeklySummaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeeklySummaryViewController.swift; path = "teferi/UI/Modules/Weekly Summary/WeeklySummaryViewController.swift"; sourceTree = SOURCE_ROOT; };
 		8CF8C0981EDED99300EA2C77 /* WeeklySummary.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = WeeklySummary.storyboard; sourceTree = "<group>"; };
 		8CF8C09C1EDEFEE900EA2C77 /* ChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChartView.swift; path = "teferi/UI/Modules/Weekly Summary/Views/ChartView.swift"; sourceTree = SOURCE_ROOT; };
+		8CFFAFB7201F7F240047601E /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		8CFFAFB9202062800047601E /* HorizontalFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalFlowLayout.swift; sourceTree = "<group>"; };
 		924EEB50371CD17ACC6BCFF9 /* Pods-teferiTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-teferiTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-teferiTests/Pods-teferiTests.release.xcconfig"; sourceTree = "<group>"; };
 		AC086A051F8B99920003AAB4 /* TimeslotDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeslotDetailViewModel.swift; sourceTree = "<group>"; };
 		AC086A071F8B99A90003AAB4 /* TimeslotDetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeslotDetailPresenter.swift; sourceTree = "<group>"; };
@@ -1426,8 +1428,9 @@
 			isa = PBXGroup;
 			children = (
 				24DE23E91E1BB3180089B49E /* CalendarCell.swift */,
-				24DE23EA1E1BB3180089B49E /* CalendarCell.xib */,
 				24DE23EB1E1BB3180089B49E /* CalendarDailyActivityView.swift */,
+				8CFFAFB7201F7F240047601E /* CalendarView.swift */,
+				8CFFAFB9202062800047601E /* HorizontalFlowLayout.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1886,7 +1889,6 @@
 				8CF8C0991EDED99300EA2C77 /* WeeklySummary.storyboard in Resources */,
 				AC46676F1FFE801400C3BD5E /* CategoryCell.xib in Resources */,
 				AF99E5941FBD8E4800809379 /* Settings.storyboard in Resources */,
-				24DE23ED1E1BB3180089B49E /* CalendarCell.xib in Resources */,
 				ACEA23B11FA8D2AC0068C149 /* GoalHeader.xib in Resources */,
 				AC0CA4BF1F3DB78400EAEB44 /* TimelineVoteView.xib in Resources */,
 				AC4667671FFE485B00C3BD5E /* ExpandedTimelineCell.xib in Resources */,
@@ -2047,7 +2049,6 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-teferi/Pods-teferi-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
-				"${BUILT_PRODUCTS_DIR}/JTAppleCalendar/JTAppleCalendar.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
@@ -2059,7 +2060,6 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JTAppleCalendar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
@@ -2079,13 +2079,17 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-teferiTests/Pods-teferiTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 				"${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework",
 				"${BUILT_PRODUCTS_DIR}/RxTest/RxTest.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxTest.framework",
 			);
@@ -2134,6 +2138,7 @@
 				24EB96751DE7080F0040C211 /* EditStateService.swift in Sources */,
 				8CA0C53A1F7264350024B2DE /* LoadingView+RxExtensions.swift in Sources */,
 				24DE23F51E1BB33B0089B49E /* Activity.swift in Sources */,
+				8CFFAFB8201F7F240047601E /* CalendarView.swift in Sources */,
 				2407A9881D9D512D00066889 /* LaunchAnimationView.swift in Sources */,
 				ACEA23AF1FA8D2880068C149 /* GoalHeader.swift in Sources */,
 				8C08DBCF1FBDAD7900B0F642 /* Alert.swift in Sources */,
@@ -2176,6 +2181,7 @@
 				8C1923AB1FB30605004EB05F /* EditTimesViewController.swift in Sources */,
 				51DDF7181DB4DBC200F9B672 /* OnboardingPage.swift in Sources */,
 				2421F8C51D9BB4C600AF8857 /* SwiftyBeaverLoggingService.swift in Sources */,
+				8CFFAFBA202062800047601E /* HorizontalFlowLayout.swift in Sources */,
 				24EB96831DE709790040C211 /* DelayedSequence.swift in Sources */,
 				8C37F4C71F7E4514008B75E8 /* MotionPermissionViewModel.swift in Sources */,
 				8C0B32AC1FBAE1DC00FFF991 /* GoalCategoryCell.swift in Sources */,
@@ -2331,7 +2337,7 @@
 				8CCEBEC21F79053400A4D560 /* AnnotatedEvent.swift in Sources */,
 				AC4A55E21FA72B1E00A62107 /* Goal.swift in Sources */,
 				8CA987351F7A2B5F003AB4B9 /* EventAnnotator.swift in Sources */,
-				BEE5A3BF1E72F6B200CA717D /* (null) in Sources */,
+				BEE5A3BF1E72F6B200CA717D /* BuildFile in Sources */,
 				8CB9EF9B1E8BB589003D1FFC /* LineView.swift in Sources */,
 				ACEA23C21FAC70150068C149 /* NewGoalPresenter.swift in Sources */,
 				247F05FA1D87325600451BAD /* PersistencyService.swift in Sources */,

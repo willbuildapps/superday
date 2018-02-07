@@ -41,30 +41,11 @@ class CalendarViewModelTests: XCTestCase
             .disposed(by: disposeBag)
         
         let dates = [Date().addingTimeInterval(2*24*60*60), Date().addingTimeInterval(3*24*60*60)]
-        viewModel.selectedDate = dates[0]
-        viewModel.selectedDate = dates[1]
+        viewModel.setSelectedDate(date: dates[0])
+        viewModel.setSelectedDate(date: dates[1])
 
         expect(observer.events.count).to(equal(2))
         expect(observer.values).to(equal(dates))
-    }
-    
-    func testCurrentlyVisibleCalendarDateForwardsEventsToObservableOnlyWhenMonthChanges()
-    {
-        let start = Date().firstDateOfMonth
-        timeService.mockDate = start
-        
-        let observer:TestableObserver<Date> = scheduler.createObserver(Date.self)
-        viewModel.currentVisibleCalendarDateObservable
-            .skip(1)
-            .subscribe(observer)
-            .disposed(by: disposeBag)
-        
-        let dates = [start.addingTimeInterval(2*24*60*60), start.addingTimeInterval(35*24*60*60)]
-        viewModel.setCurrentVisibleMonth(date: dates[0])
-        viewModel.setCurrentVisibleMonth(date: dates[1])
-        
-        expect(observer.events.count).to(equal(1))
-        expect(observer.values.first!).to(equal(dates[1].firstDateOfMonth))
     }
     
     func testMaxValidDateReturnsCurrentDateAlways()
@@ -78,39 +59,7 @@ class CalendarViewModelTests: XCTestCase
         expect(self.viewModel.maxValidDate).to(equal(now.addingTimeInterval(3*24*60*60)))
     }
     
-    func testCantScrollToDatePreviousToInstallDate()
-    {
-        let installDate = Date().addingTimeInterval(-3*24*60*60)
-        let toDate = installDate.addingTimeInterval(-1*24*60*60)
-        
-        settingsService.setInstallDate(installDate)
-        
-        expect(self.viewModel.canScroll(toDate: toDate)).to(beFalse())
-    }
-    
-    func testCantScrollToDateLaterThanCurrentDate()
-    {
-        let currentDate = Date()
-        let toDate = currentDate.addingTimeInterval(3*24*60*60)
-        
-        timeService.mockDate = currentDate
-        
-        expect(self.viewModel.canScroll(toDate: toDate)).to(beFalse())
-    }
-    
-    func testCanScrollToDateBetweenInstallAndCurrentDates()
-    {
-        let currentDate = Date()
-        let installDate = Date().addingTimeInterval(-4*24*60*60)
-        let toDate = currentDate.addingTimeInterval(-2*24*60*60)
-        
-        timeService.mockDate = currentDate
-        settingsService.setInstallDate(installDate)
-        
-        expect(self.viewModel.canScroll(toDate: toDate)).to(beTrue())
-    }
-    
-    func testGetActivitiesReturnsNilForInvalidDate()
+    func testGetActivitiesReturnsEmptyForInvalidDate()
     {
         let currentDate = Date()
         let dateRequested = currentDate.addingTimeInterval(3*24*60*60)
@@ -123,30 +72,14 @@ class CalendarViewModelTests: XCTestCase
             TimeSlot(withStartTime: Date(), category: .leisure)
         ]
         
-        let activities = viewModel.getActivities(forDate: dateRequested)
-        
-        expect(activities).to(beNil())
-    }
-    
-    func testGetActivitiesAsksTimeSlotsForDateAndSortsThemByCategory()
-    {
-        let currentDate = Date()
-        let installDate = Date().addingTimeInterval(-4*24*60*60)
-        let dateRequested = currentDate.addingTimeInterval(-2*24*60*60)
-        
-        timeService.mockDate = currentDate
-        settingsService.setInstallDate(installDate)
+        let observer:TestableObserver<[Activity]> = scheduler.createObserver([Activity].self)
 
-        timeSlotService.timeSlotsToReturn = [
-            TimeSlot(withStartTime: Date(), category: .food),
-            TimeSlot(withStartTime: Date(), category: .work),
-            TimeSlot(withStartTime: Date(), category: .leisure)
-        ]
+        viewModel.getActivities(forDate: dateRequested)
+            .observeOn(MainScheduler.instance)
+            .subscribe(observer)
+            .disposed(by: disposeBag)
         
-        let activities = viewModel.getActivities(forDate: dateRequested)
-        
-        expect(self.timeSlotService.dateAsked).to(equal(dateRequested))
-        expect(activities!.count).to(equal(3))
-        expect(activities!.map{ $0.category }).to(equal([.leisure, .food, .work]))
+        expect(observer.events.count).to(equal(0))
+
     }
 }

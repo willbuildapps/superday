@@ -27,19 +27,6 @@ class PagerViewControllerTests : XCTestCase
         pagerViewController = nil
     }
     
-    func testScrollingIsDisabledWhenEnteringEditMode()
-    {
-        locator.editStateService.notifyEditingBegan(point: CGPoint(), slotTimelineItem: createEmptyTimelineItem());
-        
-        let scrollViews =
-            pagerViewController
-                .view
-                .subviews
-                .flatMap { v in v as? UIScrollView }
-        
-        expect(scrollViews).to(allPass { !$0!.isScrollEnabled  })
-    }
-    
     func testScrollingIsEnabledWhenExitingEditMode()
     {
         locator.editStateService.notifyEditingBegan(point: CGPoint(), slotTimelineItem: createEmptyTimelineItem());

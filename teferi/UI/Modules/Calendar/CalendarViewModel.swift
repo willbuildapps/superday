@@ -1,5 +1,6 @@
 import Foundation
 import RxSwift
+import RxCocoa
 
 ///ViewModel for the CalendardViewModel.
 class CalendarViewModel
@@ -8,26 +9,16 @@ class CalendarViewModel
     var minValidDate : Date { return settingsService.installDate ?? timeService.now }
     var maxValidDate : Date { return self.timeService.now }
     
-    let dateObservable : Observable<Date>
-    let currentVisibleCalendarDateObservable : Observable<Date>
-    
-    var selectedDate : Date
-    {
-        get { return self.selectedDateService.currentlySelectedDate }
-        set(value) { self.selectedDateService.currentlySelectedDate = value }
+    var selectedDate : Driver<Date> {
+       return self.selectedDateService.currentlySelectedDateObservable
+        .asDriver(onErrorJustReturn: timeService.now)
     }
     
-    var currentVisibleMonth : Date
-    {
-        return self.currentVisibleCalendarDateVariable.value
-    }
-
     // MARK: Private Properties
     private let timeService : TimeService
     private let settingsService: SettingsService
     private let timeSlotService : TimeSlotService
     private var selectedDateService : SelectedDateService
-    private let currentVisibleCalendarDateVariable : Variable<Date>
     
     // MARK: Initializers
     init(timeService: TimeService,
@@ -39,36 +30,32 @@ class CalendarViewModel
         self.settingsService = settingsService
         self.timeSlotService = timeSlotService
         self.selectedDateService = selectedDateService
-        
-        currentVisibleCalendarDateVariable = Variable(selectedDateService.currentlySelectedDate.firstDateOfMonth)
-        dateObservable = selectedDateService.currentlySelectedDateObservable
-        currentVisibleCalendarDateObservable = currentVisibleCalendarDateVariable.asObservable().distinctUntilChanged()
     }
-    
     
     // MARK: Public Methods
-    func setCurrentVisibleMonth(date: Date)
+    
+    func getActivities(forDate date: Date?) -> Observable<[Activity]>
     {
-        self.currentVisibleCalendarDateVariable.value = date.firstDateOfMonth
+        return Observable.create { [unowned self] observer in
+        
+            guard let date = date else {
+                observer.onCompleted()
+                return Disposables.create{}
+            }
+            
+            DispatchQueue(label: "background").async {
+                let result = self.timeSlotService.getActivities(forDate: date).sorted(by: self.category)
+                observer.onNext(result)
+                observer.onCompleted()
+            }
+            
+            return Disposables.create {}
+        }
     }
     
-    func canScroll(toDate date: Date) -> Bool
+    func setSelectedDate(date: Date)
     {
-        let cellDate = date.ignoreTimeComponents()
-        let minDate = minValidDate.ignoreTimeComponents()
-        let maxDate = maxValidDate.ignoreTimeComponents()
-        
-        let dateIsWithinInterval = minDate...maxDate ~= cellDate
-        return dateIsWithinInterval
-    }
-    
-    func getActivities(forDate date: Date) -> [Activity]?
-    {
-        guard canScroll(toDate: date) else { return nil }
-        
-        let result = timeSlotService.getActivities(forDate: date).sorted(by: category)
-        
-        return result
+        self.selectedDateService.currentlySelectedDate = date
     }
     
     // MARK: Private Methods
