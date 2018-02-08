@@ -161,6 +161,6 @@ class SmartGuessServiceTests : XCTestCase
     
     private func toTimeSlot(locationAndCategory: LocationAndCategory) -> TimeSlot
     {
-        return TimeSlot(withStartTime: locationAndCategory.location.timestamp, category: locationAndCategory.category, location: locationAndCategory.location)
+        return TimeSlot(startTime: locationAndCategory.location.timestamp, category: locationAndCategory.category, location: locationAndCategory.location)
     }
 }

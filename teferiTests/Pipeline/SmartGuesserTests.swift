@@ -50,7 +50,7 @@ class SmartGuesserTests: XCTestCase
     
     func testTimeSlotGetsCorrectCategoryIfSmartGuessExists()
     {
-        smartGuessService.smartGuessToReturn = TimeSlot(withStartTime: Date(), category: .food, location: Location.baseLocation)
+        smartGuessService.smartGuessToReturn = TimeSlot(startTime: Date(), category: .food, location: Location.baseLocation)
         
         let location = Location.baseLocation.offset(.north, meters: 200, seconds: 60*30)
         

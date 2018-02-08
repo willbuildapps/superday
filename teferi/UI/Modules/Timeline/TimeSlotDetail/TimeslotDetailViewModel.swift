@@ -118,7 +118,7 @@ class TimeslotDetailViewModel
     
     private func toSlotTimelineItem(fromTimeSlot timeSlot: TimeSlot) -> SlotTimelineItem
     {
-        return SlotTimelineItem.with(timeSlots: [timeSlot], timeSlotService: timeSlotService)
+        return SlotTimelineItem(timeSlots: [timeSlot])
     }
     
     private func updateTimeSlot(_ timeSlots: [TimeSlot], withCategory category: Category)

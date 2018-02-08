@@ -109,16 +109,7 @@ class PagerViewControllerTests : XCTestCase
     
     private func createEmptyTimelineItem() -> SlotTimelineItem
     {
-        let timeSlot = TimeSlot(withStartTime: Date(),
-                        category: .unknown)
-        
-        return SlotTimelineItem(
-            withTimeSlots: [timeSlot],
-            category: .unknown,
-            duration: 0,
-            shouldDisplayCategoryName: true,
-            isLastInPastDay: false,
-            isRunning: false
-        )
+        let timeSlot = TimeSlot(startTime: Date(), category: .unknown)        
+        return SlotTimelineItem(timeSlots: [timeSlot])
     }
 }

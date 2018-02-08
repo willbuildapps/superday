@@ -103,7 +103,7 @@ class MockTimeSlotService : TimeSlotService
     
     @discardableResult func addTimeSlot(withStartTime startTime: Date, category: teferi.Category, categoryWasSetByUser: Bool, location: Location?) -> TimeSlot?
     {
-        let timeSlot = TimeSlot(withStartTime: startTime,
+        let timeSlot = TimeSlot(startTime: startTime,
                                 category: category,
                                 categoryWasSetByUser: categoryWasSetByUser,
                                 categoryWasSmartGuessed: false,

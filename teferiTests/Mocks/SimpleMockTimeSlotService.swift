@@ -10,21 +10,31 @@ class SimpleMockTimeSlotService : TimeSlotService
     
     private(set) var dateAsked:Date? = nil
     
-    var timeSlotCreatedObservable : Observable<TimeSlot> = Observable<TimeSlot>.empty()
-    var timeSlotsUpdatedObservable : Observable<[TimeSlot]> = Observable<[TimeSlot]>.empty()
+    private let timeSlotCreatedSubjet = PublishSubject<TimeSlot?>()
+    var timeSlotCreatedObservable : Observable<TimeSlot> {
+        return timeSlotCreatedSubjet.filterNil().asObservable()
+    }
+    
+    private let timeSlotsUpdatedSubject = PublishSubject<[TimeSlot]?>()
+    var timeSlotsUpdatedObservable : Observable<[TimeSlot]> {
+        return timeSlotsUpdatedSubject.filterNil().asObservable()
+    }
     
     @discardableResult func addTimeSlot(withStartTime startTime: Date, category: teferi.Category, categoryWasSetByUser: Bool, tryUsingLatestLocation: Bool) -> TimeSlot?
     {
+        timeSlotCreatedSubjet.onNext(newTimeSlotToReturn)
         return newTimeSlotToReturn
     }
     
     @discardableResult func addTimeSlot(withStartTime startTime: Date, category: teferi.Category, categoryWasSetByUser: Bool, location: Location?) -> TimeSlot?
     {
+        timeSlotCreatedSubjet.onNext(newTimeSlotToReturn)
         return newTimeSlotToReturn
     }
     
     @discardableResult func addTimeSlot(fromTemporaryTimeslot: TemporaryTimeSlot) -> TimeSlot?
     {
+        timeSlotCreatedSubjet.onNext(newTimeSlotToReturn)
         return newTimeSlotToReturn
     }
     
@@ -52,12 +62,13 @@ class SimpleMockTimeSlotService : TimeSlotService
 
     func update(timeSlots: [TimeSlot], withCategory category: teferi.Category)
     {
-        
+        let updatedTimeSlots = timeSlots.map { $0.withCategory(category) }
+        timeSlotsUpdatedSubject.onNext(updatedTimeSlots)
     }
     
     func updateTimes(firstSlot: TimeSlot, secondSlot: TimeSlot, newBreakTime: Date)
     {
-        
+        fatalError("Not testing code")
     }
     
     func getLast() -> TimeSlot?

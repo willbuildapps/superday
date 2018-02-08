@@ -112,10 +112,19 @@ class TimelineViewController : UIViewController
     {
         super.viewWillAppear(animated)
         
+        viewModel.active = true
+        
         if !viewModel.canShowVotingUI()
         {
             tableView.tableFooterView = nil
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool)
+    {
+        super.viewWillDisappear(animated)
+        
+        viewModel.active = false
     }
 
     // MARK: Private Methods
@@ -133,14 +142,14 @@ class TimelineViewController : UIViewController
     
     private func createBindings()
     {
-        viewModel.timelineItemsObservable
+        viewModel.timelineItems
             .map({ [TimelineSection(items:$0)] })
-            .bind(to: tableView.rx.items(dataSource: dataSource))
+            .drive(tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
-        viewModel.timelineItemsObservable
+        viewModel.timelineItems
             .map{$0.count > 0}
-            .bind(to: emptyStateView.rx.isHidden)
+            .drive(emptyStateView.rx.isHidden)
             .disposed(by: disposeBag)
         
         tableView.rx

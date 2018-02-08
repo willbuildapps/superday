@@ -11,8 +11,6 @@ extension SlotTimelineItem
          isRunning: Bool = false)
     {
         self.timeSlots = timeSlots
-        self.category = category
-        self.duration = duration
         self.shouldDisplayCategoryName = shouldDisplayCategoryName
         self.isLastInPastDay = isLastInPastDay
         self.isRunning = isRunning

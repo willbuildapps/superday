@@ -46,4 +46,11 @@ extension TimeSlotPM
         let sortDescriptor = NSSortDescriptor(key: "startTime", ascending: true)
         return CoreDataResource<[TimeSlotPM]>.many(predicate: predicate, sortDescriptor: sortDescriptor)
     }
+    
+    static func all(forDate date: Date) -> CoreDataResource<[TimeSlotPM]>
+    {
+        let startDate = date.ignoreTimeComponents()
+        let endDate = date.tomorrow.ignoreTimeComponents().addingTimeInterval(-1)
+        return all(fromDate: startDate, toDate: endDate)
+    }
 }

@@ -3,11 +3,22 @@ import Foundation
 struct SlotTimelineItem
 {
     let timeSlots : [TimeSlot]
-    let category: Category
-    let duration : TimeInterval
     let shouldDisplayCategoryName : Bool
     let isLastInPastDay : Bool
     let isRunning: Bool
+    
+    init(timeSlots: [TimeSlot], shouldDisplayCategoryName: Bool = true, isLastInPastDay: Bool = false, isRunning: Bool = false)
+    {
+        self.timeSlots = timeSlots
+        self.shouldDisplayCategoryName = shouldDisplayCategoryName
+        self.isLastInPastDay = isLastInPastDay
+        self.isRunning = isRunning
+    }
+    
+    var category: Category
+    {
+        return timeSlots.first!.category
+    }
     
     var startTime: Date
     {
@@ -23,6 +34,12 @@ struct SlotTimelineItem
     {
         return timeSlots.count > 1
     }
+    
+    var duration: TimeInterval
+    {
+        guard let startTime = timeSlots.first?.startTime, let endTime = timeSlots.last?.endTime else { return 0 }
+        return endTime.timeIntervalSince(startTime)
+    }
 }
 
 extension SlotTimelineItem
@@ -31,25 +48,9 @@ extension SlotTimelineItem
     {
         return SlotTimelineItem(
             timeSlots: self.timeSlots,
-            category: self.category,
-            duration: self.duration,
             shouldDisplayCategoryName: self.shouldDisplayCategoryName,
             isLastInPastDay: !isCurrentDay,
             isRunning: isCurrentDay
         )
-    }
-    
-    static func with(timeSlots: [TimeSlot],
-                     timeSlotService: TimeSlotService,
-                     shouldDisplayCategoryName: Bool = true,
-                     isLastInPastDay: Bool = false,
-                     isRunning: Bool = false) -> SlotTimelineItem
-    {
-        return SlotTimelineItem(timeSlots: timeSlots,
-                            category: timeSlots.first!.category,
-                            duration: timeSlots.map({ timeSlotService.calculateDuration(ofTimeSlot: $0) }).reduce(0, +),
-                            shouldDisplayCategoryName: shouldDisplayCategoryName,
-                            isLastInPastDay: isLastInPastDay,
-                            isRunning: isRunning)
     }
 }

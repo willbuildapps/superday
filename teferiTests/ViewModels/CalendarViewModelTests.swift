@@ -67,17 +67,26 @@ class CalendarViewModelTests: XCTestCase
         timeService.mockDate = currentDate
         
         timeSlotService.timeSlotsToReturn = [
-            TimeSlot(withStartTime: Date(), category: .food),
-            TimeSlot(withStartTime: Date(), category: .work),
-            TimeSlot(withStartTime: Date(), category: .leisure)
+            TimeSlot(startTime: Date(), category: .food),
+            TimeSlot(startTime: Date(), category: .work),
+            TimeSlot(startTime: Date(), category: .leisure)
         ]
         
         let observer:TestableObserver<[Activity]> = scheduler.createObserver([Activity].self)
+
 
         viewModel.getActivities(forDate: dateRequested)
             .observeOn(MainScheduler.instance)
             .subscribe(observer)
             .disposed(by: disposeBag)
+
+        timeSlotService.timeSlotsToReturn = [
+            TimeSlot(startTime: Date(), category: .food),
+            TimeSlot(startTime: Date(), category: .work),
+            TimeSlot(startTime: Date(), category: .leisure)
+        ]
+        
+        let activities = viewModel.getActivities(forDate: dateRequested)
         
         expect(observer.events.count).to(equal(0))
 

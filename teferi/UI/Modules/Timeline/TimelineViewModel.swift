@@ -1,15 +1,15 @@
 import Foundation
 import RxSwift
+import RxCocoa
 
-///ViewModel for the TimelineViewController.
-class TimelineViewModel
+class TimelineViewModel: RxViewModel
 {
     //MARK: Public Properties
     let date : Date
-    var timelineItemsObservable : Observable<[TimelineItem]> { return self.timelineItems.asObservable() }
-
+    var timelineItems : Driver<[TimelineItem]>!
+    
     //MARK: Private Properties
-    private var isCurrentDay : Bool
+    private let isCurrentDay : Bool
     private let disposeBag = DisposeBag()
     
     private let timeService : TimeService
@@ -20,11 +20,13 @@ class TimelineViewModel
     private let settingsService : SettingsService
     private let metricsService : MetricsService
     
-    private(set) var timelineItems : Variable<[TimelineItem]> = Variable([])
-    
     private var dateInsideExpandedTimeline: Date? = nil
-    private var manualRefreshSubject = PublishSubject<Void>()
     
+    private var refreshLayoutSubject = PublishSubject<Void>()
+    private var refreshLayout: Observable<Void> {
+        return refreshLayoutSubject.asObservable().startWith(())
+    }
+
     var dailyVotingNotificationObservable : Observable<Date>
     {
         return self.appLifecycleService.startedOnDailyVotingNotificationDateObservable
@@ -54,34 +56,19 @@ class TimelineViewModel
         self.metricsService = metricsService
         self.date = completeDate.ignoreTimeComponents()
         
-        isCurrentDay = timeService.now.ignoreTimeComponents() == date
+        self.isCurrentDay = timeService.now.ignoreTimeComponents() == date
         
-        let timelineObservable = !isCurrentDay ? Observable.empty() : Observable<Int>.timer(1, period: 10, scheduler: MainScheduler.instance).mapTo(())
+        super.init()
         
-        let newTimeSlotForThisDate = !isCurrentDay ? Observable.empty() : timeSlotService
-            .timeSlotCreatedObservable
-            .filter(belogsToDate)
-            .mapTo(())
-        
-        let updatedTimeSlotsForThisDate = timeSlotService.timeSlotsUpdatedObservable
-            .map(timeSlotsBelogToDate)
-            .mapTo(())
-        
-        let movedToForeground = appLifecycleService
-            .movedToForegroundObservable
-            .mapTo(())
-        
-        let refreshObservable =
-            Observable.of(newTimeSlotForThisDate, updatedTimeSlotsForThisDate, movedToForeground, manualRefreshSubject.asObservable(), timelineObservable.mapTo(()))
-                      .merge()
-                      .startWith(()) // This is a hack I can't remove due to something funky with the view controllery lifecycle. We should fix this in the refactor
-                
-        refreshObservable
-            .map(timeSlotsForToday)
-            .map(toTimelineItems)
-            .bind(to: timelineItems)
-            .disposed(by: disposeBag)
+        let todaysTimeSlots = didBecomeActive
+            .flatMapLatest { [unowned self] _ in
+                self.timeSlotsForToday()
+                    .takeUntil(self.didBecomeInactive)
+            }
 
+        timelineItems = Observable.combineLatest(todaysTimeSlots, refreshLayout) { ts, _ in ts }
+            .map(self.toTimelineItems)
+            .asDriver(onErrorJustReturn: [])
     }
     
     //MARK: Public methods
@@ -98,13 +85,13 @@ class TimelineViewModel
     func collapseSlots()
     {
         dateInsideExpandedTimeline = nil
-        manualRefreshSubject.onNext(())
+        refreshLayoutSubject.onNext(())
     }
     
     func expandSlots(item: SlotTimelineItem)
     {
         dateInsideExpandedTimeline = item.timeSlots.first?.startTime
-        manualRefreshSubject.onNext(())
+        refreshLayoutSubject.onNext(())
     }
     
     func calculateDuration(ofTimeSlot timeSlot: TimeSlot) -> TimeInterval
@@ -123,18 +110,7 @@ class TimelineViewModel
         metricsService.log(event: .timelineVote(date: timeService.now, voteDate: date, vote: vote))
     }
     
-    
     //MARK: Private Methods
-    private func belogsToDate(timeSlot: TimeSlot) -> Bool
-    {
-        return timeSlot.belongs(toDate: date)
-    }
-    
-    private func timeSlotsBelogToDate(timeSlots: [TimeSlot]) -> [TimeSlot]
-    {
-        return timeSlots.belonging(toDate: date)
-    }
-    
     private func canShowVotingView(forDate date: Date) -> Bool
     {
         guard
@@ -149,37 +125,38 @@ class TimelineViewModel
         return alreadyVoted
     }
     
-    private func timeSlotsForToday() -> [TimeSlot]
+    private func timeSlotsForToday() -> Observable<[TimeSlot]>
     {
-        return timeSlotService.getTimeSlots(forDay: date)
+        let getTimeSlotsForDate = InteractorFactory.shared.createGetTimeSlotsForDateInteractor(date: self.date)
+        return getTimeSlotsForDate.execute()
     }
     
     private func toTimelineItems(fromTimeSlots timeSlots: [TimeSlot]) -> [TimelineItem]
     {
         let timelineItems = timeSlots
             .splitBy { $0.category }
-            .reduce([TimelineItem](), { acc, groupedTimeSlots in
-     
+            .flatMap { groupedTimeSlots -> [TimelineItem] in
                 if groupedTimeSlots.count > 1 && areExpanded(groupedTimeSlots)
                 {
-                    return acc + expandedTimelineItems(fromTimeSlots: groupedTimeSlots)
+                    return expandedTimelineItems(fromTimeSlots: groupedTimeSlots)
                 }
                 else
                 {
-                    let slotTimelineItem = SlotTimelineItem.with(timeSlots: groupedTimeSlots, timeSlotService: timeSlotService)
+                    let slotTimelineItem = SlotTimelineItem(timeSlots: groupedTimeSlots)
                     
-                    let timelineItem = groupedTimeSlots.first!.category == .commute ?
+                    let timelineItem = slotTimelineItem.category == .commute ?
                         TimelineItem.commuteSlot(item: slotTimelineItem) :
                         TimelineItem.slot(item: slotTimelineItem)
                     
-                    return acc + [ timelineItem ]
+                    return [ timelineItem ]
                 }
-            })
+            }
         
         // Add isLastInPastDay or isRunning to last timeslot of timeline
         if let lastTimelineItem = timelineItems.last, case TimelineItem.slot(let slotTimelineItem) = lastTimelineItem
         {
-            return Array(timelineItems.dropLast()) + [TimelineItem.slot(item: slotTimelineItem.withLastTimeSlotFlag(isCurrentDay: isCurrentDay))]
+            let lastSlotItem = slotTimelineItem.withLastTimeSlotFlag(isCurrentDay: isCurrentDay)
+            return Array(timelineItems.dropLast()) + [TimelineItem.slot(item: lastSlotItem)]
         }
         else
         {
@@ -192,7 +169,7 @@ class TimelineViewModel
         guard let first = timeSlots.first, let last = timeSlots.last, first.startTime != last.startTime else { return [] }
         let category = first.category
         
-        let slotTimelineItem = SlotTimelineItem.with(timeSlots: timeSlots, timeSlotService: timeSlotService)
+        let slotTimelineItem = SlotTimelineItem(timeSlots: timeSlots)
         
         let titleItem = category == .commute ?
             TimelineItem.expandedCommuteTitle(item: slotTimelineItem) :
@@ -201,7 +178,7 @@ class TimelineViewModel
         let collapseItem = TimelineItem.collapseButton(color: first.category.color)
         
         let items = timeSlots.map { slot -> TimelineItem in
-            let slotTimelineItem = SlotTimelineItem.with(timeSlots: [slot], timeSlotService: timeSlotService)
+            let slotTimelineItem = SlotTimelineItem(timeSlots: [slot])
             return TimelineItem.expandedSlot(item: slotTimelineItem, hasSeparator: slot.startTime != last.startTime)
         }
         
@@ -223,3 +200,4 @@ class TimelineViewModel
         return timeSlots.index(where: { $0.startTime == dateInsideExpandedTimeline }) != nil
     }
 }
+

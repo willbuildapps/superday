@@ -42,7 +42,7 @@ class OnboardingPageViewModel: NSObject
     
     func slotTimelineItem(forTimeslot timeslot: TimeSlot) -> SlotTimelineItem
     {
-        return SlotTimelineItem.with(timeSlots: [timeslot], timeSlotService: timeSlotService)
+        return SlotTimelineItem(timeSlots: [timeslot])
     }
     
     func timeSlot(withCategory category: Category, from: String, to: String) -> TimeSlot
@@ -50,10 +50,9 @@ class OnboardingPageViewModel: NSObject
         let startTime = time(from: from)
         let endTime = time(from: to)
         
-        let timeSlot = TimeSlot(withStartTime: startTime,
+        let timeSlot = TimeSlot(startTime: startTime,
                                 endTime: endTime,
-                                category: category,
-                                location: nil)
+                                category: category)
         
         return timeSlot
     }

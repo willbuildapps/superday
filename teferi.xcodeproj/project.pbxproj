@@ -198,6 +198,7 @@
 		8CA987351F7A2B5F003AB4B9 /* EventAnnotator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA987341F7A2B5F003AB4B9 /* EventAnnotator.swift */; };
 		8CA987371F7A2DD4003AB4B9 /* TimelineProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA987361F7A2DD4003AB4B9 /* TimelineProcessor.swift */; };
 		8CA987391F7A2F95003AB4B9 /* Cleaner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA987381F7A2F95003AB4B9 /* Cleaner.swift */; };
+		8CAD1F182024CC7B00AC0983 /* FunctionalOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CAD1F172024CC7B00AC0983 /* FunctionalOperators.swift */; };
 		8CB140A61FC456C000FC9904 /* GoalSuggestionAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB140A51FC456C000FC9904 /* GoalSuggestionAlert.swift */; };
 		8CB9EF9B1E8BB589003D1FFC /* LineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB9EF9A1E8BB589003D1FFC /* LineView.swift */; };
 		8CBA1E2A2007707200CAFF2A /* CoreDataPersistencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBA1E292007707200CAFF2A /* CoreDataPersistencyTests.swift */; };
@@ -215,6 +216,8 @@
 		8CDCC5F61ECB156F00A3D25D /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDCC5F51ECB156F00A3D25D /* OnboardingViewModel.swift */; };
 		8CDEFACF1FBB3483001E2A75 /* CustomCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDEFACE1FBB3483001E2A75 /* CustomCollectionView.swift */; };
 		8CE544E62024427300FBC2A1 /* SlotTimelineItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE544E52024427300FBC2A1 /* SlotTimelineItem.swift */; };
+		8CE544EF2024665F00FBC2A1 /* InteractorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE544EE2024665F00FBC2A1 /* InteractorFactory.swift */; };
+		8CE544F12024674300FBC2A1 /* GetTimeSlotsForDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE544F02024674300FBC2A1 /* GetTimeSlotsForDate.swift */; };
 		8CE6BDE11E7D4BF5003B852C /* TrackEventExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6BDE01E7D4BF5003B852C /* TrackEventExtensions.swift */; };
 		8CF0255A1EAFA2FF00BF0A42 /* SwipeInteractionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF025591EAFA2FF00BF0A42 /* SwipeInteractionController.swift */; };
 		8CF0CE2B1F67CA5C00FCED99 /* DefaultMotionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF0CE2A1F67CA5C00FCED99 /* DefaultMotionService.swift */; };
@@ -322,7 +325,7 @@
 		BEA783651E6DB5AF00D44603 /* DefaultCategoryProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA783641E6DB5AF00D44603 /* DefaultCategoryProvider.swift */; };
 		BEC84F311E708D4B0096275C /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC84F301E708D4B0096275C /* Style.swift */; };
 		BEDE5B3C1E4A3F3C0082FFC3 /* PermissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDE5B3B1E4A3F3C0082FFC3 /* PermissionViewController.swift */; };
-		BEE5A3BF1E72F6B200CA717D /* BuildFile in Sources */ = {isa = PBXBuildFile; };
+		BEE5A3BF1E72F6B200CA717D /* (null) in Sources */ = {isa = PBXBuildFile; };
 		BEF8AB211E8413AA00B4F289 /* Persister.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF8AB201E8413AA00B4F289 /* Persister.swift */; };
 /* End PBXBuildFile section */
 
@@ -561,6 +564,7 @@
 		8CA987341F7A2B5F003AB4B9 /* EventAnnotator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAnnotator.swift; sourceTree = "<group>"; };
 		8CA987361F7A2DD4003AB4B9 /* TimelineProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineProcessor.swift; sourceTree = "<group>"; };
 		8CA987381F7A2F95003AB4B9 /* Cleaner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cleaner.swift; sourceTree = "<group>"; };
+		8CAD1F172024CC7B00AC0983 /* FunctionalOperators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionalOperators.swift; sourceTree = "<group>"; };
 		8CB140A51FC456C000FC9904 /* GoalSuggestionAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSuggestionAlert.swift; sourceTree = "<group>"; };
 		8CB9EF9A1E8BB589003D1FFC /* LineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineView.swift; sourceTree = "<group>"; };
 		8CBA1E292007707200CAFF2A /* CoreDataPersistencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPersistencyTests.swift; sourceTree = "<group>"; };
@@ -578,6 +582,8 @@
 		8CDCC5F51ECB156F00A3D25D /* OnboardingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		8CDEFACE1FBB3483001E2A75 /* CustomCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionView.swift; sourceTree = "<group>"; };
 		8CE544E52024427300FBC2A1 /* SlotTimelineItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlotTimelineItem.swift; sourceTree = "<group>"; };
+		8CE544EE2024665F00FBC2A1 /* InteractorFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractorFactory.swift; sourceTree = "<group>"; };
+		8CE544F02024674300FBC2A1 /* GetTimeSlotsForDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTimeSlotsForDate.swift; sourceTree = "<group>"; };
 		8CE6BDE01E7D4BF5003B852C /* TrackEventExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackEventExtensions.swift; sourceTree = "<group>"; };
 		8CF025591EAFA2FF00BF0A42 /* SwipeInteractionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeInteractionController.swift; sourceTree = "<group>"; };
 		8CF0CE2A1F67CA5C00FCED99 /* DefaultMotionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultMotionService.swift; sourceTree = "<group>"; };
@@ -753,6 +759,7 @@
 		240AC7161D748C8800F21F4F /* teferi */ = {
 			isa = PBXGroup;
 			children = (
+				8CAD1F162024CC6100AC0983 /* Utils */,
 				AC1E70EF1E3F4C120090D474 /* Algorithm */,
 				24CD8A461D7A13560017C53E /* Extensions */,
 				7E3C06941E30B7AA00859747 /* Generated */,
@@ -760,6 +767,7 @@
 				24BA51A91D74D79C00042CDF /* Models */,
 				8CA0C53D1F737D5C0024B2DE /* TimelineGenerator */,
 				BEA7835F1E6DB48F00D44603 /* Providers */,
+				8CE544ED2024662C00FBC2A1 /* Interactors */,
 				24BA51A51D74D69C00042CDF /* Services */,
 				8CA461361EC9A2BB00587399 /* UI */,
 				240AC7171D748C8800F21F4F /* AppDelegate.swift */,
@@ -872,6 +880,7 @@
 		24A21B671D7C3E0800CEB4F3 /* teferiTests */ = {
 			isa = PBXGroup;
 			children = (
+				8CDDDA232029C7BE0038A7A1 /* Interactors */,
 				8CBA1E282007705700CAFF2A /* NewPersistency */,
 				24564F401D82FDBB00D9A8AE /* Extensions */,
 				7E57ECEA1E30EBD40094251E /* Helpers */,
@@ -1500,6 +1509,14 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		8CAD1F162024CC6100AC0983 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				8CAD1F172024CC7B00AC0983 /* FunctionalOperators.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		8CBA1E282007705700CAFF2A /* NewPersistency */ = {
 			isa = PBXGroup;
 			children = (
@@ -1519,12 +1536,29 @@
 			path = Mocks;
 			sourceTree = "<group>";
 		};
+		8CDDDA232029C7BE0038A7A1 /* Interactors */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Interactors;
+			sourceTree = "<group>";
+		};
 		8CE544E92024604000FBC2A1 /* Display */ = {
 			isa = PBXGroup;
 			children = (
 				8CE544E52024427300FBC2A1 /* SlotTimelineItem.swift */,
 			);
 			path = Display;
+			sourceTree = "<group>";
+		};
+		8CE544ED2024662C00FBC2A1 /* Interactors */ = {
+			isa = PBXGroup;
+			children = (
+				8CE544EE2024665F00FBC2A1 /* InteractorFactory.swift */,
+				8CE544F02024674300FBC2A1 /* GetTimeSlotsForDate.swift */,
+			);
+			name = Interactors;
+			path = Providers/Interactors;
 			sourceTree = "<group>";
 		};
 		8CEEF5AA1F175DB4007C36DA /* Datasource */ = {
@@ -2220,6 +2254,7 @@
 				8CF0CE2D1F67CB0400FCED99 /* MotionEvent.swift in Sources */,
 				8C1728FD1EF02D9A002ABDDA /* DailySummaryViewModel.swift in Sources */,
 				BE7FAFC61E72F96F00A62AC9 /* TrackEvent.swift in Sources */,
+				8CAD1F182024CC7B00AC0983 /* FunctionalOperators.swift in Sources */,
 				24DE23EE1E1BB3180089B49E /* CalendarDailyActivityView.swift in Sources */,
 				AC4A55E41FA7302600A62107 /* GoalService.swift in Sources */,
 				8C1728FF1EF02D9A002ABDDA /* SummaryPageViewController.swift in Sources */,
@@ -2334,15 +2369,17 @@
 				8C1EA3051F17EA6F003C3EEB /* TimelineDataSource.swift in Sources */,
 				AC46676E1FFE801400C3BD5E /* CategoryCell.swift in Sources */,
 				24564F4D1D83207900D9A8AE /* MainViewModel.swift in Sources */,
+				8CE544EF2024665F00FBC2A1 /* InteractorFactory.swift in Sources */,
 				8CCEBEC21F79053400A4D560 /* AnnotatedEvent.swift in Sources */,
 				AC4A55E21FA72B1E00A62107 /* Goal.swift in Sources */,
 				8CA987351F7A2B5F003AB4B9 /* EventAnnotator.swift in Sources */,
-				BEE5A3BF1E72F6B200CA717D /* BuildFile in Sources */,
+				BEE5A3BF1E72F6B200CA717D /* (null) in Sources */,
 				8CB9EF9B1E8BB589003D1FFC /* LineView.swift in Sources */,
 				ACEA23C21FAC70150068C149 /* NewGoalPresenter.swift in Sources */,
 				247F05FA1D87325600451BAD /* PersistencyService.swift in Sources */,
 				BE7FAFC81E73014700A62AC9 /* DefaultTrackEventService.swift in Sources */,
 				24564F641D83265900D9A8AE /* UIColorExtensions.swift in Sources */,
+				8CE544F12024674300FBC2A1 /* GetTimeSlotsForDate.swift in Sources */,
 				2420A8661DB56B5500C0478C /* EmptyStateView.swift in Sources */,
 				8C0B32AF1FBAE34300FFF991 /* GoalTime.swift in Sources */,
 			);

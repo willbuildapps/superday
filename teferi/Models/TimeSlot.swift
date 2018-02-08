@@ -14,7 +14,7 @@ struct TimeSlot
 
 extension TimeSlot
 {
-    init(withStartTime startTime: Date, endTime: Date? = nil, category: Category, categoryWasSetByUser: Bool, categoryWasSmartGuessed: Bool, location: Location? = nil)
+    init(startTime: Date, endTime: Date? = nil, category: Category, categoryWasSetByUser: Bool = false, categoryWasSmartGuessed: Bool = false, location: Location? = nil)
     {
         self.startTime = startTime
         self.endTime = endTime
@@ -22,17 +22,6 @@ extension TimeSlot
         self.location = location
         self.categoryWasSetByUser = categoryWasSetByUser
         self.categoryWasSmartGuessed = categoryWasSmartGuessed
-        self.activity = nil
-    }
-    
-    init(withStartTime time: Date, endTime: Date? = nil, category: Category, location: Location? = nil)
-    {
-        self.startTime = time
-        self.endTime = endTime
-        self.category = category
-        self.location = location
-        self.categoryWasSetByUser = false
-        self.categoryWasSmartGuessed = false
         self.activity = nil
     }
 }

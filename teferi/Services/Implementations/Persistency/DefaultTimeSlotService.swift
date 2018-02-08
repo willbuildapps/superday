@@ -45,7 +45,7 @@ class DefaultTimeSlotService : TimeSlotService
     
     @discardableResult func addTimeSlot(withStartTime startTime: Date, category: Category, categoryWasSetByUser: Bool, location: Location?) -> TimeSlot?
     {
-        let timeSlot = TimeSlot(withStartTime: startTime,
+        let timeSlot = TimeSlot(startTime: startTime,
                                 category: category, 
                                 categoryWasSetByUser: categoryWasSetByUser,
                                 categoryWasSmartGuessed: false,
@@ -56,7 +56,7 @@ class DefaultTimeSlotService : TimeSlotService
     
     @discardableResult func addTimeSlot(withStartTime startTime: Date, category: Category, location: Location?) -> TimeSlot?
     {
-        let timeSlot = TimeSlot(withStartTime: startTime,
+        let timeSlot = TimeSlot(startTime: startTime,
                                 category: category,
                                 location: location)
         
