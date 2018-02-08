@@ -25,9 +25,16 @@ extension TimeSlotPM: PersistencyModel
         self.editedByUser = (managedObject.value(forKey: "categoryWasSetByUser") as? Bool) ?? false
     }
     
-    func encode() -> NSManagedObject
+    func encode(using moc: NSManagedObjectContext) -> NSManagedObject
     {
-        fatalError("Not implemented")
+        guard let entity = NSEntityDescription.entity(forEntityName: type(of: self).entityName, in: moc) else { fatalError("Can't create entity") }
+        
+        let managedObject = NSManagedObject(entity: entity, insertInto: moc)
+        managedObject.setValue(startTime, forKey: "startTime")
+        managedObject.setValue(category.rawValue, forKey: "category")
+        managedObject.setValue(editedByUser, forKey: "categoryWasSetByUser")
+        
+        return managedObject
     }
 }
 

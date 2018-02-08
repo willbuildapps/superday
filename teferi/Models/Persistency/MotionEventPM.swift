@@ -23,9 +23,15 @@ extension MotionEventPM: PersistencyModel
         self.motionType = motionType
     }
     
-    func encode() -> NSManagedObject
+    func encode(using moc: NSManagedObjectContext) -> NSManagedObject
     {
-        fatalError("Not implemented")
+        guard let entity = NSEntityDescription.entity(forEntityName: type(of: self).entityName, in: moc) else { fatalError("Can't create entity") }
+        
+        let managedObject = NSManagedObject(entity: entity, insertInto: moc)
+        managedObject.setValue(startTime, forKey: "startTime")
+        managedObject.setValue(motionType.rawValue, forKey: "motionType")
+        
+        return managedObject
     }
 }
 

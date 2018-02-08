@@ -31,9 +31,18 @@ extension LocationEventPM: PersistencyModel
         self.accuracy = accuracy
     }
     
-    func encode() -> NSManagedObject
+    func encode(using moc: NSManagedObjectContext) -> NSManagedObject
     {
-        fatalError("Not implemented")
+        guard let entity = NSEntityDescription.entity(forEntityName: type(of: self).entityName, in: moc) else { fatalError("Can't create entity") }
+        
+        let managedObject = NSManagedObject(entity: entity, insertInto: moc)
+        managedObject.setValue(timeStamp, forKey: "timeStamp")
+        managedObject.setValue(latitude, forKey: "latitude")
+        managedObject.setValue(longitude, forKey: "longitude")
+        managedObject.setValue(altitude, forKey: "altitude")
+        managedObject.setValue(accuracy, forKey: "horizontalAccuracy")
+        
+        return managedObject
     }
 }
 

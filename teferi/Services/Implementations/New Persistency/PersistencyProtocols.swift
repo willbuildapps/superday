@@ -8,7 +8,7 @@ protocol CoreDataDecodable
 
 protocol CoreDataEncodable
 {
-    func encode() -> NSManagedObject
+    func encode(using moc: NSManagedObjectContext) -> NSManagedObject
 }
 
 protocol PersistencyModel: CoreDataDecodable, CoreDataEncodable
